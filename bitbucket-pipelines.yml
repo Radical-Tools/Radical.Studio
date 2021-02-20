@@ -3,6 +3,8 @@ pipelines:
   default:
   - step:
       name: "Install"
+      caches:
+        - node
       script:
         - "npm install"
         - "npm run test"

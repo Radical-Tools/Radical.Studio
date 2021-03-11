@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import App from './App';
 import store from './app/store';
 import reportWebVitals from './reportWebVitals';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 
 ReactDOM.render(
   <React.StrictMode>

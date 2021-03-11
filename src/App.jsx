@@ -3,9 +3,9 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector } from 'react-redux';
-
-import MainLayout from './view/components/layout/MainLayout';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import createTheme from './app/createTheme';
+import MainLayoutContainer from './view/components/layout/MainLayoutContainer';
 
 const App = () => {
   const themeType = useSelector((state) => state.theme.current);
@@ -14,7 +14,8 @@ const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <MuiThemeProvider theme={theme}>
-        <MainLayout />
+        <CssBaseline />
+        <MainLayoutContainer />
       </MuiThemeProvider>
     </DndProvider>
   );

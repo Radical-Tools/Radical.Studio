@@ -1,32 +1,27 @@
+import { THEME_DARK, THEME_LIGHT } from '../app/consts';
 import { themeChanged } from './action-creators';
 import initialState from './initialState';
 import reducer from './rootReducer';
 
-describe('theme reducer', () => {
+describe('root reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle THEME_CHANGE', () => {
-    expect(reducer(initialState, themeChanged())).toEqual({
-      theme: {
-        current: 'dark',
-      },
-    });
+    expect(reducer(initialState, themeChanged()).theme.current).toEqual(
+      THEME_DARK
+    );
 
     expect(
       reducer(
         {
           theme: {
-            current: 'dark',
+            current: THEME_DARK,
           },
         },
         themeChanged()
-      )
-    ).toEqual({
-      theme: {
-        current: 'light',
-      },
-    });
+      ).theme.current
+    ).toEqual(THEME_LIGHT);
   });
 });

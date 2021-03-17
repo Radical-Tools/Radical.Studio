@@ -4,3 +4,7 @@ export const LAYOUT_WIDGET_MAXIMIZE = 'layout/widget/maximize';
 export const LAYOUT_WIDGET_MINIMIZE = 'layout/widget/minimize';
 export const LAYOUT_WIDGET_CLOSE = 'layout/widget/close';
 export const LAYOUT_WIDGET_ADD = 'layout/widget/add';
+export const MODEL_OBJECT_ADD = 'model/object/add';
+export const MODEL_RELATION_ADD = 'model/relation/add';
+export const MODEL_OBJECT_REMOVE = 'model/object/remove';
+export const MODEL_RELATION_REMOVE = 'model/relation/remove';

@@ -1,52 +1,30 @@
-import { THEME_DARK, THEME_LIGHT } from '../app/consts';
-import * as layoutModel from '../model/layout';
-import {
-  LAYOUT_GRID_SET,
-  LAYOUT_WIDGET_ADD,
-  LAYOUT_WIDGET_CLOSE,
-  LAYOUT_WIDGET_MAXIMIZE,
-  LAYOUT_WIDGET_MINIMIZE,
-  THEME_CHANGE,
-} from './action-types';
-import initialState from './initialState';
+import * as model from '../model/handlers/model';
+import * as layout from '../model/handlers/layout';
+import * as theme from '../model/handlers/theme';
+import * as actionTypes from './action-types';
 
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case THEME_CHANGE:
-      return {
-        ...state,
-        theme: {
-          current:
-            state.theme.current === THEME_DARK ? THEME_LIGHT : THEME_DARK,
-        },
-      };
-    case LAYOUT_GRID_SET:
-      return {
-        ...state,
-        layout: layoutModel.setGridLayout(state.layout, action.payload),
-      };
-    case LAYOUT_WIDGET_MAXIMIZE:
-      return {
-        ...state,
-        layout: layoutModel.performMaximize(state.layout, action.payload),
-      };
-    case LAYOUT_WIDGET_MINIMIZE:
-      return {
-        ...state,
-        layout: layoutModel.performMinimize(state.layout, action.payload),
-      };
-    case LAYOUT_WIDGET_CLOSE:
-      return {
-        ...state,
-        layout: layoutModel.performClose(state.layout, action.payload),
-      };
-    case LAYOUT_WIDGET_ADD:
-      return {
-        ...state,
-        layout: layoutModel.performAdd(state.layout, action.payload),
-      };
-    default:
-      return state;
-  }
+const handlers = {
+  [actionTypes.THEME_CHANGE]: theme.changeTheme,
+  [actionTypes.LAYOUT_GRID_SET]: layout.setGridLayout,
+  [actionTypes.LAYOUT_WIDGET_MAXIMIZE]: layout.performMaximize,
+  [actionTypes.LAYOUT_WIDGET_MINIMIZE]: layout.performMinimize,
+  [actionTypes.LAYOUT_WIDGET_CLOSE]: layout.performClose,
+  [actionTypes.LAYOUT_WIDGET_ADD]: layout.performAdd,
+  [actionTypes.MODEL_OBJECT_ADD]: model.addObject,
+  [actionTypes.MODEL_RELATION_ADD]: model.addRelation,
+  [actionTypes.MODEL_OBJECT_REMOVE]: model.removeObject,
+  [actionTypes.MODEL_RELATION_REMOVE]: model.removeRelation,
 };
-export default rootReducer;
+
+export const initialState = {
+  ...layout.initialState,
+  ...model.initialState,
+  ...theme.initialState,
+};
+
+export const rootReducer = (state = initialState, action) => {
+  if (Object.prototype.hasOwnProperty.call(handlers, action.type)) {
+    return handlers[action.type](state, action.payload);
+  }
+  return state;
+};

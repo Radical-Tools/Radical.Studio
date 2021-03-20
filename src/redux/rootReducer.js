@@ -14,6 +14,8 @@ const handlers = {
   [actionTypes.MODEL_RELATION_ADD]: model.addRelation,
   [actionTypes.MODEL_OBJECT_REMOVE]: model.removeObject,
   [actionTypes.MODEL_RELATION_REMOVE]: model.removeRelation,
+  [actionTypes.MODEL_OBJECT_UPDATE]: model.updateObject,
+  [actionTypes.MODEL_RELATION_UPDATE]: model.updateRelation,
 };
 
 export const initialState = {

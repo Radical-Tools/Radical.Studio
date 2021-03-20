@@ -7,33 +7,39 @@ const c4Metamodel = {
     {
       id: 'Actor',
       name: 'Actor',
+      attributes: ['technology', 'description'],
     },
     {
       id: 'System',
       name: 'System',
+      attributes: ['technology', 'description'],
     },
     {
       id: 'External System',
       name: 'External System',
+      attributes: ['technology', 'description'],
     },
     {
       id: 'Container',
       name: 'Container',
+      attributes: ['technology', 'description'],
     },
     {
       id: 'Component',
       name: 'Component',
+      attributes: ['technology', 'description'],
     },
     {
       id: 'Database',
       name: 'Database',
+      attributes: ['technology', 'description'],
     },
   ],
   relations: [
     {
       id: 'Interacts',
       name: 'interacts',
-      type: 'many-to-many',
+      type: 'n:n',
       pairs: [
         {
           sources: [
@@ -50,11 +56,12 @@ const c4Metamodel = {
           targets: ['Database'],
         },
       ],
+      attributes: ['technology', 'description'],
     },
     {
       id: 'Includes',
       name: 'includes',
-      type: 'one-to-many',
+      type: '1:n',
       pairs: [
         {
           sources: ['System'],

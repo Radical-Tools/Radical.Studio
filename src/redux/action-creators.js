@@ -9,6 +9,8 @@ import {
   MODEL_OBJECT_REMOVE,
   MODEL_RELATION_ADD,
   MODEL_RELATION_REMOVE,
+  MODEL_OBJECT_UPDATE,
+  MODEL_RELATION_UPDATE,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -56,4 +58,14 @@ export const modelObjectRemove = (objectId) => ({
 export const modelRelationRemove = (relationId) => ({
   type: MODEL_RELATION_REMOVE,
   payload: { relationId },
+});
+
+export const modelObjectUpdate = (objectId, name, attributes) => ({
+  type: MODEL_OBJECT_UPDATE,
+  payload: { objectId, name, attributes },
+});
+
+export const modelRelationUpdate = (objectId, name, attributes) => ({
+  type: MODEL_RELATION_UPDATE,
+  payload: { objectId, name, attributes },
 });

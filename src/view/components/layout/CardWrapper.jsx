@@ -39,7 +39,7 @@ const useCardContentStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardWidget({
+function CardWrapper({
   title,
   onMinimize,
   onMaximize,
@@ -98,7 +98,7 @@ function CardWidget({
     </Card>
   );
 }
-CardWidget.propTypes = {
+CardWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
@@ -107,7 +107,7 @@ CardWidget.propTypes = {
   onMaximize: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
-CardWidget.defaultProps = {
+CardWrapper.defaultProps = {
   className: '',
 };
-export default CardWidget;
+export default CardWrapper;

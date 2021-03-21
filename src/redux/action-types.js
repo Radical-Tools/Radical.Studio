@@ -4,6 +4,7 @@ export const LAYOUT_WIDGET_MAXIMIZE = 'layout/widget/maximize';
 export const LAYOUT_WIDGET_MINIMIZE = 'layout/widget/minimize';
 export const LAYOUT_WIDGET_CLOSE = 'layout/widget/close';
 export const LAYOUT_WIDGET_ADD = 'layout/widget/add';
+export const LAYOUT_DRAWER_TOGGLE = 'layout/drawer/toggle';
 export const MODEL_OBJECT_ADD = 'model/object/add';
 export const MODEL_OBJECT_UPDATE = 'model/object/update';
 export const MODEL_RELATION_ADD = 'model/relation/add';

@@ -1,6 +1,8 @@
-export const widgets = [
-  {
-    id: 'model',
+import set from 'lodash/fp/set';
+import toPairs from 'lodash/fp/toPairs';
+
+export const widgets = {
+  model: {
     isActive: true,
     title: 'Model',
     initialDimensions: {
@@ -11,8 +13,7 @@ export const widgets = [
       minW: 1,
     },
   },
-  {
-    id: 'canvas',
+  canvas: {
     isActive: true,
     title: 'Canvas',
     initialDimensions: {
@@ -24,8 +25,7 @@ export const widgets = [
       minH: 1,
     },
   },
-  {
-    id: 'metamodel',
+  metamodel: {
     isActive: true,
     title: 'Metamodel',
     initialDimensions: {
@@ -36,18 +36,19 @@ export const widgets = [
       minW: 1,
     },
   },
-];
+};
 
 export const initialState = {
   layout: {
+    showDrawer: false,
     config: {
-      widgets: [...widgets],
+      widgets,
     },
     gridLayout: {
       lg: [
         { i: 'top-panel', x: 0, y: 0, w: 24, h: 1, static: true },
-        ...widgets.map((widget) => ({
-          i: widget.id,
+        ...toPairs(widgets).map(([key, widget]) => ({
+          i: key,
           x: widget.initialDimensions.x,
           y: widget.initialDimensions.y,
           w: widget.initialDimensions.w,
@@ -60,81 +61,42 @@ export const initialState = {
   },
 };
 
-export const setGridLayout = (state, gridLayout) => ({
-  ...state,
-  layout: {
-    ...state.layout,
-    gridLayout: {
-      lg: gridLayout,
-    },
-  },
-});
-export const performMaximize = (state, widgetId) => ({
-  ...state,
-  layout: {
-    ...state.layout,
-    gridLayout: {
-      lg: state.layout.gridLayout.lg.map((widgetConfig) => {
-        if (widgetConfig.i === widgetId)
-          return {
-            ...widgetConfig,
-            h: 14,
-            w: 24,
-            x: 1,
-            y: 1,
-          };
-        if (!widgetConfig.static) return { ...widgetConfig, h: 1, w: 5, y: 15 };
-        return widgetConfig;
-      }),
-    },
-  },
-});
-export const performMinimize = (state, widgetId) => ({
-  ...state,
-  layout: {
-    ...state.layout,
-    gridLayout: {
-      lg: state.layout.gridLayout.lg.map((widgetConfig) => {
-        if (widgetConfig.i === widgetId)
-          return {
-            ...widgetConfig,
-            h: 1,
-          };
-        return widgetConfig;
-      }),
-    },
-  },
-});
+export const setGridLayout = (state, gridLayout) =>
+  set(['layout', 'gridLayout', 'lg'], gridLayout, state);
 
-export const performClose = (state, widgetId) => ({
-  ...state,
-  layout: {
-    ...state.layout,
-    config: {
-      widgets: state.layout.config.widgets.map((widgetConfig) => {
-        if (widgetConfig.id === widgetId)
-          return {
-            ...widgetConfig,
-            isActive: false,
-          };
-        return widgetConfig;
-      }),
-    },
-  },
-});
-export const performAdd = (state, widgetId) => ({
-  ...state,
-  layout: {
-    ...state.layout,
-    config: {
-      widgets: state.layout.config.widgets.map((widgetConfig) => {
-        if (widgetConfig.id === widgetId)
-          return {
-            ...widgetConfig,
-            isActive: true,
-          };
-        return widgetConfig;
-      }),
-    },
-  },
-});
+export const performMaximize = (state, widgetId) =>
+  set(
+    ['layout', 'gridLayout', 'lg'],
+    state.layout.gridLayout.lg.map((widgetConfig) => {
+      if (widgetConfig.i === widgetId)
+        return {
+          ...widgetConfig,
+          h: 14,
+          w: 24,
+          x: 1,
+          y: 1,
+        };
+      if (!widgetConfig.static) return { ...widgetConfig, h: 1, w: 5, y: 15 };
+      return widgetConfig;
+    }),
+    state
+  );
+export const performMinimize = (state, widgetId) =>
+  set(
+    ['layout', 'gridLayout', 'lg'],
+    state.layout.gridLayout.lg.map((widgetConfig) => {
+      if (widgetConfig.i === widgetId)
+        return {
+          ...widgetConfig,
+          h: 1,
+        };
+      return widgetConfig;
+    }),
+    state
+  );
+export const performClose = (state, widgetId) =>
+  set(['layout', 'config', 'widgets', widgetId, 'isActive'], false, state);
+export const performAdd = (state, widgetId) =>
+  set(['layout', 'config', 'widgets', widgetId, 'isActive'], true, state);
+export const toggleDrawer = (state) =>
+  set(['layout', 'showDrawer'], !state.layout.showDrawer, state);

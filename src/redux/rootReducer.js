@@ -10,6 +10,7 @@ const handlers = {
   [actionTypes.LAYOUT_WIDGET_MINIMIZE]: layout.performMinimize,
   [actionTypes.LAYOUT_WIDGET_CLOSE]: layout.performClose,
   [actionTypes.LAYOUT_WIDGET_ADD]: layout.performAdd,
+  [actionTypes.LAYOUT_DRAWER_TOGGLE]: layout.toggleDrawer,
   [actionTypes.MODEL_OBJECT_ADD]: model.addObject,
   [actionTypes.MODEL_RELATION_ADD]: model.addRelation,
   [actionTypes.MODEL_OBJECT_REMOVE]: model.removeObject,

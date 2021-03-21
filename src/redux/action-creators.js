@@ -4,6 +4,7 @@ import {
   LAYOUT_WIDGET_CLOSE,
   LAYOUT_WIDGET_MAXIMIZE,
   LAYOUT_WIDGET_MINIMIZE,
+  LAYOUT_DRAWER_TOGGLE,
   THEME_CHANGE,
   MODEL_OBJECT_ADD,
   MODEL_OBJECT_REMOVE,
@@ -35,6 +36,9 @@ export const layoutWidgetClose = (widgetId) => ({
 export const layoutWidgetAdd = (widgetId) => ({
   type: LAYOUT_WIDGET_ADD,
   payload: widgetId,
+});
+export const layoutDrawerToggle = () => ({
+  type: LAYOUT_DRAWER_TOGGLE,
 });
 export const modelObjectAdd = (id, type, name, attributes) => ({
   type: MODEL_OBJECT_ADD,

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import {
+  layoutDrawerToggle,
   layoutSet,
   layoutWidgetAdd,
   layoutWidgetClose,
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => ({
   currentTheme: state.theme.current,
   layout: state.layout.gridLayout,
   config: state.layout.config,
+  showDrawer: state.layout.showDrawer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -22,6 +24,7 @@ const mapDispatchToProps = (dispatch) => ({
   onMinimizeWidget: (widgetId) => dispatch(layoutWidgetMinimize(widgetId)),
   onCloseWidget: (widgetId) => dispatch(layoutWidgetClose(widgetId)),
   onAddWidget: (widgetId) => dispatch(layoutWidgetAdd(widgetId)),
+  onToggleDrawer: () => dispatch(layoutDrawerToggle()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

@@ -30,12 +30,12 @@ const findRelations = (
 //   return objects;
 // };
 
-const validateRelationType = (metamodel, model, relation) => {
-  const { type } = find(
+const validateCardinality = (metamodel, model, relation) => {
+  const { cardinality } = find(
     (item) => item.id === relation.type,
     metamodel.relations
   );
-  switch (type) {
+  switch (cardinality) {
     case '1:1':
       return (
         findRelations(model, ['*'], [relation.type], [relation.target])
@@ -58,17 +58,49 @@ const validateRelationType = (metamodel, model, relation) => {
   }
 };
 
+export const validateObjectAttributes = (metamodel, type, attributes) => {
+  const objectClass = find((item) => item.id === type, metamodel.classes);
+  if (!objectClass) {
+    throw new Error(`Incorrect object type: ${type}`);
+  }
+
+  if (
+    attributes &&
+    difference(Object.keys(attributes), objectClass.attributes).length !== 0
+  ) {
+    throw new Error(`Incorrect object attribute(s): ${attributes}`);
+  }
+
+  return true;
+};
+
+export const validateRelationAttributes = (metamodel, type, attributes) => {
+  const relationClass = find((item) => item.id === type, metamodel.relations);
+  if (!relationClass) {
+    throw new Error(`Incorrect relation type: ${type}`);
+  }
+
+  if (
+    attributes &&
+    difference(Object.keys(attributes), relationClass.attributes).length !== 0
+  ) {
+    throw new Error(`Incorrect relation attribute(s): ${attributes}`);
+  }
+
+  return true;
+};
+
 export const validateRelation = (metamodel, model, relation) => {
   if (!Object.prototype.hasOwnProperty.call(model.objects, relation.source)) {
-    throw new Error('Missing source object');
+    throw new Error(`Missing source object:${relation.source} `);
   }
 
   if (!Object.prototype.hasOwnProperty.call(model.objects, relation.target)) {
-    throw new Error('Missing target object');
+    throw new Error(`Missing target object: ${relation.target}`);
   }
 
   if (!metamodel.relations.find((item) => item.id === relation.type)) {
-    throw new Error('Missing metamodel relation type');
+    throw new Error(`Missing metamodel relation type: ${relation.type}`);
   }
 
   const source = model.objects[relation.source];
@@ -83,33 +115,23 @@ export const validateRelation = (metamodel, model, relation) => {
         pair.sources.includes(source.type) && pair.targets.includes(target.type)
     )
   ) {
-    throw new Error('Incorrect source or target object class');
-  }
-
-  if (!validateRelationType(metamodel, model, relation)) {
-    throw new Error('Violated relation cardinality');
-  }
-};
-
-export const validateObject = (metamodel, model, object) => {
-  if (!object.id || !object.name || !object.type) {
     throw new Error(
-      'Required object attribute is missing (e.g. id, name, type'
+      `Incorrect source: ${source.type} or target: ${target.type} class`
     );
   }
 
-  const objectClass = find(
-    (item) => item.id === object.type,
-    metamodel.classes
-  );
-  if (!objectClass) {
-    throw new Error('Incorrect object type');
+  if (!validateCardinality(metamodel, model, relation)) {
+    throw new Error('Violated relation cardinality');
   }
 
-  if (
-    object.attributes &&
-    difference(object.attributes, objectClass.attributes).length !== 0
-  ) {
-    throw new Error('Incorrect object attribute(s)');
+  validateRelationAttributes(metamodel, relation.type, relation.attributes);
+};
+
+export const validateObject = (metamodel, model, object) => {
+  if (!object.name || !object.type) {
+    throw new Error(
+      'Required object attribute is missing (e.g. id, name, type)'
+    );
   }
+  validateObjectAttributes(metamodel, object.type, object.attributes);
 };

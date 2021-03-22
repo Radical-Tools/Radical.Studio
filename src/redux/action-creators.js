@@ -69,7 +69,7 @@ export const modelObjectUpdate = (objectId, name, attributes) => ({
   payload: { objectId, name, attributes },
 });
 
-export const modelRelationUpdate = (objectId, name, attributes) => ({
+export const modelRelationUpdate = (relationId, name, attributes) => ({
   type: MODEL_RELATION_UPDATE,
-  payload: { objectId, name, attributes },
+  payload: { relationId, name, attributes },
 });

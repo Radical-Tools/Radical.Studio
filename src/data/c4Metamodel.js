@@ -39,7 +39,7 @@ const c4Metamodel = {
     {
       id: 'Interacts',
       name: 'interacts',
-      type: 'n:n',
+      cardinality: 'n:n',
       pairs: [
         {
           sources: [
@@ -61,7 +61,7 @@ const c4Metamodel = {
     {
       id: 'Includes',
       name: 'includes',
-      type: '1:n',
+      cardinality: '1:n',
       pairs: [
         {
           sources: ['System'],

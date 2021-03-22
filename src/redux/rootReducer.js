@@ -23,6 +23,7 @@ export const initialState = {
   ...layout.initialState,
   ...model.initialState,
   ...theme.initialState,
+  errors: [],
 };
 
 export const rootReducer = (state = initialState, action) => {

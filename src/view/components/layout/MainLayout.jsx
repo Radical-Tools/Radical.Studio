@@ -8,6 +8,8 @@ import CardWrapper from './CardWrapper';
 import { THEME_DARK } from '../../../app/consts';
 import widgetsComponentMapping from '../widgets/widgetsComponentMapping';
 import Drawer from './Drawer';
+import HomeDialog from './HomeDialog';
+import metamodels from '../../../data/metamodels';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const dragableClassName = 'BoxHeader';
@@ -23,6 +25,8 @@ const MainLayout = ({
   onAddWidget,
   onToggleDrawer,
   showDrawer,
+  showHomeDialog,
+  onSelectMetamodel,
 }) => (
   <>
     <Box height="100%" alignItems="stretch">
@@ -76,6 +80,11 @@ const MainLayout = ({
       show={showDrawer}
       onClose={onToggleDrawer}
     />
+    <HomeDialog
+      show={showHomeDialog}
+      metamodels={metamodels}
+      onSelectMetamodel={onSelectMetamodel}
+    />
   </>
 );
 
@@ -84,6 +93,7 @@ MainLayout.propTypes = {
   layout: PropTypes.objectOf(PropTypes.any).isRequired,
   config: PropTypes.objectOf(PropTypes.any).isRequired,
   showDrawer: PropTypes.bool.isRequired,
+  showHomeDialog: PropTypes.bool.isRequired,
   onChangeTheme: PropTypes.func.isRequired,
   onLayoutChange: PropTypes.func.isRequired,
   onMaximizeWidget: PropTypes.func.isRequired,
@@ -91,5 +101,6 @@ MainLayout.propTypes = {
   onMinimizeWidget: PropTypes.func.isRequired,
   onAddWidget: PropTypes.func.isRequired,
   onToggleDrawer: PropTypes.func.isRequired,
+  onSelectMetamodel: PropTypes.func.isRequired,
 };
 export default MainLayout;

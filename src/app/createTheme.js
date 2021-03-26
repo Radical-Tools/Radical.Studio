@@ -1,5 +1,6 @@
 import { grey } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core';
+import { MIN_HEIGHT, MIN_WIDTH } from './consts';
 
 const createTheme = (type) =>
   createMuiTheme({
@@ -13,11 +14,15 @@ const createTheme = (type) =>
       MuiCssBaseline: {
         '@global': {
           body: {
-            minWidth: '1024px',
-            minHeight: '768px',
+            minWidth: MIN_WIDTH,
+            minHeight: MIN_HEIGHT,
           },
         },
       },
+    },
+    app: {
+      minWidth: MIN_WIDTH,
+      minHeight: MIN_HEIGHT,
     },
   });
 export default createTheme;

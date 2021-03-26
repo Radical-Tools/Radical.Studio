@@ -5,6 +5,8 @@ import {
   LAYOUT_WIDGET_MAXIMIZE,
   LAYOUT_WIDGET_MINIMIZE,
   LAYOUT_DRAWER_TOGGLE,
+  LAYOUT_HOME_DIALOG_OPEN,
+  LAYOUT_HOME_DIALOG_CLOSE,
   THEME_CHANGE,
   MODEL_OBJECT_ADD,
   MODEL_OBJECT_REMOVE,
@@ -12,6 +14,7 @@ import {
   MODEL_RELATION_REMOVE,
   MODEL_OBJECT_UPDATE,
   MODEL_RELATION_UPDATE,
+  MODEL_METAMODEL_SELECT,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -39,6 +42,12 @@ export const layoutWidgetAdd = (widgetId) => ({
 });
 export const layoutDrawerToggle = () => ({
   type: LAYOUT_DRAWER_TOGGLE,
+});
+export const layoutHomeDialogOpen = () => ({
+  type: LAYOUT_HOME_DIALOG_OPEN,
+});
+export const layoutHomeDialogClose = () => ({
+  type: LAYOUT_HOME_DIALOG_CLOSE,
 });
 export const modelObjectAdd = (id, type, name, attributes) => ({
   type: MODEL_OBJECT_ADD,
@@ -72,4 +81,9 @@ export const modelObjectUpdate = (objectId, name, attributes) => ({
 export const modelRelationUpdate = (relationId, name, attributes) => ({
   type: MODEL_RELATION_UPDATE,
   payload: { relationId, name, attributes },
+});
+
+export const modelMetamodelSelect = (metamodelId) => ({
+  type: MODEL_METAMODEL_SELECT,
+  payload: metamodelId,
 });

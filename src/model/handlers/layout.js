@@ -41,6 +41,7 @@ export const widgets = {
 export const initialState = {
   layout: {
     showDrawer: false,
+    showHomeDialog: true,
     config: {
       widgets,
     },
@@ -100,3 +101,7 @@ export const performAdd = (state, widgetId) =>
   set(['layout', 'config', 'widgets', widgetId, 'isActive'], true, state);
 export const toggleDrawer = (state) =>
   set(['layout', 'showDrawer'], !state.layout.showDrawer, state);
+export const openHomeDialog = (state) =>
+  set(['layout', 'showHomeDialog'], true, state);
+export const closeHomeDialog = (state) =>
+  set(['layout', 'showHomeDialog'], false, state);

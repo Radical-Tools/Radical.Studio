@@ -1,3 +1,4 @@
+import c4Metamodel from '../data/c4Metamodel';
 import {
   modelObjectAdd,
   modelObjectRemove,
@@ -5,6 +6,7 @@ import {
   modelRelationRemove,
   modelObjectUpdate,
   modelRelationUpdate,
+  modelMetamodelSelect,
 } from './action-creators';
 
 import { rootReducer, initialState } from './rootReducer';
@@ -112,6 +114,7 @@ const createInitialState = () => ({
       },
     },
   },
+  metamodel: c4Metamodel,
 });
 
 describe('add relation', () => {
@@ -501,5 +504,13 @@ describe('update object', () => {
         })
       ).errors[0].name
     ).toEqual('Update Object Error');
+  });
+});
+
+describe('select metamodel', () => {
+  it('should update the state', () => {
+    expect(
+      rootReducer(createInitialState(), modelMetamodelSelect('C4')).metamodel.id
+    ).toEqual('C4');
   });
 });

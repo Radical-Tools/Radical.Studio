@@ -5,14 +5,13 @@ import omitBy from 'lodash/fp/omitBy';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 
-import c4Metamodel from '../../data/c4Metamodel';
-
 import {
   validateObject,
   validateObjectAttributes,
   validateRelation,
   validateRelationAttributes,
 } from '../helpers/model';
+import metamodels from '../../data/metamodels';
 
 const addError = (state, name, reason) =>
   set(['errors'], [...state.errors, { name, reason }], state);
@@ -22,7 +21,7 @@ export const initialState = {
     objects: {},
     relations: {},
   },
-  metamodel: c4Metamodel,
+  metamodel: undefined,
 };
 
 export const addObject = (state, payload) => {
@@ -148,3 +147,10 @@ export const updateRelation = (state, payload) => {
 
 export const removeRelation = (state, payload) =>
   unset(['model', 'relations', payload.relationId], state);
+
+export const selectMetamodel = (state, payload) =>
+  set(
+    ['metamodel'],
+    metamodels.find((metamodel) => metamodel.id === payload),
+    state
+  );

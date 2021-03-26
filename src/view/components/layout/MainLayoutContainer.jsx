@@ -6,6 +6,7 @@ import {
   layoutWidgetClose,
   layoutWidgetMaximize,
   layoutWidgetMinimize,
+  modelMetamodelSelect,
   themeChanged,
 } from '../../../redux/action-creators';
 import MainLayout from './MainLayout';
@@ -15,6 +16,7 @@ const mapStateToProps = (state) => ({
   layout: state.layout.gridLayout,
   config: state.layout.config,
   showDrawer: state.layout.showDrawer,
+  showHomeDialog: state.layout.showHomeDialog,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -25,6 +27,9 @@ const mapDispatchToProps = (dispatch) => ({
   onCloseWidget: (widgetId) => dispatch(layoutWidgetClose(widgetId)),
   onAddWidget: (widgetId) => dispatch(layoutWidgetAdd(widgetId)),
   onToggleDrawer: () => dispatch(layoutDrawerToggle()),
+  onCloseHomeDialog: () => dispatch(layoutDrawerToggle()),
+  onSelectMetamodel: (metamodelId) =>
+    dispatch(modelMetamodelSelect(metamodelId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

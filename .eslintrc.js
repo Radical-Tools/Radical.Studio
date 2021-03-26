@@ -11,4 +11,7 @@ module.exports = {
   env: {
     node: true,
   },
+  rules: {
+    'react/jsx-key': ['error', { checkFragmentShorthand: true }],
+  },
 };

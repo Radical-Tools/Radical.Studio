@@ -43,7 +43,11 @@ const TopMenu = ({ isThemeSwitchChecked, onChangeTheme, onShowDrawer }) => {
           </Typography>
           <div className={classes.grow} />
           <div>
-            <Switch checked={isThemeSwitchChecked} onChange={onChangeTheme} />
+            <Switch
+              data-testid="theme-switch"
+              checked={isThemeSwitchChecked}
+              onChange={onChangeTheme}
+            />
           </div>
         </Toolbar>
       </AppBar>

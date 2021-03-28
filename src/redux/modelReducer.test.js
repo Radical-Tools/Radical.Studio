@@ -508,9 +508,9 @@ describe('update object', () => {
 });
 
 describe('select metamodel', () => {
-  it('should update the state', () => {
-    expect(
-      rootReducer(createInitialState(), modelMetamodelSelect('C4')).metamodel.id
-    ).toEqual('C4');
+  it('should update the state and hide home dialog', () => {
+    const state = rootReducer(createInitialState(), modelMetamodelSelect('C4'));
+    expect(state.metamodel.id).toEqual('C4');
+    expect(state.layout.showHomeDialog).toEqual(false);
   });
 });

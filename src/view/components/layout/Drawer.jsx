@@ -26,7 +26,7 @@ const Drawer = ({ widgetsConfig, show, onAddWidget, onClose }) => (
               onAddWidget={onAddWidget}
               key={key}
               id={key}
-              isActive={widget.isActive}
+              isDisabled={widget.isActive}
               title={widget.title}
             />
           ))}

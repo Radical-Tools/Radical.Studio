@@ -41,6 +41,7 @@ const FileReader = ({
           type="file"
           hidden
           accept="radical"
+          data-testid="file-uploader"
         />
       </Button>
     </div>

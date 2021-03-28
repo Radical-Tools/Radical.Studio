@@ -7,7 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import IconButton from '@material-ui/core/IconButton';
 
-const MenuWidgetListItem = ({ id, isActive, title, onAddWidget }) => {
+const MenuWidgetListItem = ({ id, isDisabled, title, onAddWidget }) => {
   const addWidgetCallback = useCallback(() => onAddWidget(id), [
     id,
     onAddWidget,
@@ -16,7 +16,11 @@ const MenuWidgetListItem = ({ id, isActive, title, onAddWidget }) => {
     <ListItem>
       <ListItemAvatar>
         <Avatar>
-          <IconButton disabled={isActive} onClick={addWidgetCallback}>
+          <IconButton
+            data-testid={id}
+            disabled={isDisabled}
+            onClick={addWidgetCallback}
+          >
             <AddRoundedIcon />
           </IconButton>
         </Avatar>
@@ -28,7 +32,7 @@ const MenuWidgetListItem = ({ id, isActive, title, onAddWidget }) => {
 MenuWidgetListItem.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   onAddWidget: PropTypes.func.isRequired,
 };
 

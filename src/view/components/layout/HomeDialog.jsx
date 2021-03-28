@@ -1,21 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
 import Typography from '@material-ui/core/Typography';
-
 import Slide from '@material-ui/core/Slide';
 import { Box, Card, CardContent, CardHeader } from '@material-ui/core';
 import FileReader from '../utils/FileReader';
+import ObjectButton from '../utils/ObjectButton';
 
 const useDialogStyles = makeStyles((theme) => ({
   paper: {
-    minWidth: theme.app.minWidth,
-    minHeight: theme.app.minHeight,
+    minWidth: theme.app?.minWidth || 'initial',
+    minHeight: theme.app?.minHeight || 'initial',
   },
   paperScrollPaper: {},
   container: {
@@ -34,15 +32,7 @@ const useTitleStyles = makeStyles((theme) => ({
     flex: 1,
   },
 }));
-const usebuttonStyles = makeStyles(() => ({
-  root: {
-    margin: '10px',
-    maxWidth: '120px',
-    maxHeight: '120px',
-    minWidth: '120px',
-    minHeight: '120px',
-  },
-}));
+
 const Transition = React.forwardRef((props, ref) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <Slide direction="up" ref={ref} {...props} />
@@ -87,15 +77,12 @@ const HomeDialog = ({ show, metamodels, onSelectMetamodel }) => (
           />
           <CardContent>
             {metamodels.map((metamodel) => (
-              <Button
+              <ObjectButton
                 key={metamodel.id}
-                variant="contained"
-                color="primary"
-                classes={usebuttonStyles()}
-                onClick={() => onSelectMetamodel(metamodel.id)}
-              >
-                <Typography variant="h5">{metamodel.name}</Typography>
-              </Button>
+                id={metamodel.id}
+                name={metamodel.name}
+                onClick={onSelectMetamodel}
+              />
             ))}
           </CardContent>
         </Card>

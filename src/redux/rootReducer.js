@@ -17,6 +17,9 @@ const handlers = {
   [actionTypes.MODEL_RELATION_REMOVE]: model.removeRelation,
   [actionTypes.MODEL_OBJECT_UPDATE]: model.updateObject,
   [actionTypes.MODEL_RELATION_UPDATE]: model.updateRelation,
+  [actionTypes.MODEL_ITEM_CREATE]: model.createItem,
+  [actionTypes.MODEL_ITEM_EDIT]: model.editItem,
+  [actionTypes.MODEL_ITEM_UPSERT]: model.upsertItem,
   [actionTypes.MODEL_METAMODEL_SELECT]: (state, payload) =>
     model.selectMetamodel(layout.closeHomeDialog(state), payload),
 };

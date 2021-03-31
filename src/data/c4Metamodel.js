@@ -81,12 +81,12 @@ const c4Metamodel = {
         type: 'object',
         required: ['name', 'type'],
         properties: {
-          id: { type: 'string', title: 'Object Id' },
+          id: { type: 'string', title: 'Id' },
           name: { type: 'string', title: 'Name' },
           type: {
             type: 'string',
             title: 'Type',
-            default: 'Component Type',
+            default: 'Actor',
             enum: [
               'Actor',
               'System',
@@ -149,14 +149,22 @@ const c4Metamodel = {
         type: 'object',
         required: ['name', 'type'],
         properties: {
-          id: { type: 'string', title: 'Id', default: 'Relation Id' },
-          name: { type: 'string', title: 'Name', default: 'Component Name' },
+          id: { type: 'string', title: 'Id' },
+          name: { type: 'string', title: 'Name' },
           type: {
             type: 'string',
             title: 'Type',
             default: 'Component Type',
             enum: ['Includes', 'Interacts'],
             enumNames: ['Includes', 'Interacts'],
+          },
+          source: {
+            type: 'string',
+            title: 'Source',
+          },
+          target: {
+            type: 'string',
+            title: 'Target',
           },
           attributes: {
             type: 'object',
@@ -174,15 +182,16 @@ const c4Metamodel = {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
           name: {
             'ui:autofocus': true,
             'ui:emptyValue': '',
           },
           type: {
-            'ui:autofocus': true,
             'ui:emptyValue': '',
-            'ui:disabled': true,
+            'ui:autofocus': false,
+            'ui:widget': 'radio',
           },
         },
       },
@@ -198,6 +207,16 @@ const c4Metamodel = {
             'ui:emptyValue': '',
           },
           type: {
+            'ui:autofocus': true,
+            'ui:emptyValue': '',
+            'ui:disabled': true,
+          },
+          source: {
+            'ui:autofocus': true,
+            'ui:emptyValue': '',
+            'ui:disabled': true,
+          },
+          target: {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,

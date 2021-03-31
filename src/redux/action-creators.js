@@ -14,6 +14,9 @@ import {
   MODEL_RELATION_REMOVE,
   MODEL_OBJECT_UPDATE,
   MODEL_RELATION_UPDATE,
+  MODEL_ITEM_EDIT,
+  MODEL_ITEM_CREATE,
+  MODEL_ITEM_UPSERT,
   MODEL_METAMODEL_SELECT,
 } from './action-types';
 
@@ -64,23 +67,39 @@ export const modelRelationAdd = (
   type: MODEL_RELATION_ADD,
   payload: { id, type, name, attributes, source, target },
 });
-export const modelObjectRemove = (objectId) => ({
+
+export const modelObjectRemove = (id) => ({
   type: MODEL_OBJECT_REMOVE,
-  payload: { objectId },
+  payload: { id },
 });
-export const modelRelationRemove = (relationId) => ({
+export const modelRelationRemove = (id) => ({
   type: MODEL_RELATION_REMOVE,
-  payload: { relationId },
+  payload: { id },
 });
 
-export const modelObjectUpdate = (objectId, name, attributes) => ({
+export const modelObjectUpdate = (id, name, attributes) => ({
   type: MODEL_OBJECT_UPDATE,
-  payload: { objectId, name, attributes },
+  payload: { id, name, attributes },
 });
 
-export const modelRelationUpdate = (relationId, name, attributes) => ({
+export const modelRelationUpdate = (id, name, attributes) => ({
   type: MODEL_RELATION_UPDATE,
-  payload: { relationId, name, attributes },
+  payload: { id, name, attributes },
+});
+
+export const modelItemCreate = (type) => ({
+  type: MODEL_ITEM_CREATE,
+  payload: { type },
+});
+
+export const modelItemEdit = (id, type) => ({
+  type: MODEL_ITEM_EDIT,
+  payload: { id, type },
+});
+
+export const modelItemUpsert = (type, item) => ({
+  type: MODEL_ITEM_UPSERT,
+  payload: { type, item },
 });
 
 export const modelMetamodelSelect = (metamodelId) => ({

@@ -4,6 +4,8 @@ import unset from 'lodash/fp/unset';
 import omitBy from 'lodash/fp/omitBy';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
+import merge from 'lodash/fp/merge';
+import transform from 'lodash/fp/transform';
 
 import {
   validateObject,
@@ -16,16 +18,59 @@ import metamodels from '../../data/metamodels';
 const addError = (state, name, reason) =>
   set(['errors'], [...state.errors, { name, reason }], state);
 
+const transformWithoutCap = transform.convert({
+  cap: false,
+});
+
 export const initialState = {
   model: {
     objects: {},
     relations: {},
+    sandbox: {},
   },
   metamodel: undefined,
 };
 
+export const createItem = (state, payload) =>
+  set(
+    ['model', 'sandbox'],
+    {
+      data: state.metamodel.schemas[payload.type].data,
+      ui: state.metamodel.schemas[payload.type].create.ui,
+    },
+    state
+  );
+
+export const editItem = (state, payload) => {
+  /* eslint no-param-reassign: "error" */
+
+  const convertToDefaults = transformWithoutCap(
+    (result, value, key) => {
+      (result[key] || (result[key] = {})).default = value;
+    },
+    {},
+    {
+      id: payload.id,
+      ...state.model[payload.type === 'object' ? 'objects' : 'relations'][
+        payload.id
+      ],
+    }
+  );
+
+  return set(
+    ['model', 'sandbox'],
+    {
+      data: merge(state.metamodel.schemas[payload.type].data, {
+        properties: convertToDefaults,
+      }),
+      ui: state.metamodel.schemas[payload.type].update.ui,
+    },
+    state
+  );
+};
+
 export const addObject = (state, payload) => {
-  const objectId = payload.id
+  const id = payload.id
     ? payload.id
     : `${payload.type}-${Object.keys(state.model.objects).length + 1}`;
 
@@ -35,14 +80,14 @@ export const addObject = (state, payload) => {
     attributes: payload.attributes ? { ...payload.attributes } : {},
   };
 
-  if (has(objectId, state.model.objects)) {
+  if (has(id, state.model.objects)) {
     return addError(state, 'Add Object Error', 'object already exist');
   }
 
   try {
     validateObject(state.metamodel, state.model, object);
     return set(
-      ['model', 'objects', objectId],
+      ['model', 'objects', id],
       { name: object.name, type: object.type, attributes: object.attributes },
       state
     );
@@ -54,7 +99,7 @@ export const addObject = (state, payload) => {
 export const updateObject = (state, payload) => {
   try {
     return update(
-      ['model', 'objects', payload.objectId],
+      ['model', 'objects', payload.id],
       (object) => ({
         ...object,
         name: payload.name ? payload.name : object.name,
@@ -78,13 +123,11 @@ export const updateObject = (state, payload) => {
 
 export const removeObject = (state, payload) =>
   flow(
-    unset(['model', 'objects', payload.objectId]),
+    unset(['model', 'objects', payload.id]),
     set(
       ['model', 'relations'],
       omitBy(
-        (value) =>
-          value.source === payload.objectId ||
-          value.target === payload.objectId,
+        (value) => value.source === payload.id || value.target === payload.id,
         state.model.relations
       )
     )
@@ -123,7 +166,7 @@ export const addRelation = (state, payload) => {
 export const updateRelation = (state, payload) => {
   try {
     return update(
-      ['model', 'relations', payload.relationId],
+      ['model', 'relations', payload.id],
       (relation) => ({
         ...relation,
         name: payload.name ? payload.name : relation.name,
@@ -146,7 +189,27 @@ export const updateRelation = (state, payload) => {
 };
 
 export const removeRelation = (state, payload) =>
-  unset(['model', 'relations', payload.relationId], state);
+  unset(['model', 'relations', payload.id], state);
+
+export const upsertItem = (state, payload) => {
+  let newState = {};
+  switch (payload.type) {
+    case 'Object':
+      newState = payload.item.id
+        ? updateObject(state, payload.item)
+        : addObject(state, payload.item);
+      break;
+    case 'Relation':
+      newState = payload.item.id
+        ? updateRelation(state, payload.item)
+        : addRelation(state, payload.item);
+      break;
+    default:
+      return state;
+  }
+
+  return set(['model', 'sandbox'], {}, newState);
+};
 
 export const selectMetamodel = (state, payload) =>
   set(

@@ -13,4 +13,7 @@ export const MODEL_RELATION_ADD = 'model/relation/add';
 export const MODEL_OBJECT_REMOVE = 'model/object/remove';
 export const MODEL_RELATION_REMOVE = 'model/relation/remove';
 export const MODEL_RELATION_UPDATE = 'model/relation/update';
+export const MODEL_ITEM_CREATE = 'model/item/create';
+export const MODEL_ITEM_EDIT = 'model/item/edit';
+export const MODEL_ITEM_UPSERT = 'model/item/upsert';
 export const MODEL_METAMODEL_SELECT = 'model/metamodel/select';

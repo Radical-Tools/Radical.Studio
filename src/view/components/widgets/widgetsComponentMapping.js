@@ -1,11 +1,11 @@
 import DiagramWidget from './DiagramWidget';
-import MetamodelToolbarWidget from './MetamodelToolbarWidget';
-import ModelToolbarWidget from './ModelToolbarWidget';
+import modelToolbarContainer from '../panels/modelToolbarContainer';
+import metamodelToolbarContainer from '../panels/metamodelToolbarContainer';
 
 const widgetsComponentMapping = {
-  model: ModelToolbarWidget,
+  model: modelToolbarContainer,
   canvas: DiagramWidget,
-  metamodel: MetamodelToolbarWidget,
+  metamodel: metamodelToolbarContainer,
 };
 
 export default widgetsComponentMapping;

@@ -36,6 +36,9 @@ const useCardContentStyles = makeStyles((theme) => ({
     padding: theme.spacing(0),
     height: `calc(100% - ${headerHeight}px)`,
     overflow: 'auto',
+    '&:last-child': {
+      paddingBottom: 0,
+    },
   },
 }));
 

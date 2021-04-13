@@ -5,6 +5,7 @@ import MUIDataTable from 'mui-datatables';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import BackspaceRoundedIcon from '@material-ui/icons/BackspaceRounded';
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -19,14 +20,17 @@ const Inventory = ({
   data,
   onRemoveItem,
   onEditItem,
+  onAddItemToView,
   customRowFactory,
   columns,
 }) => {
   const removeItemCallback = useCallback((id) => onRemoveItem(id), [
     onRemoveItem,
   ]);
-
   const editItemCallback = useCallback((id) => onEditItem(id), [onEditItem]);
+  const addToViewCallback = useCallback((id) => onAddItemToView(id), [
+    onAddItemToView,
+  ]);
 
   const options = {
     filterType: 'checkbox',
@@ -55,6 +59,17 @@ const Inventory = ({
               filter: false,
               customBodyRender: (value, tableMeta) => (
                 <Box pr={1}>
+                  {onAddItemToView && (
+                    <Tooltip title="add to current view">
+                      <IconButton
+                        size="small"
+                        aria-label="add to current view"
+                        onClick={() => addToViewCallback(tableMeta.rowData[0])}
+                      >
+                        <AddRoundedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                   <Tooltip title="delete">
                     <IconButton
                       size="small"
@@ -77,11 +92,17 @@ const Inventory = ({
     />
   );
 };
+
+Inventory.defaultProps = {
+  onAddItemToView: undefined,
+};
+
 Inventory.propTypes = {
   data: PropTypes.array.isRequired, // eslint-disable-line
   columns: PropTypes.array.isRequired, // eslint-disable-line
   onRemoveItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired,
+  onAddItemToView: PropTypes.func,
   customRowFactory: PropTypes.func.isRequired,
 };
 

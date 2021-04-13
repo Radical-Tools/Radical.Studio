@@ -24,8 +24,105 @@ const transformWithoutCap = transform.convert({
 
 export const initialState = {
   model: {
-    objects: {},
-    relations: {},
+    objects: {
+      'Actor-1': {
+        name: 'Architect',
+        type: 'Actor',
+        attributes: {
+          description: 'main user of the system',
+        },
+      },
+      'Actor-2': {
+        name: 'Business Analyst',
+        type: 'Actor',
+        attributes: {
+          description: 'user of the system',
+        },
+      },
+      'System-1': {
+        name: 'Radical Tools',
+        type: 'System',
+        attributes: {
+          description: '',
+        },
+      },
+      'Container-1': {
+        name: 'Radical Studio',
+        type: 'Container',
+        attributes: {
+          description: '',
+          technology: 'js,React',
+        },
+      },
+      'Container-2': {
+        name: 'Radical Hub',
+        type: 'Container',
+        attributes: {
+          description: '',
+          technology: 'js,React',
+        },
+      },
+      'Component-1': {
+        name: 'Canvas',
+        type: 'Component',
+        attributes: {
+          description: '',
+          technology: 'ReactDiagrams',
+        },
+      },
+      'Database-1': {
+        name: 'Database',
+        type: 'Component',
+        attributes: {
+          description: '',
+          technology: 'Neo4J',
+        },
+      },
+    },
+    relations: {
+      'Interacts-1': {
+        name: 'interact',
+        type: 'Interacts',
+        source: 'Actor-1',
+        target: 'Container-1',
+        attributes: {
+          technology: 'https,RestApi',
+        },
+      },
+      'Interacts-2': {
+        name: 'interact',
+        type: 'Interacts',
+        source: 'Container-2',
+        target: 'Database-1',
+        attributes: {
+          technology: 'https,RestApi',
+        },
+      },
+      'Includes-1': {
+        name: 'includes',
+        type: 'Includes',
+        source: 'System-1',
+        target: 'Container-1',
+      },
+      'Includes-2': {
+        name: 'includes',
+        type: 'Includes',
+        source: 'System-1',
+        target: 'Container-2',
+      },
+      'Includes-3': {
+        name: 'includes',
+        type: 'Includes',
+        source: 'Container-1',
+        target: 'Component-1',
+      },
+      'Includes-4': {
+        name: 'includes',
+        type: 'Includes',
+        source: 'System-1',
+        target: 'Database-1',
+      },
+    },
     sandbox: {},
   },
   metamodel: undefined,
@@ -189,7 +286,7 @@ export const updateRelation = (state, payload) => {
 };
 
 export const removeRelation = (state, payload) =>
-  unset(['model', 'relations', payload.id], state);
+  flow(unset(['model', 'relations', payload.id]))(state);
 
 export const upsertItem = (state, payload) => {
   let newState = {};

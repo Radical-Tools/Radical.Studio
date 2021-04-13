@@ -4,6 +4,7 @@ import {
   modelItemEdit,
   modelObjectRemove,
   modelRelationRemove,
+  viewModelNodeAdd,
 } from '../../../redux/action-creators';
 import ModelToolbarWidget from './ModelToolbarWidget';
 
@@ -16,6 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
   onRemoveRelation: (id) => dispatch(modelRelationRemove(id)),
   onEditRelation: (id) => dispatch(modelItemEdit(id, 'relation')),
   onCreateRelation: () => dispatch(modelItemCreate('relation')),
+  onAddObjectToView: (id) => dispatch(viewModelNodeAdd(undefined, id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelToolbarWidget);

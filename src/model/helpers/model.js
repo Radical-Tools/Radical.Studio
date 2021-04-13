@@ -1,20 +1,20 @@
 import difference from 'lodash/fp/difference';
 import find from 'lodash/fp/find';
 
-const findRelations = (
+export const findRelations = (
   model,
   sourceFilter = ['*'],
   typeFilter = ['*'],
   targetFilter = ['*']
 ) => {
   const relations = [];
-  Object.values(model.relations).forEach((relation) => {
+  Object.entries(model.relations).forEach(([id, relation]) => {
     if (
       (sourceFilter.includes(relation.source) || sourceFilter.includes('*')) &&
       (typeFilter.includes(relation.type) || typeFilter.includes('*')) &&
       (targetFilter.includes(relation.target) || targetFilter.includes('*'))
     ) {
-      relations.push(relation);
+      relations.push({ id, ...relation });
     }
   });
   return relations;

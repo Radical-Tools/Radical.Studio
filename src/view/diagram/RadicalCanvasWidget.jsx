@@ -11,8 +11,13 @@ const preventDefault = (event) => event.preventDefault();
 // just an example
 const mapViewmodel = (viewmodel) => {
   const model = new DiagramModel();
-  viewmodel.nodes.forEach((item) => {
-    const node = new RadicalComposedNodeModel(item);
+  Object.entries(viewmodel.nodes).forEach(([key, value]) => {
+    const node = new RadicalComposedNodeModel({
+      id: key,
+      radical_type: value.type,
+      name: value.name,
+      attributes: value.attributes,
+    });
     model.addNode(node);
   });
   return model;

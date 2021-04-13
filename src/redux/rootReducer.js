@@ -1,6 +1,7 @@
 import * as model from '../model/handlers/model';
 import * as layout from '../model/handlers/layout';
 import * as theme from '../model/handlers/theme';
+import * as viewModel from '../model/handlers/viewModel';
 import * as actionTypes from './action-types';
 
 const handlers = {
@@ -22,12 +23,19 @@ const handlers = {
   [actionTypes.MODEL_ITEM_UPSERT]: model.upsertItem,
   [actionTypes.MODEL_METAMODEL_SELECT]: (state, payload) =>
     model.selectMetamodel(layout.closeHomeDialog(state), payload),
+  [actionTypes.VIEWMODEL_VIEW_ADD]: viewModel.addView,
+  [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
+  [actionTypes.VIEWMODEL_VIEW_UPDATE]: viewModel.updateView,
+  [actionTypes.VIEWMODEL_NODE_ADD]: viewModel.addNode,
+  [actionTypes.VIEWMODEL_LINK_REMOVE]: viewModel.removeLink,
+  [actionTypes.VIEWMODEL_LINK_ADD]: viewModel.addLink,
 };
 
 export const initialState = {
   ...layout.initialState,
   ...model.initialState,
   ...theme.initialState,
+  ...viewModel.initialState,
   errors: [],
 };
 

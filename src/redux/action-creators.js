@@ -18,6 +18,14 @@ import {
   MODEL_ITEM_CREATE,
   MODEL_ITEM_UPSERT,
   MODEL_METAMODEL_SELECT,
+  VIEWMODEL_VIEW_ADD,
+  VIEWMODEL_VIEW_REMOVE,
+  VIEWMODEL_VIEW_UPDATE,
+  VIEWMODEL_NODE_ADD,
+  VIEWMODEL_NODE_REMOVE,
+  VIEWMODEL_NODE_UPDATE,
+  VIEWMODEL_LINK_REMOVE,
+  VIEWMODEL_LINK_ADD,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -105,4 +113,44 @@ export const modelItemUpsert = (type, item) => ({
 export const modelMetamodelSelect = (metamodelId) => ({
   type: MODEL_METAMODEL_SELECT,
   payload: metamodelId,
+});
+
+export const viewModelViewAdd = (name, tags) => ({
+  type: VIEWMODEL_VIEW_ADD,
+  payload: { name, tags },
+});
+
+export const viewModelViewRemove = (id) => ({
+  type: VIEWMODEL_VIEW_REMOVE,
+  payload: { id },
+});
+
+export const viewModelViewUpdate = (id, name, tags) => ({
+  type: VIEWMODEL_VIEW_UPDATE,
+  payload: { id, name, tags },
+});
+
+export const viewModelNodeAdd = (viewId, id, position, dimension) => ({
+  type: VIEWMODEL_NODE_ADD,
+  payload: { viewId, id, position, dimension },
+});
+
+export const viewModelNodeRemove = (id) => ({
+  type: VIEWMODEL_NODE_REMOVE,
+  payload: { id },
+});
+
+export const viewModelNodeUpdate = (viewId, id, position, dimension) => ({
+  type: VIEWMODEL_NODE_UPDATE,
+  payload: { viewId, id, position, dimension },
+});
+
+export const viewModelLinkRemove = (id) => ({
+  type: VIEWMODEL_LINK_REMOVE,
+  payload: { id },
+});
+
+export const viewModelLinkAdd = (id) => ({
+  type: VIEWMODEL_LINK_ADD,
+  payload: { id },
 });

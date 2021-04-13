@@ -17,6 +17,7 @@ const ModelToolbarWidget = (props) => {
     onRemoveRelation,
     onEditRelation,
     onCreateRelation,
+    onAddObjectToView,
   } = props;
   const [expanded, setExpanded] = useState('Objects');
 
@@ -49,6 +50,10 @@ const ModelToolbarWidget = (props) => {
     onCreateRelation,
   ]);
 
+  const onAddObjectToViewCallback = useCallback((id) => onAddObjectToView(id), [
+    onAddObjectToView,
+  ]);
+
   return (
     <div>
       <AccordionItem
@@ -62,6 +67,7 @@ const ModelToolbarWidget = (props) => {
           data={objectsInventory.transform(model.objects)}
           onRemoveItem={onRemoveObjectCallback}
           onEditItem={onEditObjectCallback}
+          onAddItemToView={onAddObjectToViewCallback}
           customRowFactory={objectsInventory.createCustomRow}
           columns={objectsInventory.columns}
         />
@@ -93,6 +99,7 @@ ModelToolbarWidget.propTypes = {
   onRemoveRelation: PropTypes.func.isRequired,
   onEditRelation: PropTypes.func.isRequired,
   onCreateRelation: PropTypes.func.isRequired,
+  onAddObjectToView: PropTypes.func.isRequired,
 };
 
 export default React.memo(ModelToolbarWidget);

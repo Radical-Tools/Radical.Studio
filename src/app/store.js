@@ -1,9 +1,9 @@
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createStore } from 'redux';
 import { rootReducer } from '../redux/rootReducer';
 
 const store = createStore(
   rootReducer,
-  process.env.NODE_ENV === 'development' && composeWithDevTools()
+  composeWithDevTools({ name: 'Studio.Radical.Tools' })()
 );
 export default store;

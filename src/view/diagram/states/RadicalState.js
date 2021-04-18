@@ -5,11 +5,9 @@ import {
   InputType,
   DragCanvasState,
 } from '@projectstorm/react-canvas-core';
-import {
-  PortModel,
-  DragNewLinkState,
-  DragDiagramItemsState,
-} from '@projectstorm/react-diagrams';
+import { PortModel, DragNewLinkState } from '@projectstorm/react-diagrams';
+import CreateLinkState from './CreateLinkState';
+import RadicalDragDiagramItemsState from './RadicalDragDiagramItemsState';
 
 export default class RadicalState extends State {
   constructor() {
@@ -19,8 +17,8 @@ export default class RadicalState extends State {
     this.childStates = [new SelectingState()];
     this.dragCanvas = new DragCanvasState();
     this.dragNewLink = new DragNewLinkState();
-    this.dragItems = new DragDiagramItemsState();
-
+    this.dragItems = new RadicalDragDiagramItemsState();
+    this.createLink = new CreateLinkState();
     // determine what was clicked on
     this.registerAction(
       new Action({
@@ -34,14 +32,23 @@ export default class RadicalState extends State {
           if (!element) {
             this.transitionWithEvent(this.dragCanvas, event);
           }
-          // initiate dragging a new link
-          else if (element instanceof PortModel) {
-            this.transitionWithEvent(this.dragNewLink, event);
-          }
           // move the items (and potentially link points)
           else {
             this.transitionWithEvent(this.dragItems, event);
           }
+        },
+      })
+    );
+    this.registerAction(
+      new Action({
+        type: InputType.MOUSE_UP,
+        fire: (event) => {
+          const element = this.engine
+            .getActionEventBus()
+            .getModelForEvent(event);
+
+          if (element instanceof PortModel)
+            this.transitionWithEvent(this.createLink, event);
         },
       })
     );

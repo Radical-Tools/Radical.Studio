@@ -1,7 +1,5 @@
-import {
-  DefaultPortModel,
-  DefaultLinkModel,
-} from '@projectstorm/react-diagrams';
+import { DefaultPortModel } from '@projectstorm/react-diagrams';
+import RadicalLinkModel from '../links/RadicalLinkModel';
 
 export default class RadicalPortModel extends DefaultPortModel {
   constructor(alignment) {
@@ -14,6 +12,11 @@ export default class RadicalPortModel extends DefaultPortModel {
 
   // eslint-disable-next-line class-methods-use-this
   createLinkModel() {
-    return new DefaultLinkModel();
+    return new RadicalLinkModel();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  canLinkToPort() {
+    return true;
   }
 }

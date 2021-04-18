@@ -13,5 +13,6 @@ module.exports = {
   },
   rules: {
     'react/jsx-key': ['error', { checkFragmentShorthand: true }],
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
 };

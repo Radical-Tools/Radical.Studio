@@ -14,9 +14,13 @@ import RadicalState from '../states/RadicalState';
 import RadicalPortModel from '../ports/RadicalPortModel';
 import RadicalPortFactory from '../ports/RadicalPortFactory';
 import RadicalComposedNodeFactory from '../nodes/RadicalComposedNodeFactory';
+import RadicalLinkFactory from '../links/RadicalLinkFactory';
 
 const createRadicalEngine = () => {
-  const engine = new RadicalDiagramEngine();
+  const engine = new RadicalDiagramEngine({
+    registerDefaultDeleteItemsAction: false,
+    repaintDebounceMs: 10,
+  });
   engine.getStateMachine().pushState(new RadicalState());
   // const engine = createEngine();
   engine.getLayerFactories().registerFactory(new NodeLayerFactory());
@@ -30,6 +34,7 @@ const createRadicalEngine = () => {
   engine.getPortFactories().registerFactory(new DefaultPortFactory());
 
   engine.getNodeFactories().registerFactory(new RadicalComposedNodeFactory());
+  engine.getLinkFactories().registerFactory(new RadicalLinkFactory());
   engine
     .getPortFactories()
     .registerFactory(

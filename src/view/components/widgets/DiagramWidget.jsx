@@ -1,32 +1,18 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import RadicalCanvasWidget from '../../diagram/RadicalCanvasWidget';
 
-// const viewmodel = {
-//   nodes: [
-//     {
-//       radical_type: 'Component',
-//       name: 'Test',
-//       attributes: {
-//         technology: 'JS',
-//       },
-//     },
-//     {
-//       radical_type: 'Container',
-//       name: 'Test2',
-//       attributes: {
-//         technology: '.NET',
-//       },
-//     },
-//   ],
-// };
-
 const DiagramWidget = (props) => {
-  const { view } = props;
+  const { view, onAddRelation } = props;
   return (
     <RadicalCanvasWidget
-      // eslint-disable-next-line no-console
       onDrop={(point, data) => console.log(point, data)}
+      onDragItemsEnd={(point, items) => console.log(point, items)}
+      onLinkConnected={(id, sourceId, targetId) => {
+        console.log(id, sourceId, targetId);
+        onAddRelation(sourceId, targetId);
+      }}
       viewmodel={view}
     />
   );
@@ -34,6 +20,7 @@ const DiagramWidget = (props) => {
 
 DiagramWidget.propTypes = {
   view: PropTypes.objectOf(PropTypes.any).isRequired,
+  onAddRelation: PropTypes.func.isRequired,
 };
 
 export default React.memo(DiagramWidget);

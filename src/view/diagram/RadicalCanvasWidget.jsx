@@ -9,6 +9,7 @@ import {
   DRAG_DIAGRAM_ITEMS_END_EVENT,
   DROP_DATA_KEY,
   LINK_CONNECTED_TO_TARGET_EVENT,
+  DIAGRAM_ALIGNMENT_UPDATED_EVENT,
 } from './consts';
 
 const addDevNodes = (model) => {
@@ -23,7 +24,7 @@ const addDevNodes = (model) => {
     attributes: {},
   });
   node.setPosition(startPoint);
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < 40; index++) {
     const childNode = new RadicalComposedNodeModel({
       id: `Child ${index}`,
       radical_type: 'Component',
@@ -70,6 +71,7 @@ const RadicalCanvasWidget = ({
   onDrop,
   onDragItemsEnd,
   onLinkConnected,
+  onDiagramAlignmentUpdated,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -84,12 +86,19 @@ const RadicalCanvasWidget = ({
           case LINK_CONNECTED_TO_TARGET_EVENT:
             onLinkConnected(e.id, e.sourceId, e.targetId);
             break;
+          case DIAGRAM_ALIGNMENT_UPDATED_EVENT:
+            onDiagramAlignmentUpdated(
+              e.offsetX,
+              e.offsetY,
+              e.entity.options.zoom
+            );
+            break;
           default:
             break;
         }
       },
     }),
-    [onDragItemsEnd, onLinkConnected]
+    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated]
   );
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
@@ -129,5 +138,6 @@ RadicalCanvasWidget.propTypes = {
   onDrop: PropTypes.func.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
+  onDiagramAlignmentUpdated: PropTypes.func.isRequired,
 };
 export default React.memo(RadicalCanvasWidget);

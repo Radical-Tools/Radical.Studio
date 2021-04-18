@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 
 import Typography from '@material-ui/core/Typography';
-import { Box, Divider } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -23,7 +23,7 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
   const classes = useStyles();
   return (
     <div id="main">
-      <Box
+      <div
         borderRadius={3}
         style={{
           position: 'relative',
@@ -43,7 +43,7 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
             paddingTop: 0,
           }}
         >
-          <Box>
+          <div>
             <Typography variant="subtitle1">{node.options.name}</Typography>
 
             <Divider />
@@ -58,12 +58,12 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
               </Typography>
             )}
 
-            <Box flexWrap="wrap" fontStyle="italic" fontSize={8}>
+            <div flexWrap="wrap" fontStyle="italic" fontSize={8}>
               <Typography variant="caption">
                 {node.options.attributes?.description}
               </Typography>
-            </Box>
-          </Box>
+            </div>
+          </div>
         </div>
         <svg width={node.size.width} height={node.size.height}>
           <g id="Layer_1">${children}</g>
@@ -113,7 +113,7 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
         >
           <div className={classes.smartPort} />
         </PortWidget>
-      </Box>
+      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { AbstractReactFactory } from '@projectstorm/react-canvas-core';
 import RadicalComposedNodeModel from './RadicalComposedNodeModel';
 import RadicalComposedNodeWidget from './RadicalComposedNodeWidget';
 
-function Generic({ node }) {
+function Generic({ width, height }) {
   return (
     <rect
       fill="#85bbf0"
@@ -14,25 +14,25 @@ function Generic({ node }) {
       ry="5"
       x="1"
       y="1"
-      width={node.size.width - 2}
-      height={node.size.height - 2}
+      width={width - 2}
+      height={height - 2}
     />
   );
 }
 
-function C4Container({ node }) {
-  if (node.size.width === 150) {
+function C4Container({ width, height, isSelected }) {
+  if (width === 150) {
     return (
       <rect
         fill="#438dd5"
         fillOpacity="1.0"
-        stroke={node.isSelected() ? 'black' : 'white'}
+        stroke={isSelected ? 'black' : 'white'}
         rx="5"
         ry="5"
         x="1"
         y="1"
-        width={node.size.width - 2}
-        height={node.size.height - 2}
+        width={width - 2}
+        height={height - 2}
       />
     );
   }
@@ -42,46 +42,46 @@ function C4Container({ node }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={node.isSelected() ? 'black' : 'gray'}
+      stroke={isSelected ? 'black' : 'gray'}
       rx="5"
       ry="5"
       x="1"
       y="1"
-      width={node.size.width - 2}
-      height={node.size.height - 2}
+      width={width - 2}
+      height={height - 2}
     />
   );
 }
 
-function C4Component({ node }) {
+function C4Component({ width, height, isSelected }) {
   return (
     <rect
       fill="#85bbf0"
       fillOpacity="1.0"
-      stroke={node.isSelected() ? 'black' : 'white'}
+      stroke={isSelected ? 'black' : 'white'}
       rx="5"
       ry="5"
       x="1"
       y="1"
-      width={node.size.width - 2}
-      height={node.size.height - 2}
+      width={width - 2}
+      height={height - 2}
     />
   );
 }
 
-function C4System({ node }) {
-  if (node.size.width === 150) {
+function C4System({ width, height, isSelected }) {
+  if (width === 150) {
     return (
       <rect
         fill="#1168bd"
         fillOpacity="1.0"
-        stroke={node.isSelected() ? 'black' : 'white'}
+        stroke={isSelected ? 'black' : 'white'}
         rx="5"
         ry="5"
         x="1"
         y="1"
-        width={node.size.width - 2}
-        height={node.size.height - 2}
+        width={width - 2}
+        height={height - 2}
       />
     );
   }
@@ -91,50 +91,50 @@ function C4System({ node }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={node.isSelected() ? 'black' : 'gray'}
+      stroke={isSelected ? 'black' : 'gray'}
       rx="5"
       ry="5"
       x="1"
       y="1"
-      width={node.size.width - 2}
-      height={node.size.height - 2}
+      width={width - 2}
+      height={height - 2}
     />
   );
 }
 
-function C4ExternalSystem({ node }) {
+function C4ExternalSystem({ width, height, isSelected }) {
   return (
     <rect
       fill="#999999"
       fillOpacity="1.0"
-      stroke={node.isSelected() ? 'black' : 'white'}
+      stroke={isSelected ? 'black' : 'white'}
       rx="5"
       ry="5"
       x="1"
       y="1"
-      width={node.size.width - 2}
-      height={node.size.height - 2}
+      width={width - 2}
+      height={height - 2}
     />
   );
 }
 
-function C4Actor({ node }) {
+function C4Actor({ width, height, isSelected }) {
   return (
     <g>
       <rect
         fill="#2072C3"
         fillOpacity="1.0"
-        stroke={node.isSelected() ? 'black' : 'white'}
+        stroke={isSelected ? 'black' : 'white'}
         rx="20"
         ry="20"
         x="1"
         y="25"
-        width={node.size.width - 2}
-        height={node.size.height - 28}
+        width={width - 2}
+        height={height - 28}
       />
       <circle
         fill="#2072C3"
-        stroke={node.isSelected() ? 'black' : 'white'}
+        stroke={isSelected ? 'black' : 'white'}
         fillOpacity="1.0"
         cx="75"
         cy="20"
@@ -144,19 +144,19 @@ function C4Actor({ node }) {
   );
 }
 
-function C4Database({ node }) {
+function C4Database({ width, height, isSelected }) {
   return (
     <g>
       <rect
         fill="#438dd5"
         fillOpacity="1.0"
-        // stroke= {node.isSelected() ? 'white' : ''}
+        // stroke= {isSelected ? 'white' : ''}
         rx="0"
         ry="0"
         x="0"
         y="20"
-        width={node.size.width}
-        height={node.size.height - 42}
+        width={width}
+        height={height - 42}
       />
       <ellipse
         fill="#438dd5"
@@ -169,7 +169,7 @@ function C4Database({ node }) {
       <ellipse
         fill="#438dd5"
         fillOpacity="1.0"
-        stroke={node.isSelected() ? 'black' : 'white'}
+        stroke={isSelected ? 'black' : 'white'}
         cx="75"
         cy="20"
         rx="75"
@@ -188,15 +188,25 @@ const objects = {
   Database: C4Database,
 };
 
-function Icon({ node }) {
-  if (
-    Object.prototype.hasOwnProperty.call(objects, node.options.radical_type)
-  ) {
-    return objects[node.options.radical_type]({ node });
+const Icon = React.memo(({ radicalType, width, height, isSelected }) => {
+  if (Object.prototype.hasOwnProperty.call(objects, radicalType)) {
+    return objects[radicalType]({ width, height, isSelected });
   }
-  return Generic({ node });
-}
+  return Generic({ width, height, isSelected });
+});
 
+const Widget = ({ model, engine }) => (
+  <RadicalComposedNodeWidget engine={engine} node={model}>
+    <Icon
+      radicalType={model.options.radical_type}
+      width={model.size.width}
+      height={model.size.height}
+      isSelected={model.isSelected()}
+    />
+  </RadicalComposedNodeWidget>
+);
+
+const MemoizedWidget = React.memo(Widget);
 export default class RadicalComposedNodeFactory extends AbstractReactFactory {
   constructor() {
     super('radical-composed-node');
@@ -208,14 +218,15 @@ export default class RadicalComposedNodeFactory extends AbstractReactFactory {
   }
 
   generateReactWidget(event) {
+    const { model } = event;
     return (
-      <RadicalComposedNodeWidget
+      <MemoizedWidget
+        model={event.model}
         engine={this.engine}
-        node={event.model}
-        linkingMode={this.engine.getModel().linkingMode}
-      >
-        <Icon node={event.model} />
-      </RadicalComposedNodeWidget>
+        isDragged={model.isDragged}
+        width={model.size.width}
+        height={model.size.height}
+      />
     );
   }
 }

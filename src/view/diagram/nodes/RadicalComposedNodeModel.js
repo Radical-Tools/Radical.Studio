@@ -27,6 +27,7 @@ export default class RadicalComposedNodeModel extends NodeModel {
     this.parentNode = undefined;
 
     this.minDimensionSize = { width: 150, height: 110 };
+    this.isDragged = false;
   }
 
   addNode(node) {
@@ -84,7 +85,7 @@ export default class RadicalComposedNodeModel extends NodeModel {
 
   fitDimensions() {
     const boundedRect = RadicalComposedNodeModel.getBoundingNodesRect(
-      Array.from(this.nodes.values()).filter((node) => this.isInside(node)),
+      Array.from(this.nodes.values()),
       { top: 70, bottom: 70, left: 20, right: 20 }
     );
     if (boundedRect.getWidth() > 0) {
@@ -118,12 +119,10 @@ export default class RadicalComposedNodeModel extends NodeModel {
 
     if (this.nodes?.size > 0) {
       this.nodes.forEach((node) => {
-        if (this.isInside(node)) {
-          node.setPosition(
-            node.getPosition().x + offset.x,
-            node.getPosition().y + offset.y
-          );
-        }
+        node.setPosition(
+          node.getPosition().x + offset.x,
+          node.getPosition().y + offset.y
+        );
       });
     }
 
@@ -133,18 +132,13 @@ export default class RadicalComposedNodeModel extends NodeModel {
     super.setPosition(x, y);
   }
 
-  isInside(node) {
-    const outboundMargin = { top: 20, bottom: 20, left: 20, right: 20 };
-    return (
-      node.getPosition().x + node.width >
-        this.getPosition().x - outboundMargin.left &&
-      node.getPosition().x <
-        this.getPosition().x + this.width + outboundMargin.right &&
-      node.getPosition().y + node.height >
-        this.getPosition().y - outboundMargin.top &&
-      node.getPosition().y <
-        this.getPosition().y + this.height + outboundMargin.bottom
-    );
+  setIsDragged(dragged = false) {
+    this.isDragged = dragged;
+    if (this.nodes?.size > 0) {
+      this.nodes.forEach((node) => {
+        node.setIsDragged(dragged);
+      });
+    }
   }
 
   getBoundingBox() {

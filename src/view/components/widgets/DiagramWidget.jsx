@@ -9,6 +9,9 @@ const DiagramWidget = (props) => {
     <RadicalCanvasWidget
       onDrop={(point, data) => console.log(point, data)}
       onDragItemsEnd={(point, items) => console.log(point, items)}
+      onDiagramAlignmentUpdated={(offsetX, offsetY, zoom) =>
+        console.log(offsetX, offsetY, zoom)
+      }
       onLinkConnected={(id, sourceId, targetId) => {
         console.log(id, sourceId, targetId);
         onAddRelation(sourceId, targetId);

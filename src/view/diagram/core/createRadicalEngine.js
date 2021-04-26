@@ -15,6 +15,7 @@ import RadicalPortModel from '../ports/RadicalPortModel';
 import RadicalPortFactory from '../ports/RadicalPortFactory';
 import RadicalComposedNodeFactory from '../nodes/RadicalComposedNodeFactory';
 import RadicalLinkFactory from '../links/RadicalLinkFactory';
+import RadicalLabelFactory from '../labels/RadicalLabelFactory';
 
 const createRadicalEngine = () => {
   const engine = new RadicalDiagramEngine({
@@ -40,6 +41,7 @@ const createRadicalEngine = () => {
     .registerFactory(
       new RadicalPortFactory('diamond', () => new RadicalPortModel('left'))
     );
+  engine.getLabelFactories().registerFactory(new RadicalLabelFactory());
   return engine;
 };
 export default createRadicalEngine;

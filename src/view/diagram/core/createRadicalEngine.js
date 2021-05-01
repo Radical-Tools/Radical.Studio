@@ -19,7 +19,7 @@ import RadicalLabelFactory from '../labels/RadicalLabelFactory';
 
 const createRadicalEngine = () => {
   const engine = new RadicalDiagramEngine({
-    registerDefaultDeleteItemsAction: false,
+    registerDefaultDeleteItemsAction: true,
     repaintDebounceMs: 10,
   });
   engine.getStateMachine().pushState(new RadicalState());

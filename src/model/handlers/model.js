@@ -4,10 +4,10 @@ import unset from 'lodash/fp/unset';
 import omitBy from 'lodash/fp/omitBy';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
-import merge from 'lodash/fp/merge';
-import transform from 'lodash/fp/transform';
+import identity from 'lodash/fp/identity';
 
 import {
+  findValidRelationClass,
   validateObject,
   validateObjectAttributes,
   validateRelation,
@@ -18,163 +18,22 @@ import metamodels from '../../data/metamodels';
 const addError = (state, name, reason) =>
   set(['errors'], [...state.errors, { name, reason }], state);
 
-const transformWithoutCap = transform.convert({
-  cap: false,
-});
-
 export const initialState = {
   model: {
-    objects: {
-      'Actor-1': {
-        name: 'Architect',
-        type: 'Actor',
-        attributes: {
-          description: 'main user of the system',
-        },
-      },
-      'Actor-2': {
-        name: 'Business Analyst',
-        type: 'Actor',
-        attributes: {
-          description: 'user of the system',
-        },
-      },
-      'System-1': {
-        name: 'Radical Tools',
-        type: 'System',
-        attributes: {
-          description: '',
-        },
-      },
-      'Container-1': {
-        name: 'Radical Studio',
-        type: 'Container',
-        attributes: {
-          description: '',
-          technology: 'js,React',
-        },
-      },
-      'Container-2': {
-        name: 'Radical Hub',
-        type: 'Container',
-        attributes: {
-          description: '',
-          technology: 'js,React',
-        },
-      },
-      'Component-1': {
-        name: 'Canvas',
-        type: 'Component',
-        attributes: {
-          description: '',
-          technology: 'ReactDiagrams',
-        },
-      },
-      'Database-1': {
-        name: 'Database',
-        type: 'Component',
-        attributes: {
-          description: '',
-          technology: 'Neo4J',
-        },
-      },
-    },
-    relations: {
-      'Interacts-1': {
-        name: 'interact',
-        type: 'Interacts',
-        source: 'Actor-1',
-        target: 'Container-1',
-        attributes: {
-          technology: 'https,RestApi',
-        },
-      },
-      'Interacts-2': {
-        name: 'interact',
-        type: 'Interacts',
-        source: 'Container-2',
-        target: 'Database-1',
-        attributes: {
-          technology: 'https,RestApi',
-        },
-      },
-      'Includes-1': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Container-1',
-      },
-      'Includes-2': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Container-2',
-      },
-      'Includes-3': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'Container-1',
-        target: 'Component-1',
-      },
-      'Includes-4': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Database-1',
-      },
-    },
-    sandbox: {},
+    objects: {},
+    relations: {},
   },
   metamodel: undefined,
 };
 
-export const createItem = (state, payload) =>
-  set(
-    ['model', 'sandbox'],
-    {
-      data: state.metamodel.schemas[payload.type].data,
-      ui: state.metamodel.schemas[payload.type].create.ui,
-    },
-    state
-  );
-
-export const editItem = (state, payload) => {
-  /* eslint no-param-reassign: "error" */
-
-  const convertToDefaults = transformWithoutCap(
-    (result, value, key) => {
-      (result[key] || (result[key] = {})).default = value;
-    },
-    {},
-    {
-      id: payload.id,
-      ...state.model[payload.type === 'object' ? 'objects' : 'relations'][
-        payload.id
-      ],
-    }
-  );
-
-  return set(
-    ['model', 'sandbox'],
-    {
-      data: merge(state.metamodel.schemas[payload.type].data, {
-        properties: convertToDefaults,
-      }),
-      ui: state.metamodel.schemas[payload.type].update.ui,
-    },
-    state
-  );
-};
-
 export const addObject = (state, payload) => {
-  const id = payload.id
-    ? payload.id
-    : `${payload.type}-${Object.keys(state.model.objects).length + 1}`;
+  const id = payload.id ? payload.id : payload.name;
 
   const object = {
     name: payload.name ? payload.name : 'Default Name',
     type: payload.type,
     attributes: payload.attributes ? { ...payload.attributes } : {},
+    children: [],
   };
 
   if (has(id, state.model.objects)) {
@@ -183,11 +42,7 @@ export const addObject = (state, payload) => {
 
   try {
     validateObject(state.metamodel, state.model, object);
-    return set(
-      ['model', 'objects', id],
-      { name: object.name, type: object.type, attributes: object.attributes },
-      state
-    );
+    return set(['model', 'objects', id], object, state);
   } catch (error) {
     return addError(state, 'Add Object Error', error.message);
   }
@@ -231,30 +86,42 @@ export const removeObject = (state, payload) =>
   )(state);
 
 export const addRelation = (state, payload) => {
-  const relationId = payload.id
-    ? payload.id
-    : `${payload.type}-${Object.keys(state.model.relations).length + 1}`;
-  const relation = {
-    name: payload.name ? payload.name : 'Default Name',
-    type: payload.type,
-    attributes: payload.attributes ? { ...payload.attributes } : {},
-    source: payload.source,
-    target: payload.target,
-  };
-
   try {
+    const type = payload.type
+      ? payload.type
+      : findValidRelationClass(
+          state.metamodel,
+          state.model.objects[payload.source].type,
+          state.model.objects[payload.target].type
+        )[0].id;
+
+    const relationId = payload.id
+      ? payload.id
+      : `${type}-${Object.keys(state.model.relations).length + 1}`;
+    const relation = {
+      name: payload.name ? payload.name : type,
+      type,
+      attributes: payload.attributes ? { ...payload.attributes } : {},
+      source: payload.source,
+      target: payload.target,
+    };
+
     validateRelation(state.metamodel, state.model, relation);
-    return set(
-      ['model', 'relations', relationId],
-      {
-        name: relation.name,
-        type: relation.type,
-        attributes: relation.attributes,
-        source: relation.source,
-        target: relation.target,
-      },
-      state
-    );
+    return flow(
+      set(['model', 'relations', relationId], relation),
+      relation.type === 'Includes'
+        ? flow(
+            update(['model', 'objects', relation.source], (object) => {
+              object.children.push(relation.target);
+              return object;
+            }),
+            set(
+              ['model', 'objects', relation.target, 'parent'],
+              relation.source
+            )
+          )
+        : identity
+    )(state);
   } catch (error) {
     return addError(state, 'Add Relation Error', error.message);
   }
@@ -285,29 +152,23 @@ export const updateRelation = (state, payload) => {
   }
 };
 
-export const removeRelation = (state, payload) =>
-  flow(unset(['model', 'relations', payload.id]))(state);
-
-export const upsertItem = (state, payload) => {
-  let newState = {};
-  switch (payload.type) {
-    case 'Object':
-      newState = payload.item.id
-        ? updateObject(state, payload.item)
-        : addObject(state, payload.item);
-      break;
-    case 'Relation':
-      newState = payload.item.id
-        ? updateRelation(state, payload.item)
-        : addRelation(state, payload.item);
-      break;
-    default:
-      return state;
-  }
-
-  return set(['model', 'sandbox'], {}, newState);
+export const removeRelation = (state, payload) => {
+  const relation = state.model.relations[payload.id];
+  return flow(
+    unset(['model', 'relations', payload.id]),
+    relation && relation.type === 'Includes'
+      ? flow(
+          unset(['model', 'objects', relation.target, 'parent']),
+          update(
+            ['model', 'objects', relation.source, 'children'],
+            (children) => {
+              children.filter((item) => item.target !== relation.target);
+            }
+          )
+        )
+      : identity
+  )(state);
 };
-
 export const selectMetamodel = (state, payload) =>
   set(
     ['metamodel'],

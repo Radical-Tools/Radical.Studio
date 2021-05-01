@@ -1,63 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DiagramModel } from '@projectstorm/react-diagrams';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
-import RadicalComposedNodeModel from './nodes/RadicalComposedNodeModel';
 import {
+  DIAGRAM_ALIGNMENT_UPDATED_EVENT,
+  DIAGRAM_ENTITY_REMOVED,
   DRAG_DIAGRAM_ITEMS_END_EVENT,
   DROP_DATA_KEY,
   LINK_CONNECTED_TO_TARGET_EVENT,
-  DIAGRAM_ALIGNMENT_UPDATED_EVENT,
 } from './consts';
+import { addLinks, addNodes } from './core/viewModelRenderer';
 
-const addDevNodes = (model) => {
-  const startPoint = {
-    x: 700,
-    y: 200,
-  };
-  const node = new RadicalComposedNodeModel({
-    id: '1',
-    radical_type: 'Container',
-    name: 'Test name',
-    attributes: {},
-  });
-  node.setPosition(startPoint);
-  for (let index = 0; index < 40; index++) {
-    const childNode = new RadicalComposedNodeModel({
-      id: `Child ${index}`,
-      radical_type: 'Component',
-      name: `Child name ${index}`,
-      attributes: {},
-    });
-    childNode.addParent(node);
-    childNode.setPosition({
-      x: startPoint.x + 20 * index,
-      y: startPoint.y + 20 * index,
-    });
-
-    node.addNode(childNode);
-    model.addNode(childNode);
-  }
-  node.setSize(500, 500);
-  model.addNode(node);
-};
 const preventDefault = (event) => event.preventDefault();
-// just an example
+
 const mapViewmodel = (viewmodel) => {
-  const model = new DiagramModel();
-  Object.entries(viewmodel.nodes).forEach(([key, value]) => {
-    const node = new RadicalComposedNodeModel({
-      id: key,
-      radical_type: value.type,
-      name: value.name,
-      attributes: value.attributes,
-    });
-    model.addNode(node);
-  });
-  addDevNodes(model);
-  return model;
+  const diagramModel = new DiagramModel();
+  addNodes(diagramModel, viewmodel);
+  addLinks(diagramModel, viewmodel);
+  return diagramModel;
 };
 const useStyles = makeStyles(() => ({
   fill: {
@@ -68,17 +30,18 @@ const useStyles = makeStyles(() => ({
 
 const RadicalCanvasWidget = ({
   viewmodel,
+  alignment,
   onDrop,
   onDragItemsEnd,
   onLinkConnected,
   onDiagramAlignmentUpdated,
+  onNodeRemove,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
     () => ({
       eventDidFire: (e) => {
         // eslint-disable-next-line no-console
-        console.log(e);
         switch (e.function) {
           case DRAG_DIAGRAM_ITEMS_END_EVENT:
             onDragItemsEnd(e.point, e.items);
@@ -93,12 +56,15 @@ const RadicalCanvasWidget = ({
               e.entity.options.zoom
             );
             break;
+          case DIAGRAM_ENTITY_REMOVED:
+            onNodeRemove(e.entity.getID());
+            break;
           default:
             break;
         }
       },
     }),
-    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated]
+    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated, onNodeRemove]
   );
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
@@ -115,9 +81,18 @@ const RadicalCanvasWidget = ({
   useEffect(() => {
     const model = mapViewmodel(viewmodel);
     model.registerListener(registerCallbacks());
+    model.getNodes().forEach((node) => {
+      node.registerListener(registerCallbacks());
+    });
+    model.getLinks().forEach((node) => {
+      node.registerListener(registerCallbacks());
+    });
     engine.setModel(model);
+    model.setZoomLevel(alignment.zoom);
+    model.setOffsetX(alignment.offsetX);
+    model.setOffsetY(alignment.offsetY);
     setIsModelSet(true);
-  }, [viewmodel, engine, registerCallbacks]);
+  }, [viewmodel, alignment, engine, registerCallbacks]);
 
   return (
     <>
@@ -135,9 +110,11 @@ const RadicalCanvasWidget = ({
 };
 RadicalCanvasWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
+  alignment: PropTypes.objectOf(PropTypes.any).isRequired,
   onDrop: PropTypes.func.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
+  onNodeRemove: PropTypes.func.isRequired,
 };
 export default React.memo(RadicalCanvasWidget);

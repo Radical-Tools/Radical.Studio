@@ -224,6 +224,43 @@ const c4Metamodel = {
         },
       },
     },
+    view: {
+      data: {
+        title: 'View',
+        type: 'object',
+        required: ['name'],
+        properties: {
+          id: { type: 'string', title: 'Id' },
+          name: { type: 'string', title: 'Name' },
+        },
+      },
+      create: {
+        ui: {
+          id: {
+            'ui:emptyValue': '',
+            'ui:disabled': true,
+            'ui:widget': 'hidden',
+          },
+          name: {
+            'ui:autofocus': true,
+            'ui:emptyValue': '',
+          },
+        },
+      },
+      update: {
+        ui: {
+          id: {
+            'ui:autofocus': true,
+            'ui:emptyValue': '',
+            'ui:disabled': true,
+          },
+          name: {
+            'ui:autofocus': true,
+            'ui:emptyValue': '',
+          },
+        },
+      },
+    },
   },
 };
 

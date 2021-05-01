@@ -2,15 +2,18 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import WidgetsRoundedIcon from '@material-ui/icons/WidgetsRounded';
 import InsertLinkRoundedIcon from '@material-ui/icons/InsertLinkRounded';
+import ViewCarouselRoundedIcon from '@material-ui/icons/ViewCarouselRounded';
 
 import * as objectsInventory from '../helpers/objectsInventoryHelper';
 import * as relationsInventory from '../helpers/relationsInventoryHelper';
+import * as viewsInventory from '../helpers/viewsInventoryHelper';
 import AccordionItem from '../common/AccordionItem';
 import Inventory from '../common/Inventory';
 
 const ModelToolbarWidget = (props) => {
   const {
     model,
+    viewModel,
     onRemoveObject,
     onEditObject,
     onCreateObject,
@@ -18,6 +21,10 @@ const ModelToolbarWidget = (props) => {
     onEditRelation,
     onCreateRelation,
     onAddObjectToView,
+    onEditView,
+    onRemoveView,
+    onCreateView,
+    onActivateView,
   } = props;
   const [expanded, setExpanded] = useState('Objects');
 
@@ -54,6 +61,18 @@ const ModelToolbarWidget = (props) => {
     onAddObjectToView,
   ]);
 
+  const onEditViewCallback = useCallback((id) => onEditView(id), [onEditView]);
+
+  const onRemoveViewCallback = useCallback((id) => onRemoveView(id), [
+    onRemoveView,
+  ]);
+
+  const onCrateViewCallback = useCallback(() => onCreateView(), [onCreateView]);
+
+  const onActivateViewCallback = useCallback((id) => onActivateView(id), [
+    onActivateView,
+  ]);
+
   return (
     <div>
       <AccordionItem
@@ -87,12 +106,29 @@ const ModelToolbarWidget = (props) => {
           columns={relationsInventory.columns}
         />
       </AccordionItem>
+      <AccordionItem
+        name="Views"
+        logoRender={<ViewCarouselRoundedIcon />}
+        onClick={handleChangeCallback}
+        onCustomAction={onCrateViewCallback}
+        expanded={expanded === 'Views'}
+      >
+        <Inventory
+          data={viewsInventory.transform(viewModel)}
+          onRemoveItem={onRemoveViewCallback}
+          onEditItem={onEditViewCallback}
+          onAddItemToView={onActivateViewCallback}
+          customRowFactory={viewsInventory.createCustomRow}
+          columns={viewsInventory.columns}
+        />
+      </AccordionItem>
     </div>
   );
 };
 
 ModelToolbarWidget.propTypes = {
   model: PropTypes.object.isRequired, // eslint-disable-line
+  viewModel: PropTypes.object.isRequired, // eslint-disable-line
   onRemoveObject: PropTypes.func.isRequired,
   onEditObject: PropTypes.func.isRequired,
   onCreateObject: PropTypes.func.isRequired,
@@ -100,6 +136,10 @@ ModelToolbarWidget.propTypes = {
   onEditRelation: PropTypes.func.isRequired,
   onCreateRelation: PropTypes.func.isRequired,
   onAddObjectToView: PropTypes.func.isRequired,
+  onCreateView: PropTypes.func.isRequired,
+  onEditView: PropTypes.func.isRequired,
+  onRemoveView: PropTypes.func.isRequired,
+  onActivateView: PropTypes.func.isRequired,
 };
 
 export default React.memo(ModelToolbarWidget);

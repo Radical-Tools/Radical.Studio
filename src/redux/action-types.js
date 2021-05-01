@@ -25,3 +25,8 @@ export const VIEWMODEL_NODE_REMOVE = 'viewmodel/node/remove';
 export const VIEWMODEL_NODE_UPDATE = 'viewmodel/node/update';
 export const VIEWMODEL_LINK_REMOVE = 'viewmodel/link/remove';
 export const VIEWMODEL_LINK_ADD = 'viewmodel/link/add';
+export const VIEWMODEL_VIEW_CREATE = 'viewmodel/view/create';
+export const VIEWMODEL_VIEW_EDIT = 'viewmodel/view/edit';
+export const VIEWMODEL_VIEW_ACTIVATE = 'viewmodel/view/activate';
+export const VIEWMODEL_VIEW_ALIGNMENT_UPDATE =
+  'viewmodel/view/alignment/update';

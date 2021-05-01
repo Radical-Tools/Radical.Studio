@@ -19,6 +19,7 @@ import {
   MODEL_ITEM_UPSERT,
   MODEL_METAMODEL_SELECT,
   VIEWMODEL_VIEW_ADD,
+  VIEWMODEL_VIEW_CREATE,
   VIEWMODEL_VIEW_REMOVE,
   VIEWMODEL_VIEW_UPDATE,
   VIEWMODEL_NODE_ADD,
@@ -26,6 +27,9 @@ import {
   VIEWMODEL_NODE_UPDATE,
   VIEWMODEL_LINK_REMOVE,
   VIEWMODEL_LINK_ADD,
+  VIEWMODEL_VIEW_EDIT,
+  VIEWMODEL_VIEW_ACTIVATE,
+  VIEWMODEL_VIEW_ALIGNMENT_UPDATE,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -153,4 +157,24 @@ export const viewModelLinkRemove = (id) => ({
 export const viewModelLinkAdd = (id) => ({
   type: VIEWMODEL_LINK_ADD,
   payload: { id },
+});
+
+export const viewModelViewCreate = () => ({
+  type: VIEWMODEL_VIEW_CREATE,
+  payload: {},
+});
+
+export const viewModelViewEdit = () => ({
+  type: VIEWMODEL_VIEW_EDIT,
+  payload: {},
+});
+
+export const viewModelViewActivate = (id) => ({
+  type: VIEWMODEL_VIEW_ACTIVATE,
+  payload: { id },
+});
+
+export const viewModelViewAlignmentUpdate = (offsetX, offsetY, zoom) => ({
+  type: VIEWMODEL_VIEW_ALIGNMENT_UPDATE,
+  payload: { offsetX, offsetY, zoom },
 });

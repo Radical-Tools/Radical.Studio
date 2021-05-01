@@ -1,5 +1,6 @@
 import difference from 'lodash/fp/difference';
 import find from 'lodash/fp/find';
+import filter from 'lodash/fp/filter';
 
 export const findRelations = (
   model,
@@ -19,6 +20,17 @@ export const findRelations = (
   });
   return relations;
 };
+
+export const findValidRelationClass = (metamodel, sourceClass, targetClass) =>
+  filter(
+    (item) =>
+      item.pairs.some(
+        (pair) =>
+          pair.sources.includes(sourceClass) &&
+          pair.targets.includes(targetClass)
+      ),
+    metamodel.relations
+  );
 
 // const findObjects = (model, idFilter = ['*'], typeFilter = ['*']) => {
 //   const objects = [];

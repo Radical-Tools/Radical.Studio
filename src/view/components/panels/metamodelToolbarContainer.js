@@ -3,7 +3,7 @@ import { modelItemUpsert } from '../../../redux/action-creators';
 import MetamodelToolbarWidget from './MetamodelToolbarWidget';
 
 const mapStateToProps = (state) => ({
-  sandbox: state.model.sandbox,
+  sandbox: state.common.sandbox,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,8 +1,11 @@
 import * as model from '../model/handlers/model';
+import * as common from '../model/handlers/common';
 import * as layout from '../model/handlers/layout';
 import * as theme from '../model/handlers/theme';
 import * as viewModel from '../model/handlers/viewModel';
+import * as errors from '../model/handlers/errors';
 import * as actionTypes from './action-types';
+import testData from '../data/testData';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,
@@ -18,17 +21,21 @@ const handlers = {
   [actionTypes.MODEL_RELATION_REMOVE]: model.removeRelation,
   [actionTypes.MODEL_OBJECT_UPDATE]: model.updateObject,
   [actionTypes.MODEL_RELATION_UPDATE]: model.updateRelation,
-  [actionTypes.MODEL_ITEM_CREATE]: model.createItem,
-  [actionTypes.MODEL_ITEM_EDIT]: model.editItem,
-  [actionTypes.MODEL_ITEM_UPSERT]: model.upsertItem,
+  [actionTypes.MODEL_ITEM_CREATE]: common.createItem,
+  [actionTypes.MODEL_ITEM_EDIT]: common.editItem,
+  [actionTypes.MODEL_ITEM_UPSERT]: common.upsertItem,
   [actionTypes.MODEL_METAMODEL_SELECT]: (state, payload) =>
-    model.selectMetamodel(layout.closeHomeDialog(state), payload),
+    testData(model.selectMetamodel(layout.closeHomeDialog(state), payload)),
   [actionTypes.VIEWMODEL_VIEW_ADD]: viewModel.addView,
   [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
-  [actionTypes.VIEWMODEL_VIEW_UPDATE]: viewModel.updateView,
   [actionTypes.VIEWMODEL_NODE_ADD]: viewModel.addNode,
   [actionTypes.VIEWMODEL_LINK_REMOVE]: viewModel.removeLink,
   [actionTypes.VIEWMODEL_LINK_ADD]: viewModel.addLink,
+  [actionTypes.VIEWMODEL_VIEW_ACTIVATE]: viewModel.activateView,
+  [actionTypes.VIEWMODEL_VIEW_UPDATE]: viewModel.updateView,
+  [actionTypes.VIEWMODEL_NODE_UPDATE]: viewModel.updateNode,
+  [actionTypes.VIEWMODEL_NODE_REMOVE]: viewModel.removeNode,
+  // [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate
 };
 
 export const initialState = {
@@ -36,7 +43,8 @@ export const initialState = {
   ...model.initialState,
   ...theme.initialState,
   ...viewModel.initialState,
-  errors: [],
+  ...common.initialState,
+  ...errors.initialState,
 };
 
 export const rootReducer = (state = initialState, action) => {

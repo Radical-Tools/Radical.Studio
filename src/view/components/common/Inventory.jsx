@@ -60,10 +60,10 @@ const Inventory = ({
               customBodyRender: (value, tableMeta) => (
                 <Box pr={1}>
                   {onAddItemToView && (
-                    <Tooltip title="add to current view">
+                    <Tooltip title="add to view">
                       <IconButton
                         size="small"
-                        aria-label="add to current view"
+                        aria-label="add to view"
                         onClick={() => addToViewCallback(tableMeta.rowData[0])}
                       >
                         <AddRoundedIcon />

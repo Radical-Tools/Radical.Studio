@@ -21,6 +21,9 @@ const createInitialState = () => ({
         attributes: {
           description: 'main user of the system',
         },
+        linked: {
+          'Container-1': 'Interacts-1',
+        },
       },
       'Actor-2': {
         name: 'Business Analyst',
@@ -35,6 +38,7 @@ const createInitialState = () => ({
         attributes: {
           description: '',
         },
+        children: ['Container-1', 'Container-2', 'Database-1'],
       },
       'Container-1': {
         name: 'Radical Studio',
@@ -43,18 +47,25 @@ const createInitialState = () => ({
           description: '',
           technology: 'js,React',
         },
+        parent: 'System-1',
+        children: ['Component-1'],
       },
       'Container-2': {
         name: 'Radical Hub',
         type: 'Container',
+        parent: 'System-1',
         attributes: {
           description: '',
           technology: 'js,React',
+        },
+        linked: {
+          'Database-1': 'Interacts-2',
         },
       },
       'Component-1': {
         name: 'Canvas',
         type: 'Component',
+        parent: 'Container-1',
         attributes: {
           description: '',
           technology: 'ReactDiagrams',
@@ -63,6 +74,7 @@ const createInitialState = () => ({
       'Database-1': {
         name: 'Database',
         type: 'Component',
+        parent: 'System-1',
         attributes: {
           description: '',
           technology: 'Neo4J',
@@ -132,7 +144,7 @@ describe('add relation', () => {
         )
       ).model.relations['Interacts-3']
     ).toEqual({
-      name: 'Default Name',
+      name: 'Interacts',
       type: 'Interacts',
       source: 'Actor-1',
       target: 'Component-1',
@@ -397,6 +409,7 @@ describe('add object', () => {
       name: 'Another User',
       type: 'Actor',
       attributes: {},
+      children: [],
     });
   });
 

@@ -118,29 +118,19 @@ function C4ExternalSystem({ width, height, isSelected }) {
   );
 }
 
-function C4Actor({ width, height, isSelected }) {
+function C4Actor({ width, height }) {
   return (
-    <g>
-      <rect
-        fill="#2072C3"
-        fillOpacity="1.0"
-        stroke={isSelected ? 'black' : 'white'}
-        rx="20"
-        ry="20"
-        x="1"
-        y="25"
-        width={width - 2}
-        height={height - 28}
-      />
-      <circle
-        fill="#2072C3"
-        stroke={isSelected ? 'black' : 'white'}
-        fillOpacity="1.0"
-        cx="75"
-        cy="20"
-        r="20"
-      />
-    </g>
+    <rect
+      fill="#85bbf0"
+      fillOpacity="1.0"
+      stroke="white"
+      rx="5"
+      ry="5"
+      x="1"
+      y="1"
+      width={width - 2}
+      height={height - 2}
+    />
   );
 }
 

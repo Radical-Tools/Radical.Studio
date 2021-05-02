@@ -35,7 +35,7 @@ const handlers = {
   [actionTypes.VIEWMODEL_VIEW_UPDATE]: viewModel.updateView,
   [actionTypes.VIEWMODEL_NODE_UPDATE]: viewModel.updateNode,
   [actionTypes.VIEWMODEL_NODE_REMOVE]: viewModel.removeNode,
-  // [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate
+  [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate,
 };
 
 export const initialState = {

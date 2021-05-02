@@ -11,6 +11,8 @@ import RadicalComposedNodeModel from '../nodes/RadicalComposedNodeModel';
 import CreateLinkState from './CreateLinkState';
 
 export default class RadicalDragDiagramItemsState extends MoveItemsState {
+  mouseMoved = false;
+
   constructor() {
     super();
     this.createLink = new CreateLinkState();
@@ -31,22 +33,30 @@ export default class RadicalDragDiagramItemsState extends MoveItemsState {
               }
             });
           }
-          const point = this.engine.getRelativeMousePoint(event.event);
-          model.fireEvent(
-            {
-              point,
-              items,
-            },
-            DRAG_DIAGRAM_ITEMS_END_EVENT
-          );
+          if (this.mouseMoved) {
+            const point = this.engine.getRelativeMousePoint(event.event);
+            model.fireEvent(
+              {
+                point,
+                items,
+              },
+              DRAG_DIAGRAM_ITEMS_END_EVENT
+            );
+          }
         },
       })
     );
   }
 
+  activated(previous) {
+    super.activated(previous);
+    this.mouseMoved = false;
+  }
+
   fireMouseMoved(event) {
     const items = this.engine.getModel().getSelectedEntities();
     const model = this.engine.getModel();
+    this.mouseMoved = true;
     items.forEach((item) => {
       if (item instanceof BasePositionModel) {
         if (!item.isLocked()) {

@@ -216,6 +216,7 @@ export default class RadicalComposedNodeFactory extends AbstractReactFactory {
         isDragged={model.isDragged}
         width={model.size.width}
         height={model.size.height}
+        isSelected={model.isSelected()}
       />
     );
   }

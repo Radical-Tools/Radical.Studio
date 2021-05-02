@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
-import { DiagramModel } from '@projectstorm/react-diagrams';
+import { DiagramModel, NodeModel } from '@projectstorm/react-diagrams';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -36,12 +36,12 @@ const RadicalCanvasWidget = ({
   onLinkConnected,
   onDiagramAlignmentUpdated,
   onNodeRemove,
+  onLinkRemove,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
     () => ({
       eventDidFire: (e) => {
-        // eslint-disable-next-line no-console
         switch (e.function) {
           case DRAG_DIAGRAM_ITEMS_END_EVENT:
             onDragItemsEnd(e.point, e.items);
@@ -57,14 +57,24 @@ const RadicalCanvasWidget = ({
             );
             break;
           case DIAGRAM_ENTITY_REMOVED:
-            onNodeRemove(e.entity.getID());
+            if (e.entity instanceof NodeModel) {
+              onNodeRemove(e.entity.getID());
+            } else {
+              onLinkRemove(e.entity.getID());
+            }
             break;
           default:
             break;
         }
       },
     }),
-    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated, onNodeRemove]
+    [
+      onDragItemsEnd,
+      onLinkConnected,
+      onDiagramAlignmentUpdated,
+      onNodeRemove,
+      onLinkRemove,
+    ]
   );
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
@@ -116,5 +126,6 @@ RadicalCanvasWidget.propTypes = {
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
   onNodeRemove: PropTypes.func.isRequired,
+  onLinkRemove: PropTypes.func.isRequired,
 };
 export default React.memo(RadicalCanvasWidget);

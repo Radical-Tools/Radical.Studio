@@ -3,6 +3,7 @@ import DiagramWidget from './DiagramWidget';
 import renderView from '../../../model/helpers/viewmodel';
 import {
   modelRelationAdd,
+  viewModelLinkRemove,
   viewModelNodeRemove,
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
@@ -13,7 +14,6 @@ const mapStateToProps = (state) => ({
   alignment: state.viewModel.views[state.viewModel.current].alignment,
 });
 const mapDispatchToProps = (dispatch) => ({
-  // Here I assume viewmodel should set relation type etc or redux will handle showing a modal to user after checking if relation is valid as discussed
   onAddRelation: (source, target) =>
     dispatch(
       modelRelationAdd(
@@ -28,6 +28,7 @@ const mapDispatchToProps = (dispatch) => ({
   onNodeUpdate: (id, position, dimension) =>
     dispatch(viewModelNodeUpdate(undefined, id, position, dimension)),
   onNodeRemoved: (id) => dispatch(viewModelNodeRemove(id)),
+  onLinkRemoved: (id) => dispatch(viewModelLinkRemove(id)),
   onCanvasAlignmentUpdated: (offsetX, offsetY, zoom) =>
     dispatch(viewModelViewAlignmentUpdate(offsetX, offsetY, zoom)),
 });

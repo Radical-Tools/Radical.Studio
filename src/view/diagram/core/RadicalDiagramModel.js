@@ -1,11 +1,11 @@
 import { DiagramModel } from '@projectstorm/react-diagrams';
 
 export default class RadicalDiagramModel extends DiagramModel {
-  setZoomLevelInitial(zoom) {
+  setInitialZoomLevel(zoom) {
     this.options.zoom = zoom;
   }
 
-  setOffsetInitial(offsetX, offsetY) {
+  setInitialOffset(offsetX, offsetY) {
     this.options.offsetX = offsetX;
     this.options.offsetY = offsetY;
   }

@@ -99,8 +99,8 @@ const RadicalCanvasWidget = ({
       node.registerListener(registerCallbacks());
     });
     engine.setModel(model);
-    model.setZoomLevelInitial(alignment.zoom);
-    model.setOffsetInitial(alignment.offsetX, alignment.offsetY);
+    model.setInitialZoomLevel(alignment.zoom);
+    model.setInitialOffset(alignment.offsetX, alignment.offsetY);
     setIsModelSet(true);
   }, [viewmodel, alignment, engine, registerCallbacks]);
 

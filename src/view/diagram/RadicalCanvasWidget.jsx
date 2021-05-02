@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
-import { DiagramModel, NodeModel } from '@projectstorm/react-diagrams';
+import { NodeModel } from '@projectstorm/react-diagrams';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -12,11 +12,12 @@ import {
   LINK_CONNECTED_TO_TARGET_EVENT,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
+import RadicalDiagramModel from './core/RadicalDiagramModel';
 
 const preventDefault = (event) => event.preventDefault();
 
 const mapViewmodel = (viewmodel) => {
-  const diagramModel = new DiagramModel();
+  const diagramModel = new RadicalDiagramModel();
   addNodes(diagramModel, viewmodel);
   addLinks(diagramModel, viewmodel);
   return diagramModel;
@@ -98,9 +99,8 @@ const RadicalCanvasWidget = ({
       node.registerListener(registerCallbacks());
     });
     engine.setModel(model);
-    model.setZoomLevel(alignment.zoom);
-    model.setOffsetX(alignment.offsetX);
-    model.setOffsetY(alignment.offsetY);
+    model.setZoomLevelInitial(alignment.zoom);
+    model.setOffsetInitial(alignment.offsetX, alignment.offsetY);
     setIsModelSet(true);
   }, [viewmodel, alignment, engine, registerCallbacks]);
 

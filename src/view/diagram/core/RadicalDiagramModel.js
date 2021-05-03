@@ -9,4 +9,8 @@ export default class RadicalDiagramModel extends DiagramModel {
     this.options.offsetX = offsetX;
     this.options.offsetY = offsetY;
   }
+
+  getLayers() {
+    return [...this.layers].reverse();
+  }
 }

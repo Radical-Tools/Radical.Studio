@@ -2,6 +2,7 @@
 import { DefaultLinkWidget, LinkWidget } from '@projectstorm/react-diagrams';
 import * as React from 'react';
 import RadicalLinkPointWidget from './RadicalLinkPointWidget';
+import RadicalLinkSegmentWidget from './RadicalLinkSegmentWidget';
 
 const CustomLinkArrowWidget = ({ point, type, color }) => {
   let angle = 0;
@@ -63,6 +64,26 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
         point={point}
         colorSelected={this.props.link.getOptions().selectedColor}
         color={this.props.link.getOptions().color}
+      />
+    );
+  }
+
+  generateLink(path, extraProps, id) {
+    const ref = React.createRef();
+    this.refPaths.push(ref);
+    return (
+      <RadicalLinkSegmentWidget
+        key={`link-${id}`}
+        path={path}
+        selected={this.state.selected}
+        diagramEngine={this.props.diagramEngine}
+        factory={this.props.diagramEngine.getFactoryForLink(this.props.link)}
+        link={this.props.link}
+        forwardRef={ref}
+        onSelection={(selected) => {
+          this.setState({ selected });
+        }}
+        extras={extraProps}
       />
     );
   }

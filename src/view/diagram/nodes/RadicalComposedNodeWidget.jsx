@@ -6,30 +6,30 @@ import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import values from 'lodash/fp/values';
-import { PORTS_PER_NODE_SIDE } from '../consts';
+import { PORTS_PER_NODE_SIDE, PORT_BORDER_RADIUS } from '../consts';
 
-const PORT_BORDER_RADIUS = 8;
-
+const getPositionOnSide = (sideLength, order) =>
+  (sideLength / (PORTS_PER_NODE_SIDE + 1)) * order - PORT_BORDER_RADIUS;
 const getPortStyle = (width, height, alignment, order) => {
   const style = { position: 'absolute' };
-  const sideDivider = PORTS_PER_NODE_SIDE + 1;
   switch (alignment) {
-    case PortModelAlignment.LEFT:
-      style.top = (height / sideDivider) * order - PORT_BORDER_RADIUS;
-      style.left = -PORT_BORDER_RADIUS;
-      break;
     case PortModelAlignment.TOP:
       style.top = -PORT_BORDER_RADIUS;
-      style.left = (width / sideDivider) * order - PORT_BORDER_RADIUS;
-      break;
-    case PortModelAlignment.RIGHT:
-      style.top = (height / sideDivider) * order - PORT_BORDER_RADIUS;
-      style.left = width - PORT_BORDER_RADIUS;
+      style.left = getPositionOnSide(width, order);
       break;
     case PortModelAlignment.BOTTOM:
       style.top = height - PORT_BORDER_RADIUS;
-      style.left = (width / sideDivider) * order - PORT_BORDER_RADIUS;
+      style.left = getPositionOnSide(width, order);
       break;
+    case PortModelAlignment.LEFT:
+      style.top = getPositionOnSide(height, order);
+      style.left = -PORT_BORDER_RADIUS;
+      break;
+    case PortModelAlignment.RIGHT:
+      style.top = getPositionOnSide(height, order);
+      style.left = width - PORT_BORDER_RADIUS;
+      break;
+
     default:
       break;
   }

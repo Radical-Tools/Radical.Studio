@@ -3,7 +3,11 @@ import { Polygon, Rectangle } from '@projectstorm/geometry';
 import values from 'lodash/fp/values';
 import reduce from 'lodash/fp/reduce';
 import RadicalPortModel from '../ports/RadicalPortModel';
-import { DIAGRAM_ENTITY_REMOVED, PORTS_PER_NODE_SIDE } from '../consts';
+import {
+  DIAGRAM_ENTITY_REMOVED,
+  PORTS_PER_NODE_SIDE,
+  REVERSED_ALIGNMENTS,
+} from '../consts';
 
 export default class RadicalComposedNodeModel extends NodeModel {
   constructor(options = {}) {
@@ -14,7 +18,17 @@ export default class RadicalComposedNodeModel extends NodeModel {
     this.color = options.color || { options: 'red' };
     values(PortModelAlignment).forEach((value) => {
       for (let index = 1; index <= PORTS_PER_NODE_SIDE; index++) {
-        this.addPort(new RadicalPortModel(`${value}${index}`, value, index));
+        this.addPort(
+          new RadicalPortModel(
+            `${value}${
+              REVERSED_ALIGNMENTS.includes(value)
+                ? PORTS_PER_NODE_SIDE - index + 1
+                : index
+            }`,
+            value,
+            index
+          )
+        );
       }
     });
     this.nodes = new Map();

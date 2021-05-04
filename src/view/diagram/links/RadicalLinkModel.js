@@ -1,5 +1,22 @@
-import { DefaultLinkModel } from '@projectstorm/react-diagrams';
+import {
+  DefaultLinkModel,
+  PortModelAlignment,
+} from '@projectstorm/react-diagrams';
+import { PORTS_PER_NODE_SIDE } from '../consts';
 
+const getPortsForAngle = (
+  angle,
+  numberOfPorts,
+  sourceAlignment,
+  targetAlignment
+) => {
+  const anglePerPort = 90 / numberOfPorts;
+  const portNumber = Math.floor(angle / anglePerPort) + 1;
+  return {
+    source: `${sourceAlignment}${portNumber}`,
+    target: `${targetAlignment}${portNumber}`,
+  };
+};
 export default class RadicalLinkModel extends DefaultLinkModel {
   constructor(props) {
     super({
@@ -41,20 +58,36 @@ export default class RadicalLinkModel extends DefaultLinkModel {
 
         angle = angle < 0 ? angle + 360 : angle;
 
-        const ports = { source: 'left1', target: 'right1' };
+        let ports = { source: 'left1', target: 'right1' };
 
         if (angle >= 45 && angle < 135) {
-          ports.source = 'right1';
-          ports.target = 'left1';
+          ports = getPortsForAngle(
+            angle - 45,
+            PORTS_PER_NODE_SIDE,
+            PortModelAlignment.RIGHT,
+            PortModelAlignment.LEFT
+          );
         } else if (angle >= 135 && angle < 225) {
-          ports.source = 'bottom1';
-          ports.target = 'top1';
+          ports = getPortsForAngle(
+            angle - 135,
+            PORTS_PER_NODE_SIDE,
+            PortModelAlignment.BOTTOM,
+            PortModelAlignment.TOP
+          );
         } else if (angle >= 225 && angle < 315) {
-          ports.source = 'left1';
-          ports.target = 'right1';
+          ports = getPortsForAngle(
+            angle - 225,
+            PORTS_PER_NODE_SIDE,
+            PortModelAlignment.LEFT,
+            PortModelAlignment.RIGHT
+          );
         } else {
-          ports.source = 'top1';
-          ports.target = 'bottom1';
+          ports = getPortsForAngle(
+            angle > 315 ? angle - 315 : 45 + angle,
+            PORTS_PER_NODE_SIDE,
+            PortModelAlignment.TOP,
+            PortModelAlignment.BOTTOM
+          );
         }
 
         if (

@@ -1,40 +1,14 @@
 import * as React from 'react';
-import { PortModelAlignment, PortWidget } from '@projectstorm/react-diagrams';
+import { PortWidget } from '@projectstorm/react-diagrams';
 
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import values from 'lodash/fp/values';
-import { PORTS_PER_NODE_SIDE, PORT_BORDER_RADIUS } from '../consts';
+import { PORT_BORDER_RADIUS } from '../consts';
+import { getPortStyle } from '../helpers';
 
-const getPositionOnSide = (sideLength, order) =>
-  (sideLength / (PORTS_PER_NODE_SIDE + 1)) * order - PORT_BORDER_RADIUS;
-const getPortStyle = (width, height, alignment, order) => {
-  const style = { position: 'absolute' };
-  switch (alignment) {
-    case PortModelAlignment.TOP:
-      style.top = -PORT_BORDER_RADIUS;
-      style.left = getPositionOnSide(width, order);
-      break;
-    case PortModelAlignment.BOTTOM:
-      style.top = height - PORT_BORDER_RADIUS;
-      style.left = getPositionOnSide(width, order);
-      break;
-    case PortModelAlignment.LEFT:
-      style.top = getPositionOnSide(height, order);
-      style.left = -PORT_BORDER_RADIUS;
-      break;
-    case PortModelAlignment.RIGHT:
-      style.top = getPositionOnSide(height, order);
-      style.left = width - PORT_BORDER_RADIUS;
-      break;
-
-    default:
-      break;
-  }
-  return style;
-};
 const useStyles = makeStyles(() => ({
   smartPort: {
     width: '16px',

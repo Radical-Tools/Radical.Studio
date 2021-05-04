@@ -62,7 +62,7 @@ export const addLinks = (diagramModel, viewmodel) => {
     diagramLink.setTargetPort(targetNode.getPort('left'));
     diagramLink
       .getFirstPoint()
-      .setPosition(sourceNode.getPort('right').getCenter());
+      .setPosition(sourceNode.getPort('left').getCenter());
     diagramLink
       .getLastPoint()
       .setPosition(targetNode.getPort('right').getCenter());

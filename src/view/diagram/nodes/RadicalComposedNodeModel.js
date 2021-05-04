@@ -1,5 +1,7 @@
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { Polygon, Rectangle } from '@projectstorm/geometry';
+import values from 'lodash/fp/values';
+import reduce from 'lodash/fp/reduce';
 import RadicalPortModel from '../ports/RadicalPortModel';
 import { DIAGRAM_ENTITY_REMOVED } from '../consts';
 
@@ -163,5 +165,13 @@ export default class RadicalComposedNodeModel extends NodeModel {
     }
 
     return super.setPosition(x, y);
+  }
+
+  getLinks() {
+    return reduce(
+      (links, port) => [...links, ...values(port.getLinks())],
+      [],
+      values(this.getPorts())
+    );
   }
 }

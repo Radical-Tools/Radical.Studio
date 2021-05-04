@@ -8,6 +8,8 @@ export const DIAGRAM_ENTITY_REMOVED = 'entityRemoved';
 export const DIAGRAM_ENTITY_SELECTED = 'selectionChanged';
 export const PORTS_PER_NODE_SIDE = 3;
 export const PORT_BORDER_RADIUS = 8;
+export const DEFAULT_SOURCE_PORT = 'right1';
+export const DEFAULT_TARGET_PORT = 'left1';
 export const REVERSED_ALIGNMENTS = [
   PortModelAlignment.LEFT,
   PortModelAlignment.BOTTOM,

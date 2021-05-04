@@ -1,6 +1,7 @@
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { Polygon, Rectangle } from '@projectstorm/geometry';
 import RadicalPortModel from '../ports/RadicalPortModel';
+import { DIAGRAM_ENTITY_REMOVED } from '../consts';
 
 export default class RadicalComposedNodeModel extends NodeModel {
   constructor(options = {}) {
@@ -54,6 +55,10 @@ export default class RadicalComposedNodeModel extends NodeModel {
     this.nodes.forEach((node) => {
       node.remove();
     });
+  }
+
+  remove() {
+    this.fireEvent({}, DIAGRAM_ENTITY_REMOVED);
   }
 
   lockScalingDown() {

@@ -1,5 +1,9 @@
 /* eslint-disable react/prop-types */
-import { DefaultLinkWidget, LinkWidget } from '@projectstorm/react-diagrams';
+import {
+  DefaultLinkWidget,
+  LinkWidget,
+  PortModelAlignment,
+} from '@projectstorm/react-diagrams';
 import * as React from 'react';
 import RadicalLinkPointWidget from './RadicalLinkPointWidget';
 import RadicalLinkSegmentWidget from './RadicalLinkSegmentWidget';
@@ -7,16 +11,16 @@ import RadicalLinkSegmentWidget from './RadicalLinkSegmentWidget';
 const CustomLinkArrowWidget = ({ point, type, color }) => {
   let angle = 0;
   switch (type) {
-    case 'left':
+    case PortModelAlignment.LEFT:
       angle = 90;
       break;
-    case 'right':
+    case PortModelAlignment.RIGHT:
       angle = 270;
       break;
-    case 'bottom':
+    case PortModelAlignment.BOTTOM:
       angle = 0;
       break;
-    case 'top':
+    case PortModelAlignment.TOP:
       angle = 180;
       break;
     default:
@@ -148,7 +152,7 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
     if (this.props.link.getTargetPort() !== null) {
       paths.push(
         this.generateArrow(
-          this.props.link.getTargetPort().getOptions().name,
+          this.props.link.getTargetPort().getOptions().alignment,
           points[points.length - 1],
           points[points.length - 2]
         )

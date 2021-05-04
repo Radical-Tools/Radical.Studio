@@ -2,12 +2,15 @@ import { DefaultPortModel } from '@projectstorm/react-diagrams';
 import RadicalLinkModel from '../links/RadicalLinkModel';
 
 export default class RadicalPortModel extends DefaultPortModel {
-  constructor(alignment) {
+  order = 1;
+
+  constructor(name, alignment, order) {
     super({
       type: 'diamond',
-      name: alignment,
+      name,
       alignment,
     });
+    this.order = order;
   }
 
   // eslint-disable-next-line class-methods-use-this

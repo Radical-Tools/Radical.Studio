@@ -58,14 +58,14 @@ export const addLinks = (diagramModel, viewmodel) => {
     );
     const sourceNode = diagramModel.getNode(link.source);
     const targetNode = diagramModel.getNode(link.target);
-    diagramLink.setSourcePort(sourceNode.getPort('right'));
-    diagramLink.setTargetPort(targetNode.getPort('left'));
+    diagramLink.setSourcePort(sourceNode.getPort('right1'));
+    diagramLink.setTargetPort(targetNode.getPort('left1'));
     diagramLink
       .getFirstPoint()
-      .setPosition(sourceNode.getPort('left').getCenter());
+      .setPosition(sourceNode.getPort('left1').getCenter());
     diagramLink
       .getLastPoint()
-      .setPosition(targetNode.getPort('right').getCenter());
+      .setPosition(targetNode.getPort('right1').getCenter());
     diagramModel.addLink(diagramLink);
   });
 };

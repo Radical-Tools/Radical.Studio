@@ -4,3 +4,4 @@ export const LINK_CONNECTED_TO_TARGET_EVENT = 'linkConnectedToTarget';
 export const DIAGRAM_ALIGNMENT_UPDATED_EVENT = 'offsetUpdated';
 export const DIAGRAM_ENTITY_REMOVED = 'entityRemoved';
 export const DIAGRAM_ENTITY_SELECTED = 'selectionChanged';
+export const PORTS_PER_NODE_SIDE = 3;

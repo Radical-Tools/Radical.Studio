@@ -41,20 +41,20 @@ export default class RadicalLinkModel extends DefaultLinkModel {
 
         angle = angle < 0 ? angle + 360 : angle;
 
-        const ports = { source: 'left', target: 'right' };
+        const ports = { source: 'left1', target: 'right1' };
 
         if (angle >= 45 && angle < 135) {
-          ports.source = 'right';
-          ports.target = 'left';
+          ports.source = 'right1';
+          ports.target = 'left1';
         } else if (angle >= 135 && angle < 225) {
-          ports.source = 'bottom';
-          ports.target = 'top';
+          ports.source = 'bottom1';
+          ports.target = 'top1';
         } else if (angle >= 225 && angle < 315) {
-          ports.source = 'left';
-          ports.target = 'right';
+          ports.source = 'left1';
+          ports.target = 'right1';
         } else {
-          ports.source = 'top';
-          ports.target = 'bottom';
+          ports.source = 'top1';
+          ports.target = 'bottom1';
         }
 
         if (

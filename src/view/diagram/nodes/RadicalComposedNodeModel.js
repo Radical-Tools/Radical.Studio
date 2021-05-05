@@ -196,4 +196,11 @@ export default class RadicalComposedNodeModel extends NodeModel {
       values(this.getPorts())
     );
   }
+
+  getCenter() {
+    return {
+      x: this.getPosition().x + this.width / 2,
+      y: this.getPosition().y + this.height / 2,
+    };
+  }
 }

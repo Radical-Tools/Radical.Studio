@@ -130,6 +130,7 @@ export default class RadicalComposedNodeModel extends NodeModel {
       // this.setPositionAsParent(this.getBoundingBox().getLeftMiddle() - 75, this.getBoundingBox().getTopMiddle() - 35)
       this.lockScalingDown();
     }
+    this.updateLinks();
     if (this.parentNode) {
       this.parentNode.fitDimensions();
     }
@@ -151,6 +152,13 @@ export default class RadicalComposedNodeModel extends NodeModel {
       this.parentNode.fitDimensions();
     }
     super.setPosition(x, y);
+    this.updateLinks();
+  }
+
+  updateLinks() {
+    this.getLinks().forEach((link) => {
+      link.update();
+    });
   }
 
   setIsDragged(dragged = false) {

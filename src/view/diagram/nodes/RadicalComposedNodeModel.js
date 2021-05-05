@@ -1,7 +1,13 @@
-import { NodeModel } from '@projectstorm/react-diagrams';
+import { NodeModel, PortModelAlignment } from '@projectstorm/react-diagrams';
 import { Polygon, Rectangle } from '@projectstorm/geometry';
+import values from 'lodash/fp/values';
+import reduce from 'lodash/fp/reduce';
 import RadicalPortModel from '../ports/RadicalPortModel';
-import { DIAGRAM_ENTITY_REMOVED } from '../consts';
+import {
+  DIAGRAM_ENTITY_REMOVED,
+  PORTS_PER_NODE_SIDE,
+  REVERSED_ALIGNMENTS,
+} from '../consts';
 
 export default class RadicalComposedNodeModel extends NodeModel {
   constructor(options = {}) {
@@ -10,11 +16,21 @@ export default class RadicalComposedNodeModel extends NodeModel {
       type: 'radical-composed-node',
     });
     this.color = options.color || { options: 'red' };
-
-    this.addPort(new RadicalPortModel('top'));
-    this.addPort(new RadicalPortModel('left'));
-    this.addPort(new RadicalPortModel('bottom'));
-    this.addPort(new RadicalPortModel('right'));
+    values(PortModelAlignment).forEach((value) => {
+      for (let index = 1; index <= PORTS_PER_NODE_SIDE; index++) {
+        this.addPort(
+          new RadicalPortModel(
+            `${value}${
+              REVERSED_ALIGNMENTS.includes(value)
+                ? PORTS_PER_NODE_SIDE - index + 1
+                : index
+            }`,
+            value,
+            index
+          )
+        );
+      }
+    });
     this.nodes = new Map();
     this.size = {
       width: 150,
@@ -114,6 +130,7 @@ export default class RadicalComposedNodeModel extends NodeModel {
       // this.setPositionAsParent(this.getBoundingBox().getLeftMiddle() - 75, this.getBoundingBox().getTopMiddle() - 35)
       this.lockScalingDown();
     }
+    this.updateLinks();
     if (this.parentNode) {
       this.parentNode.fitDimensions();
     }
@@ -135,6 +152,13 @@ export default class RadicalComposedNodeModel extends NodeModel {
       this.parentNode.fitDimensions();
     }
     super.setPosition(x, y);
+    this.updateLinks();
+  }
+
+  updateLinks() {
+    this.getLinks().forEach((link) => {
+      link.update();
+    });
   }
 
   setIsDragged(dragged = false) {
@@ -163,5 +187,20 @@ export default class RadicalComposedNodeModel extends NodeModel {
     }
 
     return super.setPosition(x, y);
+  }
+
+  getLinks() {
+    return reduce(
+      (links, port) => [...links, ...values(port.getLinks())],
+      [],
+      values(this.getPorts())
+    );
+  }
+
+  getCenter() {
+    return {
+      x: this.getPosition().x + this.width / 2,
+      y: this.getPosition().y + this.height / 2,
+    };
   }
 }

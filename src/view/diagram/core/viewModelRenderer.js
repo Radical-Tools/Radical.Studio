@@ -1,6 +1,7 @@
 import RadicalLinkModel from '../links/RadicalLinkModel';
 import RadicalComposedNodeModel from '../nodes/RadicalComposedNodeModel';
 import RadicalLabelModel from '../labels/RadicalLabelModel';
+import { DEFAULT_SOURCE_PORT, DEFAULT_TARGET_PORT } from '../consts';
 
 const addNode = (diagramModel, viewModelNode, diagramModelParentNode) => {
   const node = new RadicalComposedNodeModel({
@@ -58,14 +59,14 @@ export const addLinks = (diagramModel, viewmodel) => {
     );
     const sourceNode = diagramModel.getNode(link.source);
     const targetNode = diagramModel.getNode(link.target);
-    diagramLink.setSourcePort(sourceNode.getPort('right'));
-    diagramLink.setTargetPort(targetNode.getPort('left'));
+    diagramLink.setSourcePort(sourceNode.getPort(DEFAULT_SOURCE_PORT));
+    diagramLink.setTargetPort(targetNode.getPort(DEFAULT_TARGET_PORT));
     diagramLink
       .getFirstPoint()
-      .setPosition(sourceNode.getPort('right').getCenter());
+      .setPosition(sourceNode.getPort(DEFAULT_SOURCE_PORT).getCenter());
     diagramLink
       .getLastPoint()
-      .setPosition(targetNode.getPort('right').getCenter());
+      .setPosition(targetNode.getPort(DEFAULT_TARGET_PORT).getCenter());
     diagramModel.addLink(diagramLink);
   });
 };

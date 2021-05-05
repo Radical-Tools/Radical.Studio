@@ -5,13 +5,16 @@ import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import values from 'lodash/fp/values';
+import { PORT_BORDER_RADIUS } from '../consts';
+import { getPortStyle } from '../helpers';
 
 const useStyles = makeStyles(() => ({
   smartPort: {
     width: '16px',
     height: '16px',
     background: 'rgba(0, 0, 0, 0.1)',
-    borderRadius: '8px',
+    borderRadius: `${PORT_BORDER_RADIUS}px`,
     zIndex: 10,
     opacity: 0.3,
     '&:hover': {
@@ -68,51 +71,21 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
         <svg width={node.size.width} height={node.size.height}>
           <g id="Layer_1">${children}</g>
         </svg>
-
-        <PortWidget
-          style={{
-            top: node.size.height / 2 - 8,
-            left: -8,
-            position: 'absolute',
-          }}
-          port={node.getPort('left')}
-          engine={engine}
-        >
-          <div className={classes.smartPort} />
-        </PortWidget>
-        <PortWidget
-          style={{
-            left: node.size.width / 2 - 8,
-            top: -8,
-            position: 'absolute',
-          }}
-          port={node.getPort('top')}
-          engine={engine}
-        >
-          <div className={classes.smartPort} />
-        </PortWidget>
-        <PortWidget
-          style={{
-            left: node.size.width - 8,
-            top: node.size.height / 2 - 8,
-            position: 'absolute',
-          }}
-          port={node.getPort('right')}
-          engine={engine}
-        >
-          <div className={classes.smartPort} />
-        </PortWidget>
-        <PortWidget
-          style={{
-            left: node.size.width / 2 - 8,
-            top: node.size.height - 8,
-            position: 'absolute',
-          }}
-          port={node.getPort('bottom')}
-          engine={engine}
-        >
-          <div className={classes.smartPort} />
-        </PortWidget>
+        {values(node.getPorts()).map((port) => (
+          <PortWidget
+            style={getPortStyle(
+              node.size.width,
+              node.size.height,
+              port.getOptions().alignment,
+              port.order
+            )}
+            key={port.name}
+            port={port}
+            engine={engine}
+          >
+            <div className={classes.smartPort} />
+          </PortWidget>
+        ))}
       </div>
     </div>
   );

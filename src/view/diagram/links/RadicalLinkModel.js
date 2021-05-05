@@ -34,24 +34,17 @@ export default class RadicalLinkModel extends DefaultLinkModel {
   }
 
   handlePortsUpdate(ports) {
-    if (
-      this.getTargetPort() !==
-      this.getTargetPort().getParent().getPort(ports.target)
-    ) {
-      this.setTargetPort(
-        this.getTargetPort().getParent().getPort(ports.target)
-      );
-      this.getLastPoint().setPosition(this.getTargetPort().getCenter());
-    }
-
-    if (
-      this.getSourcePort() !==
-      this.getSourcePort().getParent().getPort(ports.source)
-    ) {
-      this.setSourcePort(
-        this.getSourcePort().getParent().getPort(ports.source)
-      );
+    const currentSource = this.getSourcePort();
+    const nextSource = this.getSourcePort().getParent().getPort(ports.source);
+    const currentTarget = this.getTargetPort();
+    const nextTarget = this.getTargetPort().getParent().getPort(ports.target);
+    if (currentSource !== nextSource) {
+      this.setSourcePort(nextSource);
       this.getFirstPoint().setPosition(this.getSourcePort().getCenter());
+    }
+    if (currentTarget !== nextTarget) {
+      this.setTargetPort(nextTarget);
+      this.getLastPoint().setPosition(this.getTargetPort().getCenter());
     }
   }
 }

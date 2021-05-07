@@ -91,7 +91,7 @@ export const getPortsBasedOnAngle = (
     );
   } else {
     ports = getPortsForAngle(
-      angle > 315 ? angle - 315 : 45 + angle,
+      angle >= 315 ? angle - 315 : 45 + angle,
       portsPerNodeSide,
       PortModelAlignment.TOP,
       PortModelAlignment.BOTTOM

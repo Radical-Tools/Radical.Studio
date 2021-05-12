@@ -1,4 +1,3 @@
-import { useDrag } from 'react-dnd';
 import Chip from '@material-ui/core/Chip';
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 import PropTypes from 'prop-types';
@@ -56,6 +55,7 @@ export const createCustomRow = (onSelected) => (rowData) => {
   const [id, name, source, target, actions] = rowData;
   return (
     <RelationsInventoryRow
+      key={id}
       id={id}
       name={name}
       source={source}
@@ -69,16 +69,8 @@ export const createCustomRow = (onSelected) => (rowData) => {
 const RelationsInventoryRow = (props) => {
   const { id, name, source, target, actions, onSelected } = props;
 
-  const [dragObject] = useDrag({
-    item: { type: 'string' },
-    begin: () => id,
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
   return (
-    <tr key={id} ref={dragObject}>
+    <tr>
       <td>
         <Chip
           color="primary"

@@ -37,7 +37,7 @@ const Inventory = ({
     download: false,
     print: false,
     viewColumns: false,
-    selectableRows: false,
+    selectableRows: 'none',
     rowsPerPage: 10,
     rowsPerPageOptions: [10],
     customRowRender: customRowFactory(editItemCallback),

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
+import { useDrop } from 'react-dnd';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -8,13 +9,10 @@ import {
   DIAGRAM_ALIGNMENT_UPDATED_EVENT,
   DIAGRAM_ENTITY_REMOVED,
   DRAG_DIAGRAM_ITEMS_END_EVENT,
-  DROP_DATA_KEY,
   LINK_CONNECTED_TO_TARGET_EVENT,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
-
-const preventDefault = (event) => event.preventDefault();
 
 const mapViewmodel = (viewmodel) => {
   const diagramModel = new RadicalDiagramModel();
@@ -32,7 +30,7 @@ const useStyles = makeStyles(() => ({
 const RadicalCanvasWidget = ({
   viewmodel,
   alignment,
-  onDrop,
+  // onDrop,
   onDragItemsEnd,
   onLinkConnected,
   onDiagramAlignmentUpdated,
@@ -79,16 +77,6 @@ const RadicalCanvasWidget = ({
   );
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
-  const onDropCallback = useCallback(
-    (event) => {
-      const data = event.dataTransfer.getData(DROP_DATA_KEY);
-      onDrop(
-        engine.getRelativeMousePoint(event),
-        data ? JSON.parse(data) : undefined
-      );
-    },
-    [onDrop, engine]
-  );
   useEffect(() => {
     const model = mapViewmodel(viewmodel);
     model.registerListener(registerCallbacks());
@@ -103,15 +91,23 @@ const RadicalCanvasWidget = ({
     model.setInitialOffset(alignment.offsetX, alignment.offsetY);
     setIsModelSet(true);
   }, [viewmodel, alignment, engine, registerCallbacks]);
-
+  const [, drop] = useDrop(() => ({
+    accept: ['model-object'],
+    drop: (item, monitor) =>
+      // eslint-disable-next-line no-console
+      console.log(
+        item,
+        monitor.getClientOffset(),
+        engine.getRelativeMousePoint({
+          clientX: monitor.getClientOffset().x,
+          clientY: monitor.getClientOffset().y,
+        })
+      ),
+  }));
   return (
     <>
       {engine && isModelSet && (
-        <div
-          className={classes.fill}
-          onDrop={onDropCallback}
-          onDragOver={preventDefault}
-        >
+        <div className={classes.fill} ref={drop}>
           <CanvasWidget className={classes.fill} engine={engine} />
         </div>
       )}
@@ -121,7 +117,7 @@ const RadicalCanvasWidget = ({
 RadicalCanvasWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
-  onDrop: PropTypes.func.isRequired,
+  // onDrop: PropTypes.func.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,

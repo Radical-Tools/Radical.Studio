@@ -1,4 +1,3 @@
-import { useDrag } from 'react-dnd';
 import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -38,6 +37,7 @@ export const createCustomRow = (onSelected) => (rowData) => {
   const [id, name, actions] = rowData;
   return (
     <ViewsInventoryRow
+      key={id}
       id={id}
       name={name}
       actions={actions}
@@ -48,17 +48,8 @@ export const createCustomRow = (onSelected) => (rowData) => {
 
 const ViewsInventoryRow = (props) => {
   const { id, name, actions, onSelected } = props;
-
-  const [dragObject] = useDrag({
-    item: { type: 'string' },
-    begin: () => id,
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
   return (
-    <tr key={id} ref={dragObject}>
+    <tr>
       <td>
         <Chip
           color="primary"

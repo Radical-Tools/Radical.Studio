@@ -30,3 +30,4 @@ export const VIEWMODEL_VIEW_EDIT = 'viewmodel/view/edit';
 export const VIEWMODEL_VIEW_ACTIVATE = 'viewmodel/view/activate';
 export const VIEWMODEL_VIEW_ALIGNMENT_UPDATE =
   'viewmodel/view/alignment/update';
+export const VIEWMODEL_VIEW_LAYOUT_ALIGN = 'viewmodel/view/layout/align';

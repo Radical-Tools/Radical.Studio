@@ -1,9 +1,5 @@
-import omitBy from 'lodash/fp/omitBy';
-import merge from 'lodash/fp/merge';
-import pick from 'lodash/fp/pick';
-import keys from 'lodash/fp/keys';
 import has from 'lodash/fp/has';
-import { Polygon, Rectangle } from '@projectstorm/geometry';
+import * as cola from 'webcola';
 
 export const findChildren = (objectId, model, viewModel) => {
   const children = [];
@@ -16,7 +12,6 @@ export const findChildren = (objectId, model, viewModel) => {
       }
     });
   }
-
   return children;
 };
 
@@ -30,88 +25,164 @@ export const findParent = (objectId, model, viewModel) => {
   return undefined;
 };
 
-export const getBoundingNodesRect = (nodes, margin) => {
-  if (nodes && nodes.length > 0) {
-    const boundingBox = Polygon.boundingBoxFromPoints(
-      nodes
-        .map((node) => [
-          { x: node.position.x, y: node.position.y },
-          {
-            x: node.position.x + node.dimension.width,
-            y: node.position.y + node.dimension.height,
-          },
-        ])
-        .flat(1)
-    );
-    if (margin) {
-      return new Rectangle(
-        boundingBox.getTopLeft().x - margin.left,
-        boundingBox.getTopLeft().y - margin.top,
-        boundingBox.getWidth() + margin.left + margin.right,
-        boundingBox.getHeight() + margin.top + margin.bottom
-      );
-    }
-  }
-  return new Rectangle(0, 0, 150, 110);
-};
-
 /* eslint-disable no-param-reassign */
-export function updateBoundary(nodeId, model, viewModel) {
-  if (findChildren(nodeId, model, viewModel).length > 0) {
-    const boundingBox = getBoundingNodesRect(
-      findChildren(nodeId, model, viewModel).map(
-        (objectId) => viewModel.nodes[objectId]
-      ),
-      { left: 20, right: 20, top: 80, bottom: 30 }
-    );
-
-    viewModel.nodes[nodeId].position = boundingBox.getTopLeft();
-    viewModel.nodes[nodeId].dimension = {
-      width: boundingBox.getWidth(),
-      height: boundingBox.getHeight(),
-    };
-
-    const parentNodeId = findParent(nodeId, model, viewModel);
-    if (parentNodeId) {
-      updateBoundary(parentNodeId, model, viewModel);
-    }
-  }
-}
-
-export const updateParentalStructure = (model, viewModel) => {
+export const updateParentalStructure = (model, viewModel, defaultNodeDimensions = {width: 150, height: 110}) => {
   Object.entries(viewModel.nodes).forEach(([nodeId, node]) => {
     node.parentNode = findParent(nodeId, model, viewModel);
     node.childrenNodes = findChildren(nodeId, model, viewModel);
     if (!node.position) {
       node.position = node.parentNode
-        ? viewModel.nodes[node.parentNode].position
+        ? {
+            // todo: due to cola.js overlap algorithm issue (+1)
+            x: viewModel.nodes[node.parentNode].position.x + 1,
+            y: viewModel.nodes[node.parentNode].position.y,
+          }
         : { x: 0, y: 0 };
     }
-    node.dimension =
-      node.childrenNodes.length === 0
-        ? { width: 150, height: 110 }
-        : node.dimension;
-    node.childrenNodes.forEach((childrenId) => {
-      if (!viewModel.nodes[childrenId].position) {
-        viewModel.nodes[childrenId].position = node.position;
-        viewModel.nodes[childrenId].dimension = { width: 150, height: 110 };
-      }
-    });
-    updateBoundary(nodeId, model, viewModel);
+    if (node.childrenNodes.length === 0) {
+      node.dimension = defaultNodeDimensions;
+    }
   });
 };
 
-const renderView = (viewModel, model) => {
-  updateParentalStructure(model, viewModel);
+const renderView = (viewModel) => viewModel;
 
-  const view = {
-    nodes: omitBy(
-      (value) => value.name === undefined,
-      merge(viewModel.nodes, pick(keys(viewModel.nodes), model.objects))
-    ),
-    links: {},
+export const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50) => {
+  const graph = {
+    nodes: [],
+    links: [],
+    groups: [],
+    constraints: [],
   };
 
+  Object.entries(viewModel.nodes).filter( ([,node]) => node.childrenNodes.length === 0).forEach(([id, node]) => {
+      graph.nodes.push({
+        name: id,
+        width: node.dimension.width + margin.x,
+        height: node.dimension.height + margin.y,
+        x: node.position.x,
+        y: node.position.y,
+      });
+  });
+  Object.entries(viewModel.links).forEach(([, link]) => {
+    const sourceNode = viewModel.nodes[link.source];
+    const targetNode = viewModel.nodes[link.target];
+    sourceNode.childrenNodes.forEach((child) => {
+      graph.links.push({
+        source: graph.nodes.findIndex((node) => node.name === child),
+        target: graph.nodes.findIndex((node) => node.name === link.target),
+      });
+    });
+
+    targetNode.childrenNodes.forEach((child) => {
+      graph.links.push({
+        source: graph.nodes.findIndex((node) => node.name === link.source),
+        target: graph.nodes.findIndex((node) => node.name === child),
+      });
+    });
+
+    if (
+      targetNode.childrenNodes.length === 0 &&
+      sourceNode.childrenNodes.length === 0
+    ) {
+      graph.links.push({
+        source: graph.nodes.findIndex((node) => node.name === link.source),
+        target: graph.nodes.findIndex((node) => node.name === link.target),
+      });
+    }
+  });
+
+  Object.entries(viewModel.nodes).filter( ([, node]) => node.childrenNodes.length > 0).forEach(([id, node]) => {
+      const group = {
+        leaves: [],
+        groups: [],
+      };
+
+      Object.values(node.childrenNodes).forEach((nodeId) => {
+        const childId = graph.nodes.findIndex((item) => item.name === nodeId);
+        if (childId !== -1) {
+          group.leaves.push(childId);
+        }
+      });
+      group.name = id;
+      group.padding = padding;
+      group.childrenNodes = { ...node.childrenNodes };
+      graph.groups.push(group);
+  });
+
+  graph.groups.forEach((group) => {
+    Object.values(group.childrenNodes).forEach((child) => {
+      const itemId = graph.groups.findIndex((item) => item.name === child);
+      if (itemId !== -1) {
+        group.groups.push(itemId);
+      }
+    });
+  });
+
+  if (graph.nodes.length === 0) {
+    return;
+  }
+
+  const layout = isAuto
+    ? new cola.Layout()
+        .flowLayout('x', 350)
+        .linkDistance(2)
+        .avoidOverlaps(true)
+        .handleDisconnected(false)
+        .size([1024, 1024])
+        .nodes(graph.nodes)
+        .links(graph.links)
+        .groups(graph.groups)
+        .constraints(graph.constraints)
+        .jaccardLinkLengths(60, 0.7)
+    : new cola.Layout()
+        .avoidOverlaps(true)
+        .handleDisconnected(true)
+        .size([1024, 1024])
+        .nodes(graph.nodes)
+        .links(graph.links)
+        .groups(graph.groups)
+        .constraints(graph.constraints);
+
+  if(isAuto){
+  layout.start(
+    100 ,
+    20,
+    100 ,
+    40,
+    false,
+    true
+  ) }
+  else {
+    layout.start(
+      0,
+      0,
+      0,
+      200,
+      false,
+      false
+    )
+  }
+
+  layout.nodes().forEach((node) => {
+    viewModel.nodes[node.name].position.x = node.x;
+    viewModel.nodes[node.name].position.y = node.y;
+    viewModel.nodes[node.name].dimension.width = node.width - margin.x;
+    viewModel.nodes[node.name].dimension.height = node.height - margin.y;
+  });
+
+  layout.groups().forEach((group) => {
+    viewModel.nodes[group.name].position.x =
+      group.bounds.x + group.bounds.width() / 2;
+    viewModel.nodes[group.name].position.y =
+      group.bounds.y + group.bounds.height() / 2;
+    viewModel.nodes[group.name].dimension.width = group.bounds.width();
+    viewModel.nodes[group.name].dimension.height = group.bounds.height();
+  });
+};
+
+export const updateLinks = (model, viewModel) => {
+  const links = {};
   Object.entries(model.relations)
     .filter(([, relation]) => relation.type !== 'Includes')
     .forEach(([relationId, relation]) => {
@@ -130,7 +201,7 @@ const renderView = (viewModel, model) => {
         sourceId !== findParent(targetId, model, viewModel) &&
         targetId !== findParent(sourceId, model, viewModel)
       ) {
-        view.links[relationId] = {
+        links[relationId] = {
           ...model.relations[relationId],
           source: sourceId,
           target: targetId,
@@ -138,7 +209,7 @@ const renderView = (viewModel, model) => {
       }
     });
 
-  return view;
+  return links;
 };
 
 export default renderView;

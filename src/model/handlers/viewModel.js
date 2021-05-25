@@ -3,6 +3,16 @@ import unset from 'lodash/fp/unset';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import flow from 'lodash/fp/flow';
+import omitBy from 'lodash/fp/omitBy';
+import merge from 'lodash/fp/merge';
+import pick from 'lodash/fp/pick';
+import keys from 'lodash/fp/keys';
+import cloneDeep from 'lodash/fp/cloneDeep';
+import {
+  align,
+  updateLinks,
+  updateParentalStructure,
+} from '../helpers/viewmodel';
 
 export const initialState = {
   viewModel: {
@@ -14,6 +24,7 @@ export const initialState = {
         tags: ['common'],
         nodes: {},
         removedLinks: {},
+        links: {},
         alignment: {
           offsetX: 0,
           offsetY: 0,
@@ -22,6 +33,31 @@ export const initialState = {
       },
     },
   },
+};
+
+/* eslint-disable no-param-reassign */
+export const updateCurrentView = (state) => {
+  const newState = update(
+    ['viewModel', 'views', state.viewModel.current],
+    (view) => ({
+      ...view,
+      nodes: omitBy(
+        (value) => value.name === undefined,
+        merge(view.nodes, pick(keys(view.nodes), state.model.objects))
+      ),
+      links: updateLinks(state.model, view),
+    }),
+    state
+  );
+
+  updateParentalStructure(
+    newState.model,
+    newState.viewModel.views[newState.viewModel.current]
+  );
+
+  align(newState.viewModel.views[newState.viewModel.current], false);
+
+  return newState;
 };
 
 export const addView = (state, payload) => {
@@ -33,6 +69,7 @@ export const addView = (state, payload) => {
       version: '1.0',
       tags: payload.tags,
       nodes: {},
+      links: {},
       removedLinks: {},
       alignment: {
         offsetX: 0,
@@ -68,11 +105,19 @@ export const updateView = (state, payload) =>
     state
   );
 
-export const activateView = (state, payload) =>
-  set(['viewModel', 'current'], payload.id, state);
+export const activateView = (state, payload) => {
+  const newState = set(['viewModel', 'current'], payload.id, state);
+  return updateCurrentView(newState);
+};
 
 export const addNode = (state, payload) =>
-  has(payload.id, state.model.objects)
+  has(payload.id, state.model.objects) &&
+  !has(payload.id, [
+    'viewModel',
+    'views',
+    payload.viewId ? payload.viewId : state.viewModel.current,
+    'nodes',
+  ])
     ? set(
         [
           'viewModel',
@@ -117,21 +162,26 @@ export const updateNode = (state, payload) => {
     const node = state.viewModel.views[viewId].nodes[payload.id];
 
     const displacement = {
-      x: payload.position.x - node.position.x,
-      y: payload.position.y - node.position.y,
+      x: payload.position.x - node.position.x + node.dimension.width / 2,
+      y: payload.position.y - node.position.y + node.dimension.height / 2,
     };
 
     const newState = update(
       ['viewModel', 'views', viewId, 'nodes', payload.id],
       (item) => ({
         ...item,
-        position: payload.position,
+        position: {
+          x: payload.position.x + item.dimension.width / 2,
+          y: payload.position.y + item.dimension.height / 2,
+        },
         dimension: payload.dimension ? payload.dimension : item.dimension,
       }),
       state
     );
-    updatePosition(node, displacement);
-
+    updatePosition(
+      state.viewModel.views[viewId].nodes[payload.id],
+      displacement
+    );
     return newState;
   }
 
@@ -178,3 +228,9 @@ export const viewAlignmentUpdate = (state, payload) =>
     },
     state
   );
+
+export const alignLayout = (state) => {
+  const newState = cloneDeep(state);
+  align(newState.viewModel.views[newState.viewModel.current], true);
+  return newState;
+};

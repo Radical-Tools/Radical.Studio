@@ -26,7 +26,11 @@ export const findParent = (objectId, model, viewModel) => {
 };
 
 /* eslint-disable no-param-reassign */
-export const updateParentalStructure = (model, viewModel, defaultNodeDimensions = {width: 150, height: 110}) => {
+export const updateParentalStructure = (
+  model,
+  viewModel,
+  defaultNodeDimensions = { width: 150, height: 110 }
+) => {
   Object.entries(viewModel.nodes).forEach(([nodeId, node]) => {
     node.parentNode = findParent(nodeId, model, viewModel);
     node.childrenNodes = findChildren(nodeId, model, viewModel);
@@ -47,7 +51,12 @@ export const updateParentalStructure = (model, viewModel, defaultNodeDimensions 
 
 const renderView = (viewModel) => viewModel;
 
-export const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50) => {
+export const align = (
+  viewModel,
+  isAuto,
+  margin = { x: 0, y: 40 },
+  padding = 50
+) => {
   const graph = {
     nodes: [],
     links: [],
@@ -55,7 +64,9 @@ export const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50)
     constraints: [],
   };
 
-  Object.entries(viewModel.nodes).filter( ([,node]) => node.childrenNodes.length === 0).forEach(([id, node]) => {
+  Object.entries(viewModel.nodes)
+    .filter(([, node]) => node.childrenNodes.length === 0)
+    .forEach(([id, node]) => {
       graph.nodes.push({
         name: id,
         width: node.dimension.width + margin.x,
@@ -63,7 +74,7 @@ export const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50)
         x: node.position.x,
         y: node.position.y,
       });
-  });
+    });
   Object.entries(viewModel.links).forEach(([, link]) => {
     const sourceNode = viewModel.nodes[link.source];
     const targetNode = viewModel.nodes[link.target];
@@ -92,7 +103,9 @@ export const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50)
     }
   });
 
-  Object.entries(viewModel.nodes).filter( ([, node]) => node.childrenNodes.length > 0).forEach(([id, node]) => {
+  Object.entries(viewModel.nodes)
+    .filter(([, node]) => node.childrenNodes.length > 0)
+    .forEach(([id, node]) => {
       const group = {
         leaves: [],
         groups: [],
@@ -108,7 +121,7 @@ export const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50)
       group.padding = padding;
       group.childrenNodes = { ...node.childrenNodes };
       graph.groups.push(group);
-  });
+    });
 
   graph.groups.forEach((group) => {
     Object.values(group.childrenNodes).forEach((child) => {
@@ -144,24 +157,10 @@ export const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50)
         .groups(graph.groups)
         .constraints(graph.constraints);
 
-  if(isAuto){
-  layout.start(
-    100 ,
-    20,
-    100 ,
-    40,
-    false,
-    true
-  ) }
-  else {
-    layout.start(
-      0,
-      0,
-      0,
-      200,
-      false,
-      false
-    )
+  if (isAuto) {
+    layout.start(100, 20, 100, 40, false, true);
+  } else {
+    layout.start(0, 0, 0, 200, false, false);
   }
 
   layout.nodes().forEach((node) => {

@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
+import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
+import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -27,6 +30,10 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     height: '100%',
   },
+  fillCanvas: {
+    width: '100%',
+    height: '94%',
+  },
 }));
 
 const RadicalCanvasWidget = ({
@@ -38,6 +45,7 @@ const RadicalCanvasWidget = ({
   onDiagramAlignmentUpdated,
   onNodeRemove,
   onLinkRemove,
+  onLayoutAlign,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -112,7 +120,15 @@ const RadicalCanvasWidget = ({
           onDrop={onDropCallback}
           onDragOver={preventDefault}
         >
-          <CanvasWidget className={classes.fill} engine={engine} />
+          <Box display="flex" flexShrink={0} boxShadow={1} height="6%">
+            <Box width="100%" p={1} />
+            <Box flexShrink={0}>
+              <IconButton onClick={onLayoutAlign} edge="start" color="inherit">
+                <AccountTreeRoundedIcon />
+              </IconButton>
+            </Box>
+          </Box>
+          <CanvasWidget className={classes.fillCanvas} engine={engine} />
         </div>
       )}
     </>
@@ -127,5 +143,6 @@ RadicalCanvasWidget.propTypes = {
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
   onNodeRemove: PropTypes.func.isRequired,
   onLinkRemove: PropTypes.func.isRequired,
+  onLayoutAlign: PropTypes.func.isRequired,
 };
 export default React.memo(RadicalCanvasWidget);

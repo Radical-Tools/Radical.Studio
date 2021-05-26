@@ -30,6 +30,7 @@ import {
   VIEWMODEL_VIEW_EDIT,
   VIEWMODEL_VIEW_ACTIVATE,
   VIEWMODEL_VIEW_ALIGNMENT_UPDATE,
+  VIEWMODEL_VIEW_LAYOUT_ALIGN,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -177,4 +178,9 @@ export const viewModelViewActivate = (id) => ({
 export const viewModelViewAlignmentUpdate = (offsetX, offsetY, zoom) => ({
   type: VIEWMODEL_VIEW_ALIGNMENT_UPDATE,
   payload: { offsetX, offsetY, zoom },
+});
+
+export const viewModelLayoutAlign = () => ({
+  type: VIEWMODEL_VIEW_LAYOUT_ALIGN,
+  payload: {},
 });

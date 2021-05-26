@@ -12,6 +12,7 @@ const DiagramWidget = (props) => {
     onNodeRemoved,
     onCanvasAlignmentUpdated,
     onLinkRemoved,
+    onLayoutAlign,
   } = props;
   return (
     <RadicalCanvasWidget
@@ -35,6 +36,7 @@ const DiagramWidget = (props) => {
       }}
       viewmodel={view}
       alignment={alignment}
+      onLayoutAlign={onLayoutAlign}
     />
   );
 };
@@ -47,6 +49,7 @@ DiagramWidget.propTypes = {
   onNodeRemoved: PropTypes.func.isRequired,
   onCanvasAlignmentUpdated: PropTypes.func.isRequired,
   onLinkRemoved: PropTypes.func.isRequired,
+  onLayoutAlign: PropTypes.func.isRequired,
 };
 
 export default React.memo(DiagramWidget);

@@ -18,6 +18,7 @@ const addNode = (diagramModel, viewModelNode) => {
   node.setSize(viewModelNode.dimension.width, viewModelNode.dimension.height);
 
   diagramModel.addNode(node);
+  // todo: parent boundary processing by canvas widget temporarily disabled
   // if (diagramModelParentNode) {
   //   diagramModelParentNode.addNode(node);
   //   node.addParent(diagramModelParentNode);

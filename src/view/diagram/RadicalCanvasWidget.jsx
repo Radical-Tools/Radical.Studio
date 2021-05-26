@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
   },
   fillCanvas: {
     width: '100%',
-    height: '100%',
+    height: '94%',
   },
 }));
 
@@ -120,7 +120,7 @@ const RadicalCanvasWidget = ({
           onDrop={onDropCallback}
           onDragOver={preventDefault}
         >
-          <Box display="flex" flexShrink={0} boxShadow={1} height="45px">
+          <Box display="flex" flexShrink={0} boxShadow={1} height="6%">
             <Box width="100%" p={1} />
             <Box flexShrink={0}>
               <IconButton onClick={onLayoutAlign} edge="start" color="inherit">

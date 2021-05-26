@@ -8,11 +8,8 @@ import merge from 'lodash/fp/merge';
 import pick from 'lodash/fp/pick';
 import keys from 'lodash/fp/keys';
 import cloneDeep from 'lodash/fp/cloneDeep';
-import {
-  align,
-  updateLinks,
-  updateParentalStructure,
-} from '../helpers/viewmodel';
+import { updateLinks, updateParentalStructure } from '../helpers/viewmodel';
+import align from '../helpers/layout';
 
 export const initialState = {
   viewModel: {
@@ -126,7 +123,10 @@ export const addNode = (state, payload) =>
           'nodes',
           payload.id,
         ],
-        {},
+        {
+          dimension: {},
+          position: {},
+        },
         state
       )
     : state;

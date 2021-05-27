@@ -60,7 +60,7 @@ const ObjectsInventoryRow = (props) => {
   const { id, name, actions, onSelected } = props;
 
   const [, drag] = useDrag({
-    item: { type: 'model-object' },
+    item: { id, type: 'model-object' },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

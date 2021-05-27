@@ -79,7 +79,7 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
               port.getOptions().alignment,
               port.order
             )}
-            key={port.name}
+            key={port.getOptions().name}
             port={port}
             engine={engine}
           >

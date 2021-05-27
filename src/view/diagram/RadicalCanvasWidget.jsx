@@ -44,6 +44,7 @@ const RadicalCanvasWidget = ({
   onNodeRemove,
   onLinkRemove,
   onLayoutAlign,
+  onAddObjectToView,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -102,10 +103,8 @@ const RadicalCanvasWidget = ({
   const [, drop] = useDrop(() => ({
     accept: ['model-object'],
     drop: (item, monitor) =>
-      // eslint-disable-next-line no-console
-      console.log(
-        item,
-        monitor.getClientOffset(),
+      onAddObjectToView(
+        item.id,
         engine.getRelativeMousePoint({
           clientX: monitor.getClientOffset().x,
           clientY: monitor.getClientOffset().y,
@@ -125,7 +124,7 @@ const RadicalCanvasWidget = ({
             </Box>
           </Box>
           <div ref={drop} className={classes.fillCanvas}>
-            <CanvasWidget engine={engine} />
+            <CanvasWidget engine={engine} className={classes.fill} />
           </div>
         </div>
       )}
@@ -142,5 +141,6 @@ RadicalCanvasWidget.propTypes = {
   onNodeRemove: PropTypes.func.isRequired,
   onLinkRemove: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
+  onAddObjectToView: PropTypes.func.isRequired,
 };
 export default React.memo(RadicalCanvasWidget);

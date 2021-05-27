@@ -5,6 +5,7 @@ import {
   modelRelationAdd,
   viewModelLayoutAlign,
   viewModelLinkRemove,
+  viewModelNodeAdd,
   viewModelNodeRemove,
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
@@ -33,6 +34,8 @@ const mapDispatchToProps = (dispatch) => ({
   onCanvasAlignmentUpdated: (offsetX, offsetY, zoom) =>
     dispatch(viewModelViewAlignmentUpdate(offsetX, offsetY, zoom)),
   onLayoutAlign: () => dispatch(viewModelLayoutAlign()),
+  onAddObjectToView: (id, position) =>
+    dispatch(viewModelNodeAdd(undefined, id, position)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);

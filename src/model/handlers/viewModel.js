@@ -125,7 +125,7 @@ export const addNode = (state, payload) =>
         ],
         {
           dimension: {},
-          position: {},
+          position: payload.position ? payload.position : {},
         },
         state
       )

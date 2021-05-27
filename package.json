@@ -14,6 +14,8 @@
     "@rjsf/material-ui": "2.5.1",
     "closest": "0.0.1",
     "dagre": "0.8.5",
+    "downloadjs": "1.4.7",
+    "html-to-image": "1.6.2",
     "lodash": "4.17.21",
     "mui-datatables": "3.7.6",
     "pathfinding": "0.4.18",

@@ -120,7 +120,7 @@ const RadicalCanvasWidget = ({
           onDrop={onDropCallback}
           onDragOver={preventDefault}
         >
-          <ToolbarMenu onClick={onLayoutAlign} name={viewName} />
+          <ToolbarMenu onLayoutAlign={onLayoutAlign} name={viewName} />
           <CanvasWidget
             className={[classes.fillCanvas, 'canvas-view'].join(' ')}
             engine={engine}

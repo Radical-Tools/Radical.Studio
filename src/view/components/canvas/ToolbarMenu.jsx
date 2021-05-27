@@ -7,7 +7,7 @@ import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
 import Typography from '@material-ui/core/Typography';
 import ViewExportMenu from './ViewExportMenu';
 
-function ToolbarMenu({ onClick, name }) {
+function ToolbarMenu({ onLayoutAlign, name }) {
   return (
     <Box display="flex" flexShrink={0} boxShadow={1} height="6%">
       <Box width="100%" p={1} alignItems="center">
@@ -15,7 +15,7 @@ function ToolbarMenu({ onClick, name }) {
       </Box>
       <Box flexShrink={0}>
         <Tooltip title="Align layout">
-          <IconButton onClick={onClick} edge="start" color="inherit">
+          <IconButton onClick={onLayoutAlign} edge="start" color="inherit">
             <AccountTreeRoundedIcon />
           </IconButton>
         </Tooltip>
@@ -26,7 +26,7 @@ function ToolbarMenu({ onClick, name }) {
 }
 
 ToolbarMenu.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onLayoutAlign: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
 };
 

@@ -15,12 +15,18 @@ const handlers = {
   [actionTypes.LAYOUT_WIDGET_CLOSE]: layout.performClose,
   [actionTypes.LAYOUT_WIDGET_ADD]: layout.performAdd,
   [actionTypes.LAYOUT_DRAWER_TOGGLE]: layout.toggleDrawer,
-  [actionTypes.MODEL_OBJECT_ADD]: model.addObject,
-  [actionTypes.MODEL_RELATION_ADD]: model.addRelation,
-  [actionTypes.MODEL_OBJECT_REMOVE]: model.removeObject,
-  [actionTypes.MODEL_RELATION_REMOVE]: model.removeRelation,
-  [actionTypes.MODEL_OBJECT_UPDATE]: model.updateObject,
-  [actionTypes.MODEL_RELATION_UPDATE]: model.updateRelation,
+  [actionTypes.MODEL_OBJECT_ADD]: (state, payload) =>
+    viewModel.updateCurrentView(model.addObject(state, payload)),
+  [actionTypes.MODEL_RELATION_ADD]: (state, payload) =>
+    viewModel.updateCurrentView(model.addRelation(state, payload)),
+  [actionTypes.MODEL_OBJECT_REMOVE]: (state, payload) =>
+    viewModel.updateCurrentView(model.removeObject(state, payload)),
+  [actionTypes.MODEL_RELATION_REMOVE]: (state, payload) =>
+    viewModel.updateCurrentView(model.removeRelation(state, payload)),
+  [actionTypes.MODEL_OBJECT_UPDATE]: (state, payload) =>
+    viewModel.updateCurrentView(model.updateObject(state, payload)),
+  [actionTypes.MODEL_RELATION_UPDATE]: (state, payload) =>
+    viewModel.updateCurrentView(model.updateRelation(state, payload)),
   [actionTypes.MODEL_ITEM_CREATE]: common.createItem,
   [actionTypes.MODEL_ITEM_EDIT]: common.editItem,
   [actionTypes.MODEL_ITEM_UPSERT]: common.upsertItem,
@@ -28,14 +34,21 @@ const handlers = {
     testData(model.selectMetamodel(layout.closeHomeDialog(state), payload)),
   [actionTypes.VIEWMODEL_VIEW_ADD]: viewModel.addView,
   [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
-  [actionTypes.VIEWMODEL_NODE_ADD]: viewModel.addNode,
-  [actionTypes.VIEWMODEL_LINK_REMOVE]: viewModel.removeLink,
-  [actionTypes.VIEWMODEL_LINK_ADD]: viewModel.addLink,
-  [actionTypes.VIEWMODEL_VIEW_ACTIVATE]: viewModel.activateView,
+  [actionTypes.VIEWMODEL_NODE_ADD]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.addNode(state, payload)),
+  [actionTypes.VIEWMODEL_LINK_REMOVE]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.removeLink(state, payload)),
+  [actionTypes.VIEWMODEL_LINK_ADD]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.addLink(state, payload)),
+  [actionTypes.VIEWMODEL_VIEW_ACTIVATE]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.activateView(state, payload)),
   [actionTypes.VIEWMODEL_VIEW_UPDATE]: viewModel.updateView,
-  [actionTypes.VIEWMODEL_NODE_UPDATE]: viewModel.updateNode,
-  [actionTypes.VIEWMODEL_NODE_REMOVE]: viewModel.removeNode,
+  [actionTypes.VIEWMODEL_NODE_UPDATE]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.updateNode(state, payload)),
+  [actionTypes.VIEWMODEL_NODE_REMOVE]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.removeNode(state, payload)),
   [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate,
+  [actionTypes.VIEWMODEL_VIEW_LAYOUT_ALIGN]: viewModel.alignLayout,
 };
 
 export const initialState = {

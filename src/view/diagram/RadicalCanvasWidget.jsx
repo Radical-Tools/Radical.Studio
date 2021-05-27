@@ -2,6 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { useDrop } from 'react-dnd';
+import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
+import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -25,6 +28,10 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     height: '100%',
   },
+  fillCanvas: {
+    width: '100%',
+    height: '94%',
+  },
 }));
 
 const RadicalCanvasWidget = ({
@@ -36,6 +43,7 @@ const RadicalCanvasWidget = ({
   onDiagramAlignmentUpdated,
   onNodeRemove,
   onLinkRemove,
+  onLayoutAlign,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -107,8 +115,18 @@ const RadicalCanvasWidget = ({
   return (
     <>
       {engine && isModelSet && (
-        <div className={classes.fill} ref={drop}>
-          <CanvasWidget className={classes.fill} engine={engine} />
+        <div className={classes.fill}>
+          <Box display="flex" flexShrink={0} boxShadow={1} height="6%">
+            <Box width="100%" p={1} />
+            <Box flexShrink={0}>
+              <IconButton onClick={onLayoutAlign} edge="start" color="inherit">
+                <AccountTreeRoundedIcon />
+              </IconButton>
+            </Box>
+          </Box>
+          <div ref={drop} className={classes.fillCanvas}>
+            <CanvasWidget engine={engine} />
+          </div>
         </div>
       )}
     </>
@@ -123,5 +141,6 @@ RadicalCanvasWidget.propTypes = {
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
   onNodeRemove: PropTypes.func.isRequired,
   onLinkRemove: PropTypes.func.isRequired,
+  onLayoutAlign: PropTypes.func.isRequired,
 };
 export default React.memo(RadicalCanvasWidget);

@@ -1,9 +1,4 @@
-import omitBy from 'lodash/fp/omitBy';
-import merge from 'lodash/fp/merge';
-import pick from 'lodash/fp/pick';
-import keys from 'lodash/fp/keys';
 import has from 'lodash/fp/has';
-import { Polygon, Rectangle } from '@projectstorm/geometry';
 
 export const findChildren = (objectId, model, viewModel) => {
   const children = [];
@@ -16,7 +11,6 @@ export const findChildren = (objectId, model, viewModel) => {
       }
     });
   }
-
   return children;
 };
 
@@ -30,88 +24,34 @@ export const findParent = (objectId, model, viewModel) => {
   return undefined;
 };
 
-export const getBoundingNodesRect = (nodes, margin) => {
-  if (nodes && nodes.length > 0) {
-    const boundingBox = Polygon.boundingBoxFromPoints(
-      nodes
-        .map((node) => [
-          { x: node.position.x, y: node.position.y },
-          {
-            x: node.position.x + node.dimension.width,
-            y: node.position.y + node.dimension.height,
-          },
-        ])
-        .flat(1)
-    );
-    if (margin) {
-      return new Rectangle(
-        boundingBox.getTopLeft().x - margin.left,
-        boundingBox.getTopLeft().y - margin.top,
-        boundingBox.getWidth() + margin.left + margin.right,
-        boundingBox.getHeight() + margin.top + margin.bottom
-      );
-    }
-  }
-  return new Rectangle(0, 0, 150, 110);
-};
-
 /* eslint-disable no-param-reassign */
-export function updateBoundary(nodeId, model, viewModel) {
-  if (findChildren(nodeId, model, viewModel).length > 0) {
-    const boundingBox = getBoundingNodesRect(
-      findChildren(nodeId, model, viewModel).map(
-        (objectId) => viewModel.nodes[objectId]
-      ),
-      { left: 20, right: 20, top: 80, bottom: 30 }
-    );
-
-    viewModel.nodes[nodeId].position = boundingBox.getTopLeft();
-    viewModel.nodes[nodeId].dimension = {
-      width: boundingBox.getWidth(),
-      height: boundingBox.getHeight(),
-    };
-
-    const parentNodeId = findParent(nodeId, model, viewModel);
-    if (parentNodeId) {
-      updateBoundary(parentNodeId, model, viewModel);
-    }
-  }
-}
-
-export const updateParentalStructure = (model, viewModel) => {
+export const updateParentalStructure = (
+  model,
+  viewModel,
+  defaultDimension = { width: 150, height: 110 }
+) => {
   Object.entries(viewModel.nodes).forEach(([nodeId, node]) => {
     node.parentNode = findParent(nodeId, model, viewModel);
     node.childrenNodes = findChildren(nodeId, model, viewModel);
     if (!node.position) {
       node.position = node.parentNode
-        ? viewModel.nodes[node.parentNode].position
+        ? {
+            // todo: due to cola.js overlap algorithm issue (+1)
+            x: viewModel.nodes[node.parentNode].position.x + 1,
+            y: viewModel.nodes[node.parentNode].position.y,
+          }
         : { x: 0, y: 0 };
     }
-    node.dimension =
-      node.childrenNodes.length === 0
-        ? { width: 150, height: 110 }
-        : node.dimension;
-    node.childrenNodes.forEach((childrenId) => {
-      if (!viewModel.nodes[childrenId].position) {
-        viewModel.nodes[childrenId].position = node.position;
-        viewModel.nodes[childrenId].dimension = { width: 150, height: 110 };
-      }
-    });
-    updateBoundary(nodeId, model, viewModel);
+    if (node.childrenNodes.length === 0) {
+      node.dimension = defaultDimension;
+    }
   });
 };
 
-const renderView = (viewModel, model) => {
-  updateParentalStructure(model, viewModel);
+const renderView = (viewModel) => viewModel;
 
-  const view = {
-    nodes: omitBy(
-      (value) => value.name === undefined,
-      merge(viewModel.nodes, pick(keys(viewModel.nodes), model.objects))
-    ),
-    links: {},
-  };
-
+export const updateLinks = (model, viewModel) => {
+  const links = {};
   Object.entries(model.relations)
     .filter(([, relation]) => relation.type !== 'Includes')
     .forEach(([relationId, relation]) => {
@@ -130,7 +70,7 @@ const renderView = (viewModel, model) => {
         sourceId !== findParent(targetId, model, viewModel) &&
         targetId !== findParent(sourceId, model, viewModel)
       ) {
-        view.links[relationId] = {
+        links[relationId] = {
           ...model.relations[relationId],
           source: sourceId,
           target: targetId,
@@ -138,7 +78,7 @@ const renderView = (viewModel, model) => {
       }
     });
 
-  return view;
+  return links;
 };
 
 export default renderView;

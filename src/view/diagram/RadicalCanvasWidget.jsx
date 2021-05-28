@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
-import IconButton from '@material-ui/core/IconButton';
-import Box from '@material-ui/core/Box';
-import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -16,6 +13,7 @@ import {
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
+import ToolbarMenu from '../components/canvas/ToolbarMenu';
 
 const preventDefault = (event) => event.preventDefault();
 
@@ -87,6 +85,7 @@ const RadicalCanvasWidget = ({
   );
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
+  const [viewName, setViewName] = useState();
   const onDropCallback = useCallback(
     (event) => {
       const data = event.dataTransfer.getData(DROP_DATA_KEY);
@@ -98,6 +97,7 @@ const RadicalCanvasWidget = ({
     [onDrop, engine]
   );
   useEffect(() => {
+    setViewName(viewmodel.name);
     const model = mapViewmodel(viewmodel);
     model.registerListener(registerCallbacks());
     model.getNodes().forEach((node) => {
@@ -120,15 +120,11 @@ const RadicalCanvasWidget = ({
           onDrop={onDropCallback}
           onDragOver={preventDefault}
         >
-          <Box display="flex" flexShrink={0} boxShadow={1} height="6%">
-            <Box width="100%" p={1} />
-            <Box flexShrink={0}>
-              <IconButton onClick={onLayoutAlign} edge="start" color="inherit">
-                <AccountTreeRoundedIcon />
-              </IconButton>
-            </Box>
-          </Box>
-          <CanvasWidget className={classes.fillCanvas} engine={engine} />
+          <ToolbarMenu onLayoutAlign={onLayoutAlign} name={viewName} />
+          <CanvasWidget
+            className={[classes.fillCanvas, 'canvas-view'].join(' ')}
+            engine={engine}
+          />
         </div>
       )}
     </>

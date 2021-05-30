@@ -2,9 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { useDrop } from 'react-dnd';
-import IconButton from '@material-ui/core/IconButton';
-import Box from '@material-ui/core/Box';
-import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -16,6 +13,7 @@ import {
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
+import ToolbarMenu from '../components/canvas/ToolbarMenu';
 
 const mapViewmodel = (viewmodel) => {
   const diagramModel = new RadicalDiagramModel();
@@ -86,7 +84,9 @@ const RadicalCanvasWidget = ({
   );
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
+  const [viewName, setViewName] = useState();
   useEffect(() => {
+    setViewName(viewmodel.name);
     const model = mapViewmodel(viewmodel);
     model.registerListener(registerCallbacks());
     model.getNodes().forEach((node) => {
@@ -115,16 +115,16 @@ const RadicalCanvasWidget = ({
     <>
       {engine && isModelSet && (
         <div className={classes.fill}>
-          <Box display="flex" flexShrink={0} boxShadow={1} height="6%">
-            <Box width="100%" p={1} />
-            <Box flexShrink={0}>
-              <IconButton onClick={onLayoutAlign} edge="start" color="inherit">
-                <AccountTreeRoundedIcon />
-              </IconButton>
-            </Box>
-          </Box>
+          <ToolbarMenu
+            onLayoutAlign={onLayoutAlign}
+            onZoomToFit={() => engine.zoomToFitNodes({ margin: 50 })}
+            name={viewName}
+          />
           <div ref={drop} className={classes.fillCanvas}>
-            <CanvasWidget engine={engine} className={classes.fill} />
+            <CanvasWidget
+              className={[classes.fill, 'canvas-view'].join(' ')}
+              engine={engine}
+            />
           </div>
         </div>
       )}
@@ -143,4 +143,5 @@ RadicalCanvasWidget.propTypes = {
   onLayoutAlign: PropTypes.func.isRequired,
   onAddObjectToView: PropTypes.func.isRequired,
 };
+
 export default React.memo(RadicalCanvasWidget);

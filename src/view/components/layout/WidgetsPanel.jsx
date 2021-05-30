@@ -51,7 +51,7 @@ const WidgetsPanel = ({
       {toPairs(config.widgets)
         .filter(([, widget]) => widget.isActive)
         .map(([key, widget]) => (
-          <div key={key}>
+          <div id={key} key={key}>
             <CardWrapper
               id={key}
               title={widget.title}

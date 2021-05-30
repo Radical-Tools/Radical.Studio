@@ -171,7 +171,12 @@ export default class RadicalComposedNodeModel extends NodeModel {
   }
 
   getBoundingBox() {
-    return new Rectangle(this.getPosition(), this.size.width, this.size.height);
+    return new Rectangle(
+      this.getPosition().x,
+      this.getPosition().y,
+      this.size.width,
+      this.size.height
+    );
   }
 
   setSize(width, height) {

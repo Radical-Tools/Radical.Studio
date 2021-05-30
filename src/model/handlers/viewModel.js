@@ -39,7 +39,7 @@ export const updateCurrentView = (state) => {
     (view) => ({
       ...view,
       nodes: omitBy(
-        (value) => value.name === undefined,
+        (node, id) => !has(id, state.model.objects),
         merge(view.nodes, pick(keys(view.nodes), state.model.objects))
       ),
       links: updateLinks(state.model, view),

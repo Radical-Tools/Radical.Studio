@@ -120,7 +120,11 @@ const RadicalCanvasWidget = ({
           onDrop={onDropCallback}
           onDragOver={preventDefault}
         >
-          <ToolbarMenu onLayoutAlign={onLayoutAlign} name={viewName} />
+          <ToolbarMenu
+            onLayoutAlign={onLayoutAlign}
+            onZoomToFit={() => engine.zoomToFitNodes({ margin: 50 })}
+            name={viewName}
+          />
           <CanvasWidget
             className={[classes.fillCanvas, 'canvas-view'].join(' ')}
             engine={engine}
@@ -141,4 +145,5 @@ RadicalCanvasWidget.propTypes = {
   onLinkRemove: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
 };
+
 export default React.memo(RadicalCanvasWidget);

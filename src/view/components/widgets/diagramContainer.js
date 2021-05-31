@@ -10,7 +10,7 @@ import {
   viewModelLinkRemove,
   viewModelNodeRemove,
   viewModelNodeUpdate,
-  viewModelViewAlignmentUpdate
+  viewModelViewAlignmentUpdate,
 } from '../../../redux/action-creators';
 
 const mapStateToProps = (state) => ({
@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => ({
   onCanvasAlignmentUpdated: (offsetX, offsetY, zoom) =>
     dispatch(viewModelViewAlignmentUpdate(offsetX, offsetY, zoom)),
   onLayoutAlign: () => dispatch(viewModelLayoutAlign()),
-  onItemSelected: (id, type) => dispatch(modelItemEdit(id, type))
+  onItemSelected: (id, type) => dispatch(modelItemEdit(id, type)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);

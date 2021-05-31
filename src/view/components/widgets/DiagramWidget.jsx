@@ -15,7 +15,7 @@ const DiagramWidget = (props) => {
     onLayoutAlign,
     onObjectRemoved,
     onRelationRemoved,
-    onItemSelected
+    onItemSelected,
   } = props;
   return (
     <RadicalCanvasWidget
@@ -54,7 +54,7 @@ DiagramWidget.propTypes = {
   onObjectRemoved: PropTypes.func.isRequired,
   onRelationRemoved: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
-  onItemSelected: PropTypes.func.isRequired
+  onItemSelected: PropTypes.func.isRequired,
 };
 
 export default React.memo(DiagramWidget);

@@ -17,26 +17,29 @@ import RadicalComposedNodeFactory from '../nodes/RadicalComposedNodeFactory';
 import RadicalLinkFactory from '../links/RadicalLinkFactory';
 import RadicalLabelFactory from '../labels/RadicalLabelFactory';
 import { DEFAULT_TARGET_PORT } from '../consts';
+import RadicalDeleteItemsAction from '../actions/RadicalDeleteItemsAction';
 
-const createRadicalEngine = () => {
+const createRadicalEngine = (onItemDelete) => {
   const engine = new RadicalDiagramEngine({
-    registerDefaultDeleteItemsAction: true,
+    registerDefaultDeleteItemsAction: false,
     repaintDebounceMs: 10,
   });
   engine.getStateMachine().pushState(new RadicalState());
-  // const engine = createEngine();
+
   engine.getLayerFactories().registerFactory(new NodeLayerFactory());
   engine.getLayerFactories().registerFactory(new LinkLayerFactory());
   engine.getLayerFactories().registerFactory(new SelectionBoxLayerFactory());
 
   engine.getLabelFactories().registerFactory(new DefaultLabelFactory());
   engine.getNodeFactories().registerFactory(new DefaultNodeFactory());
+  engine.getNodeFactories().registerFactory(new RadicalComposedNodeFactory());
+
   engine.getLinkFactories().registerFactory(new DefaultLinkFactory());
   engine.getLinkFactories().registerFactory(new PathFindingLinkFactory());
+  engine.getLinkFactories().registerFactory(new RadicalLinkFactory());
+
   engine.getPortFactories().registerFactory(new DefaultPortFactory());
 
-  engine.getNodeFactories().registerFactory(new RadicalComposedNodeFactory());
-  engine.getLinkFactories().registerFactory(new RadicalLinkFactory());
   engine
     .getPortFactories()
     .registerFactory(
@@ -46,6 +49,12 @@ const createRadicalEngine = () => {
       )
     );
   engine.getLabelFactories().registerFactory(new RadicalLabelFactory());
+
+  engine
+    .getActionEventBus()
+    .registerAction(
+      new RadicalDeleteItemsAction({ keyCodes: [46], onItemDelete })
+    );
   return engine;
 };
 export default createRadicalEngine;

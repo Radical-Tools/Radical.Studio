@@ -1,34 +1,52 @@
 import * as model from '../model/handlers/model';
 
 const generateTestState = (state) => {
-  let newState = model.addObject(state, { name: 'User', type: 'Actor' });
+  let newState = model.addObject(state, {
+    id: 'User',
+    name: 'User',
+    type: 'Actor',
+  });
   newState = model.addObject(newState, {
+    id: 'Radical Tools',
     name: 'Radical Tools',
     type: 'System',
   });
   newState = model.addObject(newState, {
+    id: 'Radical Studio',
     name: 'Radical Studio',
     type: 'Container',
     attributes: { technology: 'ReactJS' },
   });
   newState = model.addObject(newState, {
+    id: 'Radical Hub',
     name: 'Radical Hub',
     type: 'Container',
   });
   newState = model.addObject(newState, {
+    id: 'Radical Storage',
     name: 'Radical Storage',
     type: 'Database',
   });
   newState = model.addObject(newState, {
+    id: 'External System',
     name: 'External System',
     type: 'External System',
   });
-  newState = model.addObject(newState, { name: 'Canvas', type: 'Component' });
   newState = model.addObject(newState, {
+    id: 'Canvas',
+    name: 'Canvas',
+    type: 'Component',
+  });
+  newState = model.addObject(newState, {
+    id: 'Data Grid',
     name: 'Data Grid',
     type: 'Component',
   });
-  newState = model.addObject(newState, { name: 'State', type: 'Component' });
+  newState = model.addObject(newState, {
+    id: 'State',
+    name: 'State',
+    type: 'Component',
+  });
   newState = model.addRelation(newState, {
     name: 'Includes',
     type: 'Includes',

@@ -5,6 +5,7 @@ import omitBy from 'lodash/fp/omitBy';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import identity from 'lodash/fp/identity';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   findValidRelationClass,
@@ -27,7 +28,7 @@ export const initialState = {
 };
 
 export const addObject = (state, payload) => {
-  const id = payload.id ? payload.id : payload.name;
+  const id = payload.id ? payload.id : uuidv4();
 
   const object = {
     name: payload.name ? payload.name : 'Default Name',
@@ -95,9 +96,7 @@ export const addRelation = (state, payload) => {
           state.model.objects[payload.target].type
         )[0].id;
 
-    const relationId = payload.id
-      ? payload.id
-      : `${type}-${Object.keys(state.model.relations).length + 1}`;
+    const relationId = payload.id ? payload.id : uuidv4();
     const relation = {
       name: payload.name ? payload.name : type,
       type,

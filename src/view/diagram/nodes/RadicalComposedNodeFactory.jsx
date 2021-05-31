@@ -118,12 +118,12 @@ function C4ExternalSystem({ width, height, isSelected }) {
   );
 }
 
-function C4Actor({ width, height }) {
+function C4Actor({ width, height, isSelected }) {
   return (
     <rect
       fill="#85bbf0"
       fillOpacity="1.0"
-      stroke="white"
+      stroke={isSelected ? 'black' : 'white'}
       rx="5"
       ry="5"
       x="1"

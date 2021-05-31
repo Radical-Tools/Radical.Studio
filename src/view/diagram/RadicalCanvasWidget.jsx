@@ -64,13 +64,6 @@ const RadicalCanvasWidget = ({
               e.entity.options.zoom
             );
             break;
-          // case DIAGRAM_ENTITY_REMOVED:
-          //   if (e.entity instanceof NodeModel) {
-          //     onNodeRemove(e.entity.getID());
-          //   } else {
-          //     onLinkRemove(e.entity.getID());
-          //   }
-          //   break;
           default:
             break;
         }

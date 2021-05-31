@@ -9,6 +9,7 @@ import {
   DRAG_DIAGRAM_ITEMS_END_EVENT,
   DROP_DATA_KEY,
   LINK_CONNECTED_TO_TARGET_EVENT,
+  DIAGRAM_ENTITY_SELECTED
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
@@ -45,6 +46,7 @@ const RadicalCanvasWidget = ({
   onLayoutAlign,
   onObjectRemove,
   onRelationRemove,
+                               onItemSelected
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -64,12 +66,17 @@ const RadicalCanvasWidget = ({
               e.entity.options.zoom
             );
             break;
+          case DIAGRAM_ENTITY_SELECTED:
+            if(e.isSelected) {
+              onItemSelected(e.entity.getID(), e.entity instanceof NodeModel ? 'object' : 'relation')
+            }
+            break;
           default:
             break;
         }
       },
     }),
-    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated]
+    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated, onItemSelected]
   );
 
   const onItemDeleteCallback = useCallback(
@@ -153,6 +160,7 @@ RadicalCanvasWidget.propTypes = {
   onObjectRemove: PropTypes.func.isRequired,
   onRelationRemove: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
+  onItemSelected: PropTypes.func.isRequired
 };
 
 export default React.memo(RadicalCanvasWidget);

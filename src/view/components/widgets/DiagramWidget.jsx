@@ -14,6 +14,8 @@ const DiagramWidget = (props) => {
     onLinkRemoved,
     onLayoutAlign,
     onAddObjectToView,
+    onObjectRemoved,
+    onRelationRemoved,
   } = props;
   return (
     <RadicalCanvasWidget
@@ -29,12 +31,10 @@ const DiagramWidget = (props) => {
       onLinkConnected={(id, sourceId, targetId) => {
         onAddRelation(sourceId, targetId);
       }}
-      onNodeRemove={(id) => {
-        onNodeRemoved(id);
-      }}
-      onLinkRemove={(id) => {
-        onLinkRemoved(id);
-      }}
+      onNodeRemove={onNodeRemoved}
+      onLinkRemove={onLinkRemoved}
+      onObjectRemove={onObjectRemoved}
+      onRelationRemove={onRelationRemoved}
       viewmodel={view}
       alignment={alignment}
       onLayoutAlign={onLayoutAlign}
@@ -51,6 +51,8 @@ DiagramWidget.propTypes = {
   onNodeRemoved: PropTypes.func.isRequired,
   onCanvasAlignmentUpdated: PropTypes.func.isRequired,
   onLinkRemoved: PropTypes.func.isRequired,
+  onObjectRemoved: PropTypes.func.isRequired,
+  onRelationRemoved: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
   onAddObjectToView: PropTypes.func.isRequired,
 };

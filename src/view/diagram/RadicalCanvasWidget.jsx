@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
 import {
   DIAGRAM_ALIGNMENT_UPDATED_EVENT,
-  DIAGRAM_ENTITY_REMOVED,
   DRAG_DIAGRAM_ITEMS_END_EVENT,
   LINK_CONNECTED_TO_TARGET_EVENT,
 } from './consts';
@@ -43,6 +42,8 @@ const RadicalCanvasWidget = ({
   onLinkRemove,
   onLayoutAlign,
   onAddObjectToView,
+  onObjectRemove,
+  onRelationRemove,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -62,27 +63,32 @@ const RadicalCanvasWidget = ({
               e.entity.options.zoom
             );
             break;
-          case DIAGRAM_ENTITY_REMOVED:
-            if (e.entity instanceof NodeModel) {
-              onNodeRemove(e.entity.getID());
-            } else {
-              onLinkRemove(e.entity.getID());
-            }
-            break;
           default:
             break;
         }
       },
     }),
-    [
-      onDragItemsEnd,
-      onLinkConnected,
-      onDiagramAlignmentUpdated,
-      onNodeRemove,
-      onLinkRemove,
-    ]
+    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated]
   );
-  const [engine] = useState(createRadicalEngine());
+
+  const onItemDeleteCallback = useCallback(
+    (item, deleteFromModel) => {
+      if (item instanceof NodeModel) {
+        if (deleteFromModel) {
+          onObjectRemove(item.getID());
+        } else {
+          onNodeRemove(item.getID());
+        }
+      } else if (deleteFromModel) {
+        onRelationRemove(item.getID());
+      } else {
+        onLinkRemove(item.getID());
+      }
+    },
+    [onNodeRemove, onLinkRemove, onObjectRemove, onRelationRemove]
+  );
+
+  const [engine] = useState(createRadicalEngine(onItemDeleteCallback));
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   useEffect(() => {
@@ -140,6 +146,8 @@ RadicalCanvasWidget.propTypes = {
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
   onNodeRemove: PropTypes.func.isRequired,
   onLinkRemove: PropTypes.func.isRequired,
+  onObjectRemove: PropTypes.func.isRequired,
+  onRelationRemove: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
   onAddObjectToView: PropTypes.func.isRequired,
 };

@@ -131,7 +131,9 @@ export const addNode = (state, payload) =>
         {
           dimension: {},
           position: {},
-          isParent: state.model.objects[payload.id].children.length > 0,
+          isParent: state.model.objects[payload.id].children
+            ? state.model.objects[payload.id].children.length > 0
+            : false,
         },
         state
       )

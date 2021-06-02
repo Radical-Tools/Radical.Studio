@@ -19,7 +19,7 @@ import RadicalLabelFactory from '../labels/RadicalLabelFactory';
 import { DEFAULT_TARGET_PORT } from '../consts';
 import RadicalDeleteItemsAction from '../actions/RadicalDeleteItemsAction';
 
-const createRadicalEngine = (onItemDelete, onNodeExpanded, onNodeCollapsed) => {
+const createRadicalEngine = () => {
   const engine = new RadicalDiagramEngine({
     registerDefaultDeleteItemsAction: false,
     repaintDebounceMs: 10,
@@ -32,11 +32,7 @@ const createRadicalEngine = (onItemDelete, onNodeExpanded, onNodeCollapsed) => {
 
   engine.getLabelFactories().registerFactory(new DefaultLabelFactory());
   engine.getNodeFactories().registerFactory(new DefaultNodeFactory());
-  engine
-    .getNodeFactories()
-    .registerFactory(
-      new RadicalComposedNodeFactory(onNodeExpanded, onNodeCollapsed)
-    );
+  engine.getNodeFactories().registerFactory(new RadicalComposedNodeFactory());
 
   engine.getLinkFactories().registerFactory(new DefaultLinkFactory());
   engine.getLinkFactories().registerFactory(new PathFindingLinkFactory());
@@ -56,9 +52,7 @@ const createRadicalEngine = (onItemDelete, onNodeExpanded, onNodeCollapsed) => {
 
   engine
     .getActionEventBus()
-    .registerAction(
-      new RadicalDeleteItemsAction({ keyCodes: [46], onItemDelete })
-    );
+    .registerAction(new RadicalDeleteItemsAction({ keyCodes: [46] }));
   return engine;
 };
 export default createRadicalEngine;

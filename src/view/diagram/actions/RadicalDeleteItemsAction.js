@@ -1,8 +1,9 @@
 import { Action, InputType } from '@projectstorm/react-canvas-core';
+import { DIAGRAM_ENTITY_DELETED } from '../consts';
 
 class RadicalDeleteItemsAction extends Action {
   constructor(options = {}) {
-    const { keyCodes, onItemDelete } = options;
+    const { keyCodes } = options;
 
     super({
       type: InputType.KEY_DOWN,
@@ -14,7 +15,13 @@ class RadicalDeleteItemsAction extends Action {
             .getSelectedEntities()
             .forEach((model) => {
               if (!model.isLocked()) {
-                onItemDelete(model, ctrlKey);
+                model.fireEvent(
+                  {
+                    entity: model,
+                    deleteFromModel: ctrlKey,
+                  },
+                  DIAGRAM_ENTITY_DELETED
+                );
               }
             });
           this.engine.repaintCanvas();

@@ -8,7 +8,11 @@ import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import values from 'lodash/fp/values';
-import { PORT_BORDER_RADIUS } from '../consts';
+import {
+  DIAGRAM_NODE_COLLAPSED,
+  DIAGRAM_NODE_EXPANDED,
+  PORT_BORDER_RADIUS,
+} from '../consts';
 import { getPortStyle } from '../helpers';
 
 const useStyles = makeStyles(() => ({
@@ -24,13 +28,7 @@ const useStyles = makeStyles(() => ({
     },
   },
 }));
-const RadicalComposedNodeWidget = ({
-  node,
-  engine,
-  children,
-  onNodeExpanded,
-  onNodeCollapsed,
-}) => {
+const RadicalComposedNodeWidget = ({ node, engine, children }) => {
   const classes = useStyles();
   return (
     <div id="main">
@@ -106,9 +104,13 @@ const RadicalComposedNodeWidget = ({
       >
         {node.size.width === 150 && node.options.isParent && (
           <IconButton
-            onClick={(event) => {
-              event.stopPropagation();
-              onNodeExpanded(node.getID());
+            onClick={() => {
+              node.fireEvent(
+                {
+                  id: node.getID(),
+                },
+                DIAGRAM_NODE_EXPANDED
+              );
             }}
           >
             <ControlPointRoundedIcon />
@@ -116,9 +118,13 @@ const RadicalComposedNodeWidget = ({
         )}
         {node.size.width > 150 && node.options.isParent && (
           <IconButton
-            onClick={(event) => {
-              event.stopPropagation();
-              onNodeCollapsed(node.getID());
+            onClick={() => {
+              node.fireEvent(
+                {
+                  id: node.getID(),
+                },
+                DIAGRAM_NODE_COLLAPSED
+              );
             }}
           >
             <RemoveCircleOutlineRoundedIcon />
@@ -133,7 +139,5 @@ RadicalComposedNodeWidget.propTypes = {
   node: PropTypes.objectOf(PropTypes.any).isRequired,
   engine: PropTypes.objectOf(PropTypes.any).isRequired,
   children: PropTypes.element.isRequired,
-  onNodeCollapsed: PropTypes.func.isRequired,
-  onNodeExpanded: PropTypes.func.isRequired,
 };
 export default RadicalComposedNodeWidget;

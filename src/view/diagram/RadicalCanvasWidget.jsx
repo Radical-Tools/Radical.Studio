@@ -10,6 +10,9 @@ import {
   DROP_DATA_KEY,
   LINK_CONNECTED_TO_TARGET_EVENT,
   DIAGRAM_ENTITY_SELECTED,
+  DIAGRAM_NODE_COLLAPSED,
+  DIAGRAM_NODE_EXPANDED,
+  DIAGRAM_ENTITY_DELETED,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
@@ -76,12 +79,43 @@ const RadicalCanvasWidget = ({
               );
             }
             break;
+          case DIAGRAM_NODE_COLLAPSED:
+            onNodeCollapsed(e.id);
+            break;
+          case DIAGRAM_NODE_EXPANDED:
+            onNodeExpanded(e.id);
+            break;
+          case DIAGRAM_ENTITY_DELETED:
+            if (e.entity instanceof NodeModel) {
+              if (e.deleteFromModel) {
+                onObjectRemove(e.entity.getID());
+              } else {
+                onNodeRemove(e.entity.getID());
+              }
+            } else if (e.deleteFromModel) {
+              onRelationRemove(e.entity.getID());
+            } else {
+              onLinkRemove(e.entity.getID());
+            }
+            break;
+
           default:
             break;
         }
       },
     }),
-    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated, onItemSelected]
+    [
+      onDragItemsEnd,
+      onLinkConnected,
+      onDiagramAlignmentUpdated,
+      onItemSelected,
+      onNodeExpanded,
+      onNodeCollapsed,
+      onNodeRemove,
+      onLinkRemove,
+      onObjectRemove,
+      onRelationRemove,
+    ]
   );
 
   const onItemDeleteCallback = useCallback(
@@ -101,21 +135,7 @@ const RadicalCanvasWidget = ({
     [onNodeRemove, onLinkRemove, onObjectRemove, onRelationRemove]
   );
 
-  const onNodeExpandedCallback = useCallback((id) => onNodeExpanded(id), [
-    onNodeExpanded,
-  ]);
-
-  const onNodeCollapsedCallback = useCallback((id) => onNodeCollapsed(id), [
-    onNodeCollapsed,
-  ]);
-
-  const [engine] = useState(
-    createRadicalEngine(
-      onItemDeleteCallback,
-      onNodeExpandedCallback,
-      onNodeCollapsedCallback
-    )
-  );
+  const [engine] = useState(createRadicalEngine(onItemDeleteCallback));
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   const onDropCallback = useCallback(

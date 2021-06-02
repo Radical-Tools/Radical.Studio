@@ -49,6 +49,10 @@ const handlers = {
     viewModel.updateCurrentView(viewModel.removeNode(state, payload)),
   [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate,
   [actionTypes.VIEWMODEL_VIEW_LAYOUT_ALIGN]: viewModel.alignLayout,
+  [actionTypes.VIEWODEL_NODE_COLLAPSE]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
+  [actionTypes.VIEWODEL_NODE_EXPAND]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
 };
 
 export const initialState = {

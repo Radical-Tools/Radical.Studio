@@ -47,6 +47,8 @@ const RadicalCanvasWidget = ({
   onObjectRemove,
   onRelationRemove,
   onItemSelected,
+  onNodeCollapsed,
+  onNodeExpanded,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -99,7 +101,21 @@ const RadicalCanvasWidget = ({
     [onNodeRemove, onLinkRemove, onObjectRemove, onRelationRemove]
   );
 
-  const [engine] = useState(createRadicalEngine(onItemDeleteCallback));
+  const onNodeExpandedCallback = useCallback((id) => onNodeExpanded(id), [
+    onNodeExpanded,
+  ]);
+
+  const onNodeCollapsedCallback = useCallback((id) => onNodeCollapsed(id), [
+    onNodeCollapsed,
+  ]);
+
+  const [engine] = useState(
+    createRadicalEngine(
+      onItemDeleteCallback,
+      onNodeExpandedCallback,
+      onNodeCollapsedCallback
+    )
+  );
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   const onDropCallback = useCallback(
@@ -164,6 +180,8 @@ RadicalCanvasWidget.propTypes = {
   onRelationRemove: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
   onItemSelected: PropTypes.func.isRequired,
+  onNodeCollapsed: PropTypes.func.isRequired,
+  onNodeExpanded: PropTypes.func.isRequired,
 };
 
 export default React.memo(RadicalCanvasWidget);

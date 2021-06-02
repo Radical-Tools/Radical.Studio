@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
-
+import ControlPointRoundedIcon from '@material-ui/icons/ControlPointRounded';
+import RemoveCircleOutlineRoundedIcon from '@material-ui/icons/RemoveCircleOutlineRounded';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -22,7 +24,13 @@ const useStyles = makeStyles(() => ({
     },
   },
 }));
-const RadicalComposedNodeWidget = ({ node, engine, children }) => {
+const RadicalComposedNodeWidget = ({
+  node,
+  engine,
+  children,
+  onNodeExpanded,
+  onNodeCollapsed,
+}) => {
   const classes = useStyles();
   return (
     <div id="main">
@@ -87,6 +95,36 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
           </PortWidget>
         ))}
       </div>
+      <div
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          top: -7,
+          left: node.size.width - 40,
+        }}
+      >
+        {node.size.width === 150 && node.options.isParent && (
+          <IconButton
+            onClick={(event) => {
+              event.stopPropagation();
+              onNodeExpanded(node.getID());
+            }}
+          >
+            <ControlPointRoundedIcon />
+          </IconButton>
+        )}
+        {node.size.width > 150 && node.options.isParent && (
+          <IconButton
+            onClick={(event) => {
+              event.stopPropagation();
+              onNodeCollapsed(node.getID());
+            }}
+          >
+            <RemoveCircleOutlineRoundedIcon />
+          </IconButton>
+        )}
+      </div>
     </div>
   );
 };
@@ -95,5 +133,7 @@ RadicalComposedNodeWidget.propTypes = {
   node: PropTypes.objectOf(PropTypes.any).isRequired,
   engine: PropTypes.objectOf(PropTypes.any).isRequired,
   children: PropTypes.element.isRequired,
+  onNodeCollapsed: PropTypes.func.isRequired,
+  onNodeExpanded: PropTypes.func.isRequired,
 };
 export default RadicalComposedNodeWidget;

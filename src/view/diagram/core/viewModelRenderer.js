@@ -9,6 +9,7 @@ const addNode = (diagramModel, viewModelNode) => {
     radical_type: viewModelNode.type,
     name: viewModelNode.name,
     attributes: viewModelNode.attributes,
+    isParent: viewModelNode.isParent,
   });
 
   node.setPosition({

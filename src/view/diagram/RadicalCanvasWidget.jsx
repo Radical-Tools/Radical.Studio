@@ -118,24 +118,8 @@ const RadicalCanvasWidget = ({
     ]
   );
 
-  const onItemDeleteCallback = useCallback(
-    (item, deleteFromModel) => {
-      if (item instanceof NodeModel) {
-        if (deleteFromModel) {
-          onObjectRemove(item.getID());
-        } else {
-          onNodeRemove(item.getID());
-        }
-      } else if (deleteFromModel) {
-        onRelationRemove(item.getID());
-      } else {
-        onLinkRemove(item.getID());
-      }
-    },
-    [onNodeRemove, onLinkRemove, onObjectRemove, onRelationRemove]
-  );
 
-  const [engine] = useState(createRadicalEngine(onItemDeleteCallback));
+  const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   const onDropCallback = useCallback(

@@ -118,7 +118,6 @@ const RadicalCanvasWidget = ({
     ]
   );
 
-
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();

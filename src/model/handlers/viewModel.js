@@ -262,7 +262,9 @@ export const expandNode = (state, payload) => {
     newNodes[objectId] = {
       dimension: {},
       position: {},
-      isParent: state.model.objects[objectId].children.length > 0,
+      isParent: state.model.objects[objectId]
+        ? state.model.objects[objectId].children.length > 0
+        : false,
     };
   });
 

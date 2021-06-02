@@ -81,4 +81,17 @@ export const updateLinks = (model, viewModel) => {
   return links;
 };
 
+export const getNestedChildren = (nodeIds, nodes) => {
+  const toRemove = [];
+  nodeIds.forEach((nodeId) => {
+    const childrenIds = nodes[nodeId].childrenNodes;
+    if (childrenIds && childrenIds.length > 0) {
+      toRemove.push(...childrenIds);
+      toRemove.push(...getNestedChildren(childrenIds, nodes));
+    }
+  });
+
+  return toRemove;
+};
+
 export default renderView;

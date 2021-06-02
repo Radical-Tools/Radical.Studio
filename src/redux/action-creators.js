@@ -31,6 +31,8 @@ import {
   VIEWMODEL_VIEW_ACTIVATE,
   VIEWMODEL_VIEW_ALIGNMENT_UPDATE,
   VIEWMODEL_VIEW_LAYOUT_ALIGN,
+  VIEWODEL_NODE_COLLAPSE,
+  VIEWODEL_NODE_EXPAND,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -183,4 +185,14 @@ export const viewModelViewAlignmentUpdate = (offsetX, offsetY, zoom) => ({
 export const viewModelLayoutAlign = () => ({
   type: VIEWMODEL_VIEW_LAYOUT_ALIGN,
   payload: {},
+});
+
+export const viewModelNodeCollapse = (id) => ({
+  type: VIEWODEL_NODE_COLLAPSE,
+  payload: { id },
+});
+
+export const viewModelNodeExpand = (id) => ({
+  type: VIEWODEL_NODE_EXPAND,
+  payload: { id },
 });

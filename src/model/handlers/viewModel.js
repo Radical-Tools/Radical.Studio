@@ -4,11 +4,16 @@ import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import flow from 'lodash/fp/flow';
 import omitBy from 'lodash/fp/omitBy';
+import omit from 'lodash/fp/omit';
 import merge from 'lodash/fp/merge';
 import pick from 'lodash/fp/pick';
 import keys from 'lodash/fp/keys';
 import cloneDeep from 'lodash/fp/cloneDeep';
-import { updateLinks, updateParentalStructure } from '../helpers/viewmodel';
+import {
+  getNestedChildren,
+  updateLinks,
+  updateParentalStructure,
+} from '../helpers/viewmodel';
 import align from '../helpers/layout';
 
 export const initialState = {
@@ -126,6 +131,9 @@ export const addNode = (state, payload) =>
         {
           dimension: {},
           position: {},
+          isParent: state.model.objects[payload.id].children
+            ? state.model.objects[payload.id].children.length > 0
+            : false,
         },
         state
       )
@@ -233,4 +241,44 @@ export const alignLayout = (state) => {
   const newState = cloneDeep(state);
   align(newState.viewModel.views[newState.viewModel.current], true);
   return newState;
+};
+
+export const collapseNode = (state, payload) => {
+  const { nodes } = state.viewModel.views[state.viewModel.current];
+  const { children } = nodes[payload.id];
+  return children.length > 0
+    ? set(
+        ['viewModel', 'views', state.viewModel.current, 'nodes'],
+        omit(getNestedChildren([payload.id], nodes), nodes),
+        state
+      )
+    : state;
+};
+
+export const expandNode = (state, payload) => {
+  const object = state.model.objects[payload.id];
+  const newNodes = {};
+  object.children.forEach((objectId) => {
+    newNodes[objectId] = {
+      dimension: {},
+      position: {},
+      isParent: state.model.objects[objectId]
+        ? state.model.objects[objectId].children.length > 0
+        : false,
+    };
+  });
+
+  return update(
+    [
+      'viewModel',
+      'views',
+      payload.viewId ? payload.viewId : state.viewModel.current,
+      'nodes',
+    ],
+    (nodes) => ({
+      ...nodes,
+      ...newNodes,
+    }),
+    state
+  );
 };

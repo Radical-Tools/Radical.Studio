@@ -52,6 +52,7 @@ const RadicalCanvasWidget = ({
   onItemSelected,
   onNodeCollapsed,
   onNodeExpanded,
+  onAddMetamodelObjectToView,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -139,16 +140,14 @@ const RadicalCanvasWidget = ({
   const [, drop] = useDrop(() => ({
     accept: [MODEL_DROP_TYPE, METAMODEL_DROP_TYPE],
     drop: (item, monitor) => {
+      const dropPoint = engine.getRelativeMousePoint({
+        clientX: monitor.getClientOffset().x,
+        clientY: monitor.getClientOffset().y,
+      });
       if (item.type === MODEL_DROP_TYPE) {
-        onAddObjectToView(
-          item.id,
-          engine.getRelativeMousePoint({
-            clientX: monitor.getClientOffset().x,
-            clientY: monitor.getClientOffset().y,
-          })
-        );
+        onAddObjectToView(item.id, dropPoint);
       } else {
-        // console.log(item);
+        onAddMetamodelObjectToView(item.metamodelType, dropPoint);
       }
     },
   }));
@@ -187,6 +186,7 @@ RadicalCanvasWidget.propTypes = {
   onItemSelected: PropTypes.func.isRequired,
   onNodeCollapsed: PropTypes.func.isRequired,
   onNodeExpanded: PropTypes.func.isRequired,
+  onAddMetamodelObjectToView: PropTypes.func.isRequired,
 };
 
 export default React.memo(RadicalCanvasWidget);

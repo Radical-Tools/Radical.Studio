@@ -21,6 +21,7 @@ export const VIEWMODEL_VIEW_ADD = 'viewmodel/view/add';
 export const VIEWMODEL_VIEW_REMOVE = 'viewmodel/view/remove';
 export const VIEWMODEL_VIEW_UPDATE = 'viewmodel/view/update';
 export const VIEWMODEL_NODE_ADD = 'viewmodel/node/add';
+export const VIEWMODEL_METAMODELOBJECT_ADD = 'viewmodel/metamodelobject/add';
 export const VIEWMODEL_NODE_REMOVE = 'viewmodel/node/remove';
 export const VIEWMODEL_NODE_UPDATE = 'viewmodel/node/update';
 export const VIEWMODEL_LINK_REMOVE = 'viewmodel/link/remove';

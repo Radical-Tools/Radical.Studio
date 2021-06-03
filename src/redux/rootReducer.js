@@ -36,6 +36,16 @@ const handlers = {
   [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
   [actionTypes.VIEWMODEL_NODE_ADD]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.addNode(state, payload)),
+  [actionTypes.VIEWMODEL_METAMODELOBJECT_ADD]: (state, payload) =>
+    common.editItem(
+      viewModel.updateCurrentView(
+        viewModel.addNode(model.addObject(state, payload), payload)
+      ),
+      {
+        id: payload.id,
+        type: 'object',
+      }
+    ),
   [actionTypes.VIEWMODEL_LINK_REMOVE]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.removeLink(state, payload)),
   [actionTypes.VIEWMODEL_LINK_ADD]: (state, payload) =>

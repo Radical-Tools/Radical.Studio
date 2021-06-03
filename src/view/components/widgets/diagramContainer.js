@@ -8,6 +8,7 @@ import {
   modelRelationRemove,
   viewModelLayoutAlign,
   viewModelLinkRemove,
+  viewModelMetamodelObjectAdd,
   viewModelNodeAdd,
   viewModelNodeCollapse,
   viewModelNodeExpand,
@@ -46,6 +47,8 @@ const mapDispatchToProps = (dispatch) => ({
   onItemSelected: (id, type) => dispatch(modelItemEdit(id, type)),
   onNodeCollapsed: (id) => dispatch(viewModelNodeCollapse(id)),
   onNodeExpanded: (id) => dispatch(viewModelNodeExpand(id)),
+  onAddMetamodelObjectToView: (type, position) =>
+    dispatch(viewModelMetamodelObjectAdd(undefined, type, position)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);

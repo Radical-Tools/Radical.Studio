@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import WidgetsRoundedIcon from '@material-ui/icons/WidgetsRounded';
 import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
+import EditAttributesRoundedIcon from '@material-ui/icons/EditAttributesRounded';
+import ClassRoundedIcon from '@material-ui/icons/ClassRounded';
 import { useDrag } from 'react-dnd';
 import CommonForm from '../common/CommonForm';
 import AccordionItem from '../common/AccordionItem';
@@ -25,7 +26,7 @@ const ToolbarItem = ({ name, id }) => {
 const MetamodelToolbarWidget = (props) => {
   const { sandbox, upsertItem, objectClasses } = props;
 
-  const [expanded, setExpanded] = useState(undefined);
+  const [expanded, setExpanded] = useState('Toolbar');
 
   const handleChangeCallback = useCallback(
     (panel) => (event, newExpanded) => setExpanded(newExpanded ? panel : false),
@@ -36,7 +37,7 @@ const MetamodelToolbarWidget = (props) => {
     <div>
       <AccordionItem
         name="Toolbar"
-        logoRender={<WidgetsRoundedIcon />}
+        logoRender={<ClassRoundedIcon />}
         onClick={handleChangeCallback}
         expanded={expanded === 'Toolbar'}
       >
@@ -48,7 +49,7 @@ const MetamodelToolbarWidget = (props) => {
       </AccordionItem>
       <AccordionItem
         name="Properties"
-        logoRender={<WidgetsRoundedIcon />}
+        logoRender={<EditAttributesRoundedIcon />}
         onClick={handleChangeCallback}
         expanded={expanded === 'Properties' || sandbox.data !== undefined}
         disabled={sandbox.data === undefined}

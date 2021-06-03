@@ -137,7 +137,7 @@ function update(layout, viewModel, margin) {
   });
 }
 
-const align = (viewModel, isAuto, margin = { x: 0, y: 40 }, padding = 50) => {
+const align = (viewModel, isAuto, margin = { x: 50, y: 90 }, padding = 50) => {
   if (isEmpty(viewModel.nodes)) {
     return;
   }

@@ -2,12 +2,15 @@ import { connect } from 'react-redux';
 import DiagramWidget from './DiagramWidget';
 import renderView from '../../../model/helpers/viewmodel';
 import {
+  modelItemEdit,
   modelObjectRemove,
   modelRelationAdd,
   modelRelationRemove,
   viewModelLayoutAlign,
   viewModelLinkRemove,
   viewModelNodeAdd,
+  viewModelNodeCollapse,
+  viewModelNodeExpand,
   viewModelNodeRemove,
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
@@ -40,6 +43,9 @@ const mapDispatchToProps = (dispatch) => ({
   onLayoutAlign: () => dispatch(viewModelLayoutAlign()),
   onAddObjectToView: (id, position) =>
     dispatch(viewModelNodeAdd(undefined, id, position)),
+  onItemSelected: (id, type) => dispatch(modelItemEdit(id, type)),
+  onNodeCollapsed: (id) => dispatch(viewModelNodeCollapse(id)),
+  onNodeExpanded: (id) => dispatch(viewModelNodeExpand(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);

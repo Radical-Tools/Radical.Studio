@@ -118,12 +118,12 @@ function C4ExternalSystem({ width, height, isSelected }) {
   );
 }
 
-function C4Actor({ width, height }) {
+function C4Actor({ width, height, isSelected }) {
   return (
     <rect
       fill="#85bbf0"
       fillOpacity="1.0"
-      stroke="white"
+      stroke={isSelected ? 'black' : 'white'}
       rx="5"
       ry="5"
       x="1"
@@ -185,8 +185,13 @@ const Icon = React.memo(({ radicalType, width, height, isSelected }) => {
   return Generic({ width, height, isSelected });
 });
 
-const Widget = ({ model, engine }) => (
-  <RadicalComposedNodeWidget engine={engine} node={model}>
+const Widget = ({ model, engine, onNodeExpanded, onNodeCollapsed }) => (
+  <RadicalComposedNodeWidget
+    engine={engine}
+    node={model}
+    onNodeExpanded={onNodeExpanded}
+    onNodeCollapsed={onNodeCollapsed}
+  >
     <Icon
       radicalType={model.options.radical_type}
       width={model.size.width}
@@ -198,8 +203,10 @@ const Widget = ({ model, engine }) => (
 
 const MemoizedWidget = React.memo(Widget);
 export default class RadicalComposedNodeFactory extends AbstractReactFactory {
-  constructor() {
+  constructor(onNodeExpanded, onNodeCollapsed) {
     super('radical-composed-node');
+    this.onNodeExpanded = onNodeExpanded;
+    this.onNodeCollapsed = onNodeCollapsed;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -217,6 +224,8 @@ export default class RadicalComposedNodeFactory extends AbstractReactFactory {
         width={model.size.width}
         height={model.size.height}
         isSelected={model.isSelected()}
+        onNodeExpanded={this.onNodeExpanded}
+        onNodeCollapsed={this.onNodeCollapsed}
       />
     );
   }

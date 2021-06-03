@@ -9,6 +9,10 @@ import {
   DIAGRAM_ALIGNMENT_UPDATED_EVENT,
   DRAG_DIAGRAM_ITEMS_END_EVENT,
   LINK_CONNECTED_TO_TARGET_EVENT,
+  DIAGRAM_ENTITY_SELECTED,
+  DIAGRAM_NODE_COLLAPSED,
+  DIAGRAM_NODE_EXPANDED,
+  DIAGRAM_ENTITY_DELETED,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
@@ -44,6 +48,9 @@ const RadicalCanvasWidget = ({
   onAddObjectToView,
   onObjectRemove,
   onRelationRemove,
+  onItemSelected,
+  onNodeCollapsed,
+  onNodeExpanded,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -63,32 +70,54 @@ const RadicalCanvasWidget = ({
               e.entity.options.zoom
             );
             break;
+          case DIAGRAM_ENTITY_SELECTED:
+            if (e.isSelected) {
+              onItemSelected(
+                e.entity.getID(),
+                e.entity instanceof NodeModel ? 'object' : 'relation'
+              );
+            }
+            break;
+          case DIAGRAM_NODE_COLLAPSED:
+            onNodeCollapsed(e.id);
+            break;
+          case DIAGRAM_NODE_EXPANDED:
+            onNodeExpanded(e.id);
+            break;
+          case DIAGRAM_ENTITY_DELETED:
+            if (e.entity instanceof NodeModel) {
+              if (e.deleteFromModel) {
+                onObjectRemove(e.entity.getID());
+              } else {
+                onNodeRemove(e.entity.getID());
+              }
+            } else if (e.deleteFromModel) {
+              onRelationRemove(e.entity.getID());
+            } else {
+              onLinkRemove(e.entity.getID());
+            }
+            break;
+
           default:
             break;
         }
       },
     }),
-    [onDragItemsEnd, onLinkConnected, onDiagramAlignmentUpdated]
+    [
+      onDragItemsEnd,
+      onLinkConnected,
+      onDiagramAlignmentUpdated,
+      onItemSelected,
+      onNodeExpanded,
+      onNodeCollapsed,
+      onNodeRemove,
+      onLinkRemove,
+      onObjectRemove,
+      onRelationRemove,
+    ]
   );
 
-  const onItemDeleteCallback = useCallback(
-    (item, deleteFromModel) => {
-      if (item instanceof NodeModel) {
-        if (deleteFromModel) {
-          onObjectRemove(item.getID());
-        } else {
-          onNodeRemove(item.getID());
-        }
-      } else if (deleteFromModel) {
-        onRelationRemove(item.getID());
-      } else {
-        onLinkRemove(item.getID());
-      }
-    },
-    [onNodeRemove, onLinkRemove, onObjectRemove, onRelationRemove]
-  );
-
-  const [engine] = useState(createRadicalEngine(onItemDeleteCallback));
+  const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   useEffect(() => {
@@ -150,6 +179,9 @@ RadicalCanvasWidget.propTypes = {
   onRelationRemove: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
   onAddObjectToView: PropTypes.func.isRequired,
+  onItemSelected: PropTypes.func.isRequired,
+  onNodeCollapsed: PropTypes.func.isRequired,
+  onNodeExpanded: PropTypes.func.isRequired,
 };
 
 export default React.memo(RadicalCanvasWidget);

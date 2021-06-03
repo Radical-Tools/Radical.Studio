@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import {
   LAYOUT_GRID_SET,
   LAYOUT_WIDGET_ADD,
@@ -33,6 +34,7 @@ import {
   VIEWMODEL_VIEW_LAYOUT_ALIGN,
   VIEWODEL_NODE_COLLAPSE,
   VIEWODEL_NODE_EXPAND,
+  VIEWMODEL_METAMODELOBJECT_ADD,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -140,6 +142,16 @@ export const viewModelViewUpdate = (id, name, tags) => ({
 export const viewModelNodeAdd = (viewId, id, position, dimension) => ({
   type: VIEWMODEL_NODE_ADD,
   payload: { viewId, id, position, dimension },
+});
+
+export const viewModelMetamodelObjectAdd = (
+  viewId,
+  type,
+  position,
+  dimension
+) => ({
+  type: VIEWMODEL_METAMODELOBJECT_ADD,
+  payload: { viewId, id: uuidv4(), type, position, dimension },
 });
 
 export const viewModelNodeRemove = (id) => ({

@@ -3,6 +3,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
+import { MODEL_DROP_TYPE } from '../../diagram/consts';
 
 export const transform = (objects) => {
   const data = [];
@@ -46,6 +47,7 @@ export const createCustomRow = (onSelected) => (rowData) => {
   const [id, name, , actions] = rowData;
   return (
     <ObjectsInventoryRow
+      key={id}
       id={id}
       name={name}
       type={id}
@@ -58,22 +60,21 @@ export const createCustomRow = (onSelected) => (rowData) => {
 const ObjectsInventoryRow = (props) => {
   const { id, name, actions, onSelected } = props;
 
-  const [dragObject] = useDrag({
-    item: { type: 'string' },
-    begin: () => id,
+  const [, drag] = useDrag({
+    item: { id, type: MODEL_DROP_TYPE },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
 
   return (
-    <tr key={id}>
+    <tr>
       <td style={{ paddingLeft: '20px' }}>
         <Chip
           label={name}
           color="primary"
           size="small"
-          ref={dragObject}
+          ref={drag}
           onClick={() => onSelected(id)}
         />
       </td>

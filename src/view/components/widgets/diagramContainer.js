@@ -8,6 +8,8 @@ import {
   modelRelationRemove,
   viewModelLayoutAlign,
   viewModelLinkRemove,
+  viewModelMetamodelObjectAdd,
+  viewModelNodeAdd,
   viewModelNodeCollapse,
   viewModelNodeExpand,
   viewModelNodeRemove,
@@ -40,9 +42,13 @@ const mapDispatchToProps = (dispatch) => ({
   onCanvasAlignmentUpdated: (offsetX, offsetY, zoom) =>
     dispatch(viewModelViewAlignmentUpdate(offsetX, offsetY, zoom)),
   onLayoutAlign: () => dispatch(viewModelLayoutAlign()),
+  onAddObjectToView: (id, position) =>
+    dispatch(viewModelNodeAdd(undefined, id, position)),
   onItemSelected: (id, type) => dispatch(modelItemEdit(id, type)),
   onNodeCollapsed: (id) => dispatch(viewModelNodeCollapse(id)),
   onNodeExpanded: (id) => dispatch(viewModelNodeExpand(id)),
+  onAddMetamodelObjectToView: (type, position) =>
+    dispatch(viewModelMetamodelObjectAdd(undefined, type, position)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);

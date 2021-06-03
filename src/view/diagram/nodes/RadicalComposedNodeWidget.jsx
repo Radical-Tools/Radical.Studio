@@ -33,7 +33,6 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
   return (
     <div id="main">
       <div
-        borderRadius={3}
         style={{
           position: 'relative',
           width: node.size.width,
@@ -67,7 +66,7 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
               </Typography>
             )}
 
-            <div flexWrap="wrap" fontStyle="italic" fontSize={8}>
+            <div>
               <Typography variant="caption">
                 {node.options.attributes?.description}
               </Typography>
@@ -85,7 +84,7 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
               port.getOptions().alignment,
               port.order
             )}
-            key={port.name}
+            key={port.getOptions().name}
             port={port}
             engine={engine}
           >

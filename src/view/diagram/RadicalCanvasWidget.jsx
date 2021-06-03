@@ -1,24 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
+import { NodeModel } from '@projectstorm/react-diagrams';
+import { useDrop } from 'react-dnd';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { NodeModel } from '@projectstorm/react-diagrams';
 import createRadicalEngine from './core/createRadicalEngine';
 import {
   DIAGRAM_ALIGNMENT_UPDATED_EVENT,
   DRAG_DIAGRAM_ITEMS_END_EVENT,
-  DROP_DATA_KEY,
   LINK_CONNECTED_TO_TARGET_EVENT,
   DIAGRAM_ENTITY_SELECTED,
   DIAGRAM_NODE_COLLAPSED,
   DIAGRAM_NODE_EXPANDED,
   DIAGRAM_ENTITY_DELETED,
+  MODEL_DROP_TYPE,
+  METAMODEL_DROP_TYPE,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
 import ToolbarMenu from '../components/canvas/ToolbarMenu';
-
-const preventDefault = (event) => event.preventDefault();
 
 const mapViewmodel = (viewmodel) => {
   const diagramModel = new RadicalDiagramModel();
@@ -40,18 +40,19 @@ const useStyles = makeStyles(() => ({
 const RadicalCanvasWidget = ({
   viewmodel,
   alignment,
-  onDrop,
   onDragItemsEnd,
   onLinkConnected,
   onDiagramAlignmentUpdated,
   onNodeRemove,
   onLinkRemove,
   onLayoutAlign,
+  onAddObjectToView,
   onObjectRemove,
   onRelationRemove,
   onItemSelected,
   onNodeCollapsed,
   onNodeExpanded,
+  onAddMetamodelObjectToView,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -121,17 +122,6 @@ const RadicalCanvasWidget = ({
   const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
-  const onDropCallback = useCallback(
-    (event) => {
-      const data = event.dataTransfer.getData(DROP_DATA_KEY);
-      onDrop(
-        engine.getRelativeMousePoint(event),
-        data ? JSON.parse(data) : undefined
-      );
-    },
-    [onDrop, engine]
-  );
-
   useEffect(() => {
     setViewName(viewmodel.name);
     const model = mapViewmodel(viewmodel);
@@ -147,24 +137,35 @@ const RadicalCanvasWidget = ({
     model.setInitialOffset(alignment.offsetX, alignment.offsetY);
     setIsModelSet(true);
   }, [viewmodel, alignment, engine, registerCallbacks]);
-
+  const [, drop] = useDrop(() => ({
+    accept: [MODEL_DROP_TYPE, METAMODEL_DROP_TYPE],
+    drop: (item, monitor) => {
+      const dropPoint = engine.getRelativeMousePoint({
+        clientX: monitor.getClientOffset().x,
+        clientY: monitor.getClientOffset().y,
+      });
+      if (item.type === MODEL_DROP_TYPE) {
+        onAddObjectToView(item.id, dropPoint);
+      } else {
+        onAddMetamodelObjectToView(item.metamodelType, dropPoint);
+      }
+    },
+  }));
   return (
     <>
       {engine && isModelSet && (
-        <div
-          className={classes.fill}
-          onDrop={onDropCallback}
-          onDragOver={preventDefault}
-        >
+        <div className={classes.fill}>
           <ToolbarMenu
             onLayoutAlign={onLayoutAlign}
             onZoomToFit={() => engine.zoomToFitNodes({ margin: 50 })}
             name={viewName}
           />
-          <CanvasWidget
-            className={[classes.fillCanvas, 'canvas-view'].join(' ')}
-            engine={engine}
-          />
+          <div ref={drop} className={classes.fillCanvas}>
+            <CanvasWidget
+              className={[classes.fill, 'canvas-view'].join(' ')}
+              engine={engine}
+            />
+          </div>
         </div>
       )}
     </>
@@ -173,7 +174,6 @@ const RadicalCanvasWidget = ({
 RadicalCanvasWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
-  onDrop: PropTypes.func.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
@@ -182,9 +182,11 @@ RadicalCanvasWidget.propTypes = {
   onObjectRemove: PropTypes.func.isRequired,
   onRelationRemove: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
+  onAddObjectToView: PropTypes.func.isRequired,
   onItemSelected: PropTypes.func.isRequired,
   onNodeCollapsed: PropTypes.func.isRequired,
   onNodeExpanded: PropTypes.func.isRequired,
+  onAddMetamodelObjectToView: PropTypes.func.isRequired,
 };
 
 export default React.memo(RadicalCanvasWidget);

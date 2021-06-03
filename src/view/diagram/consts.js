@@ -1,6 +1,5 @@
 import { PortModelAlignment } from '@projectstorm/react-diagrams';
 
-export const DROP_DATA_KEY = 'storm-diagram-node';
 export const DRAG_DIAGRAM_ITEMS_END_EVENT = 'dragDiagramsItemsEnd';
 export const LINK_CONNECTED_TO_TARGET_EVENT = 'linkConnectedToTarget';
 export const DIAGRAM_ALIGNMENT_UPDATED_EVENT = 'offsetUpdated';
@@ -17,3 +16,5 @@ export const REVERSED_ALIGNMENTS = [
   PortModelAlignment.LEFT,
   PortModelAlignment.BOTTOM,
 ];
+export const MODEL_DROP_TYPE = 'model-object';
+export const METAMODEL_DROP_TYPE = 'metamodel-object';

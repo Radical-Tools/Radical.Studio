@@ -4,6 +4,7 @@ import MetamodelToolbarWidget from './MetamodelToolbarWidget';
 
 const mapStateToProps = (state) => ({
   sandbox: state.common.sandbox,
+  objectClasses: state.metamodel?.classes || [],
 });
 
 const mapDispatchToProps = (dispatch) => ({

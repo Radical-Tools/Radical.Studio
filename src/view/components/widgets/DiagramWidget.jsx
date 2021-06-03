@@ -13,11 +13,13 @@ const DiagramWidget = (props) => {
     onCanvasAlignmentUpdated,
     onLinkRemoved,
     onLayoutAlign,
+    onAddObjectToView,
     onObjectRemoved,
     onRelationRemoved,
     onItemSelected,
     onNodeCollapsed,
     onNodeExpanded,
+    onAddMetamodelObjectToView,
   } = props;
   return (
     <RadicalCanvasWidget
@@ -26,7 +28,6 @@ const DiagramWidget = (props) => {
           onNodeUpdate(item.getID(), item.position, item.dimension);
         });
       }}
-      onDrop={(point, data) => console.log(point, data)}
       onDiagramAlignmentUpdated={(offsetX, offsetY, zoom) =>
         onCanvasAlignmentUpdated(offsetX, offsetY, zoom)
       }
@@ -40,9 +41,11 @@ const DiagramWidget = (props) => {
       viewmodel={view}
       alignment={alignment}
       onLayoutAlign={onLayoutAlign}
+      onAddObjectToView={onAddObjectToView}
       onItemSelected={onItemSelected}
       onNodeCollapsed={onNodeCollapsed}
       onNodeExpanded={onNodeExpanded}
+      onAddMetamodelObjectToView={onAddMetamodelObjectToView}
     />
   );
 };
@@ -58,9 +61,11 @@ DiagramWidget.propTypes = {
   onObjectRemoved: PropTypes.func.isRequired,
   onRelationRemoved: PropTypes.func.isRequired,
   onLayoutAlign: PropTypes.func.isRequired,
+  onAddObjectToView: PropTypes.func.isRequired,
   onItemSelected: PropTypes.func.isRequired,
   onNodeCollapsed: PropTypes.func.isRequired,
   onNodeExpanded: PropTypes.func.isRequired,
+  onAddMetamodelObjectToView: PropTypes.func.isRequired,
 };
 
 export default React.memo(DiagramWidget);

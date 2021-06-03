@@ -31,7 +31,7 @@ export const addObject = (state, payload) => {
   const id = payload.id ? payload.id : uuidv4();
 
   const object = {
-    name: payload.name ? payload.name : 'Default Name',
+    name: payload.name ? payload.name : `New ${payload.type}`,
     type: payload.type,
     attributes: payload.attributes ? { ...payload.attributes } : {},
     children: [],

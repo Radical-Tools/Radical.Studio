@@ -16,3 +16,5 @@ export const REVERSED_ALIGNMENTS = [
   PortModelAlignment.LEFT,
   PortModelAlignment.BOTTOM,
 ];
+export const MODEL_DROP_TYPE = 'model-object';
+export const METAMODEL_DROP_TYPE = 'metamodel-object';

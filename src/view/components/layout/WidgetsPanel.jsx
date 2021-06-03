@@ -40,7 +40,7 @@ const WidgetsPanel = ({
       preventCollision
     >
       <div key="top-panel">
-        <Card borderRadius="borderRadius" elevation={3}>
+        <Card elevation={3}>
           <TopMenu
             onChangeTheme={onChangeTheme}
             onShowDrawer={onToggleDrawer}

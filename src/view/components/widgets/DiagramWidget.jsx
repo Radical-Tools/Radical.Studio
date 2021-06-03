@@ -27,7 +27,6 @@ const DiagramWidget = (props) => {
           onNodeUpdate(item.getID(), item.position, item.dimension);
         });
       }}
-      onDrop={(point, data) => console.log(point, data)}
       onDiagramAlignmentUpdated={(offsetX, offsetY, zoom) =>
         onCanvasAlignmentUpdated(offsetX, offsetY, zoom)
       }

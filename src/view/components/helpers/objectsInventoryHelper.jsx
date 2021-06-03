@@ -3,6 +3,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
+import { MODEL_DROP_TYPE } from '../../diagram/consts';
 
 export const transform = (objects) => {
   const data = [];
@@ -60,7 +61,7 @@ const ObjectsInventoryRow = (props) => {
   const { id, name, actions, onSelected } = props;
 
   const [, drag] = useDrag({
-    item: { id, type: 'model-object' },
+    item: { id, type: MODEL_DROP_TYPE },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

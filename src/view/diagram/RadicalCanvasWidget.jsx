@@ -13,6 +13,8 @@ import {
   DIAGRAM_NODE_COLLAPSED,
   DIAGRAM_NODE_EXPANDED,
   DIAGRAM_ENTITY_DELETED,
+  MODEL_DROP_TYPE,
+  METAMODEL_DROP_TYPE,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
@@ -38,7 +40,6 @@ const useStyles = makeStyles(() => ({
 const RadicalCanvasWidget = ({
   viewmodel,
   alignment,
-  // onDrop,
   onDragItemsEnd,
   onLinkConnected,
   onDiagramAlignmentUpdated,
@@ -136,15 +137,20 @@ const RadicalCanvasWidget = ({
     setIsModelSet(true);
   }, [viewmodel, alignment, engine, registerCallbacks]);
   const [, drop] = useDrop(() => ({
-    accept: ['model-object'],
-    drop: (item, monitor) =>
-      onAddObjectToView(
-        item.id,
-        engine.getRelativeMousePoint({
-          clientX: monitor.getClientOffset().x,
-          clientY: monitor.getClientOffset().y,
-        })
-      ),
+    accept: [MODEL_DROP_TYPE, METAMODEL_DROP_TYPE],
+    drop: (item, monitor) => {
+      if (item.type === MODEL_DROP_TYPE) {
+        onAddObjectToView(
+          item.id,
+          engine.getRelativeMousePoint({
+            clientX: monitor.getClientOffset().x,
+            clientY: monitor.getClientOffset().y,
+          })
+        );
+      } else {
+        // console.log(item);
+      }
+    },
   }));
   return (
     <>
@@ -169,7 +175,6 @@ const RadicalCanvasWidget = ({
 RadicalCanvasWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
-  // onDrop: PropTypes.func.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,

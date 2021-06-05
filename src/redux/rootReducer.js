@@ -5,7 +5,6 @@ import * as theme from '../model/handlers/theme';
 import * as viewModel from '../model/handlers/viewModel';
 import * as errors from '../model/handlers/errors';
 import * as actionTypes from './action-types';
-import testData from '../data/testData';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,
@@ -32,7 +31,7 @@ const handlers = {
   [actionTypes.MODEL_ITEM_UPSERT]: (state, payload) =>
     viewModel.updateCurrentView(common.upsertItem(state, payload)),
   [actionTypes.MODEL_METAMODEL_SELECT]: (state, payload) =>
-    testData(model.selectMetamodel(layout.closeHomeDialog(state), payload)),
+    model.selectMetamodel(layout.closeHomeDialog(state), payload),
   [actionTypes.VIEWMODEL_VIEW_ADD]: viewModel.addView,
   [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
   [actionTypes.VIEWMODEL_NODE_ADD]: (state, payload) =>

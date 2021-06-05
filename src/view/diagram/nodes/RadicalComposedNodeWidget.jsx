@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
@@ -35,6 +35,15 @@ const useStyles = makeStyles(() => ({
     top: -30,
     right: 0,
   },
+  nameInput: {
+    width: '100%',
+    border: 'none',
+    outline: 'none',
+    background: 'transparent',
+    textAlign: 'center',
+    fontSize: 16,
+    padding: '0px',
+  },
 }));
 const RadicalComposedNodeWidget = ({
   node,
@@ -44,6 +53,7 @@ const RadicalComposedNodeWidget = ({
   name,
 }) => {
   const classes = useStyles();
+  const inputEl = useRef(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [currentName, setCurrentName] = useState('');
   const finishEditCallback = useCallback(() => {
@@ -76,6 +86,9 @@ const RadicalComposedNodeWidget = ({
     if (isInEditMode && !isSelected) {
       finishEditCallback();
     }
+    if (isInEditMode && isSelected) {
+      inputEl.current.focus();
+    }
     setCurrentName(name);
   }, [isSelected, isInEditMode, name, node, finishEditCallback]);
 
@@ -97,21 +110,14 @@ const RadicalComposedNodeWidget = ({
             textAlign: 'center',
             display: 'flex',
             justifyContent: 'center',
-            paddingTop: 0,
           }}
         >
           <div>
             {isInEditMode && isSelected ? (
               <input
-                style={{
-                  width: '100%',
-                  border: 'none',
-                  outline: 'none',
-                  background: 'transparent',
-                  textAlign: 'center',
-                  fontSize: 16,
-                }}
+                className={classes.nameInput}
                 autoComplete="off"
+                ref={inputEl}
                 onBlur={finishEditCallback}
                 value={currentName}
                 onChange={setCurrentNameCallback}
@@ -122,7 +128,6 @@ const RadicalComposedNodeWidget = ({
                 {name}
               </Typography>
             )}
-
             <Divider />
             {node.options.attributes?.technology ? (
               <Typography variant="caption">

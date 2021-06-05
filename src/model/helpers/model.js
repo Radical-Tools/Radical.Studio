@@ -111,12 +111,35 @@ export const validateRelation = (metamodel, model, relation) => {
     throw new Error(`Missing target object: ${relation.target}`);
   }
 
+  const relations = findRelations(
+    model,
+    [relation.source],
+    [relation.type],
+    [relation.target]
+  );
+  if (relations.length > 0) {
+    throw new Error(`Relation already exist: ${relations}`);
+  }
+
   if (!metamodel.relations.find((item) => item.id === relation.type)) {
     throw new Error(`Missing metamodel relation type: ${relation.type}`);
   }
 
   const source = model.objects[relation.source];
   const target = model.objects[relation.target];
+
+  if (
+    relation.type !== 'Includes' &&
+    source.children &&
+    source.children.includes(relation.target)
+  ) {
+    throw new Error(`Interaction with child is not allowed: ${source}`);
+  }
+
+  if (relation.type !== 'Includes' && source.parent === relation.target) {
+    throw new Error(`Interaction with parent is not allowed: ${source}`);
+  }
+
   const { pairs } = find(
     (item) => item.id === relation.type,
     metamodel.relations
@@ -147,3 +170,19 @@ export const validateObject = (metamodel, model, object) => {
   }
   validateObjectAttributes(metamodel, object.type, object.attributes);
 };
+
+export const findValidRelations = (metamodel, model, source, target) =>
+  findValidRelationClass(
+    metamodel,
+    model.objects[source].type,
+    model.objects[target].type
+  )
+    .map((relation) => relation.id)
+    .filter((type) => {
+      try {
+        validateRelation(metamodel, model, { source, target, type });
+      } catch (e) {
+        return false;
+      }
+      return true;
+    });

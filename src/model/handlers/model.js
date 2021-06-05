@@ -160,9 +160,8 @@ export const removeRelation = (state, payload) => {
           unset(['model', 'objects', relation.target, 'parent']),
           update(
             ['model', 'objects', relation.source, 'children'],
-            (children) => {
-              children.filter((item) => item.target !== relation.target);
-            }
+            (children) =>
+              children.filter((item) => item.target !== relation.target)
           )
         )
       : identity

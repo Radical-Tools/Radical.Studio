@@ -5,7 +5,6 @@ import * as theme from '../model/handlers/theme';
 import * as viewModel from '../model/handlers/viewModel';
 import * as errors from '../model/handlers/errors';
 import * as actionTypes from './action-types';
-import testData from '../data/testData';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,
@@ -29,9 +28,10 @@ const handlers = {
     viewModel.updateCurrentView(model.updateRelation(state, payload)),
   [actionTypes.MODEL_ITEM_CREATE]: common.createItem,
   [actionTypes.MODEL_ITEM_EDIT]: common.editItem,
-  [actionTypes.MODEL_ITEM_UPSERT]: common.upsertItem,
+  [actionTypes.MODEL_ITEM_UPSERT]: (state, payload) =>
+    viewModel.updateCurrentView(common.upsertItem(state, payload)),
   [actionTypes.MODEL_METAMODEL_SELECT]: (state, payload) =>
-    testData(model.selectMetamodel(layout.closeHomeDialog(state), payload)),
+    model.selectMetamodel(layout.closeHomeDialog(state), payload),
   [actionTypes.VIEWMODEL_VIEW_ADD]: viewModel.addView,
   [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
   [actionTypes.VIEWMODEL_NODE_ADD]: (state, payload) =>
@@ -59,10 +59,14 @@ const handlers = {
     viewModel.updateCurrentView(viewModel.removeNode(state, payload)),
   [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate,
   [actionTypes.VIEWMODEL_VIEW_LAYOUT_ALIGN]: viewModel.alignLayout,
-  [actionTypes.VIEWODEL_NODE_COLLAPSE]: (state, payload) =>
+  [actionTypes.VIEWMODEL_NODE_COLLAPSE]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
-  [actionTypes.VIEWODEL_NODE_EXPAND]: (state, payload) =>
+  [actionTypes.VIEWMODEL_NODE_EXPAND]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
+  [actionTypes.VIEWMODEL_ITEM_SELECTION_CHANGED]: (state, payload) =>
+    viewModel.updateCurrentView(
+      common.editItem(viewModel.itemSelectionChanged(state, payload), payload)
+    ),
 };
 
 export const initialState = {

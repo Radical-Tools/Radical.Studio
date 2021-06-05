@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
-import ControlPointRoundedIcon from '@material-ui/icons/ControlPointRounded';
-import RemoveCircleOutlineRoundedIcon from '@material-ui/icons/RemoveCircleOutlineRounded';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import values from 'lodash/fp/values';
 import {
+  DIAGRAM_LINK_TARGET_SELECTED_EVENT,
   DIAGRAM_NODE_COLLAPSED,
   DIAGRAM_NODE_EXPANDED,
   PORT_BORDER_RADIUS,
 } from '../consts';
 import { getPortStyle } from '../helpers';
+import CollapsePanel from '../../components/canvas/CollapsePanel';
+import LinkingPanel from '../../components/canvas/LinkingPanel';
 
 const useStyles = makeStyles(() => ({
   smartPort: {
@@ -27,7 +27,15 @@ const useStyles = makeStyles(() => ({
       background: '#000000',
     },
   },
+  linkingPanel: {
+    position: 'absolute',
+    width: '100%',
+    height: '20px',
+    top: -30,
+    right: 0,
+  },
 }));
+
 const RadicalComposedNodeWidget = ({ node, engine, children }) => {
   const classes = useStyles();
   return (
@@ -92,43 +100,44 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
           </PortWidget>
         ))}
       </div>
-      <div
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          top: -7,
-          left: node.size.width - 40,
+      <CollapsePanel
+        size={node.size}
+        isParent={node.options.isParent}
+        onExpand={() => {
+          node.fireEvent(
+            {
+              id: node.getID(),
+            },
+            DIAGRAM_NODE_EXPANDED
+          );
         }}
-      >
-        {node.size.width === 150 && node.options.isParent && (
-          <IconButton
-            onClick={() => {
-              node.fireEvent(
-                {
-                  id: node.getID(),
-                },
-                DIAGRAM_NODE_EXPANDED
-              );
-            }}
-          >
-            <ControlPointRoundedIcon />
-          </IconButton>
-        )}
-        {node.size.width > 150 && node.options.isParent && (
-          <IconButton
-            onClick={() => {
-              node.fireEvent(
-                {
-                  id: node.getID(),
-                },
-                DIAGRAM_NODE_COLLAPSED
-              );
-            }}
-          >
-            <RemoveCircleOutlineRoundedIcon />
-          </IconButton>
-        )}
+        onCollapse={() => {
+          node.fireEvent(
+            {
+              id: node.getID(),
+            },
+            DIAGRAM_NODE_COLLAPSED
+          );
+        }}
+      />
+      <div className={classes.linkingPanel}>
+        {node.options.possibleRelations &&
+          node.options.possibleRelations.types.map((type) => (
+            <LinkingPanel
+              key={type}
+              label={type}
+              onClick={() => {
+                node.fireEvent(
+                  {
+                    source: node.options.possibleRelations.source,
+                    target: node.getID(),
+                    type,
+                  },
+                  DIAGRAM_LINK_TARGET_SELECTED_EVENT
+                );
+              }}
+            />
+          ))}
       </div>
     </div>
   );

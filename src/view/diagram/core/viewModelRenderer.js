@@ -9,7 +9,8 @@ const addNode = (diagramModel, viewModelNode) => {
     radical_type: viewModelNode.type,
     name: viewModelNode.name,
     attributes: viewModelNode.attributes,
-    isParent: viewModelNode.isParent,
+    isParent: viewModelNode.children.length > 0,
+    possibleRelations: viewModelNode.possibleRelations,
   });
 
   node.setPosition({
@@ -17,6 +18,7 @@ const addNode = (diagramModel, viewModelNode) => {
     y: viewModelNode.position.y - viewModelNode.dimension.height / 2,
   });
   node.setSize(viewModelNode.dimension.width, viewModelNode.dimension.height);
+  node.setSelected(viewModelNode.isSelected);
 
   diagramModel.addNode(node);
   // todo: parent boundary processing by canvas widget temporarily disabled

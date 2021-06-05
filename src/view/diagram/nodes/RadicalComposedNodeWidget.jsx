@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import ControlPointRoundedIcon from '@material-ui/icons/ControlPointRounded';
 import RemoveCircleOutlineRoundedIcon from '@material-ui/icons/RemoveCircleOutlineRounded';
@@ -12,6 +12,7 @@ import {
   DIAGRAM_NODE_COLLAPSED,
   DIAGRAM_NODE_EXPANDED,
   PORT_BORDER_RADIUS,
+  DIAGRAM_NODE_NAME_CHANGED,
 } from '../consts';
 import { getPortStyle } from '../helpers';
 
@@ -38,13 +39,38 @@ const RadicalComposedNodeWidget = ({
   const classes = useStyles();
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [currentName, setCurrentName] = useState('');
+  const finishEditCallback = useCallback(() => {
+    setIsInEditMode(false);
+    node.setLocked(false);
+  }, [setIsInEditMode, node]);
+  const startEditCallback = useCallback(() => {
+    setIsInEditMode(true);
+    node.setLocked(true);
+  }, [setIsInEditMode, node]);
+  const setCurrentNameCallback = useCallback(
+    ({ target: { value } }) => setCurrentName(value),
+    [setCurrentName]
+  );
+  const acceptChangeCallback = useCallback(
+    (event) => {
+      if (event.key === 'Enter') {
+        node.fireEvent(
+          {
+            id: node.getID(),
+          },
+          DIAGRAM_NODE_NAME_CHANGED
+        );
+      }
+    },
+    [node]
+  );
   useEffect(() => {
     if (isInEditMode && !isSelected) {
-      setIsInEditMode(false);
-      node.setLocked(false);
+      finishEditCallback();
     }
     setCurrentName(name);
-  }, [isSelected, isInEditMode, name, node]);
+  }, [isSelected, isInEditMode, name, node, finishEditCallback]);
+
   return (
     <div id="main">
       <div
@@ -78,27 +104,13 @@ const RadicalComposedNodeWidget = ({
                   fontSize: 16,
                 }}
                 autoComplete="off"
-                onBlur={() => {
-                  setIsInEditMode(false);
-                  node.setLocked(false);
-                }}
+                onBlur={finishEditCallback}
                 value={currentName}
-                onChange={(e) => setCurrentName(e.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    // console.log(event);
-                    // console.log(event.key);
-                  }
-                }}
+                onChange={setCurrentNameCallback}
+                onKeyDown={acceptChangeCallback}
               />
             ) : (
-              <Typography
-                onDoubleClick={() => {
-                  setIsInEditMode(true);
-                  node.setLocked(true);
-                }}
-                variant="subtitle1"
-              >
+              <Typography onDoubleClick={startEditCallback} variant="subtitle1">
                 {name}
               </Typography>
             )}

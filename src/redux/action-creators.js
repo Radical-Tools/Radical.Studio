@@ -32,9 +32,10 @@ import {
   VIEWMODEL_VIEW_ACTIVATE,
   VIEWMODEL_VIEW_ALIGNMENT_UPDATE,
   VIEWMODEL_VIEW_LAYOUT_ALIGN,
-  VIEWODEL_NODE_COLLAPSE,
-  VIEWODEL_NODE_EXPAND,
+  VIEWMODEL_NODE_COLLAPSE,
+  VIEWMODEL_NODE_EXPAND,
   VIEWMODEL_METAMODELOBJECT_ADD,
+  VIEWMODEL_ITEM_SELECTION_CHANGED,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -200,11 +201,16 @@ export const viewModelLayoutAlign = () => ({
 });
 
 export const viewModelNodeCollapse = (id) => ({
-  type: VIEWODEL_NODE_COLLAPSE,
+  type: VIEWMODEL_NODE_COLLAPSE,
   payload: { id },
 });
 
 export const viewModelNodeExpand = (id) => ({
-  type: VIEWODEL_NODE_EXPAND,
+  type: VIEWMODEL_NODE_EXPAND,
   payload: { id },
+});
+
+export const viewModelItemSelectionChanged = (id, type, isSelected) => ({
+  type: VIEWMODEL_ITEM_SELECTION_CHANGED,
+  payload: { id, type, isSelected },
 });

@@ -15,6 +15,7 @@ import {
   updateParentalStructure,
 } from '../helpers/viewmodel';
 import align from '../helpers/layout';
+import { findValidRelations } from '../helpers/model';
 
 export const initialState = {
   viewModel: {
@@ -38,6 +39,37 @@ export const initialState = {
 };
 
 /* eslint-disable no-param-reassign */
+export const updatePossibleRelations = (state) => {
+  const currentView = state.viewModel.views[state.viewModel.current];
+  const selectedNodes = Object.entries(currentView.nodes).filter(
+    ([, node]) => node.isSelected
+  );
+  if (selectedNodes.length === 1) {
+    const [nodeId] = selectedNodes[0];
+    Object.entries(currentView.nodes).forEach(([id, node]) => {
+      node.possibleRelations =
+        id !== nodeId
+          ? {
+              source: nodeId,
+              types: findValidRelations(
+                state.metamodel,
+                state.model,
+                nodeId,
+                id
+              ),
+            }
+          : undefined;
+    });
+  } else {
+    Object.values(currentView.nodes).forEach((node) => {
+      node.possibleRelations = undefined;
+    });
+  }
+
+  return state;
+};
+
+/* eslint-disable no-param-reassign */
 export const updateCurrentView = (state) => {
   const newState = update(
     ['viewModel', 'views', state.viewModel.current],
@@ -56,6 +88,8 @@ export const updateCurrentView = (state) => {
     newState.model,
     newState.viewModel.views[newState.viewModel.current]
   );
+
+  updatePossibleRelations(newState);
 
   align(newState.viewModel.views[newState.viewModel.current], false);
 
@@ -131,9 +165,7 @@ export const addNode = (state, payload) =>
         {
           dimension: {},
           position: payload.position ? payload.position : {},
-          isParent: state.model.objects[payload.id].children
-            ? state.model.objects[payload.id].children.length > 0
-            : false,
+          isSelected: false,
         },
         state
       )
@@ -255,16 +287,27 @@ export const collapseNode = (state, payload) => {
     : state;
 };
 
+export const itemSelectionChanged = (state, payload) => {
+  const newState = cloneDeep(state);
+  if (payload.type === 'object') {
+    newState.viewModel.views[newState.viewModel.current].nodes[
+      payload.id
+    ].isSelected = payload.isSelected;
+    return newState;
+  }
+
+  return state;
+};
+
 export const expandNode = (state, payload) => {
+  const viewId = payload.viewId ? payload.viewId : state.viewModel.current;
   const object = state.model.objects[payload.id];
   const newNodes = {};
   object.children.forEach((objectId) => {
     newNodes[objectId] = {
       dimension: {},
-      position: {},
-      isParent: state.model.objects[objectId]
-        ? state.model.objects[objectId].children.length > 0
-        : false,
+      position: state.viewModel.views[viewId].nodes[payload.id].position,
+      isSelected: false,
     };
   });
 

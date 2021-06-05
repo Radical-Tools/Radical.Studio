@@ -15,6 +15,7 @@ import {
   DIAGRAM_ENTITY_DELETED,
   MODEL_DROP_TYPE,
   METAMODEL_DROP_TYPE,
+  DIAGRAM_LINK_TARGET_SELECTED_EVENT,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
@@ -63,7 +64,7 @@ const RadicalCanvasWidget = ({
             onDragItemsEnd(e.point, e.items);
             break;
           case LINK_CONNECTED_TO_TARGET_EVENT:
-            onLinkConnected(e.id, e.sourceId, e.targetId);
+            onLinkConnected(e.sourceId, e.targetId);
             break;
           case DIAGRAM_ALIGNMENT_UPDATED_EVENT:
             onDiagramAlignmentUpdated(
@@ -73,12 +74,11 @@ const RadicalCanvasWidget = ({
             );
             break;
           case DIAGRAM_ENTITY_SELECTED:
-            if (e.isSelected) {
-              onItemSelected(
-                e.entity.getID(),
-                e.entity instanceof NodeModel ? 'object' : 'relation'
-              );
-            }
+            onItemSelected(
+              e.entity.getID(),
+              e.entity instanceof NodeModel ? 'object' : 'relation',
+              e.isSelected
+            );
             break;
           case DIAGRAM_NODE_COLLAPSED:
             onNodeCollapsed(e.id);
@@ -99,7 +99,9 @@ const RadicalCanvasWidget = ({
               onLinkRemove(e.entity.getID());
             }
             break;
-
+          case DIAGRAM_LINK_TARGET_SELECTED_EVENT:
+            onLinkConnected(e.source, e.target, e.type);
+            break;
           default:
             break;
         }

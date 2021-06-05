@@ -19,3 +19,4 @@ export const REVERSED_ALIGNMENTS = [
 ];
 export const MODEL_DROP_TYPE = 'model-object';
 export const METAMODEL_DROP_TYPE = 'metamodel-object';
+export const DIAGRAM_LINK_TARGET_SELECTED_EVENT = 'linkSelected';

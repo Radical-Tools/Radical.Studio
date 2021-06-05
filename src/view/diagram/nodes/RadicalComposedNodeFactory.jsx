@@ -191,6 +191,8 @@ const Widget = ({ model, engine, onNodeExpanded, onNodeCollapsed }) => (
     node={model}
     onNodeExpanded={onNodeExpanded}
     onNodeCollapsed={onNodeCollapsed}
+    isSelected={model.isSelected() || false}
+    name={model.options.name}
   >
     <Icon
       radicalType={model.options.radical_type}

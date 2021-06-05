@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import ControlPointRoundedIcon from '@material-ui/icons/ControlPointRounded';
 import RemoveCircleOutlineRoundedIcon from '@material-ui/icons/RemoveCircleOutlineRounded';
@@ -28,8 +28,23 @@ const useStyles = makeStyles(() => ({
     },
   },
 }));
-const RadicalComposedNodeWidget = ({ node, engine, children }) => {
+const RadicalComposedNodeWidget = ({
+  node,
+  engine,
+  children,
+  isSelected,
+  name,
+}) => {
   const classes = useStyles();
+  const [isInEditMode, setIsInEditMode] = useState(false);
+  const [currentName, setCurrentName] = useState('');
+  useEffect(() => {
+    if (isInEditMode && !isSelected) {
+      setIsInEditMode(false);
+      node.setLocked(false);
+    }
+    setCurrentName(name);
+  }, [isSelected, isInEditMode, name, node]);
   return (
     <div id="main">
       <div
@@ -52,7 +67,41 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
           }}
         >
           <div>
-            <Typography variant="subtitle1">{node.options.name}</Typography>
+            {isInEditMode && isSelected ? (
+              <input
+                style={{
+                  width: '150px',
+                  border: 'none',
+                  outline: 'none',
+                  background: 'transparent',
+                  textAlign: 'center',
+                  fontSize: 16,
+                }}
+                autoComplete="off"
+                onBlur={() => {
+                  setIsInEditMode(false);
+                  node.setLocked(false);
+                }}
+                value={currentName}
+                onChange={(e) => setCurrentName(e.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    // console.log(event);
+                    // console.log(event.key);
+                  }
+                }}
+              />
+            ) : (
+              <Typography
+                onDoubleClick={() => {
+                  setIsInEditMode(true);
+                  node.setLocked(true);
+                }}
+                variant="subtitle1"
+              >
+                {name}
+              </Typography>
+            )}
 
             <Divider />
             {node.options.attributes?.technology ? (
@@ -138,5 +187,7 @@ RadicalComposedNodeWidget.propTypes = {
   node: PropTypes.objectOf(PropTypes.any).isRequired,
   engine: PropTypes.objectOf(PropTypes.any).isRequired,
   children: PropTypes.element.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
 };
 export default RadicalComposedNodeWidget;

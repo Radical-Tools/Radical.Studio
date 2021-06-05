@@ -104,7 +104,7 @@ const RadicalComposedNodeWidget = ({
             {isInEditMode && isSelected ? (
               <input
                 style={{
-                  width: '150px',
+                  width: '100%',
                   border: 'none',
                   outline: 'none',
                   background: 'transparent',

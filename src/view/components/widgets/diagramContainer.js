@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import DiagramWidget from './DiagramWidget';
 import renderView from '../../../model/helpers/viewmodel';
 import {
-  modelItemEdit,
   modelObjectRemove,
   modelRelationAdd,
   modelRelationRemove,
+  viewModelItemSelectionChanged,
   viewModelLayoutAlign,
   viewModelLinkRemove,
   viewModelMetamodelObjectAdd,
@@ -22,16 +22,9 @@ const mapStateToProps = (state) => ({
   alignment: state.viewModel.views[state.viewModel.current].alignment,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onAddRelation: (source, target) =>
+  onAddRelation: (source, target, type) =>
     dispatch(
-      modelRelationAdd(
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        source,
-        target
-      )
+      modelRelationAdd(undefined, type, undefined, undefined, source, target)
     ),
   onNodeUpdate: (id, position, dimension) =>
     dispatch(viewModelNodeUpdate(undefined, id, position, dimension)),
@@ -44,7 +37,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLayoutAlign: () => dispatch(viewModelLayoutAlign()),
   onAddObjectToView: (id, position) =>
     dispatch(viewModelNodeAdd(undefined, id, position)),
-  onItemSelected: (id, type) => dispatch(modelItemEdit(id, type)),
+  onItemSelected: (id, type, isSelected) =>
+    dispatch(viewModelItemSelectionChanged(id, type, isSelected)),
   onNodeCollapsed: (id) => dispatch(viewModelNodeCollapse(id)),
   onNodeExpanded: (id) => dispatch(viewModelNodeExpand(id)),
   onAddMetamodelObjectToView: (type, position) =>

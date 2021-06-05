@@ -14,6 +14,13 @@ export default class RadicalDiagramEngine extends DiagramEngine {
         .getNode(nodeElement.getAttribute('data-nodeid'))
         .getPort(element.getAttribute('data-name'));
     }
+
+    // look for control elements of node (i.e. collapse, expand, link buttons)
+    const [controlEl] = targets.filter((el) => el.matches('.controlEl'));
+    if (controlEl) {
+      return { type: 'controlEl' };
+    }
+
     return super.getMouseElement(event);
   }
 }

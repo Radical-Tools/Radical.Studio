@@ -4,6 +4,7 @@ import {
   Action,
   InputType,
   DragCanvasState,
+  BaseModel,
 } from '@projectstorm/react-canvas-core';
 import { PortModel, DragNewLinkState } from '@projectstorm/react-diagrams';
 import CreateLinkState from './CreateLinkState';
@@ -33,7 +34,7 @@ export default class RadicalState extends State {
             this.transitionWithEvent(this.dragCanvas, event);
           }
           // move the items (and potentially link points)
-          else {
+          else if (element instanceof BaseModel) {
             this.transitionWithEvent(this.dragItems, event);
           }
         },

@@ -32,5 +32,7 @@ export const VIEWMODEL_VIEW_ACTIVATE = 'viewmodel/view/activate';
 export const VIEWMODEL_VIEW_ALIGNMENT_UPDATE =
   'viewmodel/view/alignment/update';
 export const VIEWMODEL_VIEW_LAYOUT_ALIGN = 'viewmodel/view/layout/align';
-export const VIEWODEL_NODE_COLLAPSE = 'viewmodel/node/collapse';
-export const VIEWODEL_NODE_EXPAND = 'viewmodel/node/expand';
+export const VIEWMODEL_NODE_COLLAPSE = 'viewmodel/node/collapse';
+export const VIEWMODEL_NODE_EXPAND = 'viewmodel/node/expand';
+export const VIEWMODEL_ITEM_SELECTION_CHANGED =
+  'viewmodel/item/selection/changed';

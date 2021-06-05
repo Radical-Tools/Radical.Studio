@@ -8,6 +8,7 @@ export const DIAGRAM_ENTITY_SELECTED = 'selectionChanged';
 export const DIAGRAM_NODE_COLLAPSED = 'nodeCollapsed';
 export const DIAGRAM_NODE_EXPANDED = 'nodeExpanded';
 export const DIAGRAM_ENTITY_DELETED = 'entityDeleted';
+export const DIAGRAM_NODE_NAME_CHANGED = 'nodeNameChanged';
 export const PORTS_PER_NODE_SIDE = 3;
 export const PORT_BORDER_RADIUS = 8;
 export const DEFAULT_SOURCE_PORT = 'right1';

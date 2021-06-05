@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
@@ -10,6 +10,7 @@ import {
   DIAGRAM_NODE_COLLAPSED,
   DIAGRAM_NODE_EXPANDED,
   PORT_BORDER_RADIUS,
+  DIAGRAM_NODE_NAME_CHANGED,
 } from '../consts';
 import { getPortStyle } from '../helpers';
 import CollapsePanel from '../../components/canvas/CollapsePanel';
@@ -34,10 +35,63 @@ const useStyles = makeStyles(() => ({
     top: -30,
     right: 0,
   },
+  nameInput: {
+    width: '100%',
+    border: 'none',
+    outline: 'none',
+    background: 'transparent',
+    textAlign: 'center',
+    fontSize: 16,
+    padding: '0px',
+  },
 }));
-
-const RadicalComposedNodeWidget = ({ node, engine, children }) => {
+const RadicalComposedNodeWidget = ({
+  node,
+  engine,
+  children,
+  isSelected,
+  name,
+}) => {
   const classes = useStyles();
+  const inputEl = useRef(null);
+  const [isInEditMode, setIsInEditMode] = useState(false);
+  const [currentName, setCurrentName] = useState('');
+  const finishEditCallback = useCallback(() => {
+    setIsInEditMode(false);
+    node.setLocked(false);
+  }, [setIsInEditMode, node]);
+  const startEditCallback = useCallback(() => {
+    setIsInEditMode(true);
+    node.setLocked(true);
+  }, [setIsInEditMode, node]);
+  const setCurrentNameCallback = useCallback(
+    ({ target: { value } }) => setCurrentName(value),
+    [setCurrentName]
+  );
+  const acceptChangeCallback = useCallback(
+    (event) => {
+      if (event.key === 'Enter') {
+        node.setName(currentName);
+        node.fireEvent(
+          {
+            id: node.getID(),
+          },
+          DIAGRAM_NODE_NAME_CHANGED
+        );
+      }
+    },
+    [node, currentName]
+  );
+  useEffect(() => {
+    if (isInEditMode && !isSelected) {
+      finishEditCallback();
+    }
+    if (isInEditMode && isSelected) {
+      inputEl.current.focus();
+    }
+    setCurrentName(name);
+  }, [isSelected, isInEditMode, name, node, finishEditCallback]);
+
   return (
     <div id="main">
       <div
@@ -56,12 +110,24 @@ const RadicalComposedNodeWidget = ({ node, engine, children }) => {
             textAlign: 'center',
             display: 'flex',
             justifyContent: 'center',
-            paddingTop: 0,
           }}
         >
           <div>
-            <Typography variant="subtitle1">{node.options.name}</Typography>
-
+            {isInEditMode && isSelected ? (
+              <input
+                className={classes.nameInput}
+                autoComplete="off"
+                ref={inputEl}
+                onBlur={finishEditCallback}
+                value={currentName}
+                onChange={setCurrentNameCallback}
+                onKeyDown={acceptChangeCallback}
+              />
+            ) : (
+              <Typography onDoubleClick={startEditCallback} variant="subtitle1">
+                {name}
+              </Typography>
+            )}
             <Divider />
             {node.options.attributes?.technology ? (
               <Typography variant="caption">
@@ -147,5 +213,7 @@ RadicalComposedNodeWidget.propTypes = {
   node: PropTypes.objectOf(PropTypes.any).isRequired,
   engine: PropTypes.objectOf(PropTypes.any).isRequired,
   children: PropTypes.element.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
 };
 export default RadicalComposedNodeWidget;

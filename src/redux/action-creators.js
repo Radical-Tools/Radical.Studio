@@ -36,6 +36,7 @@ import {
   VIEWMODEL_NODE_EXPAND,
   VIEWMODEL_METAMODELOBJECT_ADD,
   VIEWMODEL_ITEM_SELECTION_CHANGED,
+  MODEL_OBJECT_UPDATE_NAME,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -98,6 +99,11 @@ export const modelRelationRemove = (id) => ({
 export const modelObjectUpdate = (id, name, attributes) => ({
   type: MODEL_OBJECT_UPDATE,
   payload: { id, name, attributes },
+});
+
+export const modelObjectUpdateName = (id, name) => ({
+  type: MODEL_OBJECT_UPDATE_NAME,
+  payload: { id, name },
 });
 
 export const modelRelationUpdate = (id, name, attributes) => ({

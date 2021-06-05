@@ -24,6 +24,8 @@ const handlers = {
     viewModel.updateCurrentView(model.removeRelation(state, payload)),
   [actionTypes.MODEL_OBJECT_UPDATE]: (state, payload) =>
     viewModel.updateCurrentView(model.updateObject(state, payload)),
+  [actionTypes.MODEL_OBJECT_UPDATE_NAME]: (state, payload) =>
+    viewModel.updateCurrentView(model.updateObjectName(state, payload)),
   [actionTypes.MODEL_RELATION_UPDATE]: (state, payload) =>
     viewModel.updateCurrentView(model.updateRelation(state, payload)),
   [actionTypes.MODEL_ITEM_CREATE]: common.createItem,

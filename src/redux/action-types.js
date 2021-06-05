@@ -9,6 +9,7 @@ export const LAYOUT_HOME_DIALOG_OPEN = 'layout/home-dialog/open';
 export const LAYOUT_HOME_DIALOG_CLOSE = 'layout/home-dialog/close';
 export const MODEL_OBJECT_ADD = 'model/object/add';
 export const MODEL_OBJECT_UPDATE = 'model/object/update';
+export const MODEL_OBJECT_UPDATE_NAME = 'model/object/update/name';
 export const MODEL_RELATION_ADD = 'model/relation/add';
 export const MODEL_OBJECT_REMOVE = 'model/object/remove';
 export const MODEL_RELATION_REMOVE = 'model/relation/remove';

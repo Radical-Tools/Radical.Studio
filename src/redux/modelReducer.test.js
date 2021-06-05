@@ -7,6 +7,7 @@ import {
   modelObjectUpdate,
   modelRelationUpdate,
   modelMetamodelSelect,
+  modelObjectUpdateName,
 } from './action-creators';
 
 import { rootReducer, initialState } from './rootReducer';
@@ -517,6 +518,17 @@ describe('update object', () => {
         })
       ).errors[0].name
     ).toEqual('Update Object Error');
+  });
+});
+
+describe('update object name', () => {
+  it('should update the state', () => {
+    expect(
+      rootReducer(
+        createInitialState(),
+        modelObjectUpdateName('Actor-2', 'New Name')
+      ).model.objects['Actor-2'].name
+    ).toEqual('New Name');
   });
 });
 

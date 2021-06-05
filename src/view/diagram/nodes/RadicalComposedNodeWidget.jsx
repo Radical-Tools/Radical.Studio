@@ -61,6 +61,7 @@ const RadicalComposedNodeWidget = ({
   const acceptChangeCallback = useCallback(
     (event) => {
       if (event.key === 'Enter') {
+        node.setName(currentName);
         node.fireEvent(
           {
             id: node.getID(),
@@ -69,7 +70,7 @@ const RadicalComposedNodeWidget = ({
         );
       }
     },
-    [node]
+    [node, currentName]
   );
   useEffect(() => {
     if (isInEditMode && !isSelected) {

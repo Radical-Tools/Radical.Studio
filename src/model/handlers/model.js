@@ -49,6 +49,15 @@ export const addObject = (state, payload) => {
   }
 };
 
+export const updateObjectName = (state, payload) =>
+  update(
+    ['model', 'objects', payload.id],
+    (object) => ({
+      ...object,
+      name: payload.name ? payload.name : object.name,
+    }),
+    state
+  );
 export const updateObject = (state, payload) => {
   try {
     return update(

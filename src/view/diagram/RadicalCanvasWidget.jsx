@@ -16,6 +16,7 @@ import {
   MODEL_DROP_TYPE,
   METAMODEL_DROP_TYPE,
   DIAGRAM_LINK_TARGET_SELECTED_EVENT,
+  DIAGRAM_NODE_NAME_CHANGED,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
@@ -54,6 +55,7 @@ const RadicalCanvasWidget = ({
   onNodeCollapsed,
   onNodeExpanded,
   onAddMetamodelObjectToView,
+  onNodeNameUpdated,
 }) => {
   const classes = useStyles();
   const registerCallbacks = useCallback(
@@ -102,6 +104,10 @@ const RadicalCanvasWidget = ({
           case DIAGRAM_LINK_TARGET_SELECTED_EVENT:
             onLinkConnected(e.source, e.target, e.type);
             break;
+          case DIAGRAM_NODE_NAME_CHANGED:
+            onNodeNameUpdated(e.entity.getID(), e.entity.options.name);
+            break;
+
           default:
             break;
         }
@@ -118,6 +124,7 @@ const RadicalCanvasWidget = ({
       onLinkRemove,
       onObjectRemove,
       onRelationRemove,
+      onNodeNameUpdated,
     ]
   );
 
@@ -189,6 +196,7 @@ RadicalCanvasWidget.propTypes = {
   onNodeCollapsed: PropTypes.func.isRequired,
   onNodeExpanded: PropTypes.func.isRequired,
   onAddMetamodelObjectToView: PropTypes.func.isRequired,
+  onNodeNameUpdated: PropTypes.func.isRequired,
 };
 
 export default React.memo(RadicalCanvasWidget);

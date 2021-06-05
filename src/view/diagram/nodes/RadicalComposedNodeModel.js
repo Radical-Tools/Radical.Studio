@@ -194,6 +194,10 @@ export default class RadicalComposedNodeModel extends NodeModel {
     return super.setPosition(x, y);
   }
 
+  setName(name) {
+    this.options.name = name;
+  }
+
   getLinks() {
     return reduce(
       (links, port) => [...links, ...values(port.getLinks())],

@@ -64,7 +64,9 @@ const handlers = {
   [actionTypes.VIEWMODEL_NODE_EXPAND]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
   [actionTypes.VIEWMODEL_ITEM_SELECTION_CHANGED]: (state, payload) =>
-    common.editItem(viewModel.itemSelectionChanged(state, payload), payload),
+    viewModel.updateCurrentView(
+      common.editItem(viewModel.itemSelectionChanged(state, payload), payload)
+    ),
 };
 
 export const initialState = {

@@ -39,27 +39,34 @@ export const initialState = {
 };
 
 /* eslint-disable no-param-reassign */
-export const updatePossibleRelations = (state, nodeId, isSelected) => {
-  const newState = cloneDeep(state);
+export const updatePossibleRelations = (state) => {
+  const currentView = state.viewModel.views[state.viewModel.current];
+  const selectedNodes = Object.entries(currentView.nodes).filter(
+    ([, node]) => node.isSelected
+  );
+  if (selectedNodes.length === 1) {
+    const [nodeId] = selectedNodes[0];
+    Object.entries(currentView.nodes).forEach(([id, node]) => {
+      node.possibleRelations =
+        id !== nodeId
+          ? {
+              source: nodeId,
+              types: findValidRelations(
+                state.metamodel,
+                state.model,
+                nodeId,
+                id
+              ),
+            }
+          : undefined;
+    });
+  } else {
+    Object.values(currentView.nodes).forEach((node) => {
+      node.possibleRelations = undefined;
+    });
+  }
 
-  const selectedObject = nodeId ? newState.model.objects[nodeId] : undefined;
-  const currentView = newState.viewModel.views[newState.viewModel.current];
-  Object.entries(currentView.nodes).forEach(([id, node]) => {
-    node.possibleRelations =
-      isSelected && selectedObject && id !== nodeId
-        ? {
-            source: nodeId,
-            types: findValidRelations(
-              newState.metamodel,
-              newState.model,
-              nodeId,
-              id
-            ),
-          }
-        : undefined;
-  });
-
-  return newState;
+  return state;
 };
 
 /* eslint-disable no-param-reassign */
@@ -81,6 +88,8 @@ export const updateCurrentView = (state) => {
     newState.model,
     newState.viewModel.views[newState.viewModel.current]
   );
+
+  updatePossibleRelations(newState);
 
   align(newState.viewModel.views[newState.viewModel.current], false);
 
@@ -279,12 +288,8 @@ export const collapseNode = (state, payload) => {
 };
 
 export const itemSelectionChanged = (state, payload) => {
+  const newState = cloneDeep(state);
   if (payload.type === 'object') {
-    const newState = updatePossibleRelations(
-      state,
-      payload.id,
-      payload.isSelected
-    );
     newState.viewModel.views[newState.viewModel.current].nodes[
       payload.id
     ].isSelected = payload.isSelected;

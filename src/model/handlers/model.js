@@ -49,9 +49,9 @@ export const addObject = (state, payload) => {
   }
 };
 
-export const updateObjectName = (state, payload) =>
+export const updateItemName = (state, payload) =>
   update(
-    ['model', 'objects', payload.id],
+    ['model', payload.type === 'object' ? 'objects' : 'relations', payload.id],
     (object) => ({
       ...object,
       name: payload.name ? payload.name : object.name,

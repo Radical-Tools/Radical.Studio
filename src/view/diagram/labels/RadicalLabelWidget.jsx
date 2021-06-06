@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
-import { DIAGRAM_ITEM_NAME_CHANGED } from '../consts';
+import EditableLabel from '../../components/canvas/EditableLabel';
 
 const RadicalLabelWidget = ({ visible, label, label2, link }) => {
   if (visible) {
@@ -13,13 +13,13 @@ const RadicalLabelWidget = ({ visible, label, label2, link }) => {
         borderRadius={12}
         p={0.5}
         alignItems="center"
-        style={{ pointerEvents: 'all' }}
-        onDoubleClick={(e) => {
-          e.preventDefault();
-          link.fireEvent({}, DIAGRAM_ITEM_NAME_CHANGED);
-        }}
       >
-        <Typography variant="subtitle2">{label}</Typography>
+        <EditableLabel
+          editedItem={link}
+          isItemSelected
+          variant="subtitle2"
+          label={label}
+        />
         <Divider />
         <Typography variant="caption">{label2}</Typography>
       </Box>

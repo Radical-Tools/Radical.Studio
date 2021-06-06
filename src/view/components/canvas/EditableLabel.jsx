@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { DIAGRAM_NODE_NAME_CHANGED } from '../../diagram/consts';
+import { DIAGRAM_ITEM_NAME_CHANGED } from '../../diagram/consts';
 
 const useStyles = makeStyles(() => ({
   nameInput: {
@@ -15,9 +15,14 @@ const useStyles = makeStyles(() => ({
     padding: '0px',
   },
 }));
-
+const useTypographyStyles = makeStyles(() => ({
+  root: {
+    pointerEvents: 'all',
+  },
+}));
 const EditableLabel = ({ label, editedItem, variant, isItemSelected }) => {
   const classes = useStyles();
+  const typographyStyles = useTypographyStyles();
   const inputEl = useRef(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [currentLabel, setCurrentLabel] = useState('');
@@ -37,7 +42,7 @@ const EditableLabel = ({ label, editedItem, variant, isItemSelected }) => {
     (event) => {
       if (event.key === 'Enter') {
         editedItem.setName(currentLabel);
-        editedItem.fireEvent({}, DIAGRAM_NODE_NAME_CHANGED);
+        editedItem.fireEvent({}, DIAGRAM_ITEM_NAME_CHANGED);
       }
     },
     [editedItem, currentLabel]
@@ -62,7 +67,11 @@ const EditableLabel = ({ label, editedItem, variant, isItemSelected }) => {
       onKeyDown={acceptChangeCallback}
     />
   ) : (
-    <Typography onDoubleClick={startEditCallback} variant={variant}>
+    <Typography
+      classes={typographyStyles}
+      onDoubleClick={startEditCallback}
+      variant={variant}
+    >
       {label}
     </Typography>
   );

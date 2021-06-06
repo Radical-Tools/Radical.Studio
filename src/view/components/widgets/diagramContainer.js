@@ -3,7 +3,7 @@ import DiagramWidget from './DiagramWidget';
 import renderView from '../../../model/helpers/viewmodel';
 import {
   modelObjectRemove,
-  modelObjectUpdateName,
+  modelItemUpdateName,
   modelRelationAdd,
   modelRelationRemove,
   viewModelItemSelectionChanged,
@@ -42,7 +42,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(viewModelItemSelectionChanged(id, type, isSelected)),
   onNodeCollapsed: (id) => dispatch(viewModelNodeCollapse(id)),
   onNodeExpanded: (id) => dispatch(viewModelNodeExpand(id)),
-  onNodeNameUpdated: (id, name) => dispatch(modelObjectUpdateName(id, name)),
+  onItemNameUpdated: (id, type, name) =>
+    dispatch(modelItemUpdateName(id, type, name)),
   onAddMetamodelObjectToView: (type, position) =>
     dispatch(viewModelMetamodelObjectAdd(undefined, type, position)),
 });

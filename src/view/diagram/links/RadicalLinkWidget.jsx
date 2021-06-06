@@ -86,6 +86,7 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
         forwardRef={ref}
         onSelection={(selected) => {
           this.setState({ selected });
+          this.props.link.setSelected(selected);
         }}
         extras={extraProps}
       />

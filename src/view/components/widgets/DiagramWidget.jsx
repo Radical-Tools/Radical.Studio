@@ -20,7 +20,7 @@ const DiagramWidget = (props) => {
     onNodeCollapsed,
     onNodeExpanded,
     onAddMetamodelObjectToView,
-    onNodeNameUpdated,
+    onItemNameUpdated,
   } = props;
   return (
     <RadicalCanvasWidget
@@ -47,7 +47,7 @@ const DiagramWidget = (props) => {
       onNodeCollapsed={onNodeCollapsed}
       onNodeExpanded={onNodeExpanded}
       onAddMetamodelObjectToView={onAddMetamodelObjectToView}
-      onNodeNameUpdated={onNodeNameUpdated}
+      onItemNameUpdated={onItemNameUpdated}
     />
   );
 };
@@ -68,7 +68,7 @@ DiagramWidget.propTypes = {
   onNodeCollapsed: PropTypes.func.isRequired,
   onNodeExpanded: PropTypes.func.isRequired,
   onAddMetamodelObjectToView: PropTypes.func.isRequired,
-  onNodeNameUpdated: PropTypes.func.isRequired,
+  onItemNameUpdated: PropTypes.func.isRequired,
 };
 
 export default React.memo(DiagramWidget);

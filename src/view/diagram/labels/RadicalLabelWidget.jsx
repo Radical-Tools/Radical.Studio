@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
+import EditableLabel from '../../components/canvas/EditableLabel';
 
-const RadicalLabelWidget = ({ visible, label, label2 }) => {
+const RadicalLabelWidget = ({ visible, label, label2, link }) => {
   if (visible) {
     return (
       <Box
@@ -13,7 +14,12 @@ const RadicalLabelWidget = ({ visible, label, label2 }) => {
         p={0.5}
         alignItems="center"
       >
-        <Typography variant="subtitle2">{label}</Typography>
+        <EditableLabel
+          editedItem={link}
+          isItemSelected
+          variant="subtitle2"
+          label={label}
+        />
         <Divider />
         <Typography variant="caption">{label2}</Typography>
       </Box>
@@ -25,6 +31,7 @@ RadicalLabelWidget.propTypes = {
   visible: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
   label2: PropTypes.string.isRequired,
+  link: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default React.memo(RadicalLabelWidget);

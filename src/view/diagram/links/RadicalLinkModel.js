@@ -47,4 +47,8 @@ export default class RadicalLinkModel extends DefaultLinkModel {
       this.getLastPoint().setPosition(this.getTargetPort().getCenter());
     }
   }
+
+  setName(name) {
+    this.options.name = name;
+  }
 }

@@ -24,8 +24,8 @@ const handlers = {
     viewModel.updateCurrentView(model.removeRelation(state, payload)),
   [actionTypes.MODEL_OBJECT_UPDATE]: (state, payload) =>
     viewModel.updateCurrentView(model.updateObject(state, payload)),
-  [actionTypes.MODEL_OBJECT_UPDATE_NAME]: (state, payload) =>
-    viewModel.updateCurrentView(model.updateObjectName(state, payload)),
+  [actionTypes.MODEL_ITEM_UPDATE_NAME]: (state, payload) =>
+    viewModel.updateCurrentView(model.updateItemName(state, payload)),
   [actionTypes.MODEL_RELATION_UPDATE]: (state, payload) =>
     viewModel.updateCurrentView(model.updateRelation(state, payload)),
   [actionTypes.MODEL_ITEM_CREATE]: common.createItem,
@@ -65,10 +65,14 @@ const handlers = {
     viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
   [actionTypes.VIEWMODEL_NODE_EXPAND]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
-  [actionTypes.VIEWMODEL_ITEM_SELECTION_CHANGED]: (state, payload) =>
-    viewModel.updateCurrentView(
-      common.editItem(viewModel.itemSelectionChanged(state, payload), payload)
-    ),
+  [actionTypes.VIEWMODEL_ITEM_SELECTION_CHANGED]: (state, payload) => {
+    const newState = common.editItem(
+      viewModel.itemSelectionChanged(state, payload),
+      payload
+    );
+    if (payload.type === 'object') return viewModel.updateCurrentView(newState);
+    return newState;
+  },
 };
 
 export const initialState = {

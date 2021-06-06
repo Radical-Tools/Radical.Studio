@@ -15,6 +15,7 @@ export default class RadicalLabelFactory extends AbstractReactFactory {
         visible={event.model.getOptions().visible}
         label={event.model.getOptions().label}
         label2={event.model.getOptions().label2}
+        link={event.model.getParent()}
       />
     );
   }

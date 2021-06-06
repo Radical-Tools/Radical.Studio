@@ -17,6 +17,7 @@ import {
   METAMODEL_DROP_TYPE,
   DIAGRAM_LINK_TARGET_SELECTED_EVENT,
   DIAGRAM_NODE_NAME_CHANGED,
+  DIAGRAM_ITEM_NAME_CHANGED,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
@@ -107,7 +108,9 @@ const RadicalCanvasWidget = ({
           case DIAGRAM_NODE_NAME_CHANGED:
             onNodeNameUpdated(e.entity.getID(), e.entity.options.name);
             break;
-
+          case DIAGRAM_ITEM_NAME_CHANGED:
+            // console.log(e.entity.getID(), e.entity.options.name);
+            break;
           default:
             break;
         }

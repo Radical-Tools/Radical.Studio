@@ -28,7 +28,7 @@ export const findParent = (objectId, model, viewModel) => {
 export const updateParentalStructure = (
   model,
   viewModel,
-  defaultDimension = { width: 150, height: 110 }
+  defaultDimension = { width: 150, height: 130 }
 ) => {
   Object.entries(viewModel.nodes).forEach(([nodeId, node]) => {
     node.parentNode = findParent(nodeId, model, viewModel);

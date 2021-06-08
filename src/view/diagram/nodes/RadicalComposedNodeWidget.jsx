@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     background: 'rgba(0, 0, 0, 0.1)',
     borderRadius: `${PORT_BORDER_RADIUS}px`,
     zIndex: 10,
-    opacity: 0.3,
+    opacity: 0.2,
     '&:hover': {
       background: '#000000',
     },
@@ -42,6 +42,8 @@ const RadicalComposedNodeWidget = ({
   children,
   isSelected,
   name,
+  isExpanded,
+  isAsymmetric,
 }) => {
   const classes = useStyles();
   return (
@@ -58,10 +60,11 @@ const RadicalComposedNodeWidget = ({
             position: 'absolute',
             width: node.size.width,
             height: node.size.height,
-            alignItems: node.size.width === 150 ? 'center' : '',
+            alignItems: isExpanded ? '' : 'center',
             textAlign: 'center',
             display: 'flex',
             justifyContent: 'center',
+            top: isAsymmetric ? 20 : 0,
           }}
         >
           <div>
@@ -158,5 +161,7 @@ RadicalComposedNodeWidget.propTypes = {
   children: PropTypes.element.isRequired,
   isSelected: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
+  isAsymmetric: PropTypes.bool.isRequired,
 };
 export default RadicalComposedNodeWidget;

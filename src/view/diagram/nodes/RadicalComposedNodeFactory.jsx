@@ -3,57 +3,16 @@ import * as React from 'react';
 import { AbstractReactFactory } from '@projectstorm/react-canvas-core';
 import RadicalComposedNodeModel from './RadicalComposedNodeModel';
 import RadicalComposedNodeWidget from './RadicalComposedNodeWidget';
+import {
+  C4Actor,
+  C4Component,
+  C4Container,
+  C4Database,
+  C4ExternalSystem,
+  C4System,
+} from './c4/c4Icons';
 
-function Generic({ width, height }) {
-  return (
-    <rect
-      fill="#85bbf0"
-      fillOpacity="1.0"
-      stroke="white"
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
-    />
-  );
-}
-
-function C4Container({ width, height, isSelected }) {
-  if (width === 150) {
-    return (
-      <rect
-        fill="#438dd5"
-        fillOpacity="1.0"
-        stroke={isSelected ? 'black' : 'white'}
-        rx="5"
-        ry="5"
-        x="1"
-        y="1"
-        width={width - 2}
-        height={height - 2}
-      />
-    );
-  }
-
-  return (
-    <rect
-      fill="#1168bd"
-      fillOpacity="0.01"
-      strokeDasharray="5 10"
-      stroke={isSelected ? 'black' : 'gray'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
-    />
-  );
-}
-
-function C4Component({ width, height, isSelected }) {
+function Generic({ width, height, isSelected }) {
   return (
     <rect
       fill="#85bbf0"
@@ -66,106 +25,6 @@ function C4Component({ width, height, isSelected }) {
       width={width - 2}
       height={height - 2}
     />
-  );
-}
-
-function C4System({ width, height, isSelected }) {
-  if (width === 150) {
-    return (
-      <rect
-        fill="#1168bd"
-        fillOpacity="1.0"
-        stroke={isSelected ? 'black' : 'white'}
-        rx="5"
-        ry="5"
-        x="1"
-        y="1"
-        width={width - 2}
-        height={height - 2}
-      />
-    );
-  }
-
-  return (
-    <rect
-      fill="#1168bd"
-      fillOpacity="0.01"
-      strokeDasharray="5 10"
-      stroke={isSelected ? 'black' : 'gray'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
-    />
-  );
-}
-
-function C4ExternalSystem({ width, height, isSelected }) {
-  return (
-    <rect
-      fill="#999999"
-      fillOpacity="1.0"
-      stroke={isSelected ? 'black' : 'white'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
-    />
-  );
-}
-
-function C4Actor({ width, height, isSelected }) {
-  return (
-    <rect
-      fill="#85bbf0"
-      fillOpacity="1.0"
-      stroke={isSelected ? 'black' : 'white'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
-    />
-  );
-}
-
-function C4Database({ width, height, isSelected }) {
-  return (
-    <g>
-      <rect
-        fill="#438dd5"
-        fillOpacity="1.0"
-        // stroke= {isSelected ? 'white' : ''}
-        rx="0"
-        ry="0"
-        x="0"
-        y="20"
-        width={width}
-        height={height - 42}
-      />
-      <ellipse
-        fill="#438dd5"
-        fillOpacity="1.0"
-        cx="75"
-        cy="90"
-        rx="75"
-        ry="20"
-      />
-      <ellipse
-        fill="#438dd5"
-        fillOpacity="1.0"
-        stroke={isSelected ? 'black' : 'white'}
-        cx="75"
-        cy="20"
-        rx="75"
-        ry="20"
-      />
-    </g>
   );
 }
 
@@ -178,12 +37,14 @@ const objects = {
   Database: C4Database,
 };
 
-const Icon = React.memo(({ radicalType, width, height, isSelected }) => {
-  if (Object.prototype.hasOwnProperty.call(objects, radicalType)) {
-    return objects[radicalType]({ width, height, isSelected });
+const Icon = React.memo(
+  ({ radicalType, width, height, isSelected, isExpanded }) => {
+    if (Object.prototype.hasOwnProperty.call(objects, radicalType)) {
+      return objects[radicalType]({ width, height, isSelected, isExpanded });
+    }
+    return Generic({ width, height, isSelected, isExpanded });
   }
-  return Generic({ width, height, isSelected });
-});
+);
 
 const Widget = ({ model, engine, onNodeExpanded, onNodeCollapsed }) => (
   <RadicalComposedNodeWidget
@@ -193,12 +54,15 @@ const Widget = ({ model, engine, onNodeExpanded, onNodeCollapsed }) => (
     onNodeCollapsed={onNodeCollapsed}
     isSelected={model.isSelected() || false}
     name={model.options.name}
+    isExpanded={model.width > 150}
+    isAsymmetric={model.options.radical_type === 'Actor'}
   >
     <Icon
       radicalType={model.options.radical_type}
       width={model.size.width}
       height={model.size.height}
       isSelected={model.isSelected()}
+      isExpanded={model.width > 150}
     />
   </RadicalComposedNodeWidget>
 );

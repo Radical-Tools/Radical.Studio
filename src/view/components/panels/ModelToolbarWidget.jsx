@@ -20,7 +20,6 @@ const ModelToolbarWidget = (props) => {
     onRemoveRelation,
     onEditRelation,
     onCreateRelation,
-    onAddObjectToView,
     onEditView,
     onRemoveView,
     onCreateView,
@@ -57,10 +56,6 @@ const ModelToolbarWidget = (props) => {
     onCreateRelation,
   ]);
 
-  const onAddObjectToViewCallback = useCallback((id) => onAddObjectToView(id), [
-    onAddObjectToView,
-  ]);
-
   const onEditViewCallback = useCallback((id) => onEditView(id), [onEditView]);
 
   const onRemoveViewCallback = useCallback((id) => onRemoveView(id), [
@@ -86,7 +81,6 @@ const ModelToolbarWidget = (props) => {
           data={objectsInventory.transform(model.objects)}
           onRemoveItem={onRemoveObjectCallback}
           onEditItem={onEditObjectCallback}
-          onAddItemToView={onAddObjectToViewCallback}
           customRowFactory={objectsInventory.createCustomRow}
           columns={objectsInventory.columns}
         />
@@ -135,7 +129,6 @@ ModelToolbarWidget.propTypes = {
   onRemoveRelation: PropTypes.func.isRequired,
   onEditRelation: PropTypes.func.isRequired,
   onCreateRelation: PropTypes.func.isRequired,
-  onAddObjectToView: PropTypes.func.isRequired,
   onCreateView: PropTypes.func.isRequired,
   onEditView: PropTypes.func.isRequired,
   onRemoveView: PropTypes.func.isRequired,

@@ -22,10 +22,11 @@ const addNode = (diagramModel, viewModelNode) => {
 
   diagramModel.addNode(node);
   // todo: parent boundary processing by canvas widget temporarily disabled
-  // if (diagramModelParentNode) {
-  //   diagramModelParentNode.addNode(node);
-  //   node.addParent(diagramModelParentNode);
-  // }
+  if (viewModelNode.parentNode) {
+    const diagramModelParentNode = diagramModel.getNode(viewModelNode.parentNode)
+    diagramModelParentNode.addNode(node);
+    node.addParent(diagramModelParentNode);
+  }
   return node;
 };
 export const addNodes = (
@@ -75,6 +76,8 @@ export const addLinks = (diagramModel, viewmodel) => {
     diagramLink
       .getLastPoint()
       .setPosition(targetNode.getPort(DEFAULT_TARGET_PORT).getCenter());
+
+    diagramLink.setSelected(link.isSelected);
     diagramModel.addLink(diagramLink);
   });
 };

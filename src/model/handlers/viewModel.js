@@ -3,11 +3,7 @@ import unset from 'lodash/fp/unset';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import flow from 'lodash/fp/flow';
-import omitBy from 'lodash/fp/omitBy';
 import omit from 'lodash/fp/omit';
-import merge from 'lodash/fp/merge';
-import pick from 'lodash/fp/pick';
-import keys from 'lodash/fp/keys';
 import cloneDeep from 'lodash/fp/cloneDeep';
 import {
   getNestedChildren,
@@ -44,6 +40,7 @@ export const updatePossibleRelations = (state) => {
   const selectedNodes = Object.entries(currentView.nodes).filter(
     ([, node]) => node.isSelected
   );
+
   if (selectedNodes.length === 1) {
     const [nodeId] = selectedNodes[0];
     Object.entries(currentView.nodes).forEach(([id, node]) => {
@@ -60,38 +57,60 @@ export const updatePossibleRelations = (state) => {
             }
           : undefined;
     });
-  } else {
-    Object.values(currentView.nodes).forEach((node) => {
-      node.possibleRelations = undefined;
-    });
+    return state;
   }
+
+  const selectedLinks = Object.entries(currentView.links).filter(
+    ([, link]) => link.isSelected
+  );
+
+  if (selectedLinks.length === 1) {
+    const [linkId, link] = selectedLinks[0];
+    Object.entries(currentView.nodes).forEach(([id, node]) => {
+      node.possibleRelations =
+        id !== link.source
+          ? {
+              source: link.source,
+              types: findValidRelations(
+                state.metamodel,
+                id !== link.target ? unset(['relations', linkId], state.model) : state.model,
+                link.source,
+                id
+              ).filter( type => type === link.type),
+              id: linkId,
+            }
+          : undefined;
+    });
+
+    return state;
+  }
+
+  Object.values(currentView.nodes).forEach((node) => {
+    node.possibleRelations = undefined;
+  });
 
   return state;
 };
 
 /* eslint-disable no-param-reassign */
 export const updateCurrentView = (state) => {
-  const newState = update(
-    ['viewModel', 'views', state.viewModel.current],
-    (view) => ({
-      ...view,
-      nodes: omitBy(
-        (node, id) => !has(id, state.model.objects),
-        merge(view.nodes, pick(keys(view.nodes), state.model.objects))
-      ),
-      links: updateLinks(state.model, view),
-    }),
-    state
-  );
+  const newState = cloneDeep(state);
+
+  const currentView = newState.viewModel.views[newState.viewModel.current]
+  Object.entries(currentView.nodes).filter( ([nodeId]) => has(nodeId, newState.model.objects)
+  ).forEach( ([nodeId, node]) => {
+    currentView.nodes[nodeId] = { ...node, ...newState.model.objects[nodeId]}
+  })
+
+  currentView.links = updateLinks(newState.model, currentView)
 
   updateParentalStructure(
     newState.model,
-    newState.viewModel.views[newState.viewModel.current]
+    currentView
   );
 
   updatePossibleRelations(newState);
-
-  align(newState.viewModel.views[newState.viewModel.current], false);
+  align(currentView, false);
 
   return newState;
 };
@@ -295,6 +314,12 @@ export const itemSelectionChanged = (state, payload) => {
     ].isSelected = payload.isSelected;
     return newState;
   }
+  if (payload.type === 'relation') {
+    newState.viewModel.views[newState.viewModel.current].links[
+      payload.id
+    ].isSelected = payload.isSelected;
+    return newState;
+  }
 
   return state;
 };
@@ -306,7 +331,6 @@ export const expandNode = (state, payload) => {
   object.children.forEach((objectId) => {
     newNodes[objectId] = {
       dimension: {},
-      position: state.viewModel.views[viewId].nodes[payload.id].position,
       isSelected: false,
     };
   });
@@ -315,7 +339,7 @@ export const expandNode = (state, payload) => {
     [
       'viewModel',
       'views',
-      payload.viewId ? payload.viewId : state.viewModel.current,
+      viewId,
       'nodes',
     ],
     (nodes) => ({

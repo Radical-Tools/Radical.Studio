@@ -102,7 +102,7 @@ const RadicalCanvasWidget = ({
             }
             break;
           case DIAGRAM_LINK_TARGET_SELECTED_EVENT:
-            onLinkConnected(e.source, e.target, e.type);
+            onLinkConnected(e.id, e.source, e.target, e.type);
             break;
           case DIAGRAM_ITEM_NAME_CHANGED:
             onItemNameUpdated(

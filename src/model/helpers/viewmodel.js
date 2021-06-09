@@ -24,6 +24,7 @@ export const findParent = (objectId, model, viewModel) => {
   return undefined;
 };
 
+
 /* eslint-disable no-param-reassign */
 export const updateParentalStructure = (
   model,
@@ -72,6 +73,9 @@ export const updateLinks = (model, viewModel) => {
       ) {
         links[relationId] = {
           ...model.relations[relationId],
+          isSelected: viewModel.links[relationId]
+            ? viewModel.links[relationId].isSelected
+            : false,
           source: sourceId,
           target: targetId,
         };

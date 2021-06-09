@@ -31,9 +31,9 @@ const useStyles = makeStyles(() => ({
   linkingPanel: {
     position: 'absolute',
     width: '100%',
-    height: '20px',
-    top: -30,
-    right: 0,
+    height: 30,
+    bottom: 0,
+    left: '5%',
   },
 }));
 const RadicalComposedNodeWidget = ({
@@ -141,6 +141,7 @@ const RadicalComposedNodeWidget = ({
               onClick={() => {
                 node.fireEvent(
                   {
+                    id: node.options.possibleRelations.id,
                     source: node.options.possibleRelations.source,
                     target: node.getID(),
                     type,

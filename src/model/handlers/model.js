@@ -106,15 +106,22 @@ export const addRelation = (state, payload) => {
         )[0].id;
 
     const relationId = payload.id ? payload.id : uuidv4();
-    const relation = {
-      name: payload.name ? payload.name : type,
-      type,
-      attributes: payload.attributes ? { ...payload.attributes } : {},
-      source: payload.source,
-      target: payload.target,
-    };
 
-    validateRelation(state.metamodel, state.model, relation);
+    const relation = has(relationId, state.model.relations)
+      ? {
+          ...state.model.relations[relationId],
+          target: payload.target,
+        }
+      : {
+          name: payload.name ? payload.name : type,
+          type,
+          attributes: payload.attributes ? { ...payload.attributes } : {},
+          source: payload.source,
+          target: payload.target,
+        };
+
+
+    validateRelation(state.metamodel, has(relationId, state.model.relations) ? unset(['relations', relationId], state.model) : state.model, relation);
     return flow(
       set(['model', 'relations', relationId], relation),
       relation.type === 'Includes'
@@ -170,7 +177,7 @@ export const removeRelation = (state, payload) => {
           update(
             ['model', 'objects', relation.source, 'children'],
             (children) =>
-              children.filter((item) => item.target !== relation.target)
+              children.filter((item) => item !== relation.target)
           )
         )
       : identity

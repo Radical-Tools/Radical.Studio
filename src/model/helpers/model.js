@@ -32,16 +32,6 @@ export const findValidRelationClass = (metamodel, sourceClass, targetClass) =>
     metamodel.relations
   );
 
-// const findObjects = (model, idFilter = ['*'], typeFilter = ['*']) => {
-//   const objects = [];
-//   Object.values(model.objects).forEach(object => {
-//     if ((idFilter.includes(object.id) || idFilter.includes('*')) && (typeFilter.includes(object.type) || typeFilter.includes('*'))) {
-//       objects.push(object);
-//     }
-//   });
-//   return objects;
-// };
-
 const validateCardinality = (metamodel, model, relation) => {
   const { cardinality } = find(
     (item) => item.id === relation.type,

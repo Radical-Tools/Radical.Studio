@@ -32,8 +32,8 @@ const DiagramWidget = (props) => {
       onDiagramAlignmentUpdated={(offsetX, offsetY, zoom) =>
         onCanvasAlignmentUpdated(offsetX, offsetY, zoom)
       }
-      onLinkConnected={(sourceId, targetId, type) => {
-        onAddRelation(sourceId, targetId, type);
+      onLinkConnected={(id, sourceId, targetId, type) => {
+        onAddRelation(id, sourceId, targetId, type);
       }}
       onNodeRemove={onNodeRemoved}
       onLinkRemove={onLinkRemoved}

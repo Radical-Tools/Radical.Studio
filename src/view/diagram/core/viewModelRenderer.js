@@ -23,7 +23,9 @@ const addNode = (diagramModel, viewModelNode) => {
   diagramModel.addNode(node);
   // todo: parent boundary processing by canvas widget temporarily disabled
   if (viewModelNode.parentNode) {
-    const diagramModelParentNode = diagramModel.getNode(viewModelNode.parentNode)
+    const diagramModelParentNode = diagramModel.getNode(
+      viewModelNode.parentNode
+    );
     diagramModelParentNode.addNode(node);
     node.addParent(diagramModelParentNode);
   }

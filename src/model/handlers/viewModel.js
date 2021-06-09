@@ -73,10 +73,12 @@ export const updatePossibleRelations = (state) => {
               source: link.source,
               types: findValidRelations(
                 state.metamodel,
-                id !== link.target ? unset(['relations', linkId], state.model) : state.model,
+                id !== link.target
+                  ? unset(['relations', linkId], state.model)
+                  : state.model,
                 link.source,
                 id
-              ).filter( type => type === link.type),
+              ).filter((type) => type === link.type),
               id: linkId,
             }
           : undefined;
@@ -96,18 +98,19 @@ export const updatePossibleRelations = (state) => {
 export const updateCurrentView = (state) => {
   const newState = cloneDeep(state);
 
-  const currentView = newState.viewModel.views[newState.viewModel.current]
-  Object.entries(currentView.nodes).filter( ([nodeId]) => has(nodeId, newState.model.objects)
-  ).forEach( ([nodeId, node]) => {
-    currentView.nodes[nodeId] = { ...node, ...newState.model.objects[nodeId]}
-  })
+  const currentView = newState.viewModel.views[newState.viewModel.current];
+  Object.entries(currentView.nodes)
+    .filter(([nodeId]) => has(nodeId, newState.model.objects))
+    .forEach(([nodeId, node]) => {
+      currentView.nodes[nodeId] = {
+        ...node,
+        ...newState.model.objects[nodeId],
+      };
+    });
 
-  currentView.links = updateLinks(newState.model, currentView)
+  currentView.links = updateLinks(newState.model, currentView);
 
-  updateParentalStructure(
-    newState.model,
-    currentView
-  );
+  updateParentalStructure(newState.model, currentView);
 
   updatePossibleRelations(newState);
   align(currentView, false);
@@ -336,12 +339,7 @@ export const expandNode = (state, payload) => {
   });
 
   return update(
-    [
-      'viewModel',
-      'views',
-      viewId,
-      'nodes',
-    ],
+    ['viewModel', 'views', viewId, 'nodes'],
     (nodes) => ({
       ...nodes,
       ...newNodes,

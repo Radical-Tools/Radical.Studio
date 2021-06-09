@@ -24,7 +24,6 @@ export const findParent = (objectId, model, viewModel) => {
   return undefined;
 };
 
-
 /* eslint-disable no-param-reassign */
 export const updateParentalStructure = (
   model,

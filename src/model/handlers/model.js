@@ -120,8 +120,13 @@ export const addRelation = (state, payload) => {
           target: payload.target,
         };
 
-
-    validateRelation(state.metamodel, has(relationId, state.model.relations) ? unset(['relations', relationId], state.model) : state.model, relation);
+    validateRelation(
+      state.metamodel,
+      has(relationId, state.model.relations)
+        ? unset(['relations', relationId], state.model)
+        : state.model,
+      relation
+    );
     return flow(
       set(['model', 'relations', relationId], relation),
       relation.type === 'Includes'
@@ -176,8 +181,7 @@ export const removeRelation = (state, payload) => {
           unset(['model', 'objects', relation.target, 'parent']),
           update(
             ['model', 'objects', relation.source, 'children'],
-            (children) =>
-              children.filter((item) => item !== relation.target)
+            (children) => children.filter((item) => item !== relation.target)
           )
         )
       : identity

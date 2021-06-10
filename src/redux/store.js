@@ -1,9 +1,7 @@
-
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createStore } from 'redux';
 import { rootReducer } from './rootReducer';
 import subscribeToStoreChanges from './operations/saveState';
-
 
 const store = createStore(
   rootReducer,
@@ -12,4 +10,3 @@ const store = createStore(
 
 subscribeToStoreChanges(store);
 export default store;
-

@@ -85,6 +85,9 @@ export const updateObject = (state, payload) => {
 };
 
 export const removeObject = (state, payload) => {
+  if (!has(payload.id, state.model.objects)) {
+    return state;
+  }
   const parentObjectId = state.model.objects[payload.id].parent;
 
   return flow(

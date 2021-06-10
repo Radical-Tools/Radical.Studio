@@ -7,7 +7,7 @@ export function C4Container({ width, height, isSelected, isExpanded }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={isSelected ? '#505050' : 'gray'}
+      stroke={isSelected ? '#080808' : '#808080'}
       rx="5"
       ry="5"
       x="1"
@@ -68,7 +68,7 @@ export function C4System({ width, height, isSelected, isExpanded }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={isSelected ? '#505050' : 'gray'}
+      stroke={isSelected ? '#080808' : '#808080'}
       rx="5"
       ry="5"
       x="1"

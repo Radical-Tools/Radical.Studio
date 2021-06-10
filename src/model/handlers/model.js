@@ -2,6 +2,7 @@ import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 import unset from 'lodash/fp/unset';
 import omitBy from 'lodash/fp/omitBy';
+import filter from 'lodash/fp/filter';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import identity from 'lodash/fp/identity';
@@ -83,9 +84,20 @@ export const updateObject = (state, payload) => {
   }
 };
 
-export const removeObject = (state, payload) =>
-  flow(
+export const removeObject = (state, payload) => {
+  const parentObjectId = state.model.objects[payload.id].parent;
+
+  return flow(
     unset(['model', 'objects', payload.id]),
+    parentObjectId
+      ? set(
+          ['model', 'objects', parentObjectId, 'children'],
+          filter(
+            (child) => child !== payload.id,
+            state.model.objects[parentObjectId].children
+          )
+        )
+      : identity,
     set(
       ['model', 'relations'],
       omitBy(
@@ -94,6 +106,7 @@ export const removeObject = (state, payload) =>
       )
     )
   )(state);
+};
 
 export const addRelation = (state, payload) => {
   try {

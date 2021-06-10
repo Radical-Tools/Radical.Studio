@@ -168,7 +168,7 @@ export function C4Database({ width, height, isSelected }) {
         ry="0"
         x="2"
         y="20"
-        width={width-4}
+        width={width - 4}
         height={height - 42}
         strokeWidth="2"
       />
@@ -180,7 +180,7 @@ export function C4Database({ width, height, isSelected }) {
         cy="108"
         rx="72"
         ry="20"
-        strokeWidth= {isSelected ? '2' : '0'}
+        strokeWidth={isSelected ? '2' : '0'}
       />
       <ellipse
         fill="#438dd5"

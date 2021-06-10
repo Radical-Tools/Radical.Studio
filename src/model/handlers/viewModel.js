@@ -107,7 +107,11 @@ export const updateCurrentView = (state) => {
       ...view,
       nodes: omitBy(
         (node, id) => !has(id, state.model.objects),
-        mergeWith( (source, target) => { return {...source, ...target}}, view.nodes, pick(keys(view.nodes), state.model.objects))
+        mergeWith(
+          (source, target) => ({ ...source, ...target }),
+          view.nodes,
+          pick(keys(view.nodes), state.model.objects)
+        )
       ),
       links: updateLinks(state.model, view),
     }),

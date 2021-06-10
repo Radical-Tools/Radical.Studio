@@ -3,7 +3,11 @@ import unset from 'lodash/fp/unset';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import flow from 'lodash/fp/flow';
+import omitBy from 'lodash/fp/omitBy';
 import omit from 'lodash/fp/omit';
+import mergeWith from 'lodash/fp/mergeWith';
+import pick from 'lodash/fp/pick';
+import keys from 'lodash/fp/keys';
 import cloneDeep from 'lodash/fp/cloneDeep';
 import {
   getNestedChildren,
@@ -95,29 +99,32 @@ export const updatePossibleRelations = (state) => {
 };
 
 /* eslint-disable no-param-reassign */
+/* eslint-disable arrow-body-style */
 export const updateCurrentView = (state) => {
-  const newState = cloneDeep(state);
+  const newState = update(
+    ['viewModel', 'views', state.viewModel.current],
+    (view) => ({
+      ...view,
+      nodes: omitBy(
+        (node, id) => !has(id, state.model.objects),
+        mergeWith( (source, target) => { return {...source, ...target}}, view.nodes, pick(keys(view.nodes), state.model.objects))
+      ),
+      links: updateLinks(state.model, view),
+    }),
+    state
+  );
 
-  const currentView = newState.viewModel.views[newState.viewModel.current];
-  Object.entries(currentView.nodes)
-    .filter(([nodeId]) => has(nodeId, newState.model.objects))
-    .forEach(([nodeId, node]) => {
-      currentView.nodes[nodeId] = {
-        ...node,
-        ...newState.model.objects[nodeId],
-      };
-    });
-
-  currentView.links = updateLinks(newState.model, currentView);
-
-  updateParentalStructure(newState.model, currentView);
+  updateParentalStructure(
+    newState.model,
+    newState.viewModel.views[newState.viewModel.current]
+  );
 
   updatePossibleRelations(newState);
-  align(currentView, false);
+
+  align(newState.viewModel.views[newState.viewModel.current], false);
 
   return newState;
 };
-
 export const addView = (state, payload) => {
   const id = `View-${Object.keys(state.viewModel.views).length + 1}`;
   return set(

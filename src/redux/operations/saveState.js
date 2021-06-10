@@ -7,6 +7,8 @@ const saveState = (state) => {
     const { storageKey } = config.operations;
     localStorage.setItem(storageKey, serlializedState);
   } catch (e) {
+    // TODO: pick up logger lib
+    // eslint-disable-next-line
     console.error('Cannot save state!', e);
   }
 };

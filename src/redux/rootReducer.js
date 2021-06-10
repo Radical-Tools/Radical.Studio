@@ -69,6 +69,8 @@ const handlers = {
     viewModel.updateCurrentView(
       common.editItem(viewModel.itemSelectionChanged(state, payload), payload)
     ),
+  [actionTypes.MODEL_OBJECT_DETACH]: (state, payload) =>
+    viewModel.updateCurrentView(model.objectDetach(state, payload)),
 };
 
 export const initialState = {

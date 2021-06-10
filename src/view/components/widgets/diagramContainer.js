@@ -16,6 +16,7 @@ import {
   viewModelNodeRemove,
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
+  modelObjectDetach,
 } from '../../../redux/action-creators';
 
 const mapStateToProps = (state) => ({
@@ -44,6 +45,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(modelItemUpdateName(id, type, name)),
   onAddMetamodelObjectToView: (type, position) =>
     dispatch(viewModelMetamodelObjectAdd(undefined, type, position)),
+  onNodeDetached: (id) => dispatch(modelObjectDetach(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);

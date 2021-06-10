@@ -9,6 +9,7 @@ import identity from 'lodash/fp/identity';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
+  findRelations,
   findValidRelationClass,
   validateObject,
   validateObjectAttributes,
@@ -209,3 +210,18 @@ export const selectMetamodel = (state, payload) =>
     metamodels.find((metamodel) => metamodel.id === payload),
     state
   );
+
+export const objectDetach = (state, payload) => {
+  const { parent } = state.model.objects[payload.id];
+  const relations = findRelations(
+    state.model,
+    [parent],
+    ['Includes'],
+    [payload.id]
+  );
+  if (relations.length === 1) {
+    return removeRelation(state, { id: relations[0].id });
+  }
+
+  return state;
+};

@@ -7,21 +7,18 @@ export default class RadicalLinkModel extends DefaultLinkModel {
       ...props,
       type: 'radical_default',
       width: 2,
-      show: true,
       curvyness: 70,
     });
   }
 
   update() {
-    if (this.options.show) {
-      if (this.getTargetPort() && this.getSourcePort()) {
-        const angle = calculateAngle(
-          this.getSourceNodePosition(),
-          this.getTargetNodePosition()
-        );
-        const ports = getPortsBasedOnAngle(angle);
-        this.handlePortsUpdate(ports);
-      }
+    if (this.getTargetPort() && this.getSourcePort()) {
+      const angle = calculateAngle(
+        this.getSourceNodePosition(),
+        this.getTargetNodePosition()
+      );
+      const ports = getPortsBasedOnAngle(angle);
+      this.handlePortsUpdate(ports);
     }
   }
 

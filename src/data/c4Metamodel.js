@@ -134,6 +134,7 @@ const c4Metamodel = {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
           name: {
             'ui:autofocus': true,
@@ -143,6 +144,7 @@ const c4Metamodel = {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
         },
       },
@@ -205,6 +207,7 @@ const c4Metamodel = {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
           name: {
             'ui:autofocus': true,
@@ -214,16 +217,19 @@ const c4Metamodel = {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
           source: {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
           target: {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
         },
       },
@@ -257,6 +263,7 @@ const c4Metamodel = {
             'ui:autofocus': true,
             'ui:emptyValue': '',
             'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
           name: {
             'ui:autofocus': true,

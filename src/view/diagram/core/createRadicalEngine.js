@@ -3,9 +3,6 @@ import {
   LinkLayerFactory,
   NodeLayerFactory,
   DefaultLabelFactory,
-  DefaultLinkFactory,
-  DefaultNodeFactory,
-  DefaultPortFactory,
 } from '@projectstorm/react-diagrams';
 import { SelectionBoxLayerFactory } from '@projectstorm/react-canvas-core';
 
@@ -31,14 +28,10 @@ const createRadicalEngine = () => {
   engine.getLayerFactories().registerFactory(new SelectionBoxLayerFactory());
 
   engine.getLabelFactories().registerFactory(new DefaultLabelFactory());
-  engine.getNodeFactories().registerFactory(new DefaultNodeFactory());
   engine.getNodeFactories().registerFactory(new RadicalComposedNodeFactory());
 
-  engine.getLinkFactories().registerFactory(new DefaultLinkFactory());
   engine.getLinkFactories().registerFactory(new PathFindingLinkFactory());
   engine.getLinkFactories().registerFactory(new RadicalLinkFactory());
-
-  engine.getPortFactories().registerFactory(new DefaultPortFactory());
 
   engine
     .getPortFactories()

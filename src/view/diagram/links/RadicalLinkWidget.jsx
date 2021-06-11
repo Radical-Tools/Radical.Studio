@@ -84,10 +84,6 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
         factory={this.props.diagramEngine.getFactoryForLink(this.props.link)}
         link={this.props.link}
         forwardRef={ref}
-        onSelection={(selected) => {
-          this.setState({ selected });
-          this.props.link.setSelected(selected);
-        }}
         extras={extraProps}
       />
     );

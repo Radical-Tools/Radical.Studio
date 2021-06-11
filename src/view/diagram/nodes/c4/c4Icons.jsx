@@ -7,25 +7,27 @@ export function C4Container({ width, height, isSelected, isExpanded }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={isSelected ? 'black' : 'gray'}
+      stroke={isSelected ? '#080808' : '#808080'}
       rx="5"
       ry="5"
       x="1"
       y="1"
       width={width - 2}
       height={height - 2}
+      strokeWidth="1"
     />
   ) : (
     <rect
       fill="#438dd5"
       fillOpacity="1.0"
-      stroke={isSelected ? 'black' : 'white'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
+      stroke={isSelected ? '#505050' : 'white'}
+      rx="10"
+      ry="10"
+      x="2"
+      y="2"
+      width={width - 4}
+      height={height - 4}
+      strokeWidth="2"
     />
   );
 }
@@ -42,13 +44,14 @@ export function C4Component({ width, height, isSelected }) {
     <rect
       fill="#85bbf0"
       fillOpacity="1.0"
-      stroke={isSelected ? 'black' : 'white'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
+      stroke={isSelected ? '#505050' : 'white'}
+      rx="10"
+      ry="10"
+      x="2"
+      y="2"
+      width={width - 4}
+      height={height - 4}
+      strokeWidth="2"
     />
   );
 }
@@ -65,25 +68,27 @@ export function C4System({ width, height, isSelected, isExpanded }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={isSelected ? 'black' : 'gray'}
+      stroke={isSelected ? '#080808' : '#808080'}
       rx="5"
       ry="5"
       x="1"
       y="1"
       width={width - 2}
       height={height - 2}
+      strokeWidth="1"
     />
   ) : (
     <rect
       fill="#1168bd"
       fillOpacity="1.0"
-      stroke={isSelected ? 'black' : 'white'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
+      stroke={isSelected ? '#505050' : 'white'}
+      rx="10"
+      ry="10"
+      x="2"
+      y="2"
+      width={width - 4}
+      height={height - 4}
+      strokeWidth="2"
     />
   );
 }
@@ -100,13 +105,14 @@ export function C4ExternalSystem({ width, height, isSelected }) {
     <rect
       fill="#999999"
       fillOpacity="1.0"
-      stroke={isSelected ? 'black' : 'white'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
+      stroke={isSelected ? '#505050' : 'white'}
+      rx="10"
+      ry="10"
+      x="2"
+      y="2"
+      width={width - 4}
+      height={height - 4}
+      strokeWidth="2"
     />
   );
 }
@@ -123,21 +129,23 @@ export function C4Actor({ width, height, isSelected }) {
       <rect
         fill="#2072C3"
         fillOpacity="1.0"
-        stroke={isSelected ? 'black' : 'white'}
-        rx="25"
+        stroke={isSelected ? '#505050' : 'white'}
+        rx="20"
         ry="20"
-        x="1"
+        x="5"
         y="40"
-        width={width - 2}
-        height={height - 40}
+        strokeWidth="2"
+        width={width - 10}
+        height={height - 45}
       />
       <circle
         fill="#2072C3"
-        stroke={isSelected ? 'black' : 'white'}
+        stroke={isSelected ? '#505050' : 'white'}
         fillOpacity="1.0"
         cx="75"
         cy="30"
-        r="30"
+        r="27"
+        strokeWidth="2"
       />
     </g>
   );
@@ -153,31 +161,36 @@ export function C4Database({ width, height, isSelected }) {
   return (
     <g>
       <rect
+        stroke={isSelected ? '#505050' : 'white'}
         fill="#438dd5"
         fillOpacity="1.0"
         rx="0"
         ry="0"
-        x="0"
+        x="2"
         y="20"
-        width={width}
+        width={width - 4}
         height={height - 42}
+        strokeWidth="2"
       />
       <ellipse
         fill="#438dd5"
         fillOpacity="1.0"
+        stroke={isSelected ? '#505050' : 'white'}
         cx="75"
-        cy="110"
-        rx="75"
+        cy="108"
+        rx="72"
         ry="20"
+        strokeWidth={isSelected ? '2' : '0'}
       />
       <ellipse
         fill="#438dd5"
         fillOpacity="1.0"
-        stroke={isSelected ? 'black' : 'white'}
+        stroke={isSelected ? '#505050' : 'white'}
         cx="75"
-        cy="20"
-        rx="75"
+        cy="22"
+        rx="73"
         ry="20"
+        strokeWidth="2"
       />
     </g>
   );

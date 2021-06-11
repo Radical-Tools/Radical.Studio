@@ -16,6 +16,7 @@ import {
   viewModelNodeRemove,
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
+  modelObjectDetach,
 } from '../../../redux/action-creators';
 
 const mapStateToProps = (state) => ({
@@ -23,10 +24,8 @@ const mapStateToProps = (state) => ({
   alignment: state.viewModel.views[state.viewModel.current].alignment,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onAddRelation: (source, target, type) =>
-    dispatch(
-      modelRelationAdd(undefined, type, undefined, undefined, source, target)
-    ),
+  onAddRelation: (id, source, target, type) =>
+    dispatch(modelRelationAdd(id, type, undefined, undefined, source, target)),
   onNodeUpdate: (id, position, dimension) =>
     dispatch(viewModelNodeUpdate(undefined, id, position, dimension)),
   onNodeRemoved: (id) => dispatch(viewModelNodeRemove(id)),
@@ -46,6 +45,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(modelItemUpdateName(id, type, name)),
   onAddMetamodelObjectToView: (type, position) =>
     dispatch(viewModelMetamodelObjectAdd(undefined, type, position)),
+  onNodeDetached: (id) => dispatch(modelObjectDetach(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);

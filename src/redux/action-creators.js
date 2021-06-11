@@ -37,6 +37,7 @@ import {
   VIEWMODEL_METAMODELOBJECT_ADD,
   VIEWMODEL_ITEM_SELECTION_CHANGED,
   MODEL_ITEM_UPDATE_NAME,
+  MODEL_OBJECT_DETACH,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -219,4 +220,9 @@ export const viewModelNodeExpand = (id) => ({
 export const viewModelItemSelectionChanged = (id, type, isSelected) => ({
   type: VIEWMODEL_ITEM_SELECTION_CHANGED,
   payload: { id, type, isSelected },
+});
+
+export const modelObjectDetach = (id) => ({
+  type: MODEL_OBJECT_DETACH,
+  payload: { id },
 });

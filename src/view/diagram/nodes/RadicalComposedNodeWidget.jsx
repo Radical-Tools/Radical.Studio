@@ -1,6 +1,9 @@
 import React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import Typography from '@material-ui/core/Typography';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
+import IconButton from '@material-ui/core/IconButton';
+
 import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +11,7 @@ import values from 'lodash/fp/values';
 import {
   DIAGRAM_LINK_TARGET_SELECTED_EVENT,
   DIAGRAM_NODE_COLLAPSED,
+  DIAGRAM_NODE_DETACHED,
   DIAGRAM_NODE_EXPANDED,
   PORT_BORDER_RADIUS,
 } from '../consts';
@@ -31,9 +35,15 @@ const useStyles = makeStyles(() => ({
   linkingPanel: {
     position: 'absolute',
     width: '100%',
-    height: '20px',
-    top: -30,
-    right: 0,
+    height: 30,
+    bottom: 0,
+    left: '5%',
+  },
+  detachPanel: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    top: 0,
   },
 }));
 const RadicalComposedNodeWidget = ({
@@ -141,6 +151,7 @@ const RadicalComposedNodeWidget = ({
               onClick={() => {
                 node.fireEvent(
                   {
+                    id: node.options.possibleRelations.id,
                     source: node.options.possibleRelations.source,
                     target: node.getID(),
                     type,
@@ -150,6 +161,23 @@ const RadicalComposedNodeWidget = ({
               }}
             />
           ))}
+      </div>
+      <div className={classes.detachPanel}>
+        {node.parentNode && (
+          <IconButton
+            className="controlEl"
+            onClick={() => {
+              node.fireEvent(
+                {
+                  id: node.getID(),
+                },
+                DIAGRAM_NODE_DETACHED
+              );
+            }}
+          >
+            <LinkOffIcon />
+          </IconButton>
+        )}
       </div>
     </div>
   );

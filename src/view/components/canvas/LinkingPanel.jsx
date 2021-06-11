@@ -3,13 +3,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 const LinkingPanel = ({ label, onClick }) => (
-  <Chip
-    className="controlEl"
-    color="primary"
-    label={label}
-    size="small"
-    onClick={onClick}
-  />
+  <Chip className="controlEl" label={label} size="small" onClick={onClick} />
 );
 
 LinkingPanel.propTypes = {

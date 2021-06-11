@@ -107,7 +107,7 @@ export default class RadicalComposedNodeModel extends NodeModel {
   fitDimensions() {
     const boundedRect = RadicalComposedNodeModel.getBoundingNodesRect(
       Array.from(this.nodes.values()),
-      { top: 70, bottom: 70, left: 20, right: 20 }
+      { top: 60, bottom: 60, left: 60, right: 60 }
     );
     if (boundedRect.getWidth() > 0) {
       this.size.width = boundedRect.points[1].x - boundedRect.points[0].x;

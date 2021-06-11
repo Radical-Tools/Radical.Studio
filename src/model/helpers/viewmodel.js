@@ -72,6 +72,9 @@ export const updateLinks = (model, viewModel) => {
       ) {
         links[relationId] = {
           ...model.relations[relationId],
+          isSelected: viewModel.links[relationId]
+            ? viewModel.links[relationId].isSelected
+            : false,
           source: sourceId,
           target: targetId,
         };

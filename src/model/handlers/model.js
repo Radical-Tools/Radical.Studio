@@ -2,12 +2,14 @@ import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 import unset from 'lodash/fp/unset';
 import omitBy from 'lodash/fp/omitBy';
+import filter from 'lodash/fp/filter';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import identity from 'lodash/fp/identity';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
+  findRelations,
   findValidRelationClass,
   validateObject,
   validateObjectAttributes,
@@ -83,9 +85,23 @@ export const updateObject = (state, payload) => {
   }
 };
 
-export const removeObject = (state, payload) =>
-  flow(
+export const removeObject = (state, payload) => {
+  if (!has(payload.id, state.model.objects)) {
+    return state;
+  }
+  const parentObjectId = state.model.objects[payload.id].parent;
+
+  return flow(
     unset(['model', 'objects', payload.id]),
+    parentObjectId
+      ? set(
+          ['model', 'objects', parentObjectId, 'children'],
+          filter(
+            (child) => child !== payload.id,
+            state.model.objects[parentObjectId].children
+          )
+        )
+      : identity,
     set(
       ['model', 'relations'],
       omitBy(
@@ -94,6 +110,7 @@ export const removeObject = (state, payload) =>
       )
     )
   )(state);
+};
 
 export const addRelation = (state, payload) => {
   try {
@@ -106,15 +123,27 @@ export const addRelation = (state, payload) => {
         )[0].id;
 
     const relationId = payload.id ? payload.id : uuidv4();
-    const relation = {
-      name: payload.name ? payload.name : type,
-      type,
-      attributes: payload.attributes ? { ...payload.attributes } : {},
-      source: payload.source,
-      target: payload.target,
-    };
 
-    validateRelation(state.metamodel, state.model, relation);
+    const relation = has(relationId, state.model.relations)
+      ? {
+          ...state.model.relations[relationId],
+          target: payload.target,
+        }
+      : {
+          name: payload.name ? payload.name : type,
+          type,
+          attributes: payload.attributes ? { ...payload.attributes } : {},
+          source: payload.source,
+          target: payload.target,
+        };
+
+    validateRelation(
+      state.metamodel,
+      has(relationId, state.model.relations)
+        ? unset(['relations', relationId], state.model)
+        : state.model,
+      relation
+    );
     return flow(
       set(['model', 'relations', relationId], relation),
       relation.type === 'Includes'
@@ -169,8 +198,7 @@ export const removeRelation = (state, payload) => {
           unset(['model', 'objects', relation.target, 'parent']),
           update(
             ['model', 'objects', relation.source, 'children'],
-            (children) =>
-              children.filter((item) => item.target !== relation.target)
+            (children) => children.filter((item) => item !== relation.target)
           )
         )
       : identity
@@ -182,3 +210,18 @@ export const selectMetamodel = (state, payload) =>
     metamodels.find((metamodel) => metamodel.id === payload),
     state
   );
+
+export const objectDetach = (state, payload) => {
+  const { parent } = state.model.objects[payload.id];
+  const relations = findRelations(
+    state.model,
+    [parent],
+    ['Includes'],
+    [payload.id]
+  );
+  if (relations.length === 1) {
+    return removeRelation(state, { id: relations[0].id });
+  }
+
+  return state;
+};

@@ -11,6 +11,7 @@ const addNode = (diagramModel, viewModelNode) => {
     attributes: viewModelNode.attributes,
     isParent: viewModelNode.children.length > 0,
     possibleRelations: viewModelNode.possibleRelations,
+    isExpanded: viewModelNode.childrenNodes.length > 0
   });
 
   node.setPosition({

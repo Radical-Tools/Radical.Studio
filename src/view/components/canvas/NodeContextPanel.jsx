@@ -71,24 +71,27 @@ const NodeContextPanel = ({ node }) => {
       {node.options.possibleRelations &&
         node.options.possibleRelations.types.map((type) => (
           <Box key={type} m={1}>
-            <Chip
-              icon={<LinkIcon />}
-              key={type}
-              className="controlEl"
-              label={type}
-              size="small"
-              onClick={() => {
-                node.fireEvent(
-                  {
-                    id: node.options.possibleRelations.id,
-                    source: node.options.possibleRelations.source,
-                    target: node.getID(),
-                    type,
-                  },
-                  DIAGRAM_LINK_TARGET_SELECTED_EVENT
-                );
-              }}
-            />
+            <Tooltip title={`Create a ${type} relation`}>
+              <Chip
+                color="primary"
+                icon={<LinkIcon />}
+                key={type}
+                className="controlEl"
+                label={type}
+                size="small"
+                onClick={() => {
+                  node.fireEvent(
+                    {
+                      id: node.options.possibleRelations.id,
+                      source: node.options.possibleRelations.source,
+                      target: node.getID(),
+                      type,
+                    },
+                    DIAGRAM_LINK_TARGET_SELECTED_EVENT
+                  );
+                }}
+              />
+            </Tooltip>
           </Box>
         ))}
       {node.isSelected() && node.parentNode && (

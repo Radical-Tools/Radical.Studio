@@ -13,7 +13,6 @@ import {
   DIAGRAM_NODE_COLLAPSED,
   DIAGRAM_NODE_DETACHED,
   DIAGRAM_NODE_EXPANDED,
-  PORT_BORDER_RADIUS,
 } from '../consts';
 import { getPortStyle } from '../helpers';
 import CollapsePanel from '../../components/canvas/CollapsePanel';
@@ -24,13 +23,6 @@ const useStyles = makeStyles(() => ({
   smartPort: {
     width: '16px',
     height: '16px',
-    background: 'rgba(0, 0, 0, 0.1)',
-    borderRadius: `${PORT_BORDER_RADIUS}px`,
-    zIndex: 10,
-    opacity: 0.2,
-    '&:hover': {
-      background: '#000000',
-    },
   },
   linkingPanel: {
     position: 'absolute',

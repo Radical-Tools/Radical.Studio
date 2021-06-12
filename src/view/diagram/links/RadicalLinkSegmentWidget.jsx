@@ -7,8 +7,6 @@ const RadicalLinkSegmentWidget = ({
   selected,
   path,
   forwardRef,
-  onSelection,
-  extras,
 }) => {
   const Bottom = React.cloneElement(
     factory.generateLinkSegment(link, selected || link.isSelected(), path),
@@ -19,13 +17,6 @@ const RadicalLinkSegmentWidget = ({
 
   const Top = React.cloneElement(Bottom, {
     strokeLinecap: 'round',
-    onMouseLeave: () => {
-      onSelection(false);
-    },
-    onMouseEnter: () => {
-      onSelection(true);
-    },
-    ...extras,
     ref: null,
     'data-linkid': link.getID(),
     strokeOpacity: selected ? 0.1 : 0,
@@ -50,10 +41,8 @@ RadicalLinkSegmentWidget.propTypes = {
   link: PropTypes.objectOf(PropTypes.any).isRequired,
   factory: PropTypes.objectOf(PropTypes.any).isRequired,
   forwardRef: PropTypes.objectOf(PropTypes.any).isRequired,
-  extras: PropTypes.objectOf(PropTypes.any).isRequired,
   path: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
-  onSelection: PropTypes.func.isRequired,
 };
 
 export default RadicalLinkSegmentWidget;

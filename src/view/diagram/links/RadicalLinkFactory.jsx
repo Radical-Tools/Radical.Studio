@@ -19,7 +19,6 @@ export default class RadicalLinkFactory extends DefaultLinkFactory {
         link={event.model}
         diagramEngine={this.engine}
         factory={this}
-        show
       />
     );
   }

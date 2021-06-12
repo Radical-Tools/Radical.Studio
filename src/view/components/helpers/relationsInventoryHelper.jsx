@@ -1,7 +1,7 @@
 import Chip from '@material-ui/core/Chip';
-import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 export const transform = (model) => {
   const data = [];
@@ -72,28 +72,18 @@ const RelationsInventoryRow = (props) => {
   return (
     <tr>
       <td>
+        <Typography variant="caption">{source}</Typography>
+      </td>
+      <td>
         <Chip
           color="primary"
-          label={name}
+          label={`${name} >`}
           size="small"
           onClick={() => onSelected(id)}
         />
       </td>
-      <td
-        style={{
-          paddingLeft: '10px',
-          paddingRight: '10px',
-          paddingTop: '0px',
-          textAlign: 'right',
-        }}
-      >
-        <Chip color="secondary" label={source} size="small" />
-      </td>
-      <td>
-        <ArrowForwardRoundedIcon />
-      </td>
-      <td style={{ paddingLeft: '10px', textAlign: 'left' }}>
-        <Chip color="secondary" label={target} size="small" />
+      <td style={{ textAlign: 'right' }}>
+        <Typography variant="caption">{target}</Typography>
       </td>
       <td style={{ textAlign: 'right' }}>{actions}</td>
     </tr>

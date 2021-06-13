@@ -54,7 +54,7 @@ const Widget = ({ model, engine, onNodeExpanded, onNodeCollapsed }) => (
     onNodeCollapsed={onNodeCollapsed}
     isSelected={model.isSelected() || false}
     name={model.options.name}
-    isExpanded={model.width > 150}
+    isExpanded={model.options.isExpanded}
     isAsymmetric={model.options.radical_type === 'Actor'}
   >
     <Icon
@@ -62,7 +62,7 @@ const Widget = ({ model, engine, onNodeExpanded, onNodeCollapsed }) => (
       width={model.size.width}
       height={model.size.height}
       isSelected={model.isSelected()}
-      isExpanded={model.width > 150}
+      isExpanded={model.options.isExpanded}
     />
   </RadicalComposedNodeWidget>
 );

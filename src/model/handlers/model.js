@@ -18,7 +18,7 @@ import {
 } from '../helpers/model';
 import metamodels from '../../data/metamodels';
 
-const addError = (state, name, reason) =>
+export const addError = (state, name, reason) =>
   set(['errors'], [...state.errors, { name, reason }], state);
 
 export const initialState = {
@@ -33,7 +33,7 @@ export const addObject = (state, payload) => {
   const id = payload.id ? payload.id : uuidv4();
 
   const object = {
-    name: payload.name ? payload.name : `New ${payload.type}`,
+    name: payload.name ? payload.name : undefined,
     type: payload.type,
     attributes: payload.attributes ? { ...payload.attributes } : {},
     children: [],
@@ -47,7 +47,8 @@ export const addObject = (state, payload) => {
     validateObject(state.metamodel, state.model, object);
     return set(['model', 'objects', id], object, state);
   } catch (error) {
-    return addError(state, 'Add Object Error', error.message);
+    throw new Error('Add Object Error', error.message);
+    // return addError(state, 'Add Object Error', error.message);
   }
 };
 

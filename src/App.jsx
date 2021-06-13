@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createTheme from './app/createTheme';
 import MainLayoutContainer from './view/components/layout/MainLayoutContainer';
+import NotificationsDisplayHandler from './view/components/layout/NotificationsDisplayHandler';
 
 const App = () => {
   const themeType = useSelector((state) => state.theme.current);
@@ -15,6 +16,7 @@ const App = () => {
     <DndProvider backend={HTML5Backend}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
+        <NotificationsDisplayHandler />
         <MainLayoutContainer />
       </MuiThemeProvider>
     </DndProvider>

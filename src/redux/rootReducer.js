@@ -84,7 +84,11 @@ export const initialState = {
 
 export const rootReducer = (state = initialState, action) => {
   if (Object.prototype.hasOwnProperty.call(handlers, action.type)) {
-    return handlers[action.type](state, action.payload);
+    try {
+      return handlers[action.type](state, action.payload);
+    } catch (error) {
+      return model.addError(state, error.message, error.message);
+    }
   }
   return state;
 };

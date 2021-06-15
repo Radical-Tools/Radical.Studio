@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { ButtonGroup } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import UndoRoundedIcon from '@material-ui/icons/UndoRounded';
-import RedoRoundedIcon from '@material-ui/icons/RedoRounded';
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import { undo, redo } from 'redux-deep-diff';
@@ -66,22 +65,13 @@ const TopMenu = ({
             Radical.Studio
           </Typography>
           <div className={classes.grow} />
-          <div className={classes.grow}>
-            <ButtonGroup
-              size="medium"
-              variant="contained"
-              color="primary"
-              aria-label="undo redo"
-            >
-              <IconButton disabled={!isPrev} onClick={undoCmd} color="inherit">
-                <UndoRoundedIcon />
-              </IconButton>
-              <IconButton disabled={!isNext} onClick={redoCmd} color="inherit">
-                <RedoRoundedIcon />
-              </IconButton>
-            </ButtonGroup>
-          </div>
           <div>
+            <IconButton disabled={!isPrev} onClick={undoCmd} color="inherit">
+              <ArrowBackIosRoundedIcon />
+            </IconButton>
+            <IconButton disabled={!isNext} onClick={redoCmd} color="inherit">
+              <ArrowForwardIosRoundedIcon />
+            </IconButton>
             <Switch
               data-testid="theme-switch"
               checked={isThemeSwitchChecked}

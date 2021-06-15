@@ -8,10 +8,10 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import IconButton from '@material-ui/core/IconButton';
 
 const MenuWidgetListItem = ({ id, isDisabled, title, onAddWidget }) => {
-  const addWidgetCallback = useCallback(() => onAddWidget(id), [
-    id,
-    onAddWidget,
-  ]);
+  const addWidgetCallback = useCallback(
+    () => onAddWidget(id),
+    [id, onAddWidget]
+  );
   return (
     <ListItem>
       <ListItemAvatar>

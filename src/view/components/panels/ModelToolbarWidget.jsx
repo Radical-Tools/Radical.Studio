@@ -32,41 +32,49 @@ const ModelToolbarWidget = (props) => {
     [setExpanded]
   );
 
-  const onRemoveObjectCallback = useCallback((id) => onRemoveObject(id), [
-    onRemoveObject,
-  ]);
+  const onRemoveObjectCallback = useCallback(
+    (id) => onRemoveObject(id),
+    [onRemoveObject]
+  );
 
-  const onEditObjectCallback = useCallback((id) => onEditObject(id), [
-    onEditObject,
-  ]);
+  const onEditObjectCallback = useCallback(
+    (id) => onEditObject(id),
+    [onEditObject]
+  );
 
-  const onCreateObjectCallback = useCallback(() => onCreateObject(), [
-    onCreateObject,
-  ]);
+  const onCreateObjectCallback = useCallback(
+    () => onCreateObject(),
+    [onCreateObject]
+  );
 
-  const onRemoveRelationCallback = useCallback((id) => onRemoveRelation(id), [
-    onRemoveRelation,
-  ]);
+  const onRemoveRelationCallback = useCallback(
+    (id) => onRemoveRelation(id),
+    [onRemoveRelation]
+  );
 
-  const onEditRelationCallback = useCallback((id) => onEditRelation(id), [
-    onEditRelation,
-  ]);
+  const onEditRelationCallback = useCallback(
+    (id) => onEditRelation(id),
+    [onEditRelation]
+  );
 
-  const onCreateRelationCallback = useCallback(() => onCreateRelation(), [
-    onCreateRelation,
-  ]);
+  const onCreateRelationCallback = useCallback(
+    () => onCreateRelation(),
+    [onCreateRelation]
+  );
 
   const onEditViewCallback = useCallback((id) => onEditView(id), [onEditView]);
 
-  const onRemoveViewCallback = useCallback((id) => onRemoveView(id), [
-    onRemoveView,
-  ]);
+  const onRemoveViewCallback = useCallback(
+    (id) => onRemoveView(id),
+    [onRemoveView]
+  );
 
   const onCrateViewCallback = useCallback(() => onCreateView(), [onCreateView]);
 
-  const onActivateViewCallback = useCallback((id) => onActivateView(id), [
-    onActivateView,
-  ]);
+  const onActivateViewCallback = useCallback(
+    (id) => onActivateView(id),
+    [onActivateView]
+  );
 
   return (
     <div>

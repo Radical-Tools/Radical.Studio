@@ -52,14 +52,14 @@ function CardWrapper({
   className,
 }) {
   const buttonClasses = useIconButtonStyles();
-  const onMinimizeCallback = useCallback(() => onMinimize(id), [
-    onMinimize,
-    id,
-  ]);
-  const onMaximizeCallback = useCallback(() => onMaximize(id), [
-    onMaximize,
-    id,
-  ]);
+  const onMinimizeCallback = useCallback(
+    () => onMinimize(id),
+    [onMinimize, id]
+  );
+  const onMaximizeCallback = useCallback(
+    () => onMaximize(id),
+    [onMaximize, id]
+  );
   const onCloseCallback = useCallback(() => onClose(id), [onClose, id]);
   const getAriaLabel = (iconPurpose) => `${iconPurpose} ${title}`;
   return (

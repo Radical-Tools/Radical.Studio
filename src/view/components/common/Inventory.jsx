@@ -24,13 +24,15 @@ const Inventory = ({
   customRowFactory,
   columns,
 }) => {
-  const removeItemCallback = useCallback((id) => onRemoveItem(id), [
-    onRemoveItem,
-  ]);
+  const removeItemCallback = useCallback(
+    (id) => onRemoveItem(id),
+    [onRemoveItem]
+  );
   const editItemCallback = useCallback((id) => onEditItem(id), [onEditItem]);
-  const addToViewCallback = useCallback((id) => onAddItemToView(id), [
-    onAddItemToView,
-  ]);
+  const addToViewCallback = useCallback(
+    (id) => onAddItemToView(id),
+    [onAddItemToView]
+  );
 
   const options = {
     filterType: 'checkbox',

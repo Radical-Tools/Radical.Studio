@@ -38,6 +38,8 @@ import {
   VIEWMODEL_ITEM_SELECTION_CHANGED,
   MODEL_ITEM_UPDATE_NAME,
   MODEL_OBJECT_DETACH,
+  NOTIFICATION_ADD,
+  NOTIFICATION_REMOVE,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -224,5 +226,15 @@ export const viewModelItemSelectionChanged = (id, type, isSelected) => ({
 
 export const modelObjectDetach = (id) => ({
   type: MODEL_OBJECT_DETACH,
+  payload: { id },
+});
+
+export const notificationAdd = (message, type, name) => ({
+  type: NOTIFICATION_ADD,
+  payload: { id: uuidv4(), message, type, name },
+});
+
+export const notificationRemove = (id) => ({
+  type: NOTIFICATION_REMOVE,
   payload: { id },
 });

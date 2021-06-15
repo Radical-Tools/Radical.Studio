@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
@@ -23,7 +25,16 @@ const useMenuButtonStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
-const TopMenu = ({ isThemeSwitchChecked, onChangeTheme, onShowDrawer }) => {
+
+const TopMenu = ({
+  isThemeSwitchChecked,
+  onChangeTheme,
+  onShowDrawer,
+  undoCmd,
+  redoCmd,
+  isPrev,
+  isNext,
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.grow}>
@@ -43,6 +54,12 @@ const TopMenu = ({ isThemeSwitchChecked, onChangeTheme, onShowDrawer }) => {
           </Typography>
           <div className={classes.grow} />
           <div>
+            <IconButton disabled={!isPrev} onClick={undoCmd} color="inherit">
+              <ArrowBackIosRoundedIcon />
+            </IconButton>
+            <IconButton disabled={!isNext} onClick={redoCmd} color="inherit">
+              <ArrowForwardIosRoundedIcon />
+            </IconButton>
             <Switch
               data-testid="theme-switch"
               checked={isThemeSwitchChecked}
@@ -59,5 +76,10 @@ TopMenu.propTypes = {
   isThemeSwitchChecked: PropTypes.bool.isRequired,
   onChangeTheme: PropTypes.func.isRequired,
   onShowDrawer: PropTypes.func.isRequired,
+  undoCmd: PropTypes.func.isRequired,
+  redoCmd: PropTypes.func.isRequired,
+  isPrev: PropTypes.bool.isRequired,
+  isNext: PropTypes.bool.isRequired,
 };
+
 export default TopMenu;

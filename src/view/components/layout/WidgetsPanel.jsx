@@ -3,7 +3,7 @@ import toPairs from 'lodash/fp/toPairs';
 import { Box, Card } from '@material-ui/core';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import PropTypes from 'prop-types';
-import TopMenu from './TopMenu';
+import TopMenu from './TopMenuContainer';
 import CardWrapper from './CardWrapper';
 import { THEME_DARK } from '../../../app/consts';
 import widgetsComponentMapping from '../widgets/widgetsComponentMapping';

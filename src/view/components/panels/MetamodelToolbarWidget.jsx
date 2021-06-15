@@ -12,6 +12,7 @@ import { METAMODEL_DROP_TYPE } from '../../diagram/consts';
 const ToolbarItem = ({ name, id }) => {
   const [, drag] = useDrag({
     item: { metamodelType: id, type: METAMODEL_DROP_TYPE },
+    type: METAMODEL_DROP_TYPE,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

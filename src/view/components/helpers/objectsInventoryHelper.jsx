@@ -62,6 +62,7 @@ const ObjectsInventoryRow = (props) => {
 
   const [, drag] = useDrag({
     item: { id, type: MODEL_DROP_TYPE },
+    type: MODEL_DROP_TYPE,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

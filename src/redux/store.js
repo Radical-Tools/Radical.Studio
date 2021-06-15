@@ -1,10 +1,11 @@
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createStore } from 'redux';
+import diff from 'redux-deep-diff';
 import { rootReducer } from './rootReducer';
 import subscribeToStoreChanges from './operations/saveState';
 
 const store = createStore(
-  rootReducer,
+  diff(rootReducer),
   composeWithDevTools({ name: 'Studio.Radical.Tools' })()
 );
 

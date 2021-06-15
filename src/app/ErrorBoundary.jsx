@@ -7,7 +7,7 @@ export default class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  // Try to revert state here when we will have back functionality
+  // Try to revert state here when we will have back functionality and maybe send notification state revertes as there was an unhandled error...
   static getDerivedStateFromError(error) {
     // eslint-disable-next-line no-console
     console.log('get derived state', error);

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createTheme from './app/createTheme';
 import MainLayoutContainer from './view/components/layout/MainLayoutContainer';
+import ErrorBoundary from './app/ErrorBoundary';
 import NotificationsDisplayHandlerContainer from './view/components/layout/NotificationsDisplayHandlerContainer';
 
 const App = () => {
@@ -17,7 +18,9 @@ const App = () => {
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <NotificationsDisplayHandlerContainer />
-        <MainLayoutContainer />
+        <ErrorBoundary>
+          <MainLayoutContainer />
+        </ErrorBoundary>
       </MuiThemeProvider>
     </DndProvider>
   );

@@ -17,9 +17,7 @@ import {
   validateRelationAttributes,
 } from '../helpers/model';
 import metamodels from '../../data/metamodels';
-
-const addError = (state, name, reason) =>
-  set(['errors'], [...state.errors, { name, reason }], state);
+import { createError } from './notifications';
 
 export const initialState = {
   model: {
@@ -40,14 +38,14 @@ export const addObject = (state, payload) => {
   };
 
   if (has(id, state.model.objects)) {
-    return addError(state, 'Add Object Error', 'object already exist');
+    throw createError('object already exist', 'Add Object Error');
   }
 
   try {
     validateObject(state.metamodel, state.model, object);
     return set(['model', 'objects', id], object, state);
   } catch (error) {
-    return addError(state, 'Add Object Error', error.message);
+    throw createError(error.message, 'Add Object Error');
   }
 };
 
@@ -81,7 +79,7 @@ export const updateObject = (state, payload) => {
       state
     );
   } catch (error) {
-    return addError(state, 'Update Object Error', error.message);
+    throw createError(error.message, 'Update Object Error');
   }
 };
 
@@ -160,7 +158,7 @@ export const addRelation = (state, payload) => {
         : identity
     )(state);
   } catch (error) {
-    return addError(state, 'Add Relation Error', error.message);
+    throw createError(error.message, 'Add Relation Error');
   }
 };
 
@@ -185,7 +183,7 @@ export const updateRelation = (state, payload) => {
       state
     );
   } catch (error) {
-    return addError(state, 'Update Relation Error', error.message);
+    throw createError(error.message, 'Update Relation Error');
   }
 };
 

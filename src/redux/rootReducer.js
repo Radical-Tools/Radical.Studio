@@ -3,8 +3,9 @@ import * as common from '../model/handlers/common';
 import * as layout from '../model/handlers/layout';
 import * as theme from '../model/handlers/theme';
 import * as viewModel from '../model/handlers/viewModel';
-import * as errors from '../model/handlers/errors';
+import * as notifications from '../model/handlers/notifications';
 import * as actionTypes from './action-types';
+import { notificationAdd } from './action-creators';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,
@@ -71,6 +72,8 @@ const handlers = {
     ),
   [actionTypes.MODEL_OBJECT_DETACH]: (state, payload) =>
     viewModel.updateCurrentView(model.objectDetach(state, payload)),
+  [actionTypes.NOTIFICATION_ADD]: notifications.addNotification,
+  [actionTypes.NOTIFICATION_REMOVE]: notifications.removeNotifcation,
 };
 
 export const initialState = {
@@ -79,12 +82,19 @@ export const initialState = {
   ...theme.initialState,
   ...viewModel.initialState,
   ...common.initialState,
-  ...errors.initialState,
+  ...notifications.initialState,
 };
 
 export const rootReducer = (state = initialState, action) => {
   if (Object.prototype.hasOwnProperty.call(handlers, action.type)) {
-    return handlers[action.type](state, action.payload);
+    try {
+      return handlers[action.type](state, action.payload);
+    } catch (error) {
+      return notifications.addNotification(
+        state,
+        notificationAdd(error.message, 'error', error.name).payload
+      );
+    }
   }
   return state;
 };

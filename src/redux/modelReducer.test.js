@@ -183,7 +183,7 @@ describe('add relation', () => {
           'Actor-1',
           'Component-1'
         )
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Relation Error');
   });
 
@@ -215,7 +215,7 @@ describe('add relation', () => {
           'IncorrectSourceId',
           'Component-1'
         )
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Relation Error');
   });
 
@@ -247,7 +247,7 @@ describe('add relation', () => {
           'Actor-1',
           'IncorrectTargetId'
         )
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Relation Error');
   });
 
@@ -279,7 +279,7 @@ describe('add relation', () => {
           'Actor-1',
           'Component-1'
         )
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Relation Error');
   });
 
@@ -311,7 +311,7 @@ describe('add relation', () => {
           'Actor-1',
           'Actor-2'
         )
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Relation Error');
   });
 
@@ -343,7 +343,7 @@ describe('add relation', () => {
           'System-1',
           'Container-2'
         )
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Relation Error');
   });
 });
@@ -394,7 +394,7 @@ describe('update relation', () => {
         modelRelationUpdate('Interacts-1', undefined, {
           incorrectAttribute: 'new technology',
         })
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Update Relation Error');
   });
 });
@@ -428,7 +428,7 @@ describe('add object', () => {
       rootReducer(
         createInitialState(),
         modelObjectAdd('Actor-3', 'IncorrectObjectType', 'Another User')
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Object Error');
   });
 
@@ -446,7 +446,7 @@ describe('add object', () => {
       rootReducer(
         createInitialState(),
         modelObjectAdd('Actor-2', 'Actor', 'Another User')
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Object Error');
   });
 
@@ -468,7 +468,7 @@ describe('add object', () => {
         modelObjectAdd('Actor-3', 'Actor', 'Another User', {
           incorrectAttribute: 'incorrectValue',
         })
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Add Object Error');
   });
 });
@@ -516,7 +516,7 @@ describe('update object', () => {
         modelObjectUpdate('Actor-2', undefined, {
           invalidAttribute: 'new description',
         })
-      ).errors[0].name
+      ).notifications[0].name
     ).toEqual('Update Object Error');
   });
 });

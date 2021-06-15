@@ -38,3 +38,5 @@ export const VIEWMODEL_NODE_COLLAPSE = 'viewmodel/node/collapse';
 export const VIEWMODEL_NODE_EXPAND = 'viewmodel/node/expand';
 export const VIEWMODEL_ITEM_SELECTION_CHANGED =
   'viewmodel/item/selection/changed';
+export const NOTIFICATION_ADD = 'notification/add';
+export const NOTIFICATION_REMOVE = 'notifcation/remove';

@@ -1,19 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { SnackbarProvider } from 'notistack';
 import App from './App';
 import store from './redux/store';
 import reportWebVitals from './reportWebVitals';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { MAX_SNACKS } from './app/consts';
 
 ReactDOM.render(
   <Provider store={store}>
-    <SnackbarProvider maxSnack={MAX_SNACKS}>
-      <App />
-    </SnackbarProvider>
+    <App />
   </Provider>,
   document.getElementById('root')
 );

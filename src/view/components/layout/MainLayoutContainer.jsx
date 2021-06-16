@@ -8,6 +8,7 @@ import {
   layoutWidgetMinimize,
   loadStateStorage,
   modelMetamodelSelect,
+  stateLoad,
   themeChanged,
 } from '../../../redux/action-creators';
 import MainLayout from './MainLayout';
@@ -18,6 +19,7 @@ const mapStateToProps = (state) => ({
   config: state.layout.config,
   showDrawer: state.layout.showDrawer,
   showHomeDialog: state.layout.showHomeDialog,
+  state,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,6 +34,7 @@ const mapDispatchToProps = (dispatch) => ({
   onSelectMetamodel: (metamodelId) =>
     dispatch(modelMetamodelSelect(metamodelId)),
   onLoadStorage: () => dispatch(loadStateStorage()),
+  onLoadFile: (state) => dispatch(stateLoad(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

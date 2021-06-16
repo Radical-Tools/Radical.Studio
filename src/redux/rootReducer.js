@@ -5,6 +5,7 @@ import * as theme from '../model/handlers/theme';
 import * as viewModel from '../model/handlers/viewModel';
 import * as notifications from '../model/handlers/notifications';
 import * as localStorage from '../model/handlers/localStorage';
+import loadState from '../model/handlers/state';
 import * as actionTypes from './action-types';
 import { notificationAdd } from './action-creators';
 
@@ -76,6 +77,7 @@ const handlers = {
   [actionTypes.NOTIFICATION_ADD]: notifications.addNotification,
   [actionTypes.NOTIFICATION_REMOVE]: notifications.removeNotifcation,
   [actionTypes.STATE_LOAD_STORAGE]: localStorage.load,
+  [actionTypes.STATE_LOAD]: loadState,
 };
 
 export const initialState = {

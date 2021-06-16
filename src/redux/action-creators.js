@@ -41,6 +41,7 @@ import {
   NOTIFICATION_ADD,
   NOTIFICATION_REMOVE,
   STATE_LOAD_STORAGE,
+  STATE_LOAD,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -242,4 +243,9 @@ export const notificationRemove = (id) => ({
 
 export const loadStateStorage = () => ({
   type: STATE_LOAD_STORAGE,
+});
+
+export const stateLoad = (state) => ({
+  type: STATE_LOAD,
+  payload: state,
 });

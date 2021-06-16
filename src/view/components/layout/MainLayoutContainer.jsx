@@ -6,6 +6,7 @@ import {
   layoutWidgetClose,
   layoutWidgetMaximize,
   layoutWidgetMinimize,
+  loadStateStorage,
   modelMetamodelSelect,
   themeChanged,
 } from '../../../redux/action-creators';
@@ -30,6 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
   onCloseHomeDialog: () => dispatch(layoutDrawerToggle()),
   onSelectMetamodel: (metamodelId) =>
     dispatch(modelMetamodelSelect(metamodelId)),
+  onLoadStorage: () => dispatch(loadStateStorage()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

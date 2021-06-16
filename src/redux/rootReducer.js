@@ -4,6 +4,7 @@ import * as layout from '../model/handlers/layout';
 import * as theme from '../model/handlers/theme';
 import * as viewModel from '../model/handlers/viewModel';
 import * as notifications from '../model/handlers/notifications';
+import * as localStorage from '../model/handlers/localStorage';
 import * as actionTypes from './action-types';
 import { notificationAdd } from './action-creators';
 
@@ -74,6 +75,7 @@ const handlers = {
     viewModel.updateCurrentView(model.objectDetach(state, payload)),
   [actionTypes.NOTIFICATION_ADD]: notifications.addNotification,
   [actionTypes.NOTIFICATION_REMOVE]: notifications.removeNotifcation,
+  [actionTypes.STATE_LOAD_STORAGE]: localStorage.load,
 };
 
 export const initialState = {

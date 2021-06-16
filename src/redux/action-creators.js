@@ -40,6 +40,7 @@ import {
   MODEL_OBJECT_DETACH,
   NOTIFICATION_ADD,
   NOTIFICATION_REMOVE,
+  STATE_LOAD_STORAGE,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -237,4 +238,8 @@ export const notificationAdd = (message, type, name) => ({
 export const notificationRemove = (id) => ({
   type: NOTIFICATION_REMOVE,
   payload: { id },
+});
+
+export const loadStateStorage = () => ({
+  type: STATE_LOAD_STORAGE,
 });

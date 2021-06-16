@@ -39,7 +39,13 @@ const Transition = React.forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
 ));
 
-const HomeDialog = ({ show, metamodels, onSelectMetamodel, onLoadStorage }) => (
+const HomeDialog = ({
+  show,
+  metamodels,
+  onSelectMetamodel,
+  onLoadStorage,
+  onLoadFile,
+}) => (
   <Dialog
     fullScreen
     open={show}
@@ -64,8 +70,7 @@ const HomeDialog = ({ show, metamodels, onSelectMetamodel, onLoadStorage }) => (
           <CardContent>
             <Box m={1}>
               <FileReader
-                // eslint-disable-next-line no-alert
-                onDataChunk={(dataChunk) => alert(JSON.stringify(dataChunk))}
+                onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
                 chunkSize={400000}
               />
             </Box>
@@ -108,5 +113,6 @@ HomeDialog.propTypes = {
   metamodels: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSelectMetamodel: PropTypes.func.isRequired,
   onLoadStorage: PropTypes.func.isRequired,
+  onLoadFile: PropTypes.func.isRequired,
 };
 export default HomeDialog;

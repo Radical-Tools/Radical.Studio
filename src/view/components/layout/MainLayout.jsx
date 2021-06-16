@@ -19,6 +19,7 @@ const MainLayout = ({
   showDrawer,
   showHomeDialog,
   onSelectMetamodel,
+  onLoadStorage,
 }) => (
   <>
     <WidgetsPanel
@@ -42,6 +43,7 @@ const MainLayout = ({
       show={showHomeDialog}
       metamodels={metamodels}
       onSelectMetamodel={onSelectMetamodel}
+      onLoadStorage={onLoadStorage}
     />
   </>
 );
@@ -60,5 +62,6 @@ MainLayout.propTypes = {
   onAddWidget: PropTypes.func.isRequired,
   onToggleDrawer: PropTypes.func.isRequired,
   onSelectMetamodel: PropTypes.func.isRequired,
+  onLoadStorage: PropTypes.func.isRequired,
 };
 export default MainLayout;

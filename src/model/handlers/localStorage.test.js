@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 import config from '../../config/app-config';
-import subscribeToStoreChanges from './saveState';
+import subscribeToStoreChanges from './localStorage';
 
 class LocalStorageMock {
   constructor() {

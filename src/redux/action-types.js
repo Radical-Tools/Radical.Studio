@@ -40,3 +40,4 @@ export const VIEWMODEL_ITEM_SELECTION_CHANGED =
   'viewmodel/item/selection/changed';
 export const NOTIFICATION_ADD = 'notification/add';
 export const NOTIFICATION_REMOVE = 'notifcation/remove';
+export const STATE_LOAD_STORAGE = 'state/load/storage';

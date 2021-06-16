@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
@@ -38,7 +39,7 @@ const Transition = React.forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
 ));
 
-const HomeDialog = ({ show, metamodels, onSelectMetamodel }) => (
+const HomeDialog = ({ show, metamodels, onSelectMetamodel, onLoadStorage }) => (
   <Dialog
     fullScreen
     open={show}
@@ -57,15 +58,26 @@ const HomeDialog = ({ show, metamodels, onSelectMetamodel }) => (
         <Card elevation={0}>
           <CardHeader
             title="To open existing model"
-            subheader="upload the local file"
+            subheader="upload the local file or load the local storage state"
           />
 
           <CardContent>
-            <FileReader
-              // eslint-disable-next-line no-alert
-              onDataChunk={(dataChunk) => alert(JSON.stringify(dataChunk))}
-              chunkSize={400000}
-            />
+            <Box m={1}>
+              <FileReader
+                // eslint-disable-next-line no-alert
+                onDataChunk={(dataChunk) => alert(JSON.stringify(dataChunk))}
+                chunkSize={400000}
+              />
+            </Box>
+            <Box m={1}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={onLoadStorage}
+              >
+                Local Storage
+              </Button>
+            </Box>
           </CardContent>
         </Card>
       </Box>
@@ -95,5 +107,6 @@ HomeDialog.propTypes = {
   show: PropTypes.bool.isRequired,
   metamodels: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSelectMetamodel: PropTypes.func.isRequired,
+  onLoadStorage: PropTypes.func.isRequired,
 };
 export default HomeDialog;

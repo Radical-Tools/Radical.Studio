@@ -75,6 +75,10 @@ const c4Metamodel = {
           sources: ['System'],
           targets: ['System'],
         },
+        {
+          sources: ['Component'],
+          targets: ['Component'],
+        },
       ],
     },
   ],

@@ -147,7 +147,7 @@ const alignMicro = (viewModel, toleration = 60) => {
         sourceNode.position[coordinateName]
       )
     ) {
-      if (targetNode.children.length === 0)
+      if (targetNode.children && targetNode.children.length === 0)
         targetNode.position[coordinateName] =
           sourceNode.position[coordinateName];
       else

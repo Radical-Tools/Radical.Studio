@@ -37,6 +37,7 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
   generateArrow(type, point, previousPoint) {
     return (
       <CustomLinkArrowWidget
+        key={this.props.link.getID()}
         point={point}
         previousPoint={previousPoint}
         color={this.props.link.getOptions().color}

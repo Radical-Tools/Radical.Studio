@@ -39,8 +39,22 @@ C4Container.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
 };
 
-export function C4Component({ width, height, isSelected }) {
-  return (
+export function C4Component({ width, height, isSelected, isExpanded }) {
+  return isExpanded ? (
+    <rect
+      fill="#1168bd"
+      fillOpacity="0.01"
+      strokeDasharray="5 10"
+      stroke={isSelected ? '#080808' : '#808080'}
+      rx="5"
+      ry="5"
+      x="1"
+      y="1"
+      width={width - 2}
+      height={height - 2}
+      strokeWidth="1"
+    />
+  ) : (
     <rect
       fill="#85bbf0"
       fillOpacity="1.0"
@@ -60,6 +74,7 @@ C4Component.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
 };
 
 export function C4System({ width, height, isSelected, isExpanded }) {

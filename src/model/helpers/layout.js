@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/fp/isEmpty';
+import inRange from 'lodash/fp/inRange';
 import * as cola from 'webcola';
 
 function addNodes(viewModel, graph, margin) {
@@ -114,7 +115,7 @@ function execute(isAuto, graph) {
   if (isAuto) {
     layout.start(100, 20, 100, 40, false, true);
   } else {
-    layout.start(0, 0, 0, 200, false, false);
+    layout.start(0, 0, 0, 0, false, false);
   }
   return layout;
 }
@@ -137,7 +138,33 @@ function update(layout, viewModel, margin) {
   });
 }
 
-const align = (viewModel, isAuto, margin = { x: 30, y: 30 }, padding = 50) => {
+const alignMicro = (viewModel, toleration = 60) => {
+  function alignCoordinate(targetNode, sourceNode, coordinateName) {
+    if (
+      inRange(
+        targetNode.position[coordinateName] - toleration,
+        targetNode.position[coordinateName] + toleration,
+        sourceNode.position[coordinateName]
+      )
+    ) {
+      if (targetNode.children && targetNode.children.length === 0)
+        targetNode.position[coordinateName] =
+          sourceNode.position[coordinateName];
+      else
+        sourceNode.position[coordinateName] =
+          targetNode.position[coordinateName];
+    }
+  }
+
+  Object.values(viewModel.links).forEach((link) => {
+    const sourceNode = viewModel.nodes[link.source];
+    const targetNode = viewModel.nodes[link.target];
+    alignCoordinate(targetNode, sourceNode, 'x');
+    alignCoordinate(targetNode, sourceNode, 'y');
+  });
+};
+
+const align = (viewModel, isAuto, margin = { x: 0, y: 0 }, padding = 50) => {
   if (isEmpty(viewModel.nodes)) {
     return;
   }
@@ -154,6 +181,7 @@ const align = (viewModel, isAuto, margin = { x: 30, y: 30 }, padding = 50) => {
   addGroups(viewModel, graph, padding);
   const layout = execute(isAuto, graph);
   update(layout, viewModel, margin);
+  alignMicro(viewModel);
 };
 
 export default align;

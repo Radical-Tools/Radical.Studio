@@ -7,7 +7,7 @@ export default class RadicalLinkModel extends DefaultLinkModel {
       ...props,
       type: 'radical_default',
       width: 2,
-      curvyness: 70,
+      curvyness: 0,
     });
   }
 

@@ -65,7 +65,6 @@ export const addLinks = (diagramModel, viewmodel) => {
         label2: link.attributes.technology
           ? `[Technology: ${link.attributes.technology}]`
           : '',
-        offsetY: 20,
         visible: true,
       })
     );

@@ -5,7 +5,7 @@ import { rootReducer } from './rootReducer';
 import subscribeToStoreChanges from '../model/handlers/localStorage';
 
 const store = createStore(
-  diff(rootReducer),
+  diff(rootReducer, { limit: 20 }),
   composeWithDevTools({ name: 'Studio.Radical.Tools' })()
 );
 

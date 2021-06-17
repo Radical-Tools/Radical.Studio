@@ -32,7 +32,12 @@ const handlers = {
   [actionTypes.MODEL_RELATION_UPDATE]: (state, payload) =>
     viewModel.updateCurrentView(model.updateRelation(state, payload)),
   [actionTypes.MODEL_ITEM_CREATE]: common.createItem,
-  [actionTypes.MODEL_ITEM_EDIT]: common.editItem,
+  [actionTypes.MODEL_ITEM_EDIT]: (state, payload) =>
+    payload.type === 'view'
+      ? viewModel.updateCurrentView(
+          viewModel.activateView(common.editItem(state, payload), payload)
+        )
+      : common.editItem(state, payload),
   [actionTypes.MODEL_ITEM_UPSERT]: (state, payload) =>
     viewModel.updateCurrentView(common.upsertItem(state, payload)),
   [actionTypes.MODEL_METAMODEL_SELECT]: (state, payload) =>

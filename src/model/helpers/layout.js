@@ -114,7 +114,7 @@ function execute(isAuto, graph) {
   if (isAuto) {
     layout.start(100, 20, 100, 40, false, true);
   } else {
-    layout.start(0, 0, 0, 200, false, false);
+    layout.start(0, 0, 0, 10, false, false);
   }
   return layout;
 }
@@ -137,7 +137,7 @@ function update(layout, viewModel, margin) {
   });
 }
 
-const align = (viewModel, isAuto, margin = { x: 30, y: 30 }, padding = 50) => {
+const align = (viewModel, isAuto, margin = { x: 60, y: 40 }, padding = 70) => {
   if (isEmpty(viewModel.nodes)) {
     return;
   }

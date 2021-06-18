@@ -14,13 +14,13 @@ import IconButton from '@material-ui/core/IconButton';
 
 const useAccordionDetailsStyle = makeStyles(() => ({
   root: {
-    padding: '8px',
+    padding: '0px 4px 0px 4px',
   },
 }));
 
 const useAccordionStyle = makeStyles(() => ({
   root: {
-    border: '1px solid rgba(0, 0, 0, .125)',
+    borderBottom: '1px solid rgba(0, 0, 0, .125)',
     boxShadow: 'none',
     '&:not(:last-child)': {
       borderBottom: 0,
@@ -37,7 +37,7 @@ const useAccordionStyle = makeStyles(() => ({
 
 const useAccordionSummaryStyle = makeStyles(() => ({
   root: {
-    borderBottom: '1px solid rgba(0, 0, 0, .125)',
+    borderBottom: '0px solid rgba(0, 0, 0, .125)',
     marginBottom: -1,
     minHeight: 30,
     '&$expanded': {
@@ -46,8 +46,9 @@ const useAccordionSummaryStyle = makeStyles(() => ({
   },
   content: {
     '&$expanded': {
-      margin: '12px 0',
+      margin: '6px 0',
     },
+    margin: '6px 0',
   },
   expanded: {},
 }));
@@ -90,7 +91,7 @@ const AccordionItem = ({
             display="flex"
             alignItems="center"
           >
-            <Typography variant="h6">{name}</Typography>
+            <Typography variant="body1">{name}</Typography>
           </Box>
           {onCustomAction && (
             <Box flexShrink={0} display="flex" alignItems="center">

@@ -10,18 +10,28 @@ import ViewExportMenu from './ViewExportMenu';
 
 function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
   return (
-    <Box display="flex" flexShrink={0} boxShadow={1} height="6%">
-      <Box width="100%" p={1} alignItems="center">
+    <Box display="flex" flexShrink={0} boxShadow={0} height="36px">
+      <Box width="100%" ml={1} mt={0.3}>
         <Typography variant="h6">{name}</Typography>
       </Box>
-      <Box flexShrink={0}>
+      <Box flexShrink={0} mt={0.5} mr={0.5}>
         <Tooltip title="Align Layout">
-          <IconButton onClick={onLayoutAlign} edge="start" color="inherit">
+          <IconButton
+            size="small"
+            onClick={onLayoutAlign}
+            edge="start"
+            color="inherit"
+          >
             <AccountTreeRoundedIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="Zoom to Fit">
-          <IconButton onClick={onZoomToFit} edge="start" color="inherit">
+          <IconButton
+            size="small"
+            onClick={onZoomToFit}
+            edge="start"
+            color="inherit"
+          >
             <ZoomOutMapRoundedIcon />
           </IconButton>
         </Tooltip>

@@ -8,7 +8,7 @@ import FullscreenRoundedIcon from '@material-ui/icons/FullscreenRounded';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import Typography from '@material-ui/core/Typography';
 
-const headerHeight = 50;
+const headerHeight = 37;
 const useCardStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(0),
@@ -17,7 +17,8 @@ const useCardStyles = makeStyles((theme) => ({
 }));
 const useIconButtonStyles = makeStyles(() => ({
   root: {
-    marginTop: '10px',
+    marginTop: '12px',
+    marginRight: '5px',
     color: '#ffffff',
   },
 }));
@@ -67,10 +68,11 @@ function CardWrapper({
       <CardHeader
         classes={useCardHeaderStyles()}
         className={className}
-        title={<Typography variant="h5">{title}</Typography>}
+        title={<Typography variant="h6">{title}</Typography>}
         action={
           <Box>
             <IconButton
+              size="small"
               label="Minimize"
               classes={buttonClasses}
               aria-label={getAriaLabel('Minimize')}
@@ -79,6 +81,7 @@ function CardWrapper({
               <MinimizeRoundedIcon />
             </IconButton>
             <IconButton
+              size="small"
               label="Maximize"
               classes={buttonClasses}
               aria-label={getAriaLabel('Maximize')}
@@ -87,6 +90,7 @@ function CardWrapper({
               <FullscreenRoundedIcon />
             </IconButton>
             <IconButton
+              size="small"
               label="Close"
               classes={buttonClasses}
               aria-label={getAriaLabel('Close')}

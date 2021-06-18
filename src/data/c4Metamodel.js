@@ -134,15 +134,14 @@ const c4Metamodel = {
       },
       update: {
         ui: {
-          id: {
-            'ui:autofocus': true,
-            'ui:emptyValue': '',
-            'ui:disabled': true,
-            'ui:widget': 'hidden',
-          },
           name: {
             'ui:autofocus': true,
             'ui:emptyValue': '',
+          },
+          id: {
+            'ui:emptyValue': '',
+            'ui:disabled': true,
+            'ui:widget': 'hidden',
           },
           type: {
             'ui:autofocus': true,

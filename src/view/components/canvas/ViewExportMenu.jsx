@@ -48,7 +48,12 @@ const ViewExportMenu = ({ name }) => {
   return (
     <>
       <Tooltip title="Export View">
-        <IconButton onClick={handleClick} edge="start" color="inherit">
+        <IconButton
+          size="small"
+          onClick={handleClick}
+          edge="start"
+          color="inherit"
+        >
           <GetAppRoundedIcon />
         </IconButton>
       </Tooltip>

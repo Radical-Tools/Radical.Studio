@@ -3,7 +3,7 @@ import { LabelModel } from '@projectstorm/react-diagrams';
 export default class RadicalLabelModel extends LabelModel {
   constructor(options = {}) {
     super({
-      offsetY: options.offsetY == null ? +20 : options.offsetY,
+      offsetY: options.offsetY == null ? +26 : options.offsetY,
       type: 'radical_default_label',
       ...options,
     });

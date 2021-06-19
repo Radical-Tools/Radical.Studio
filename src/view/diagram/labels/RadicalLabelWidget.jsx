@@ -9,7 +9,7 @@ const RadicalLabelWidget = ({ visible, label, label2, link }) => {
   if (visible) {
     return (
       <Box
-        bgcolor="palette.background.paper"
+        bgcolor="background.paper"
         borderRadius={12}
         p={0.5}
         alignItems="center"

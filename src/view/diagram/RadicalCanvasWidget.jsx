@@ -3,10 +3,11 @@ import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { useDrop } from 'react-dnd';
 import { makeStyles } from '@material-ui/core/styles';
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
+
 import {
-  DIAGRAM_ALIGNMENT_UPDATED_EVENT,
   DRAG_DIAGRAM_ITEMS_END_EVENT,
   LINK_CONNECTED_TO_TARGET_EVENT,
   DIAGRAM_ENTITY_SELECTED,
@@ -18,11 +19,14 @@ import {
   DIAGRAM_LINK_TARGET_SELECTED_EVENT,
   DIAGRAM_ITEM_NAME_CHANGED,
   DIAGRAM_NODE_DETACHED,
+  DRAG_CANVAS_END_EVENT,
+  CANVAS_ZOOM_CHANGED,
 } from './consts';
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
 import ToolbarMenu from '../components/canvas/ToolbarMenu';
 
+const zoomDebounceTime = 500;
 const mapViewmodel = (viewmodel) => {
   const diagramModel = new RadicalDiagramModel();
   addNodes(diagramModel, viewmodel);
@@ -60,6 +64,7 @@ const RadicalCanvasWidget = ({
   onNodeDetached,
 }) => {
   const classes = useStyles();
+  const debouncedZoom = debounce(onDiagramAlignmentUpdated, zoomDebounceTime);
   const registerCallbacks = useCallback(
     () => ({
       eventDidFire: (e) => {
@@ -70,12 +75,11 @@ const RadicalCanvasWidget = ({
           case LINK_CONNECTED_TO_TARGET_EVENT:
             onLinkConnected(e.sourceId, e.targetId);
             break;
-          case DIAGRAM_ALIGNMENT_UPDATED_EVENT:
-            onDiagramAlignmentUpdated(
-              e.offsetX,
-              e.offsetY,
-              e.entity.options.zoom
-            );
+          case DRAG_CANVAS_END_EVENT:
+            onDiagramAlignmentUpdated(e.offsetX, e.offsetY, e.zoom);
+            break;
+          case CANVAS_ZOOM_CHANGED:
+            debouncedZoom(e.offsetX, e.offsetY, e.zoom);
             break;
           case DIAGRAM_ENTITY_SELECTED:
             onItemSelected(
@@ -134,6 +138,7 @@ const RadicalCanvasWidget = ({
       onRelationRemove,
       onItemNameUpdated,
       onNodeDetached,
+      debouncedZoom,
     ]
   );
 

@@ -1,8 +1,9 @@
 import { PortModelAlignment } from '@projectstorm/react-diagrams';
 
 export const DRAG_DIAGRAM_ITEMS_END_EVENT = 'dragDiagramsItemsEnd';
+export const DRAG_CANVAS_END_EVENT = 'dragCanvasEnd';
+export const CANVAS_ZOOM_CHANGED = 'zoomChanged';
 export const LINK_CONNECTED_TO_TARGET_EVENT = 'linkConnectedToTarget';
-export const DIAGRAM_ALIGNMENT_UPDATED_EVENT = 'offsetUpdated';
 export const DIAGRAM_ENTITY_REMOVED = 'entityRemoved';
 export const DIAGRAM_ENTITY_SELECTED = 'selectionChanged';
 export const DIAGRAM_NODE_COLLAPSED = 'nodeCollapsed';

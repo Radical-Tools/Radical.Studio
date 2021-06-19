@@ -15,10 +15,12 @@ import RadicalLinkFactory from '../links/RadicalLinkFactory';
 import RadicalLabelFactory from '../labels/RadicalLabelFactory';
 import { DEFAULT_TARGET_PORT } from '../consts';
 import RadicalDeleteItemsAction from '../actions/RadicalDeleteItemsAction';
+import RadicalZoomCanvasAction from '../actions/RadicalZoomCanvasAction';
 
 const createRadicalEngine = () => {
   const engine = new RadicalDiagramEngine({
     registerDefaultDeleteItemsAction: false,
+    registerDefaultZoomCanvasAction: false,
     repaintDebounceMs: 10,
   });
   engine.getStateMachine().pushState(new RadicalState());
@@ -46,6 +48,7 @@ const createRadicalEngine = () => {
   engine
     .getActionEventBus()
     .registerAction(new RadicalDeleteItemsAction({ keyCodes: [46] }));
+  engine.getActionEventBus().registerAction(new RadicalZoomCanvasAction());
   return engine;
 };
 export default createRadicalEngine;

@@ -1,6 +1,5 @@
 import {
   PathFindingLinkFactory,
-  LinkLayerFactory,
   NodeLayerFactory,
   DefaultLabelFactory,
 } from '@projectstorm/react-diagrams';
@@ -16,6 +15,7 @@ import RadicalLabelFactory from '../labels/RadicalLabelFactory';
 import { DEFAULT_TARGET_PORT } from '../consts';
 import RadicalDeleteItemsAction from '../actions/RadicalDeleteItemsAction';
 import RadicalZoomCanvasAction from '../actions/RadicalZoomCanvasAction';
+import RadicalLinkLayerFactory from '../links/RadicalLinkLayerFactory';
 
 const createRadicalEngine = () => {
   const engine = new RadicalDiagramEngine({
@@ -26,7 +26,7 @@ const createRadicalEngine = () => {
   engine.getStateMachine().pushState(new RadicalState());
 
   engine.getLayerFactories().registerFactory(new NodeLayerFactory());
-  engine.getLayerFactories().registerFactory(new LinkLayerFactory());
+  engine.getLayerFactories().registerFactory(new RadicalLinkLayerFactory());
   engine.getLayerFactories().registerFactory(new SelectionBoxLayerFactory());
 
   engine.getLabelFactories().registerFactory(new DefaultLabelFactory());

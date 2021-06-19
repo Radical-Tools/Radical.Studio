@@ -3,10 +3,10 @@ import {
   State,
   Action,
   InputType,
-  DragCanvasState,
   BaseModel,
 } from '@projectstorm/react-canvas-core';
 import { DragNewLinkState } from '@projectstorm/react-diagrams';
+import RadicalDragCanvasState from './RadicalDragCanvasState';
 import RadicalDragDiagramItemsState from './RadicalDragDiagramItemsState';
 
 export default class RadicalState extends State {
@@ -15,7 +15,7 @@ export default class RadicalState extends State {
       name: 'default-diagrams',
     });
     this.childStates = [new SelectingState()];
-    this.dragCanvas = new DragCanvasState();
+    this.dragCanvas = new RadicalDragCanvasState();
     this.dragNewLink = new DragNewLinkState();
     this.dragItems = new RadicalDragDiagramItemsState();
     // determine what was clicked on

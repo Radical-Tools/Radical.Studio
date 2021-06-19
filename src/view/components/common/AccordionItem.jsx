@@ -81,16 +81,10 @@ const AccordionItem = ({
           aria-controls={`panel-${name}`}
           id={`panel-${name}-header`}
         >
-          <Box width="20%" display="flex" alignItems="center">
+          <Box display="flex" alignItems="center">
             {logoRender}
           </Box>
-          <Box
-            width="80%"
-            pr={1}
-            flexShrink={0}
-            display="flex"
-            alignItems="center"
-          >
+          <Box ml={1} width="100%" display="flex" alignItems="center">
             <Typography variant="body1">{name}</Typography>
           </Box>
           {onCustomAction && (

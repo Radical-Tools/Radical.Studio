@@ -54,7 +54,7 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
         path={path}
         selected={this.state.selected}
         diagramEngine={this.props.diagramEngine}
-        factory={this.props.diagramEngine.getFactoryForLink(this.props.link)}
+        factory={this.props.factory}
         link={this.props.link}
         forwardRef={ref}
       />
@@ -79,7 +79,6 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
         )
       );
     }
-
     return (
       <g
         style={{ strokeDasharray: 7 }}

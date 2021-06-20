@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 const useAccordionDetailsStyle = makeStyles(() => ({
   root: {
-    padding: '0px 4px 0px 4px',
+    padding: '0px 8px 0px 8px',
   },
 }));
 
@@ -29,7 +29,7 @@ const useAccordionStyle = makeStyles(() => ({
       display: 'none',
     },
     '&$expanded': {
-      margin: 'auto',
+      margin: 'auto'
     },
   },
   expanded: {},

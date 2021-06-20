@@ -63,7 +63,7 @@ export const addLinks = (diagramModel, viewmodel) => {
       new RadicalLabelModel({
         label: link.name,
         label2: link.attributes.technology
-          ? `[Technology: ${link.attributes.technology}]`
+          ? `[${link.attributes.technology}]`
           : '',
         visible: true,
       })

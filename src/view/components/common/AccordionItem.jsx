@@ -29,7 +29,7 @@ const useAccordionStyle = makeStyles(() => ({
       display: 'none',
     },
     '&$expanded': {
-      margin: 'auto'
+      margin: 'auto',
     },
   },
   expanded: {},

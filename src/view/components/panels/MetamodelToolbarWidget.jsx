@@ -19,7 +19,7 @@ const ToolbarItem = ({ name, id }) => {
   });
   return (
     <Box p={1}>
-      <Chip color="primary" label={name} size="medium" ref={drag} />
+      <Chip color="primary" label={name} size="small" ref={drag} />
     </Box>
   );
 };

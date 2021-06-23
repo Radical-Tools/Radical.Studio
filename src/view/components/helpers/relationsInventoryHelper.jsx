@@ -2,6 +2,7 @@ import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 export const transform = (model) => {
   const data = [];
@@ -70,20 +71,22 @@ const RelationsInventoryRow = (props) => {
   const { id, name, source, target, actions, onSelected } = props;
 
   return (
-    <tr>
+    <tr style={{ borderBottom: '0.5pt solid #dbdbdb' }}>
       <td>
-        <Typography variant="caption">{source}</Typography>
+        <Box fontWeight="fontWeightBold">
+          <Typography variant="BUTTON">{source}</Typography>
+        </Box>
+        <Box fontWeight="fontWeightBold">
+          <Typography variant="BUTTON">{target}</Typography>
+        </Box>
       </td>
       <td>
         <Chip
           color="primary"
-          label={`${name} >`}
+          label={name}
           size="small"
           onClick={() => onSelected(id)}
         />
-      </td>
-      <td style={{ textAlign: 'right' }}>
-        <Typography variant="caption">{target}</Typography>
       </td>
       <td style={{ textAlign: 'right' }}>{actions}</td>
     </tr>

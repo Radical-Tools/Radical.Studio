@@ -9,6 +9,7 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(() => ({
   grow: {
@@ -49,9 +50,14 @@ const TopMenu = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Radical.Studio
-          </Typography>
+          <Box display="flex" alignItems="flex-end">
+            <Box>
+              <Typography variant="h6">Radical.Studio</Typography>
+            </Box>
+            <Box ml={0.5}>
+              <Typography variant="caption">Beta</Typography>
+            </Box>
+          </Box>
           <div className={classes.grow} />
           <div>
             <IconButton disabled={!isPrev} onClick={undoCmd} color="inherit">

@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
     outline: 'none',
     background: 'transparent',
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 16,
     padding: '0px',
   },
 }));

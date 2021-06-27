@@ -44,11 +44,12 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --testPathIgnorePatterns=e2e",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .jsx,.js src/ --max-warnings 0",
     "prettier": "prettier --check src",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "test-e2e": "jest --rootDir=./e2e --detectOpenHandles"
   },
   "browserslist": {
     "production": [
@@ -71,6 +72,7 @@
     "eslint-config-prettier": "8.3.0",
     "husky": "6.0.0",
     "lint-staged": "11.0.0",
-    "prettier": "2.3.1"
+    "prettier": "2.3.1",
+    "puppeteer": "10.0.0"
   }
 }

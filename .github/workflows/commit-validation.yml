@@ -21,3 +21,5 @@ jobs:
       - run: npm run prettier
       - run: npm run test
       - run: npm run build
+      - run: (serve -s build&)
+      - run: npm run test-e2e

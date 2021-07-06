@@ -13,11 +13,12 @@ const usebuttonStyles = makeStyles(() => ({
     minHeight: '120px',
   },
 }));
-const ObjectButton = ({ id, name, onClick }) => {
+const ObjectButton = ({ id, name, onClick, testId }) => {
   const onClickCallback = useCallback(() => onClick(id), [id, onClick]);
   return (
     <Button
       aria-label={name}
+      data-testid={testId}
       variant="contained"
       color="primary"
       classes={usebuttonStyles()}
@@ -30,6 +31,7 @@ const ObjectButton = ({ id, name, onClick }) => {
 ObjectButton.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   name: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 export default React.memo(ObjectButton);

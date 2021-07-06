@@ -33,7 +33,7 @@ describe('Basic flow', () => {
           );
         await page.goto('http://localhost:5000/');
         await page.waitForSelector('button[data-testid=metamodel-selector-C4]');
-        await page.click('button[data-testid=metamodel-selector-C4sasa]');
+        await page.click('button[data-testid=metamodel-selector-C4]');
         await page.waitForSelector('h6[data-testid=view-name]');
         const textContent = await page.evaluate(
           () => document.querySelector('h6[data-testid=view-name]').textContent

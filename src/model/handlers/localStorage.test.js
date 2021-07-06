@@ -41,6 +41,7 @@ describe('saveState', () => {
 
     store = configureStore({
       reducer: todos,
+      preloadedState: ['Use Redux'],
     });
   });
 

@@ -183,7 +183,11 @@ const RadicalCanvasWidget = ({
             onZoomToFit={() => engine.zoomToFitNodes({ margin: 50 })}
             name={viewName}
           />
-          <div ref={drop} className={classes.fillCanvas}>
+          <div
+            data-testid="radical-canvas"
+            ref={drop}
+            className={classes.fillCanvas}
+          >
             <CanvasWidget
               className={[classes.fill, 'canvas-view'].join(' ')}
               engine={engine}

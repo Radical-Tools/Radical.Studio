@@ -1,6 +1,68 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 const puppeteer = require('puppeteer');
 const path = require('path');
+
+async function dragAndDrop(
+  pageObject,
+  originSelector,
+  destinationSelector,
+  dropCoordinates
+) {
+  const origin = await pageObject.waitForSelector(originSelector);
+  await pageObject.waitForSelector(destinationSelector);
+  const originBox = await origin.boundingBox();
+  const lastPositionCoordenate = (box) => ({
+    x: box.x + box.width / 2,
+    y: box.y + box.height / 2,
+  });
+  const getPayload = (box) => ({
+    bubbles: true,
+    cancelable: true,
+    screenX: lastPositionCoordenate(box).x,
+    screenY: lastPositionCoordenate(box).y,
+    clientX: lastPositionCoordenate(box).x,
+    clientY: lastPositionCoordenate(box).y,
+  });
+
+  const getPayloadByCoordinates = (coordinates) => ({
+    bubbles: true,
+    cancelable: true,
+    screenX: coordinates.x,
+    screenY: coordinates.y,
+    clientX: coordinates.x,
+    clientY: coordinates.y,
+  });
+
+  const pageFunction = async (
+    _originSelector,
+    _destinationSelector,
+    originPayload,
+    destinationPayload
+  ) => {
+    const _origin = document.querySelector(_originSelector);
+    let _destination = document.querySelector(_destinationSelector);
+
+    _destination = _destination.lastElementChild || _destination;
+
+    _origin.dispatchEvent(new MouseEvent('pointerdown', originPayload));
+    _origin.dispatchEvent(new DragEvent('dragstart', originPayload));
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    _destination.dispatchEvent(new MouseEvent('dragenter', destinationPayload));
+    _destination.dispatchEvent(new MouseEvent('pointerup', destinationPayload));
+    _destination.dispatchEvent(new MouseEvent('drop', destinationPayload));
+    _origin.dispatchEvent(new DragEvent('dragend', destinationPayload));
+  };
+
+  await pageObject.evaluate(
+    pageFunction,
+    originSelector,
+    destinationSelector,
+    getPayload(originBox),
+    getPayloadByCoordinates(dropCoordinates)
+  );
+}
 
 let browser = null;
 let page = null;
@@ -52,10 +114,21 @@ describe('Basic flow', () => {
       await page.waitForTimeout(50);
       await page.click('button[data-testid=metamodel-selector-C4]');
       await page.waitForSelector('h6[data-testid=view-name]');
-      const textContent = await page.evaluate(
-        () => document.querySelector('h6[data-testid=view-name]').textContent
+      const header = await page.$('h6[data-testid=view-name]');
+      expect(await header.evaluate((node) => node.textContent)).toBe(
+        'Default View'
       );
-      expect(textContent).toBe('Default View');
+      await dragAndDrop(
+        page,
+        '[data-testid=metamodel-toolbar-item-Component]',
+        '[data-testid=radical-canvas]',
+        { x: 500, y: 500 }
+      );
+      await page.waitForSelector('[data-testid="node-widget-New Component"]');
+      const component = await page.$(
+        '[data-testid="node-widget-New Component"]'
+      );
+      expect(component).toBeTruthy();
     },
     process.env.TIMEOUT
   );
@@ -73,10 +146,10 @@ describe('Basic flow', () => {
       const elementHandle = await loader.$('input[type=file]');
       await elementHandle.uploadFile(filePath);
       await page.waitForSelector('h6[data-testid=view-name]');
-      const textContent = await page.evaluate(
-        () => document.querySelector('h6[data-testid=view-name]').textContent
+      const header = await page.$('h6[data-testid=view-name]');
+      expect(await header.evaluate((node) => node.textContent)).toBe(
+        'Test view'
       );
-      expect(textContent).toBe('Test view');
     },
     process.env.TIMEOUT
   );

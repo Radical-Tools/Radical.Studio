@@ -19,7 +19,13 @@ const ToolbarItem = ({ name, id }) => {
   });
   return (
     <Box p={1}>
-      <Chip color="primary" label={name} size="small" ref={drag} />
+      <Chip
+        color="primary"
+        data-testid={`metamodel-toolbar-item-${id}`}
+        label={name}
+        size="small"
+        ref={drag}
+      />
     </Box>
   );
 };

@@ -70,7 +70,7 @@ const RadicalCanvasWidget = ({
       eventDidFire: (e) => {
         switch (e.function) {
           case DRAG_DIAGRAM_ITEMS_END_EVENT:
-            onDragItemsEnd(e.point, e.items);
+            onDragItemsEnd({ ...e.point }, e.items);
             break;
           case LINK_CONNECTED_TO_TARGET_EVENT:
             onLinkConnected(e.sourceId, e.targetId);
@@ -168,9 +168,9 @@ const RadicalCanvasWidget = ({
         clientY: monitor.getClientOffset().y,
       });
       if (item.type === MODEL_DROP_TYPE) {
-        onAddObjectToView(item.id, dropPoint);
+        onAddObjectToView(item.id, { ...dropPoint });
       } else {
-        onAddMetamodelObjectToView(item.metamodelType, dropPoint);
+        onAddMetamodelObjectToView(item.metamodelType, { ...dropPoint });
       }
     },
   }));

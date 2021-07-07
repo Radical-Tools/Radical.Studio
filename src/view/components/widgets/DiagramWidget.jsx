@@ -27,7 +27,7 @@ const DiagramWidget = (props) => {
     <RadicalCanvasWidget
       onDragItemsEnd={(point, items) => {
         items.forEach((item) => {
-          onNodeUpdate(item.getID(), item.position, item.dimension);
+          onNodeUpdate(item.getID(), { ...item.position }, item.dimension);
         });
       }}
       onDiagramAlignmentUpdated={(offsetX, offsetY, zoom) =>

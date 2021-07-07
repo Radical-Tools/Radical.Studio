@@ -99,6 +99,7 @@ const HomeDialog = ({
                 id={metamodel.id}
                 name={metamodel.name}
                 onClick={onSelectMetamodel}
+                testId={`metamodel-selector-${metamodel.id}`}
               />
             ))}
           </CardContent>

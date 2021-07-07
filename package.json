@@ -48,7 +48,8 @@
     "lint": "eslint --ext .jsx,.js src/ --max-warnings 0",
     "prettier": "prettier --check src",
     "postinstall": "husky install",
-    "test-e2e": "jest --rootDir=./e2e --detectOpenHandles"
+    "test-e2e": "jest --rootDir=./e2e --detectOpenHandles --config='./e2e/jest.config.js'",
+    "test-e2e-dev": "jest --rootDir=./e2e --detectOpenHandles --config='./e2e/jest.config.dev.js'"
   },
   "browserslist": {
     "production": [

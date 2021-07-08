@@ -66,6 +66,7 @@ const MetamodelToolbarWidget = (props) => {
             uiSchema={sandbox.ui}
             onSubmit={upsertItem}
             dataSchema={sandbox.data}
+            testId="edit-attributes"
           />
         )}
       </AccordionItem>

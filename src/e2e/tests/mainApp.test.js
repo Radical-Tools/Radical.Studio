@@ -1,68 +1,7 @@
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
-const puppeteer = require('puppeteer');
-const path = require('path');
-
-async function dragAndDrop(
-  pageObject,
-  originSelector,
-  destinationSelector,
-  dropCoordinates
-) {
-  const origin = await pageObject.waitForSelector(originSelector);
-  await pageObject.waitForSelector(destinationSelector);
-  const originBox = await origin.boundingBox();
-  const lastPositionCoordenate = (box) => ({
-    x: box.x + box.width / 2,
-    y: box.y + box.height / 2,
-  });
-  const getPayload = (box) => ({
-    bubbles: true,
-    cancelable: true,
-    screenX: lastPositionCoordenate(box).x,
-    screenY: lastPositionCoordenate(box).y,
-    clientX: lastPositionCoordenate(box).x,
-    clientY: lastPositionCoordenate(box).y,
-  });
-
-  const getPayloadByCoordinates = (coordinates) => ({
-    bubbles: true,
-    cancelable: true,
-    screenX: coordinates.x,
-    screenY: coordinates.y,
-    clientX: coordinates.x,
-    clientY: coordinates.y,
-  });
-
-  const pageFunction = async (
-    _originSelector,
-    _destinationSelector,
-    originPayload,
-    destinationPayload
-  ) => {
-    const _origin = document.querySelector(_originSelector);
-    let _destination = document.querySelector(_destinationSelector);
-
-    _destination = _destination.lastElementChild || _destination;
-
-    _origin.dispatchEvent(new MouseEvent('pointerdown', originPayload));
-    _origin.dispatchEvent(new DragEvent('dragstart', originPayload));
-
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    _destination.dispatchEvent(new MouseEvent('dragenter', destinationPayload));
-    _destination.dispatchEvent(new MouseEvent('pointerup', destinationPayload));
-    _destination.dispatchEvent(new MouseEvent('drop', destinationPayload));
-    _origin.dispatchEvent(new DragEvent('dragend', destinationPayload));
-  };
-
-  await pageObject.evaluate(
-    pageFunction,
-    originSelector,
-    destinationSelector,
-    getPayload(originBox),
-    getPayloadByCoordinates(dropCoordinates)
-  );
-}
+import puppeteer from 'puppeteer';
+import path from 'path';
+import dragAndDrop from '../helpers';
 
 let browser = null;
 let page = null;
@@ -129,6 +68,20 @@ describe('Basic flow', () => {
         '[data-testid="node-widget-New Component"]'
       );
       expect(component).toBeTruthy();
+      await page.waitForSelector('#common-form-edit-attributes');
+      await page.click('#common-form-edit-attributes_name');
+      await page.keyboard.down('Control');
+      await page.keyboard.press('A');
+      await page.keyboard.up('Control');
+      await page.keyboard.press('Backspace');
+      await page.type('#common-form-edit-attributes_name', 'Radical.Studio');
+      await page.click('#common-form-edit-attributes_name');
+      await page.click('[data-testid=common-form-edit-attributes-submit]');
+      await page.waitForSelector('[data-testid="node-widget-Radical.Studio"]');
+      const renamedComponent = await page.$(
+        '[data-testid="node-widget-Radical.Studio"]'
+      );
+      expect(renamedComponent).toBeTruthy();
     },
     process.env.TIMEOUT
   );

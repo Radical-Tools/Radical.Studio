@@ -36,7 +36,7 @@ const RadicalComposedNodeWidget = ({
 }) => {
   const classes = useStyles();
   return (
-    <div id="main">
+    <div data-testid={`node-widget-${name}`}>
       <div
         style={{
           position: 'relative',

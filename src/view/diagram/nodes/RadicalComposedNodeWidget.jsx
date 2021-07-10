@@ -12,7 +12,7 @@ import { getPortStyle } from '../helpers';
 import EditableLabel from '../../components/canvas/EditableLabel';
 import NodeContextPanel from '../../components/canvas/NodeContextPanel';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
   smartPort: {
     width: '16px',
     height: '16px',
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
     right: 15,
     bottom: 10,
   },
-}));
+});
 const RadicalComposedNodeWidget = ({
   node,
   engine,

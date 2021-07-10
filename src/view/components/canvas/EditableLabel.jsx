@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { DIAGRAM_ITEM_NAME_CHANGED } from '../../diagram/consts';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
   nameInput: {
     width: '100%',
     border: 'none',
@@ -14,13 +14,13 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     padding: '0px',
   },
-}));
-const useTypographyStyles = makeStyles(() => ({
-  root: (width) => ({
+});
+const useTypographyStyles = makeStyles({
+  root: ({ width }) => ({
     width, // workaround for https://github.com/bubkoo/html-to-image/issues/132
     pointerEvents: 'all',
   }),
-}));
+});
 const EditableLabel = ({
   label,
   width,
@@ -29,7 +29,7 @@ const EditableLabel = ({
   isItemSelected,
 }) => {
   const classes = useStyles();
-  const typographyStyles = useTypographyStyles(width);
+  const typographyStyles = useTypographyStyles({ width });
   const inputEl = useRef(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [currentLabel, setCurrentLabel] = useState('');

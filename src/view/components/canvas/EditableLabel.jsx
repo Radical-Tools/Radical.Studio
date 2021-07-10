@@ -16,13 +16,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 const useTypographyStyles = makeStyles(() => ({
-  root: {
+  root: (width) => ({
+    width, // workaround for https://github.com/bubkoo/html-to-image/issues/132
     pointerEvents: 'all',
-  },
+  }),
 }));
-const EditableLabel = ({ label, editedItem, variant, isItemSelected }) => {
+const EditableLabel = ({
+  label,
+  width,
+  editedItem,
+  variant,
+  isItemSelected,
+}) => {
   const classes = useStyles();
-  const typographyStyles = useTypographyStyles();
+  const typographyStyles = useTypographyStyles(width);
   const inputEl = useRef(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [currentLabel, setCurrentLabel] = useState('');
@@ -77,6 +84,7 @@ const EditableLabel = ({ label, editedItem, variant, isItemSelected }) => {
   );
 };
 EditableLabel.propTypes = {
+  width: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   isItemSelected: PropTypes.bool.isRequired,

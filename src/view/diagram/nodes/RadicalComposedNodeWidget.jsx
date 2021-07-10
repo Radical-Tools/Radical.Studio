@@ -62,6 +62,7 @@ const RadicalComposedNodeWidget = ({
               isItemSelected={isSelected}
               variant="subtitle1"
               label={name}
+              width={node.size.width}
             />
             <Divider />
             {node.options.attributes?.technology ? (

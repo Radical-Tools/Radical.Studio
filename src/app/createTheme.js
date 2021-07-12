@@ -1,9 +1,9 @@
 import { grey } from '@material-ui/core/colors';
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core';
 import { MIN_HEIGHT, MIN_WIDTH } from './consts';
 
-const createTheme = (type) =>
-  createMuiTheme({
+const createAppTheme = (type) =>
+  createTheme({
     palette: {
       type,
       secondary: {
@@ -25,4 +25,4 @@ const createTheme = (type) =>
       minHeight: MIN_HEIGHT,
     },
   });
-export default createTheme;
+export default createAppTheme;

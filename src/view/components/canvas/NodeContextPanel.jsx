@@ -19,17 +19,16 @@ import {
   DIAGRAM_NODE_EXPANDED,
 } from '../../diagram/consts';
 
-const useStyles = (width) =>
-  makeStyles({
-    panel: {
-      position: 'absolute',
-      top: 0,
-      left: width,
-    },
-  });
+const useStyles = makeStyles({
+  panel: ({ width }) => ({
+    position: 'absolute',
+    top: 0,
+    left: width,
+  }),
+});
 
 const NodeContextPanel = ({ node }) => {
-  const classes = useStyles(node.size.width)();
+  const classes = useStyles({ width: node.size.width });
   return (
     <Box className={classes.panel}>
       {node.isSelected() && !node.options.isExpanded && node.options.isParent && (

@@ -216,20 +216,27 @@ export const removeNode = (state, payload) =>
     state
   );
 
-/* eslint-disable no-param-reassign */
+function updatePosition(state, viewId, node, displacement) {
+  node.childrenNodes.forEach((child) => {
+    const childNode = state.viewModel.views[viewId].nodes[child];
+    state = update(
+      ['viewModel', 'views', viewId, 'nodes', child],
+      (item) => ({
+        ...item,
+        position: {
+          x: childNode.position.x + displacement.x,
+          y: childNode.position.y + displacement.y,
+        },
+      }),
+      state
+    );
+    state = updatePosition(state, viewId, childNode, displacement);
+  });
+  return state;
+}
+
 export const updateNode = (state, payload) => {
   const viewId = payload.viewId ? payload.viewId : state.viewModel.current;
-
-  function updatePosition(node, displacement) {
-    node.childrenNodes.forEach((child) => {
-      const childNode = state.viewModel.views[viewId].nodes[child];
-      childNode.position = {
-        x: childNode.position.x + displacement.x,
-        y: childNode.position.y + displacement.y,
-      };
-      updatePosition(childNode, displacement);
-    });
-  }
 
   if (has(['viewModel', 'views', viewId, 'nodes', payload.id], state)) {
     const node = state.viewModel.views[viewId].nodes[payload.id];
@@ -239,7 +246,7 @@ export const updateNode = (state, payload) => {
       y: payload.position.y - node.position.y + node.dimension.height / 2,
     };
 
-    const newState = update(
+    let newState = update(
       ['viewModel', 'views', viewId, 'nodes', payload.id],
       (item) => ({
         ...item,
@@ -251,7 +258,9 @@ export const updateNode = (state, payload) => {
       }),
       state
     );
-    updatePosition(
+    newState = updatePosition(
+      newState,
+      viewId,
       state.viewModel.views[viewId].nodes[payload.id],
       displacement
     );

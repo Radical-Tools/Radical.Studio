@@ -7,7 +7,6 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListIcon from '@material-ui/icons/List';
 import toPairs from 'lodash/fp/toPairs';
-import { saveSync } from 'save-file';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -22,12 +21,12 @@ const Drawer = ({
   onAddWidget,
   onClose,
   onLoadFile,
-  state,
+  onSave,
 }) => {
   const handleSaveButtonClick = useCallback(() => {
-    saveSync(JSON.stringify(state), 'state.radical');
+    onSave();
     onClose();
-  }, [state, onClose]);
+  }, [onSave, onClose]);
   return (
     <MaterialDrawer anchor="left" open={show} onClose={onClose}>
       <List>
@@ -80,7 +79,7 @@ Drawer.propTypes = {
   onClose: PropTypes.func.isRequired,
   onAddWidget: PropTypes.func,
   onLoadFile: PropTypes.func.isRequired,
-  state: PropTypes.objectOf(PropTypes.any).isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 Drawer.defaultProps = {
   widgetsConfig: undefined,

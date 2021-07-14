@@ -9,6 +9,7 @@ import {
   loadStateStorage,
   modelMetamodelSelect,
   stateLoad,
+  stateSave,
   themeChanged,
 } from '../../../redux/action-creators';
 import MainLayout from './MainLayout';
@@ -35,6 +36,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(modelMetamodelSelect(metamodelId)),
   onLoadStorage: () => dispatch(loadStateStorage()),
   onLoadFile: (state) => dispatch(stateLoad(state)),
+  onSave: () => dispatch(stateSave()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

@@ -12,7 +12,9 @@ function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
   return (
     <Box display="flex" flexShrink={0} boxShadow={0} height="36px">
       <Box width="100%" ml={1} mt={0.3}>
-        <Typography variant="h6">{name}</Typography>
+        <Typography data-testid="view-name" variant="h6">
+          {name}
+        </Typography>
       </Box>
       <Box flexShrink={0} mt={0.5} mr={0.5}>
         <Tooltip title="Align Layout">

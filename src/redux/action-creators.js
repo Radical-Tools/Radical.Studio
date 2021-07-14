@@ -1,3 +1,5 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { save } from 'save-file';
 import { v4 as uuidv4 } from 'uuid';
 import {
   LAYOUT_GRID_SET,
@@ -248,4 +250,8 @@ export const loadStateStorage = () => ({
 export const stateLoad = (state) => ({
   type: STATE_LOAD,
   payload: state,
+});
+
+export const stateSave = createAsyncThunk('state/save', async (_, thunkAPI) => {
+  await save(JSON.stringify(thunkAPI.getState()), 'state.radical');
 });

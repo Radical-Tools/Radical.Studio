@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import config from '../../config/app-config';
 import subscribeToStoreChanges from './localStorage';
 
@@ -39,7 +39,10 @@ describe('saveState', () => {
       }
     }
 
-    store = createStore(todos, ['Use Redux']);
+    store = configureStore({
+      reducer: todos,
+      preloadedState: ['Use Redux'],
+    });
   });
 
   it('should subscribe to Redux state changes', () => {

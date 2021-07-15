@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { DIAGRAM_ITEM_NAME_CHANGED } from '../../diagram/consts';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
   nameInput: {
     width: '100%',
     border: 'none',
@@ -14,15 +14,22 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     padding: '0px',
   },
-}));
-const useTypographyStyles = makeStyles(() => ({
-  root: {
+});
+const useTypographyStyles = makeStyles({
+  root: ({ width }) => ({
+    width, // workaround for https://github.com/bubkoo/html-to-image/issues/132
     pointerEvents: 'all',
-  },
-}));
-const EditableLabel = ({ label, editedItem, variant, isItemSelected }) => {
+  }),
+});
+const EditableLabel = ({
+  label,
+  width,
+  editedItem,
+  variant,
+  isItemSelected,
+}) => {
   const classes = useStyles();
-  const typographyStyles = useTypographyStyles();
+  const typographyStyles = useTypographyStyles({ width });
   const inputEl = useRef(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [currentLabel, setCurrentLabel] = useState('');
@@ -77,6 +84,7 @@ const EditableLabel = ({ label, editedItem, variant, isItemSelected }) => {
   );
 };
 EditableLabel.propTypes = {
+  width: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   isItemSelected: PropTypes.bool.isRequired,

@@ -146,10 +146,9 @@ export const addRelation = (state, payload) => {
       set(['model', 'relations', relationId], relation),
       relation.type === 'Includes'
         ? flow(
-            update(['model', 'objects', relation.source], (object) => {
-              object.children.push(relation.target);
-              return object;
-            }),
+            update(['model', 'objects', relation.source], (object) =>
+              set('children', [...object.children, relation.target], object)
+            ),
             set(
               ['model', 'objects', relation.target, 'parent'],
               relation.source

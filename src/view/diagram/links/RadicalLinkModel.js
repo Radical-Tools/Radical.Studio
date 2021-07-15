@@ -14,13 +14,13 @@ export default class RadicalLinkModel extends DefaultLinkModel {
   update() {
     if (this.getTargetPort() && this.getSourcePort()) {
       const parentNodeId = this.getSourcePort().getParent().getID();
-      let isTwoWayBetweenNodes = false;
+      let areLinksTwoWay = false;
       this.getTargetPort()
         .getParent()
         .getLinks()
         .forEach((element) => {
-          isTwoWayBetweenNodes =
-            isTwoWayBetweenNodes ||
+          areLinksTwoWay =
+            areLinksTwoWay ||
             element.getTargetPort().getParent().getID() === parentNodeId;
         });
 
@@ -28,7 +28,7 @@ export default class RadicalLinkModel extends DefaultLinkModel {
         this.getSourceNodePosition(),
         this.getTargetNodePosition()
       );
-      const ports = getPortsBasedOnAngle(angle, isTwoWayBetweenNodes);
+      const ports = getPortsBasedOnAngle(angle, areLinksTwoWay);
       this.handlePortsUpdate(ports);
     }
   }

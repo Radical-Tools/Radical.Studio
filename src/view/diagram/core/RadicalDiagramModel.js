@@ -11,7 +11,7 @@ export default class RadicalDiagramModel extends DiagramModel {
   }
 
   getLayers() {
-    return [...this.layers].reverse();
+    return [...this.layers];
   }
 
   addLink(link) {

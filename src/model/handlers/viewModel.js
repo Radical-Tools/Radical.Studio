@@ -124,7 +124,7 @@ export const updateCurrentView = (state) => {
   );
 
   updatePossibleRelations(newState);
-
+  adjust(newState.viewModel.views[newState.viewModel.current]);
   adjust(newState.viewModel.views[newState.viewModel.current]);
 
   return newState;
@@ -394,12 +394,13 @@ export const adaptView = (state, centerNodeId, offset) => {
 export const alignChildren = (state, payload, originDimension) => {
   const node = state.viewModel.views[state.viewModel.current].nodes[payload.id];
   alignNested(state.viewModel.views[state.viewModel.current], payload.id);
-  adjust(state.viewModel.views[state.viewModel.current], false);
+  adjust(state.viewModel.views[state.viewModel.current]);
   const targetDimension = node.dimension;
   const offset = {
     x: targetDimension.width - originDimension.width,
     y: targetDimension.height - originDimension.height,
   };
   adaptView(state, payload.id, offset);
+  adjust(state.viewModel.views[state.viewModel.current]);
   return state;
 };

@@ -19,13 +19,14 @@ import {
   DIAGRAM_NODE_EXPANDED,
 } from '../../diagram/consts';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   panel: ({ width }) => ({
     position: 'absolute',
     top: 0,
     left: width,
+    background: theme.palette.background.paper,
   }),
-});
+}));
 
 const NodeContextPanel = ({ node }) => {
   const classes = useStyles({ width: node.size.width });

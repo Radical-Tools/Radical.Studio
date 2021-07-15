@@ -152,8 +152,9 @@ const RadicalCanvasWidget = ({
     model.getNodes().forEach((node) => {
       node.registerListener(registerCallbacks());
     });
-    model.getLinks().forEach((node) => {
-      node.registerListener(registerCallbacks());
+    model.getLinks().forEach((link) => {
+      link.registerListener(registerCallbacks());
+      link.update();
     });
     engine.setModel(model);
     model.setInitialZoomLevel(alignment.zoom);

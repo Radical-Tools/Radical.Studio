@@ -7,7 +7,6 @@ import ZoomInRoundedIcon from '@material-ui/icons/ZoomInRounded';
 import ZoomOutRoundedIcon from '@material-ui/icons/ZoomOutRounded';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
-import LinkIcon from '@material-ui/icons/Link';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -19,17 +18,16 @@ import {
   DIAGRAM_NODE_EXPANDED,
 } from '../../diagram/consts';
 
-const useStyles = makeStyles((theme) => ({
-  panel: ({ width }) => ({
+const useStyles = makeStyles(() => ({
+  panel: () => ({
     position: 'absolute',
-    top: 0,
-    left: width,
-    background: theme.palette.background.paper,
+    bottom: 5,
+    left: 10,
   }),
 }));
 
 const NodeContextPanel = ({ node }) => {
-  const classes = useStyles({ width: node.size.width });
+  const classes = useStyles();
   return (
     <Box className={classes.panel}>
       {node.isSelected() && !node.options.isExpanded && node.options.isParent && (
@@ -70,29 +68,25 @@ const NodeContextPanel = ({ node }) => {
       )}
       {node.options.possibleRelations &&
         node.options.possibleRelations.types.map((type) => (
-          <Box key={type} m={1}>
-            <Tooltip title={`Create a ${type} relation`}>
-              <Chip
-                color="primary"
-                icon={<LinkIcon />}
-                key={type}
-                className="controlEl"
-                label={type}
-                size="small"
-                onClick={() => {
-                  node.fireEvent(
-                    {
-                      id: node.options.possibleRelations.id,
-                      source: node.options.possibleRelations.source,
-                      target: node.getID(),
-                      type,
-                    },
-                    DIAGRAM_LINK_TARGET_SELECTED_EVENT
-                  );
-                }}
-              />
-            </Tooltip>
-          </Box>
+          <Tooltip key={type} title={`Create a ${type} relation`}>
+            <Chip
+              key={type}
+              className="controlEl"
+              label={type}
+              size="small"
+              onClick={() => {
+                node.fireEvent(
+                  {
+                    id: node.options.possibleRelations.id,
+                    source: node.options.possibleRelations.source,
+                    target: node.getID(),
+                    type,
+                  },
+                  DIAGRAM_LINK_TARGET_SELECTED_EVENT
+                );
+              }}
+            />
+          </Tooltip>
         ))}
       {node.isSelected() && node.parentNode && (
         <Tooltip title="Detach from parent" aria-label="detach">

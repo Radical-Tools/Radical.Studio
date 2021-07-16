@@ -289,7 +289,7 @@ const moveNode = (node, vector, nodes) => {
   });
 };
 
-const alignCoordinate = (
+const alignAx = (
   targetId,
   sourceId,
   coordinateName,
@@ -314,7 +314,7 @@ const alignCoordinate = (
   }
 };
 
-function adjustMicro(
+function adjustDistance(
   sourceNodeId,
   targetNodeId,
   minDistance,
@@ -375,12 +375,12 @@ const calculateScores = (viewModel) => {
   return scores;
 };
 
-const alignCoordinates = (target, source, viewModel, toleration, scores) => {
-  alignCoordinate(target, source, 'x', viewModel, toleration, scores);
-  alignCoordinate(target, source, 'y', viewModel, toleration, scores);
+const alignAxes = (target, source, viewModel, toleration, scores) => {
+  alignAx(target, source, 'x', viewModel, toleration, scores);
+  alignAx(target, source, 'y', viewModel, toleration, scores);
 };
 
-const adjust = (viewModel, toleration = 60) => {
+const adjust = (viewModel, toleration = 190) => {
   if (isEmpty(viewModel.nodes)) {
     return;
   }
@@ -388,8 +388,8 @@ const adjust = (viewModel, toleration = 60) => {
   const scores = calculateScores(viewModel);
 
   Object.values(viewModel.links).forEach((link) => {
-    adjustMicro(link.source, link.target, 100, scores, viewModel);
-    alignCoordinates(link.target, link.source, viewModel, toleration, scores);
+    adjustDistance(link.source, link.target, 100, scores, viewModel);
+    alignAxes(link.target, link.source, viewModel, toleration, scores);
   });
 
   Object.entries(viewModel.nodes).forEach(([sourceNodeId, sourceNode]) => {
@@ -401,10 +401,10 @@ const adjust = (viewModel, toleration = 60) => {
         !isChild(sourceNode, targetNodeId, viewModel.nodes) &&
         !isChild(targetNode, sourceNodeId, viewModel.nodes)
       ) {
-        adjustMicro(
+        adjustDistance(
           sourceNodeId,
           targetNodeId,
-          10,
+          50,
           scores,
           viewModel,
           toleration
@@ -425,41 +425,6 @@ export const alignNested = (viewModel, nodeId) => {
   );
 
   align(selectedNodes, viewModel, [0, 0], viewModel.nodes[nodeId].position);
-};
-
-export const checkOverlap = (coreNode, coreNodeId, nodes) => {
-  function areNodesOverlap(node1, node2) {
-    const [left1, top1, right1, bottom1] = [
-      node1.position.x - node1.dimension.width / 2,
-      node1.position.y - node1.dimension.height / 2,
-      node1.position.x + node1.dimension.width / 2,
-      node1.position.y + node1.dimension.height / 2,
-    ];
-    const [left2, top2, right2, bottom2] = [
-      node2.position.x - node2.dimension.width / 2,
-      node2.position.y - node2.dimension.height / 2,
-      node2.position.x + node2.dimension.width / 2,
-      node2.position.y + node2.dimension.height / 2,
-    ];
-
-    return !(
-      left2 > right1 ||
-      right2 < left1 ||
-      top2 > bottom1 ||
-      bottom2 < top1
-    );
-  }
-
-  return (
-    Object.entries(nodes).filter(([nodeId, node]) => {
-      const isOverlap = areNodesOverlap(coreNode, node);
-      return (
-        nodeId !== coreNodeId &&
-        !node.childrenNodes.includes(coreNodeId) &&
-        isOverlap
-      );
-    }).length > 0
-  );
 };
 
 export default adjust;

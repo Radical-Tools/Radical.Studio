@@ -9,6 +9,7 @@ export const StorageType = {
   LOCAL_STORAGE: 'localStorage',
 };
 export const LAYOUT_MAX_ROWS = 20;
+export const LAYOUT_MAX_COLS = 24;
 export const LAYOUT_MARGIN = 5;
 export const LAYOUT_HEIGHT_OFFSET_FOR_MARGIN =
-  (LAYOUT_MAX_ROWS + 1) * LAYOUT_MARGIN;
+  (LAYOUT_MAX_ROWS + 2) * LAYOUT_MARGIN;

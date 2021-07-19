@@ -7,7 +7,11 @@ import * as notifications from '../model/handlers/notifications';
 import * as localStorage from '../model/handlers/localStorage';
 import loadState from '../model/handlers/state';
 import * as actionTypes from './action-types';
-import { notificationAdd, setWindowDimensions } from './action-creators';
+import {
+  notificationAdd,
+  setWindowDimensions,
+  layoutWidgetRestore,
+} from './action-creators';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,
@@ -84,6 +88,7 @@ const handlers = {
   [actionTypes.STATE_LOAD_STORAGE]: localStorage.load,
   [actionTypes.STATE_LOAD]: loadState,
   [setWindowDimensions.toString()]: layout.setWindowDimensions,
+  [layoutWidgetRestore.toString()]: layout.performRestore,
 };
 
 export const initialState = {

@@ -8,6 +8,7 @@ import CardWrapper from './CardWrapper';
 import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
   LAYOUT_MARGIN,
+  LAYOUT_MAX_COLS,
   LAYOUT_MAX_ROWS,
   THEME_DARK,
 } from '../../../app/consts';
@@ -22,6 +23,7 @@ const WidgetsPanel = ({
   onLayoutChange,
   onMaximizeWidget,
   onCloseWidget,
+  onRestoreWidget,
   onMinimizeWidget,
   onToggleDrawer,
   config,
@@ -39,7 +41,7 @@ const WidgetsPanel = ({
       breakpoints={{ lg: 1200 }}
       autoSize
       maxRows={LAYOUT_MAX_ROWS}
-      cols={{ lg: 24 }}
+      cols={{ lg: LAYOUT_MAX_COLS }}
       resizeHandles={['e', 'se', 'ne']}
       draggableHandle={`.${dragableClassName}`}
       onLayoutChange={onLayoutChange}
@@ -66,8 +68,10 @@ const WidgetsPanel = ({
               title={widget.title}
               className={dragableClassName}
               onClose={onCloseWidget}
+              onRestore={onRestoreWidget}
               onMaximize={onMaximizeWidget}
               onMinimize={onMinimizeWidget}
+              isMaximized={widget.isMaximized}
             >
               {React.createElement(widgetsComponentMapping[key])}
             </CardWrapper>
@@ -86,6 +90,7 @@ WidgetsPanel.propTypes = {
   onLayoutChange: PropTypes.func.isRequired,
   onMaximizeWidget: PropTypes.func.isRequired,
   onCloseWidget: PropTypes.func.isRequired,
+  onRestoreWidget: PropTypes.func.isRequired,
   onMinimizeWidget: PropTypes.func.isRequired,
   onToggleDrawer: PropTypes.func.isRequired,
   windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,

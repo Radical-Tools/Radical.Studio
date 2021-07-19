@@ -2,6 +2,7 @@ import set from 'lodash/fp/set';
 import toPairs from 'lodash/fp/toPairs';
 import flow from 'lodash/fp/flow';
 import {
+  LAYOUT_MAX_COLS,
   LAYOUT_MAX_ROWS,
   MIN_HEIGHT_NUMBER,
   MIN_WIDTH_NUMBER,
@@ -10,6 +11,7 @@ import {
 export const widgets = {
   model: {
     isActive: true,
+    isMaximized: false,
     title: 'Model',
     initialDimensions: {
       x: 0,
@@ -46,6 +48,8 @@ export const widgets = {
 
 export const initialState = {
   layout: {
+    savedGridLayout: {},
+    savedConfig: {},
     windowDimensions: {
       width: MIN_WIDTH_NUMBER,
       height: MIN_HEIGHT_NUMBER,
@@ -76,22 +80,37 @@ export const setGridLayout = (state, gridLayout) =>
   set(['layout', 'gridLayout', 'lg'], gridLayout, state);
 
 export const performMaximize = (state, widgetId) =>
-  set(
-    ['layout', 'gridLayout', 'lg'],
-    state.layout.gridLayout.lg.map((widgetConfig) => {
-      if (widgetConfig.i === widgetId)
-        return {
-          ...widgetConfig,
-          h: 14,
-          w: 24,
-          x: 1,
-          y: 1,
-        };
-      if (!widgetConfig.static) return { ...widgetConfig, h: 1, w: 5, y: 15 };
-      return widgetConfig;
-    }),
-    state
-  );
+  flow(
+    set(['layout', 'savedGridLayout'], state.layout.gridLayout),
+    set(['layout', 'savedConfig'], state.layout.config),
+    set(
+      ['layout', 'gridLayout', 'lg'],
+      state.layout.gridLayout.lg.map((widgetConfig) => {
+        if (widgetConfig.i === widgetId)
+          return {
+            ...widgetConfig,
+            h: LAYOUT_MAX_ROWS,
+            w: LAYOUT_MAX_COLS,
+            x: 1,
+            y: 1,
+          };
+        if (!widgetConfig.static) return { ...widgetConfig, h: 0, w: 5, y: 15 };
+        return { ...widgetConfig, h: 0 };
+      })
+    ),
+    state.layout.gridLayout.lg.map((widgetConfig) =>
+      set(
+        ['layout', 'config', 'widgets', widgetConfig.i, 'isActive'],
+        widgetConfig.i === widgetId
+      )
+    ),
+    set(['layout', 'config', 'widgets', widgetId, 'isMaximized'], true)
+  )(state);
+export const performRestore = (state) =>
+  flow(
+    set(['layout', 'gridLayout'], state.layout.savedGridLayout),
+    set(['layout', 'config'], state.layout.savedConfig)
+  )(state);
 export const performMinimize = (state, widgetId) =>
   set(
     ['layout', 'gridLayout', 'lg'],

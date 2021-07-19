@@ -257,3 +257,4 @@ export const stateSave = createAsyncThunk('state/save', async (_, thunkAPI) => {
 });
 
 export const setWindowDimensions = createAction('layout/windowDimensions/set');
+export const layoutWidgetRestore = createAction('layout/widget/restore');

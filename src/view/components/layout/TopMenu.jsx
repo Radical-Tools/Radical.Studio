@@ -10,7 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
 import Box from '@material-ui/core/Box';
-import { LAYOUT_MAX_ROWS } from '../../../app/consts';
+import {
+  LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
+  LAYOUT_MAX_ROWS,
+} from '../../../app/consts';
 
 const useStyles = makeStyles(() => ({
   grow: {
@@ -19,8 +22,8 @@ const useStyles = makeStyles(() => ({
 }));
 const useToolbarStyles = makeStyles(() => ({
   root: (height) => ({
-    minHeight: height / LAYOUT_MAX_ROWS,
-    height: height / LAYOUT_MAX_ROWS,
+    minHeight: (height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) / LAYOUT_MAX_ROWS,
+    height: (height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) / LAYOUT_MAX_ROWS,
   }),
 }));
 const useMenuButtonStyles = makeStyles((theme) => ({

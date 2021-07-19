@@ -5,7 +5,12 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import PropTypes from 'prop-types';
 import TopMenu from './TopMenuContainer';
 import CardWrapper from './CardWrapper';
-import { LAYOUT_MAX_ROWS, THEME_DARK } from '../../../app/consts';
+import {
+  LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
+  LAYOUT_MARGIN,
+  LAYOUT_MAX_ROWS,
+  THEME_DARK,
+} from '../../../app/consts';
 import widgetsComponentMapping from '../widgets/widgetsComponentMapping';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -26,7 +31,10 @@ const WidgetsPanel = ({
     <ResponsiveGridLayout
       className="layout"
       layouts={layout}
-      rowHeight={windowDimensions.height / LAYOUT_MAX_ROWS}
+      rowHeight={
+        (windowDimensions.height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) /
+        LAYOUT_MAX_ROWS
+      }
       useCSSTransforms
       breakpoints={{ lg: 1200 }}
       autoSize
@@ -37,7 +45,7 @@ const WidgetsPanel = ({
       onLayoutChange={onLayoutChange}
       isBounded
       compactType="vertical"
-      margin={[5, 5]}
+      margin={[LAYOUT_MARGIN, LAYOUT_MARGIN]}
       preventCollision
     >
       <div key="top-panel">

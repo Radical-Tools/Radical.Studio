@@ -82,7 +82,7 @@ const isChild = (node, potentialChildId, nodes) => {
   if (node.childrenNodes) {
     return (
       Object.values(node.childrenNodes).filter((child) =>
-        isChild(child, potentialChildId, nodes)
+        isChild(nodes[child], potentialChildId, nodes)
       ).length > 0
     );
   }

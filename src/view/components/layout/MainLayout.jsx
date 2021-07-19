@@ -22,6 +22,7 @@ const MainLayout = ({
   onLoadStorage,
   onLoadFile,
   onSave,
+  windowDimensions,
 }) => (
   <>
     <WidgetsPanel
@@ -34,6 +35,7 @@ const MainLayout = ({
       onCloseWidget={onCloseWidget}
       onMinimizeWidget={onMinimizeWidget}
       onToggleDrawer={onToggleDrawer}
+      windowDimensions={windowDimensions}
     />
     <Drawer
       widgetsConfig={config.widgets}
@@ -70,5 +72,6 @@ MainLayout.propTypes = {
   onLoadStorage: PropTypes.func.isRequired,
   onLoadFile: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 export default MainLayout;

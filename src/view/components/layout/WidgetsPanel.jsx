@@ -5,7 +5,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import PropTypes from 'prop-types';
 import TopMenu from './TopMenuContainer';
 import CardWrapper from './CardWrapper';
-import { THEME_DARK } from '../../../app/consts';
+import { LAYOUT_MAX_ROWS, THEME_DARK } from '../../../app/consts';
 import widgetsComponentMapping from '../widgets/widgetsComponentMapping';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -20,16 +20,17 @@ const WidgetsPanel = ({
   onMinimizeWidget,
   onToggleDrawer,
   config,
+  windowDimensions,
 }) => (
   <Box height="100%" alignItems="stretch">
     <ResponsiveGridLayout
       className="layout"
       layouts={layout}
-      rowHeight={50}
+      rowHeight={windowDimensions.height / LAYOUT_MAX_ROWS}
       useCSSTransforms
       breakpoints={{ lg: 1200 }}
       autoSize
-      maxRows={24}
+      maxRows={LAYOUT_MAX_ROWS}
       cols={{ lg: 24 }}
       resizeHandles={['e', 'se', 'ne']}
       draggableHandle={`.${dragableClassName}`}
@@ -79,4 +80,5 @@ WidgetsPanel.propTypes = {
   onCloseWidget: PropTypes.func.isRequired,
   onMinimizeWidget: PropTypes.func.isRequired,
   onToggleDrawer: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
 };

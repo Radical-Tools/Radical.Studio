@@ -1,5 +1,11 @@
 import set from 'lodash/fp/set';
 import toPairs from 'lodash/fp/toPairs';
+import flow from 'lodash/fp/flow';
+import {
+  LAYOUT_MAX_ROWS,
+  MIN_HEIGHT_NUMBER,
+  MIN_WIDTH_NUMBER,
+} from '../../app/consts';
 
 export const widgets = {
   model: {
@@ -9,7 +15,7 @@ export const widgets = {
       x: 0,
       y: 1,
       w: 4,
-      h: 16,
+      h: LAYOUT_MAX_ROWS - 1,
       minW: 1,
     },
   },
@@ -20,7 +26,7 @@ export const widgets = {
       x: 4,
       y: 1,
       w: 16,
-      h: 16,
+      h: LAYOUT_MAX_ROWS - 1,
       minW: 4,
       minH: 1,
     },
@@ -32,7 +38,7 @@ export const widgets = {
       x: 20,
       y: 1,
       w: 4,
-      h: 16,
+      h: LAYOUT_MAX_ROWS - 1,
       minW: 1,
     },
   },
@@ -40,6 +46,10 @@ export const widgets = {
 
 export const initialState = {
   layout: {
+    windowDimensions: {
+      width: MIN_WIDTH_NUMBER,
+      height: MIN_HEIGHT_NUMBER,
+    },
     showDrawer: false,
     showHomeDialog: true,
     config: {
@@ -105,3 +115,14 @@ export const openHomeDialog = (state) =>
   set(['layout', 'showHomeDialog'], true, state);
 export const closeHomeDialog = (state) =>
   set(['layout', 'showHomeDialog'], false, state);
+export const setWindowDimensions = (state, payload) =>
+  flow(
+    set(
+      ['layout', 'windowDimensions', 'height'],
+      payload.height < MIN_HEIGHT_NUMBER ? MIN_HEIGHT_NUMBER : payload.height
+    ),
+    set(
+      ['layout', 'windowDimensions', 'width'],
+      payload.width < MIN_WIDTH_NUMBER ? MIN_WIDTH_NUMBER : payload.width
+    )
+  )(state);

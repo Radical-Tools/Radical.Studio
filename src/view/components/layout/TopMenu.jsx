@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
 import Box from '@material-ui/core/Box';
+import { LAYOUT_MAX_ROWS } from '../../../app/consts';
 
 const useStyles = makeStyles(() => ({
   grow: {
@@ -17,9 +18,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 const useToolbarStyles = makeStyles(() => ({
-  root: {
-    minHeight: 40,
-  },
+  root: (height) => ({
+    minHeight: height / LAYOUT_MAX_ROWS,
+    height: height / LAYOUT_MAX_ROWS,
+  }),
 }));
 const useMenuButtonStyles = makeStyles((theme) => ({
   root: {
@@ -35,12 +37,13 @@ const TopMenu = ({
   redoCmd,
   isPrev,
   isNext,
+  windowDimensions,
 }) => {
   const classes = useStyles();
   return (
     <div className={classes.grow}>
       <AppBar position="static">
-        <Toolbar classes={useToolbarStyles()}>
+        <Toolbar classes={useToolbarStyles(windowDimensions.height)}>
           <IconButton
             onClick={onShowDrawer}
             edge="start"
@@ -86,6 +89,7 @@ TopMenu.propTypes = {
   redoCmd: PropTypes.func.isRequired,
   isPrev: PropTypes.bool.isRequired,
   isNext: PropTypes.bool.isRequired,
+  windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default TopMenu;

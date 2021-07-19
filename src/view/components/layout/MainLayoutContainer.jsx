@@ -20,7 +20,7 @@ const mapStateToProps = (state) => ({
   config: state.layout.config,
   showDrawer: state.layout.showDrawer,
   showHomeDialog: state.layout.showHomeDialog,
-  state,
+  windowDimensions: state.layout.windowDimensions,
 });
 
 const mapDispatchToProps = (dispatch) => ({

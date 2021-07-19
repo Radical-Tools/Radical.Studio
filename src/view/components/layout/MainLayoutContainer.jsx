@@ -6,6 +6,7 @@ import {
   layoutWidgetClose,
   layoutWidgetMaximize,
   layoutWidgetMinimize,
+  layoutWidgetRestore,
   loadStateStorage,
   modelMetamodelSelect,
   stateLoad,
@@ -20,7 +21,7 @@ const mapStateToProps = (state) => ({
   config: state.layout.config,
   showDrawer: state.layout.showDrawer,
   showHomeDialog: state.layout.showHomeDialog,
-  state,
+  windowDimensions: state.layout.windowDimensions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -29,6 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
   onMaximizeWidget: (widgetId) => dispatch(layoutWidgetMaximize(widgetId)),
   onMinimizeWidget: (widgetId) => dispatch(layoutWidgetMinimize(widgetId)),
   onCloseWidget: (widgetId) => dispatch(layoutWidgetClose(widgetId)),
+  onRestoreWidget: (widgetId) => dispatch(layoutWidgetRestore(widgetId)),
   onAddWidget: (widgetId) => dispatch(layoutWidgetAdd(widgetId)),
   onToggleDrawer: () => dispatch(layoutDrawerToggle()),
   onCloseHomeDialog: () => dispatch(layoutDrawerToggle()),

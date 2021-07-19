@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { save } from 'save-file';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -255,3 +255,6 @@ export const stateLoad = (state) => ({
 export const stateSave = createAsyncThunk('state/save', async (_, thunkAPI) => {
   await save(JSON.stringify(thunkAPI.getState()), 'state.radical');
 });
+
+export const setWindowDimensions = createAction('layout/windowDimensions/set');
+export const layoutWidgetRestore = createAction('layout/widget/restore');

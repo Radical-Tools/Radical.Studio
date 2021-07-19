@@ -5,7 +5,13 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import PropTypes from 'prop-types';
 import TopMenu from './TopMenuContainer';
 import CardWrapper from './CardWrapper';
-import { THEME_DARK } from '../../../app/consts';
+import {
+  LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
+  LAYOUT_MARGIN,
+  LAYOUT_MAX_COLS,
+  LAYOUT_MAX_ROWS,
+  THEME_DARK,
+} from '../../../app/consts';
 import widgetsComponentMapping from '../widgets/widgetsComponentMapping';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -17,26 +23,31 @@ const WidgetsPanel = ({
   onLayoutChange,
   onMaximizeWidget,
   onCloseWidget,
+  onRestoreWidget,
   onMinimizeWidget,
   onToggleDrawer,
   config,
+  windowDimensions,
 }) => (
   <Box height="100%" alignItems="stretch">
     <ResponsiveGridLayout
       className="layout"
       layouts={layout}
-      rowHeight={50}
+      rowHeight={
+        (windowDimensions.height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) /
+        LAYOUT_MAX_ROWS
+      }
       useCSSTransforms
       breakpoints={{ lg: 1200 }}
       autoSize
-      maxRows={24}
-      cols={{ lg: 24 }}
+      maxRows={LAYOUT_MAX_ROWS}
+      cols={{ lg: LAYOUT_MAX_COLS }}
       resizeHandles={['e', 'se', 'ne']}
       draggableHandle={`.${dragableClassName}`}
       onLayoutChange={onLayoutChange}
       isBounded
       compactType="vertical"
-      margin={[5, 5]}
+      margin={[LAYOUT_MARGIN, LAYOUT_MARGIN]}
       preventCollision
     >
       <div key="top-panel">
@@ -57,8 +68,10 @@ const WidgetsPanel = ({
               title={widget.title}
               className={dragableClassName}
               onClose={onCloseWidget}
+              onRestore={onRestoreWidget}
               onMaximize={onMaximizeWidget}
               onMinimize={onMinimizeWidget}
+              isMaximized={widget.isMaximized}
             >
               {React.createElement(widgetsComponentMapping[key])}
             </CardWrapper>
@@ -77,6 +90,8 @@ WidgetsPanel.propTypes = {
   onLayoutChange: PropTypes.func.isRequired,
   onMaximizeWidget: PropTypes.func.isRequired,
   onCloseWidget: PropTypes.func.isRequired,
+  onRestoreWidget: PropTypes.func.isRequired,
   onMinimizeWidget: PropTypes.func.isRequired,
   onToggleDrawer: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
 };

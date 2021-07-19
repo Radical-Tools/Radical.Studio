@@ -43,7 +43,6 @@ const Inventory = ({
     rowsPerPage: 10,
     rowsPerPageOptions: [10],
     customRowRender: customRowFactory(editItemCallback),
-    // tableBodyHeight: '200px',
   };
 
   return (

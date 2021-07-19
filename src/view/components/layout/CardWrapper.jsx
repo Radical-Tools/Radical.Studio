@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MinimizeRoundedIcon from '@material-ui/icons/MinimizeRounded';
 import FullscreenRoundedIcon from '@material-ui/icons/FullscreenRounded';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
+import FullscreenExitRoundedIcon from '@material-ui/icons/FullscreenExitRounded';
 import Typography from '@material-ui/core/Typography';
 
 const headerHeight = 37;
@@ -48,9 +49,11 @@ function CardWrapper({
   onMinimize,
   onMaximize,
   onClose,
+  onRestore,
   id,
   children,
   className,
+  isMaximized,
 }) {
   const buttonClasses = useIconButtonStyles();
   const onMinimizeCallback = useCallback(
@@ -62,6 +65,7 @@ function CardWrapper({
     [onMaximize, id]
   );
   const onCloseCallback = useCallback(() => onClose(id), [onClose, id]);
+  const onRestoreCallback = useCallback(() => onRestore(id), [onRestore, id]);
   const getAriaLabel = (iconPurpose) => `${iconPurpose} ${title}`;
   return (
     <Card elevation={3} classes={useCardStyles()}>
@@ -71,33 +75,47 @@ function CardWrapper({
         title={<Typography variant="h6">{title}</Typography>}
         action={
           <Box>
-            <IconButton
-              size="small"
-              label="Minimize"
-              classes={buttonClasses}
-              aria-label={getAriaLabel('Minimize')}
-              onClick={onMinimizeCallback}
-            >
-              <MinimizeRoundedIcon />
-            </IconButton>
-            <IconButton
-              size="small"
-              label="Maximize"
-              classes={buttonClasses}
-              aria-label={getAriaLabel('Maximize')}
-              onClick={onMaximizeCallback}
-            >
-              <FullscreenRoundedIcon />
-            </IconButton>
-            <IconButton
-              size="small"
-              label="Close"
-              classes={buttonClasses}
-              aria-label={getAriaLabel('Close')}
-              onClick={onCloseCallback}
-            >
-              <HighlightOffRoundedIcon />
-            </IconButton>
+            {isMaximized ? (
+              <IconButton
+                size="small"
+                label="Restore"
+                classes={buttonClasses}
+                aria-label={getAriaLabel('Restore')}
+                onClick={onRestoreCallback}
+              >
+                <FullscreenExitRoundedIcon />
+              </IconButton>
+            ) : (
+              <>
+                <IconButton
+                  size="small"
+                  label="Minimize"
+                  classes={buttonClasses}
+                  aria-label={getAriaLabel('Minimize')}
+                  onClick={onMinimizeCallback}
+                >
+                  <MinimizeRoundedIcon />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  label="Maximize"
+                  classes={buttonClasses}
+                  aria-label={getAriaLabel('Maximize')}
+                  onClick={onMaximizeCallback}
+                >
+                  <FullscreenRoundedIcon />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  label="Close"
+                  classes={buttonClasses}
+                  aria-label={getAriaLabel('Close')}
+                  onClick={onCloseCallback}
+                >
+                  <HighlightOffRoundedIcon />
+                </IconButton>
+              </>
+            )}
           </Box>
         }
       />
@@ -109,10 +127,12 @@ CardWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
+  isMaximized: PropTypes.bool.isRequired,
   className: PropTypes.string,
   onMinimize: PropTypes.func.isRequired,
   onMaximize: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onRestore: PropTypes.func.isRequired,
 };
 CardWrapper.defaultProps = {
   className: '',

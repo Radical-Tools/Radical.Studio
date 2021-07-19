@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { MuiThemeProvider } from '@material-ui/core';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSelector } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createTheme from './app/createTheme';
@@ -11,8 +11,16 @@ import MainLayoutContainer from './view/components/layout/MainLayoutContainer';
 import ErrorBoundary from './app/ErrorBoundary';
 import NotificationsDisplayHandlerContainer from './view/components/layout/NotificationsDisplayHandlerContainer';
 
-const App = () => {
-  const themeType = useSelector((state) => state.theme.current);
+const App = ({ themeType, onWindowResize }) => {
+  useEffect(() => {
+    const { innerWidth: width, innerHeight: height } = window;
+    onWindowResize({ width, height });
+    function handleResize() {
+      onWindowResize({ width: window.innerWidth, height: window.innerHeight });
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  });
   const theme = createTheme(themeType);
 
   return (
@@ -31,3 +39,7 @@ const App = () => {
 };
 
 export default App;
+App.propTypes = {
+  onWindowResize: PropTypes.func.isRequired,
+  themeType: PropTypes.string.isRequired,
+};

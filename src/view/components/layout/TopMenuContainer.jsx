@@ -10,6 +10,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   isPrev: state.diff.prev.length > 0,
   isNext: state.diff.next.length > 0,
+  windowDimensions: state.layout.windowDimensions,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);

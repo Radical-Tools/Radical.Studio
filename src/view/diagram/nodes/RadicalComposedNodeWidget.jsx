@@ -3,7 +3,6 @@ import { PortWidget } from '@projectstorm/react-diagrams';
 import Typography from '@material-ui/core/Typography';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import Box from '@material-ui/core/Box';
-import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import values from 'lodash/fp/values';
@@ -60,11 +59,10 @@ const RadicalComposedNodeWidget = ({
             <EditableLabel
               editedItem={node}
               isItemSelected={isSelected}
-              variant="subtitle1"
+              variant="subtitle2"
               label={name}
               width={node.size.width}
             />
-            <Divider />
             {node.options.attributes?.technology ? (
               <Typography variant="caption">
                 [{node.options.radical_type}:

@@ -181,7 +181,17 @@ const RadicalCanvasWidget = ({
         <div className={classes.fill}>
           <ToolbarMenu
             onLayoutAlign={onLayoutAlign}
-            onZoomToFit={() => engine.zoomToFitNodes({ margin: 50 })}
+            onZoomToFit={() => {
+              engine.zoomToFitNodes({ margin: 50 });
+              engine.getModel().fireEvent(
+                {
+                  offsetX: engine.getModel().options.offsetX,
+                  offsetY: engine.getModel().options.offsetY,
+                  zoom: engine.getModel().options.zoom,
+                },
+                CANVAS_ZOOM_CHANGED
+              );
+            }}
             name={viewName}
           />
           <div

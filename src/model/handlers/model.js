@@ -83,20 +83,22 @@ export const updateObject = (state, payload) => {
   }
 };
 
+/* eslint-disable no-param-reassign */
 export const removeObject = (state, payload) => {
   if (!has(payload.id, state.model.objects)) {
     return state;
   }
-  const parentObjectId = state.model.objects[payload.id].parent;
 
-  return flow(
+  const { parent, children } = state.model.objects[payload.id];
+
+  const newState = flow(
     unset(['model', 'objects', payload.id]),
-    parentObjectId
+    parent
       ? set(
-          ['model', 'objects', parentObjectId, 'children'],
+          ['model', 'objects', parent, 'children'],
           filter(
             (child) => child !== payload.id,
-            state.model.objects[parentObjectId].children
+            state.model.objects[parent].children
           )
         )
       : identity,
@@ -108,6 +110,17 @@ export const removeObject = (state, payload) => {
       )
     )
   )(state);
+
+  if (children !== undefined) {
+    children.forEach((child) => {
+      newState.model.objects[child] = {
+        ...newState.model.objects[child],
+        parent: undefined,
+      };
+    });
+  }
+
+  return newState;
 };
 
 export const addRelation = (state, payload) => {

@@ -84,7 +84,7 @@ const EditableLabel = ({
   );
 };
 EditableLabel.propTypes = {
-  width: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   isItemSelected: PropTypes.bool.isRequired,

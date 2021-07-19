@@ -74,9 +74,17 @@ const handlers = {
   [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate,
   [actionTypes.VIEWMODEL_VIEW_LAYOUT_ALIGN]: viewModel.alignLayout,
   [actionTypes.VIEWMODEL_NODE_COLLAPSE]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
+    viewModel.alignChildren(
+      viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
+      payload,
+      state.viewModel.views[state.viewModel.current].nodes[payload.id].dimension
+    ),
   [actionTypes.VIEWMODEL_NODE_EXPAND]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
+    viewModel.alignChildren(
+      viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
+      payload,
+      state.viewModel.views[state.viewModel.current].nodes[payload.id].dimension
+    ),
   [actionTypes.VIEWMODEL_ITEM_SELECTION_CHANGED]: (state, payload) =>
     viewModel.updateCurrentView(
       common.editItem(viewModel.itemSelectionChanged(state, payload), payload)

@@ -14,7 +14,7 @@ import {
   updateLinks,
   updateParentalStructure,
 } from '../helpers/viewmodel';
-import align from '../helpers/layout';
+import adjust, { alignNested, autoAlign } from '../helpers/layout';
 import { findValidRelations } from '../helpers/model';
 
 export const initialState = {
@@ -124,8 +124,8 @@ export const updateCurrentView = (state) => {
   );
 
   updatePossibleRelations(newState);
-
-  align(newState.viewModel.views[newState.viewModel.current], false);
+  adjust(newState.viewModel.views[newState.viewModel.current]);
+  adjust(newState.viewModel.views[newState.viewModel.current]);
 
   return newState;
 };
@@ -264,6 +264,7 @@ export const updateNode = (state, payload) => {
       state.viewModel.views[viewId].nodes[payload.id],
       displacement
     );
+
     return newState;
   }
 
@@ -313,7 +314,7 @@ export const viewAlignmentUpdate = (state, payload) =>
 
 export const alignLayout = (state) => {
   const newState = cloneDeep(state);
-  align(newState.viewModel.views[newState.viewModel.current], true);
+  autoAlign(newState.viewModel.views[newState.viewModel.current]);
   return newState;
 };
 
@@ -355,6 +356,7 @@ export const expandNode = (state, payload) => {
     newNodes[objectId] = {
       dimension: {},
       isSelected: false,
+      childrenNodes: [],
     };
   });
 
@@ -366,4 +368,39 @@ export const expandNode = (state, payload) => {
     }),
     state
   );
+};
+
+export const adaptView = (state, centerNodeId, offset) => {
+  const node =
+    state.viewModel.views[state.viewModel.current].nodes[centerNodeId];
+  Object.entries(state.viewModel.views[state.viewModel.current].nodes).forEach(
+    ([nodeId, item]) => {
+      if (nodeId !== centerNodeId && !node.children.includes(nodeId)) {
+        const angle = Math.atan2(
+          node.position.y - item.position.y,
+          node.position.x - item.position.x
+        );
+
+        item.position = {
+          x: item.position.x - (Math.cos(angle) * offset.x) / 2,
+          y: item.position.y - (Math.sin(angle) * offset.y) / 2,
+        };
+      }
+    }
+  );
+  return state;
+};
+
+export const alignChildren = (state, payload, originDimension) => {
+  const node = state.viewModel.views[state.viewModel.current].nodes[payload.id];
+  alignNested(state.viewModel.views[state.viewModel.current], payload.id);
+  adjust(state.viewModel.views[state.viewModel.current]);
+  const targetDimension = node.dimension;
+  const offset = {
+    x: targetDimension.width - originDimension.width,
+    y: targetDimension.height - originDimension.height,
+  };
+  adaptView(state, payload.id, offset);
+  adjust(state.viewModel.views[state.viewModel.current]);
+  return state;
 };

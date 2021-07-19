@@ -6,6 +6,8 @@ import {
   viewModelNodeAdd,
   viewModelLinkRemove,
   viewModelLinkAdd,
+  viewModelNodeCollapse,
+  viewModelNodeExpand,
 } from './action-creators';
 
 import { rootReducer, initialState } from './rootReducer';
@@ -21,6 +23,7 @@ const createInitialState = () => ({
         attributes: {
           description: 'main user of the system',
         },
+        children: [],
       },
       'Actor-2': {
         name: 'Business Analyst',
@@ -28,6 +31,7 @@ const createInitialState = () => ({
         attributes: {
           description: 'user of the system',
         },
+        children: [],
       },
       'System-1': {
         name: 'Radical Tools',
@@ -35,6 +39,7 @@ const createInitialState = () => ({
         attributes: {
           description: '',
         },
+        children: [],
       },
       'Container-1': {
         name: 'Radical Studio',
@@ -43,6 +48,7 @@ const createInitialState = () => ({
           description: '',
           technology: 'js,React',
         },
+        children: [],
       },
       'Container-2': {
         name: 'Radical Hub',
@@ -51,6 +57,7 @@ const createInitialState = () => ({
           description: '',
           technology: 'js,React',
         },
+        children: [],
       },
       'Component-1': {
         name: 'Canvas',
@@ -59,6 +66,7 @@ const createInitialState = () => ({
           description: '',
           technology: 'ReactDiagrams',
         },
+        children: [],
       },
       'Database-1': {
         name: 'Database',
@@ -67,6 +75,7 @@ const createInitialState = () => ({
           description: '',
           technology: 'Neo4J',
         },
+        children: [],
       },
     },
     relations: {
@@ -159,12 +168,9 @@ describe('viewmodel management', () => {
   it('should render link', () => {
     let state = rootReducer(
       createInitialState(),
-      viewModelNodeAdd(undefined, 'Actor-1', { x: 0, y: 0 })
+      viewModelNodeAdd(undefined, 'Actor-1')
     );
-    state = rootReducer(
-      state,
-      viewModelNodeAdd(undefined, 'Container-1', { x: 0, y: 0 })
-    );
+    state = rootReducer(state, viewModelNodeAdd(undefined, 'Container-1'));
     expect(
       renderView(state.viewModel.views.default, state.model).links[
         'Interacts-1'
@@ -184,5 +190,26 @@ describe('viewmodel management', () => {
         'Interacts-1'
       ]
     ).toBeDefined();
+  });
+});
+
+describe('expand & collapse node', () => {
+  it('should add or remove the Container-1 node from the view', () => {
+    let state = rootReducer(
+      createInitialState(),
+      viewModelNodeAdd('default', 'System-1')
+    );
+
+    state = rootReducer(state, viewModelNodeAdd('default', 'Container-1'));
+
+    state = rootReducer(state, viewModelNodeAdd('default', 'Actor-1'));
+
+    state = rootReducer(state, viewModelNodeCollapse('System-1'));
+
+    expect(state.viewModel.views.default.nodes['Container-1']).toBeDefined();
+
+    state = rootReducer(state, viewModelNodeExpand('System-1'));
+
+    expect(state.viewModel.views.default.nodes['Container-1']).toBeDefined();
   });
 });

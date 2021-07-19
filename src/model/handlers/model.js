@@ -111,13 +111,14 @@ export const removeObject = (state, payload) => {
     )
   )(state);
 
-  children !== undefined &&
+  if(children !== undefined) {
     children.forEach((child) => {
       newState.model.objects[child] = {
         ...newState.model.objects[child],
         parent: undefined,
       };
     });
+  }
 
   return newState;
 };

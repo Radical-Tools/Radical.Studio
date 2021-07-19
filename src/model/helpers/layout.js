@@ -68,7 +68,7 @@ const isParent = (node, potentialNodeId, nodes) => {
   if (node.parent === potentialNodeId) {
     return true;
   }
-  if (node.parent) {
+  if (node.parentNode) {
     return isParent(nodes[node.parent], potentialNodeId, nodes);
   }
   return false;

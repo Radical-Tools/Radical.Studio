@@ -5,7 +5,8 @@ const loadState = (state, payload) => {
   if (payload) {
     const newState = flow(
       set(['layout', 'showDrawer'], false),
-      set(['layout', 'showHomeDialog'], false)
+      set(['layout', 'showHomeDialog'], false),
+      set(['layout'], state.layout)
     )(payload);
     return newState;
   }

@@ -357,19 +357,16 @@ function adjustDistance(
 const calculateScores = (viewModel) => {
   const scores = [];
 
+  Object.entries(viewModel.nodes).forEach(([nodeId, node]) => {
+    if (!scores[nodeId]) scores[nodeId] = 0;
+    scores[nodeId] += 1;
+    scores[nodeId] += node.childrenNodes.length * 10;
+    scores[nodeId] += node.parentNode ? 100 : 0;
+  });
+
   Object.values(viewModel.links).forEach((link) => {
-    const sourceNode = viewModel.nodes[link.source];
-    const targetNode = viewModel.nodes[link.target];
-
-    if (!scores[link.source]) scores[link.source] = 0;
     scores[link.source] += 1;
-    scores[link.source] += sourceNode.childrenNodes.length * 10;
-    scores[link.source] += sourceNode.parentNode ? 100 : 0;
-
-    if (!scores[link.target]) scores[link.target] = 0;
     scores[link.target] += 1;
-    scores[link.target] += targetNode.childrenNodes.length * 10;
-    scores[link.target] += targetNode.parentNode ? 100 : 0;
   });
 
   return scores;

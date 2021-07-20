@@ -16,12 +16,12 @@ const useStyles = makeStyles({
     width: '16px',
     height: '16px',
   },
-  detachPanel: {
+  composedIcon: {
     position: 'absolute',
     width: 20,
     height: 20,
     right: 15,
-    bottom: 10,
+    top: 10,
   },
 });
 const RadicalComposedNodeWidget = ({
@@ -102,7 +102,7 @@ const RadicalComposedNodeWidget = ({
       </div>
       <NodeContextPanel node={node} />
       {!node.isSelected() && !node.options.isExpanded && node.options.isParent && (
-        <Box className={classes.detachPanel}>
+        <Box className={classes.composedIcon}>
           <AccountTreeIcon fontSize="small" />
         </Box>
       )}

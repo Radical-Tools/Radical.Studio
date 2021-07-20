@@ -39,15 +39,15 @@ const RadicalComposedNodeWidget = ({
       <div
         style={{
           position: 'relative',
-          width: node.size.width,
-          height: node.size.height,
+          width: node.width,
+          height: node.height,
         }}
       >
         <div
           style={{
             position: 'absolute',
-            width: node.size.width,
-            height: node.size.height,
+            width: node.width,
+            height: node.height,
             alignItems: isExpanded ? '' : 'center',
             textAlign: 'center',
             display: 'flex',
@@ -61,7 +61,7 @@ const RadicalComposedNodeWidget = ({
               isItemSelected={isSelected}
               variant="subtitle2"
               label={name}
-              width={node.size.width}
+              width={node.width}
             />
             {node.options.attributes?.technology ? (
               <Typography variant="caption">
@@ -81,14 +81,14 @@ const RadicalComposedNodeWidget = ({
             </div>
           </div>
         </div>
-        <svg width={node.size.width} height={node.size.height}>
+        <svg width={node.width} height={node.height}>
           <g id="Layer_1">${children}</g>
         </svg>
         {values(node.getPorts()).map((port) => (
           <PortWidget
             style={getPortStyle(
-              node.size.width,
-              node.size.height,
+              node.width,
+              node.height,
               port.getOptions().alignment,
               port.order
             )}

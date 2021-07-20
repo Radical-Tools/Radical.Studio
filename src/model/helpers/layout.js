@@ -89,7 +89,7 @@ const isChild = (node, potentialChildId, nodes) => {
   return false;
 };
 
-const updateBoundaries = (viewModel, nodeIds) => {
+const updateDimensions = (viewModel, nodeIds) => {
   let nodes;
   if (nodeIds) nodes = nodeIds;
   else
@@ -111,7 +111,7 @@ const updateBoundaries = (viewModel, nodeIds) => {
     parentNode.position.x = boundedRect.x;
     parentNode.position.y = boundedRect.y;
     if (parentNode.parentNode) {
-      updateBoundaries(
+      updateDimensions(
         viewModel,
         viewModel.nodes[parentNode.parentNode].childrenNodes
       );
@@ -285,7 +285,7 @@ const moveNode = (node, vector, nodes) => {
     y: node.position.y + vector.y,
   };
   Object.values(node.childrenNodes).forEach((childId) => {
-    moveNode(nodes[childId], vector);
+    moveNode(nodes[childId], vector, nodes);
   });
 };
 
@@ -381,39 +381,43 @@ const alignAxes = (target, source, viewModel, toleration, scores) => {
 };
 
 const adjust = (viewModel, toleration = 190) => {
-  if (isEmpty(viewModel.nodes)) {
-    return;
-  }
+  try {
+    if (isEmpty(viewModel.nodes)) {
+      return;
+    }
 
-  const scores = calculateScores(viewModel);
+    const scores = calculateScores(viewModel);
 
-  Object.values(viewModel.links).forEach((link) => {
-    adjustDistance(link.source, link.target, 100, scores, viewModel);
-    alignAxes(link.target, link.source, viewModel, toleration, scores);
-  });
-
-  Object.entries(viewModel.nodes).forEach(([sourceNodeId, sourceNode]) => {
-    Object.entries(viewModel.nodes).forEach(([targetNodeId, targetNode]) => {
-      if (
-        sourceNodeId !== targetNodeId &&
-        !isParent(sourceNode, targetNodeId, viewModel.nodes) &&
-        !isParent(targetNode, sourceNodeId, viewModel.nodes) &&
-        !isChild(sourceNode, targetNodeId, viewModel.nodes) &&
-        !isChild(targetNode, sourceNodeId, viewModel.nodes)
-      ) {
-        adjustDistance(
-          sourceNodeId,
-          targetNodeId,
-          50,
-          scores,
-          viewModel,
-          toleration
-        );
-      }
+    Object.values(viewModel.links).forEach((link) => {
+      adjustDistance(link.source, link.target, 100, scores, viewModel);
+      alignAxes(link.target, link.source, viewModel, toleration, scores);
     });
-  });
 
-  updateBoundaries(viewModel);
+    Object.entries(viewModel.nodes).forEach(([sourceNodeId, sourceNode]) => {
+      Object.entries(viewModel.nodes).forEach(([targetNodeId, targetNode]) => {
+        if (
+          sourceNodeId !== targetNodeId &&
+          !isParent(sourceNode, targetNodeId, viewModel.nodes) &&
+          !isParent(targetNode, sourceNodeId, viewModel.nodes) &&
+          !isChild(sourceNode, targetNodeId, viewModel.nodes) &&
+          !isChild(targetNode, sourceNodeId, viewModel.nodes)
+        ) {
+          adjustDistance(
+            sourceNodeId,
+            targetNodeId,
+            50,
+            scores,
+            viewModel,
+            toleration
+          );
+        }
+      });
+    });
+
+    updateDimensions(viewModel);
+  } catch (error) {
+    Error(`Cannot align layout`);
+  }
 };
 
 export const alignNested = (viewModel, nodeId) => {

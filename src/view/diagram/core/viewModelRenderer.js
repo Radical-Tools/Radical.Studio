@@ -22,7 +22,6 @@ const addNode = (diagramModel, viewModelNode) => {
   node.setSelected(viewModelNode.isSelected);
 
   diagramModel.addNode(node);
-  // todo: parent boundary processing by canvas widget temporarily disabled
   if (viewModelNode.parentNode) {
     const diagramModelParentNode = diagramModel.getNode(
       viewModelNode.parentNode
@@ -32,12 +31,7 @@ const addNode = (diagramModel, viewModelNode) => {
   }
   return node;
 };
-export const addNodes = (
-  diagramModel,
-  viewModel,
-  viewModelNode,
-  diagramParentNode
-) => {
+export const addNodes = (diagramModel, viewModel, viewModelNode) => {
   if (!viewModelNode) {
     Object.entries(viewModel.nodes)
       .filter(([, node]) => node.parentNode === undefined)
@@ -45,7 +39,7 @@ export const addNodes = (
         addNodes(diagramModel, viewModel, { id, ...node });
       });
   } else {
-    const node = addNode(diagramModel, viewModelNode, diagramParentNode);
+    const node = addNode(diagramModel, viewModelNode);
     Object.values(viewModelNode.childrenNodes).forEach((id) => {
       addNodes(diagramModel, viewModel, { id, ...viewModel.nodes[id] }, node);
     });

@@ -3,9 +3,13 @@ import config from '../../config/app-config';
 
 const save = (state) => {
   try {
-    const serializedState = JSON.stringify(state);
-    const { storageKey } = config.operations;
-    localStorage.setItem(storageKey, serializedState);
+    // do not override the app state by the initial app state
+    // should be removed when the workspace context will be added to the local storage
+    if (!state.layout.showHomeDialog) {
+      const serializedState = JSON.stringify(state);
+      const { storageKey } = config.operations;
+      localStorage.setItem(storageKey, serializedState);
+    }
   } catch (e) {
     throw new Error(`Cannot save state`);
   }

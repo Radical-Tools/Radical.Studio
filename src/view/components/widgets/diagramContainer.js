@@ -43,8 +43,8 @@ const mapDispatchToProps = (dispatch) => ({
   onNodeExpanded: (id) => dispatch(viewModelNodeExpand(id)),
   onItemNameUpdated: (id, type, name) =>
     dispatch(modelItemUpdateName(id, type, name)),
-  onAddMetamodelObjectToView: (type, position) =>
-    dispatch(viewModelMetamodelObjectAdd(undefined, type, position)),
+  onAddMetamodelObjectToView: (type, position, node) =>
+    dispatch(viewModelMetamodelObjectAdd(undefined, type, position, node)),
   onNodeDetached: (id) => dispatch(modelObjectDetach(id)),
 });
 

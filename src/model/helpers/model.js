@@ -141,7 +141,7 @@ export const validateRelation = (metamodel, model, relation) => {
     )
   ) {
     throw new Error(
-      `Incorrect source: ${source.type} or target: ${target.type} class`
+      `Incorrect relation: ${relation.type}, source: ${source.type} or target: ${target.type} class`
     );
   }
 

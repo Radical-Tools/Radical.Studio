@@ -14,15 +14,13 @@ jest.mock('@material-ui/core/styles', () => {
 describe('RadicalComposedNodeWidget', () => {
   it('renders node title with given node width', async () => {
     muiStyles.makeStyles().mockImplementation(() => ({}));
-    const nodeWidth = { width: '200px' };
+    const nodeWidth = { width: 200 };
 
     const { getByRole } = render(
       <RadicalComposedNodeWidget
         node={{
-          size: {
-            ...nodeWidth,
-            height: '300px',
-          },
+          width: 200,
+          height: 300,
           isSelected: () => false,
           getPorts: () => ({}),
           options: {},

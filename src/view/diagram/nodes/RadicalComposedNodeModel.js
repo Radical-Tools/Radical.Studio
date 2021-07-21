@@ -32,18 +32,9 @@ export default class RadicalComposedNodeModel extends NodeModel {
       }
     });
     this.nodes = new Map();
-    this.size = {
-      width: 150,
-      height: 110,
-    };
-
     this.visible = true;
-
-    this.width = 150;
-    this.height = 110;
     this.parentNode = undefined;
 
-    this.minDimensionSize = { width: 150, height: 110 };
     this.isDragged = false;
   }
 
@@ -77,14 +68,6 @@ export default class RadicalComposedNodeModel extends NodeModel {
     this.fireEvent({}, DIAGRAM_ENTITY_REMOVED);
   }
 
-  lockScalingDown() {
-    this.minDimensionSize = this.size;
-  }
-
-  unlockScalingDown() {
-    this.minDimensionSize = { width: 0, height: 0 };
-  }
-
   static getBoundingNodesRect(nodes, margin) {
     if (nodes && nodes.length > 0) {
       const boundingBox = Polygon.boundingBoxFromPolygons(
@@ -107,28 +90,20 @@ export default class RadicalComposedNodeModel extends NodeModel {
   fitDimensions() {
     const boundedRect = RadicalComposedNodeModel.getBoundingNodesRect(
       Array.from(this.nodes.values()),
-      { top: 40, bottom: 40, left: 40, right: 40 }
+      { top: 50, bottom: 50, left: 50, right: 50 }
     );
     if (boundedRect.getWidth() > 0) {
-      this.size.width = boundedRect.points[1].x - boundedRect.points[0].x;
-      this.size.height = boundedRect.points[2].y - boundedRect.points[0].y;
-      this.width = this.size.width;
-      this.height = this.size.height;
+      this.width = boundedRect.points[1].x - boundedRect.points[0].x;
+      this.height = boundedRect.points[2].y - boundedRect.points[0].y;
 
       // +1 issue with the update width/height only
       this.setPositionAsParent(
         boundedRect.points[0].x + 1,
         boundedRect.points[0].y
       );
-
-      this.lockScalingDown();
     } else {
-      this.size.width = 150;
-      this.size.height = 75;
       this.width = 150;
       this.height = 75;
-      // this.setPositionAsParent(this.getBoundingBox().getLeftMiddle() - 75, this.getBoundingBox().getTopMiddle() - 35)
-      this.lockScalingDown();
     }
     this.updateLinks();
     if (this.parentNode) {
@@ -174,14 +149,12 @@ export default class RadicalComposedNodeModel extends NodeModel {
     return new Rectangle(
       this.getPosition().x,
       this.getPosition().y,
-      this.size.width,
-      this.size.height
+      this.width,
+      this.height
     );
   }
 
   setSize(width, height) {
-    this.size.width = width;
-    this.size.height = height;
     this.width = width;
     this.height = height;
   }

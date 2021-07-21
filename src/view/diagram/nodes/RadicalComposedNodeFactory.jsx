@@ -59,8 +59,8 @@ const Widget = ({ model, engine, onNodeExpanded, onNodeCollapsed }) => (
   >
     <Icon
       radicalType={model.options.radical_type}
-      width={model.size.width}
-      height={model.size.height}
+      width={model.width}
+      height={model.height}
       isSelected={model.isSelected()}
       isExpanded={model.options.isExpanded}
     />
@@ -87,8 +87,8 @@ export default class RadicalComposedNodeFactory extends AbstractReactFactory {
         model={event.model}
         engine={this.engine}
         isDragged={model.isDragged}
-        width={model.size.width}
-        height={model.size.height}
+        width={model.width}
+        height={model.height}
         isSelected={model.isSelected()}
         onNodeExpanded={this.onNodeExpanded}
         onNodeCollapsed={this.onNodeCollapsed}

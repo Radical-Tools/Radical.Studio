@@ -168,10 +168,19 @@ const RadicalCanvasWidget = ({
         clientX: monitor.getClientOffset().x,
         clientY: monitor.getClientOffset().y,
       });
+
+      const node = engine.getNodeAtPosition(
+        monitor.getClientOffset().x,
+        monitor.getClientOffset().y
+      );
       if (item.type === MODEL_DROP_TYPE) {
         onAddObjectToView(item.id, { ...dropPoint });
       } else {
-        onAddMetamodelObjectToView(item.metamodelType, { ...dropPoint });
+        onAddMetamodelObjectToView(
+          item.metamodelType,
+          { ...dropPoint },
+          node ? node.getID() : undefined
+        );
       }
     },
   }));

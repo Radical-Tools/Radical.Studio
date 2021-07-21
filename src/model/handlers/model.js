@@ -27,28 +27,6 @@ export const initialState = {
   metamodel: undefined,
 };
 
-export const addObject = (state, payload) => {
-  const id = payload.id ? payload.id : uuidv4();
-
-  const object = {
-    name: payload.name ? payload.name : `New ${payload.type}`,
-    type: payload.type,
-    attributes: payload.attributes ? { ...payload.attributes } : {},
-    children: [],
-  };
-
-  if (has(id, state.model.objects)) {
-    throw createError('object already exist', 'Add Object Error');
-  }
-
-  try {
-    validateObject(state.metamodel, state.model, object);
-    return set(['model', 'objects', id], object, state);
-  } catch (error) {
-    throw createError(error.message, 'Add Object Error');
-  }
-};
-
 export const updateItemName = (state, payload) =>
   update(
     ['model', payload.type === 'object' ? 'objects' : 'relations', payload.id],
@@ -171,6 +149,35 @@ export const addRelation = (state, payload) => {
     )(state);
   } catch (error) {
     throw createError(error.message, 'Add Relation Error');
+  }
+};
+
+export const addObject = (state, payload) => {
+  const id = payload.id ? payload.id : uuidv4();
+
+  const object = {
+    name: payload.name ? payload.name : `New ${payload.type}`,
+    type: payload.type,
+    attributes: payload.attributes ? { ...payload.attributes } : {},
+    children: [],
+  };
+
+  if (has(id, state.model.objects)) {
+    throw createError('object already exist', 'Add Object Error');
+  }
+
+  try {
+    validateObject(state.metamodel, state.model, object);
+    let newState = set(['model', 'objects', id], object, state);
+    if (payload.nodeInPlace)
+      newState = addRelation(newState, {
+        type: 'Includes',
+        source: payload.nodeInPlace,
+        target: id,
+      });
+    return newState;
+  } catch (error) {
+    throw createError(error.message, 'Add Object Error');
   }
 };
 

@@ -162,10 +162,10 @@ export const viewModelMetamodelObjectAdd = (
   viewId,
   type,
   position,
-  dimension
+  nodeInPlace
 ) => ({
   type: VIEWMODEL_METAMODELOBJECT_ADD,
-  payload: { viewId, id: uuidv4(), type, position, dimension },
+  payload: { viewId, id: uuidv4(), type, position, nodeInPlace },
 });
 
 export const viewModelNodeRemove = (id) => ({

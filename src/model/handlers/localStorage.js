@@ -21,9 +21,15 @@ export const load = (state) => {
  * Subscribes to store and persists current state in localStorage
  * @param {Object} store ReduxStore instance
  */
-const subscribeToStoreChanges = (store) => {
+const subscribeToStoreChanges = (store, selector) => {
   const { throttleInterval } = config.operations.save;
-  store.subscribe(throttle(() => save(store.getState()), throttleInterval));
+  store.subscribe(
+    throttle(() => {
+      if (selector === undefined || selector(store.getState())) {
+        save(store.getState());
+      }
+    }, throttleInterval)
+  );
 };
 
 export default subscribeToStoreChanges;

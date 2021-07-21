@@ -10,5 +10,5 @@ const store = configureStore({
   },
 });
 
-subscribeToStoreChanges(store);
+subscribeToStoreChanges(store, (state) => !state.layout.showHomeDialog);
 export default store;

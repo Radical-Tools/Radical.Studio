@@ -9,12 +9,6 @@ export default class RadicalDiagramEngine extends DiagramEngine {
     if (controlEl) {
       return { type: 'controlEl' };
     }
-
-    const [element] = targets.filter((el) => el.matches('.node[data-nodeid]'));
-    if (element) {
-      return this.getModel().getNode(element.getAttribute('data-nodeid'));
-    }
-
     return super.getMouseElement(event);
   }
 

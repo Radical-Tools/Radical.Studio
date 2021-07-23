@@ -1,12 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
-import EditAttributesRoundedIcon from '@material-ui/icons/EditAttributesRounded';
-import ClassRoundedIcon from '@material-ui/icons/ClassRounded';
 import { useDrag } from 'react-dnd';
-import CommonForm from '../common/CommonForm';
-import AccordionItem from '../common/AccordionItem';
+
 import { METAMODEL_DROP_TYPE } from '../../diagram/consts';
 
 const ToolbarItem = ({ name, id }) => {
@@ -23,7 +20,6 @@ const ToolbarItem = ({ name, id }) => {
         color="primary"
         data-testid={`metamodel-toolbar-item-${id}`}
         label={name}
-        size="small"
         ref={drag}
       />
     </Box>
@@ -31,52 +27,20 @@ const ToolbarItem = ({ name, id }) => {
 };
 
 const MetamodelToolbarWidget = (props) => {
-  const { sandbox, upsertItem, objectClasses } = props;
-
-  const [expanded, setExpanded] = useState('Toolbar');
-
-  const handleChangeCallback = useCallback(
-    (panel) => (event, newExpanded) => setExpanded(newExpanded ? panel : false),
-    [setExpanded]
-  );
+  const { objectClasses } = props;
 
   return (
     <div>
-      <AccordionItem
-        name="Toolbar"
-        logoRender={<ClassRoundedIcon />}
-        onClick={handleChangeCallback}
-        expanded={expanded === 'Toolbar'}
-      >
-        <Box display="flex" justifyContent="center" flexWrap="wrap">
-          {objectClasses.map((item) => (
-            <ToolbarItem key={item.id} id={item.id} name={item.name} />
-          ))}
-        </Box>
-      </AccordionItem>
-      <AccordionItem
-        name="Properties"
-        logoRender={<EditAttributesRoundedIcon />}
-        onClick={handleChangeCallback}
-        expanded={expanded === 'Properties' || sandbox.data !== undefined}
-        disabled={sandbox.data === undefined}
-      >
-        {sandbox.data && (
-          <CommonForm
-            uiSchema={sandbox.ui}
-            onSubmit={upsertItem}
-            dataSchema={sandbox.data}
-            testId="edit-attributes"
-          />
-        )}
-      </AccordionItem>
+      <Box display="flex" justifyContent="center" flexWrap="wrap">
+        {objectClasses.map((item) => (
+          <ToolbarItem key={item.id} id={item.id} name={item.name} />
+        ))}
+      </Box>
     </div>
   );
 };
 
 MetamodelToolbarWidget.propTypes = {
-  sandbox: PropTypes.objectOf(PropTypes.any).isRequired,
-  upsertItem: PropTypes.func.isRequired,
   objectClasses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 ToolbarItem.propTypes = {

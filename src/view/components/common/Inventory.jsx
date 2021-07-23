@@ -8,6 +8,7 @@ import BackspaceRoundedIcon from '@material-ui/icons/BackspaceRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
+import CustomToolbar from './InventoryToolbar';
 
 const useInventoryStyle = makeStyles(() => ({
   paper: {
@@ -20,7 +21,8 @@ const Inventory = ({
   data,
   onRemoveItem,
   onEditItem,
-  onAddItemToView,
+  onAddItem,
+  onCreateItem,
   customRowFactory,
   columns,
 }) => {
@@ -29,10 +31,8 @@ const Inventory = ({
     [onRemoveItem]
   );
   const editItemCallback = useCallback((id) => onEditItem(id), [onEditItem]);
-  const addToViewCallback = useCallback(
-    (id) => onAddItemToView(id),
-    [onAddItemToView]
-  );
+  const addToViewCallback = useCallback((id) => onAddItem(id), [onAddItem]);
+  const createItemCallback = useCallback(() => onCreateItem(), [onCreateItem]);
 
   const options = {
     filterType: 'checkbox',
@@ -43,6 +43,7 @@ const Inventory = ({
     rowsPerPage: 10,
     rowsPerPageOptions: [10],
     customRowRender: customRowFactory(editItemCallback),
+    customToolbar: () => <CustomToolbar onClickClb={createItemCallback} />,
   };
 
   return (
@@ -60,7 +61,7 @@ const Inventory = ({
               filter: false,
               customBodyRender: (value, tableMeta) => (
                 <Box pr={1}>
-                  {onAddItemToView && (
+                  {onAddItem && (
                     <Tooltip title="add to view">
                       <IconButton
                         size="small"
@@ -95,7 +96,8 @@ const Inventory = ({
 };
 
 Inventory.defaultProps = {
-  onAddItemToView: undefined,
+  onAddItem: undefined,
+  onCreateItem: undefined,
 };
 
 Inventory.propTypes = {
@@ -103,7 +105,8 @@ Inventory.propTypes = {
   columns: PropTypes.array.isRequired, // eslint-disable-line
   onRemoveItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired,
-  onAddItemToView: PropTypes.func,
+  onAddItem: PropTypes.func,
+  onCreateItem: PropTypes.func,
   customRowFactory: PropTypes.func.isRequired,
 };
 

@@ -1,6 +1,7 @@
-import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 export const transform = (viewModel) => {
   const data = [];
@@ -28,7 +29,7 @@ export const columns = [
     name: 'name',
     label: 'Name',
     options: {
-      display: false,
+      display: true,
     },
   },
 ];
@@ -51,12 +52,11 @@ const ViewsInventoryRow = (props) => {
   return (
     <tr>
       <td>
-        <Chip
-          color="primary"
-          label={name}
-          size="small"
-          onClick={() => onSelected(id)}
-        />
+        <Box fontWeight="fontWeightBold" style={{ paddingLeft: '10px' }}>
+          <Typography variant="OVERLINE" onClick={() => onSelected(id)}>
+            {name}
+          </Typography>
+        </Box>
       </td>
       <td style={{ textAlign: 'right' }}>{actions}</td>
     </tr>

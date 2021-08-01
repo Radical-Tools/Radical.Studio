@@ -13,9 +13,8 @@ const metamodels = [
   },
 ];
 describe('HomeDialog', () => {
-  it('renders metamodels', async () => {
+  it('renders default C4 metamodel in form', async () => {
     render(<HomeDialog metamodels={metamodels} show />);
     await waitFor(() => expect(screen.getByText('C4')).toBeInTheDocument());
-    await waitFor(() => expect(screen.getByText('Togaf')).toBeInTheDocument());
   });
 });

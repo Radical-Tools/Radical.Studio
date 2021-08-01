@@ -20,7 +20,6 @@ import {
   MODEL_ITEM_EDIT,
   MODEL_ITEM_CREATE,
   MODEL_ITEM_UPSERT,
-  MODEL_METAMODEL_SELECT,
   VIEWMODEL_VIEW_ADD,
   VIEWMODEL_VIEW_CREATE,
   VIEWMODEL_VIEW_REMOVE,
@@ -133,10 +132,12 @@ export const modelItemUpsert = (type, item) => ({
   payload: { type, item },
 });
 
-export const modelMetamodelSelect = (metamodelId) => ({
-  type: MODEL_METAMODEL_SELECT,
-  payload: metamodelId,
-});
+export const initProject = createAction('project/init', (data) => ({
+  payload: {
+    ...data,
+    version: process.env.REACT_APP_VERSION,
+  },
+}));
 
 export const viewModelViewAdd = (name, tags) => ({
   type: VIEWMODEL_VIEW_ADD,

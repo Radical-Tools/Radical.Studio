@@ -19,7 +19,7 @@ const MainLayout = ({
   onToggleDrawer,
   showDrawer,
   showHomeDialog,
-  onSelectMetamodel,
+  onSubmitProjectForm,
   onLoadStorage,
   onLoadFile,
   onSave,
@@ -50,7 +50,7 @@ const MainLayout = ({
     <HomeDialog
       show={showHomeDialog}
       metamodels={metamodels}
-      onSelectMetamodel={onSelectMetamodel}
+      onSubmitProjectForm={onSubmitProjectForm}
       onLoadStorage={onLoadStorage}
       onLoadFile={onLoadFile}
     />
@@ -71,7 +71,7 @@ MainLayout.propTypes = {
   onMinimizeWidget: PropTypes.func.isRequired,
   onAddWidget: PropTypes.func.isRequired,
   onToggleDrawer: PropTypes.func.isRequired,
-  onSelectMetamodel: PropTypes.func.isRequired,
+  onSubmitProjectForm: PropTypes.func.isRequired,
   onLoadStorage: PropTypes.func.isRequired,
   onLoadFile: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,

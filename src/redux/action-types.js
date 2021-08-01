@@ -17,7 +17,6 @@ export const MODEL_RELATION_UPDATE = 'model/relation/update';
 export const MODEL_ITEM_CREATE = 'model/item/create';
 export const MODEL_ITEM_EDIT = 'model/item/edit';
 export const MODEL_ITEM_UPSERT = 'model/item/upsert';
-export const MODEL_METAMODEL_SELECT = 'model/metamodel/select';
 export const MODEL_OBJECT_DETACH = 'model/object/detach';
 export const VIEWMODEL_VIEW_ADD = 'viewmodel/view/add';
 export const VIEWMODEL_VIEW_REMOVE = 'viewmodel/view/remove';

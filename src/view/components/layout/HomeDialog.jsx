@@ -87,7 +87,7 @@ const HomeDialog = ({
         </Card>
       </Box>
       <Box boxShadow={3} m={2}>
-        <Card>
+        <Card elevation={0}>
           <CardHeader
             title="To create a new model"
             subheader="select one of the predefined metamodels"

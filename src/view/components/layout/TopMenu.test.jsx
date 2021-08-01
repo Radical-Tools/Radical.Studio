@@ -18,7 +18,6 @@ describe.skip('Theme', () => {
   });
 });
 
-
 describe('TopMenu', () => {
   it('renders app name', async () => {
     render(<TopMenu windowDimensions={{ height: 768 }} />);

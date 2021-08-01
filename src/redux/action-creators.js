@@ -138,9 +138,9 @@ export const modelMetamodelSelect = (metamodelId) => ({
   payload: metamodelId,
 });
 
-export const viewModelViewAdd = (name, tags) => ({
+export const viewModelViewAdd = (name, id, tags) => ({
   type: VIEWMODEL_VIEW_ADD,
-  payload: { name, tags },
+  payload: { name, id, tags },
 });
 
 export const viewModelViewRemove = (id) => ({

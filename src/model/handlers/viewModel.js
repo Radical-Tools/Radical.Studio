@@ -131,7 +131,7 @@ export const updateCurrentView = (state) => {
   return newState;
 };
 export const addView = (state, payload) => {
-  const id = uuidv4();
+  const id = payload.id ? payload.id : uuidv4();
   return set(
     ['viewModel', 'views', id],
     {

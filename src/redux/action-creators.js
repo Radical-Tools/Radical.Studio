@@ -1,6 +1,7 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { save } from 'save-file';
 import { v4 as uuidv4 } from 'uuid';
+import { getStorageCombinedKey } from '../model/handlers/localStorage';
 import {
   LAYOUT_GRID_SET,
   LAYOUT_WIDGET_ADD,
@@ -20,7 +21,6 @@ import {
   MODEL_ITEM_EDIT,
   MODEL_ITEM_CREATE,
   MODEL_ITEM_UPSERT,
-  MODEL_METAMODEL_SELECT,
   VIEWMODEL_VIEW_ADD,
   VIEWMODEL_VIEW_CREATE,
   VIEWMODEL_VIEW_REMOVE,
@@ -42,7 +42,6 @@ import {
   MODEL_OBJECT_DETACH,
   NOTIFICATION_ADD,
   NOTIFICATION_REMOVE,
-  STATE_LOAD_STORAGE,
   STATE_LOAD,
 } from './action-types';
 
@@ -133,10 +132,12 @@ export const modelItemUpsert = (type, item) => ({
   payload: { type, item },
 });
 
-export const modelMetamodelSelect = (metamodelId) => ({
-  type: MODEL_METAMODEL_SELECT,
-  payload: metamodelId,
-});
+export const initProject = createAction('project/init', (data) => ({
+  payload: {
+    ...data,
+    version: process.env.REACT_APP_VERSION,
+  },
+}));
 
 export const viewModelViewAdd = (name, tags) => ({
   type: VIEWMODEL_VIEW_ADD,
@@ -243,8 +244,11 @@ export const notificationRemove = (id) => ({
   payload: { id },
 });
 
-export const loadStateStorage = () => ({
-  type: STATE_LOAD_STORAGE,
+export const loadStateStorage = createAction('state/load/storage', (name) => {
+  const serializedState = localStorage.getItem(getStorageCombinedKey(name));
+  return {
+    payload: serializedState ? JSON.parse(serializedState) : undefined,
+  };
 });
 
 export const stateLoad = (state) => ({

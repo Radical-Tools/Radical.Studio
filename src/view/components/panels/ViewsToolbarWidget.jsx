@@ -1,43 +1,44 @@
 import React, { useCallback } from 'react';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import * as viewsInventory from '../helpers/viewsInventoryHelper';
-import Inventory from '../common/Inventory';
+import '@inovua/reactdatagrid-community/index.css';
+import { Tooltip } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
+import ViewGridWidget from '../widgets/ViewGridWidget';
 
 const ViewsToolbarWidget = (props) => {
-  const { viewModel, onEditView, onRemoveView, onCreateView } = props;
+  const { viewModel, onRemoveView, onUpsertItem, onViewActivate } = props;
 
-  const onEditViewCallback = useCallback((id) => onEditView(id), [onEditView]);
-
-  const onRemoveViewCallback = useCallback(
-    (id) => onRemoveView(id),
-    [onRemoveView]
+  const onUpsertViewCallback = useCallback(
+    () => onUpsertItem({ name: 'New View' }),
+    [onUpsertItem]
   );
 
-  const onCrateViewCallback = useCallback(() => onCreateView(), [onCreateView]);
-
   return (
-    <div>
-      <Box p={1}>
-        <Inventory
-          data={viewsInventory.transform(viewModel)}
-          onRemoveItem={onRemoveViewCallback}
-          onEditItem={onEditViewCallback}
-          onCreateItem={onCrateViewCallback}
-          customRowFactory={viewsInventory.createCustomRow}
-          columns={viewsInventory.columns}
-        />
-      </Box>
-    </div>
+    <Box p={1} style={{ height: '100%' }}>
+      <ViewGridWidget
+        viewModel={viewModel}
+        onUpsertItem={onUpsertItem}
+        onRemoveView={onRemoveView}
+        onViewActivate={onViewActivate}
+      />
+      <div style={{ position: 'absolute', top: 50, right: 30 }}>
+        <Tooltip title="Add New View">
+          <IconButton size="small" onClick={onUpsertViewCallback}>
+            <AddCircleOutlineRoundedIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
+    </Box>
   );
 };
 
 ViewsToolbarWidget.propTypes = {
-  model: PropTypes.object.isRequired, // eslint-disable-line
-  viewModel: PropTypes.object.isRequired, // eslint-disable-line
-  onCreateView: PropTypes.func.isRequired,
-  onEditView: PropTypes.func.isRequired,
+  viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
+  onUpsertItem: PropTypes.func.isRequired,
   onRemoveView: PropTypes.func.isRequired,
+  onViewActivate: PropTypes.func.isRequired,
 };
 
 export default React.memo(ViewsToolbarWidget);

@@ -8,7 +8,6 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
-import Switch from '@material-ui/core/Switch';
 import Box from '@material-ui/core/Box';
 import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
@@ -33,8 +32,6 @@ const useMenuButtonStyles = makeStyles((theme) => ({
 }));
 
 const TopMenu = ({
-  isThemeSwitchChecked,
-  onChangeTheme,
   onShowDrawer,
   undoCmd,
   redoCmd,
@@ -72,11 +69,6 @@ const TopMenu = ({
             <IconButton disabled={!isNext} onClick={redoCmd} color="inherit">
               <ArrowForwardIosRoundedIcon />
             </IconButton>
-            <Switch
-              data-testid="theme-switch"
-              checked={isThemeSwitchChecked}
-              onChange={onChangeTheme}
-            />
           </div>
         </Toolbar>
       </AppBar>
@@ -85,8 +77,6 @@ const TopMenu = ({
 };
 
 TopMenu.propTypes = {
-  isThemeSwitchChecked: PropTypes.bool.isRequired,
-  onChangeTheme: PropTypes.func.isRequired,
   onShowDrawer: PropTypes.func.isRequired,
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,

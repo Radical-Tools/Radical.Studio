@@ -44,6 +44,7 @@ export const updateObject = (state, payload) => {
         ...object,
         name: payload.name ? payload.name : object.name,
         attributes: {
+          ...object.attributes,
           ...(payload.attributes &&
           validateObjectAttributes(
             state.metamodel,
@@ -58,6 +59,18 @@ export const updateObject = (state, payload) => {
     );
   } catch (error) {
     throw createError(error.message, 'Update Object Error');
+  }
+};
+
+export const updateObjectAttribute = (state, payload) => {
+  try {
+    return set(
+      ['model', 'objects', payload.id, payload.name],
+      payload.value,
+      state
+    );
+  } catch (error) {
+    throw createError(error.message, 'Update Attribute Error');
   }
 };
 
@@ -189,6 +202,7 @@ export const updateRelation = (state, payload) => {
         ...relation,
         name: payload.name ? payload.name : relation.name,
         attributes: {
+          ...relation.attributes,
           ...(payload.attributes &&
           validateRelationAttributes(
             state.metamodel,

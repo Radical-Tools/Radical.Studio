@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import '@inovua/reactdatagrid-community/index.css';
 import { Tab, Tabs } from '@material-ui/core';
 import WidgetsRoundedIcon from '@material-ui/icons/WidgetsRounded';
 import InsertLinkRoundedIcon from '@material-ui/icons/InsertLinkRounded';

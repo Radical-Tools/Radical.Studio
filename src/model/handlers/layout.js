@@ -35,6 +35,7 @@ export const widgets = {
   },
   canvas: {
     isActive: true,
+    isMaximized: false,
     title: 'Canvas',
     initialDimensions: {
       x: 7,
@@ -47,6 +48,7 @@ export const widgets = {
   },
   metamodel: {
     isActive: true,
+    isMaximized: false,
     title: 'Metamodel',
     initialDimensions: {
       x: 7,

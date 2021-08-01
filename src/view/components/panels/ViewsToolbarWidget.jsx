@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import '@inovua/reactdatagrid-community/index.css';
 import { Tooltip } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';

@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
+import '@inovua/reactdatagrid-community/index.css';
 import PropTypes from 'prop-types';
 
 const getRows = (viewModel) => {

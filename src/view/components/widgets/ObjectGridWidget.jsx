@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
+import '@inovua/reactdatagrid-community/index.css';
 import { useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
 import zipObjectDeep from 'lodash/fp/zipObjectDeep';
@@ -43,7 +44,7 @@ const DraggableCell = ({ value, data }) => {
 };
 
 DraggableCell.propTypes = {
-  value: PropTypes.object.isRequired, // eslint-disable-line
+  value: PropTypes.string.isRequired, // eslint-disable-line
   data: PropTypes.object.isRequired, // eslint-disable-line
 };
 
@@ -89,7 +90,7 @@ const columns = [
     name: 'attributes.technology',
     header: 'Technology',
     minWidth: 50,
-    defaultFlex: 2,
+    defaultFlex: 1,
     editable: () => true,
     defaultVisible: true,
   },

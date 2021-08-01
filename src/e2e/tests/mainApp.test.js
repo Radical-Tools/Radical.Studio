@@ -68,20 +68,6 @@ describe('Basic flow', () => {
         '[data-testid="node-widget-New Component"]'
       );
       expect(component).toBeTruthy();
-      await page.waitForSelector('#common-form-edit-attributes');
-      await page.click('#common-form-edit-attributes_name');
-      await page.keyboard.down('Control');
-      await page.keyboard.press('A');
-      await page.keyboard.up('Control');
-      await page.keyboard.press('Backspace');
-      await page.type('#common-form-edit-attributes_name', 'Radical.Studio');
-      await page.click('#common-form-edit-attributes_name');
-      await page.click('[data-testid=common-form-edit-attributes-submit]');
-      await page.waitForSelector('[data-testid="node-widget-Radical.Studio"]');
-      const renamedComponent = await page.$(
-        '[data-testid="node-widget-Radical.Studio"]'
-      );
-      expect(renamedComponent).toBeTruthy();
     },
     process.env.TIMEOUT
   );

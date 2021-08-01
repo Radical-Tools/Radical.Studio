@@ -1,6 +1,7 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { save } from 'save-file';
 import { v4 as uuidv4 } from 'uuid';
+import { getStorageCombinedKey } from '../model/handlers/localStorage';
 import {
   LAYOUT_GRID_SET,
   LAYOUT_WIDGET_ADD,
@@ -41,7 +42,6 @@ import {
   MODEL_OBJECT_DETACH,
   NOTIFICATION_ADD,
   NOTIFICATION_REMOVE,
-  STATE_LOAD_STORAGE,
   STATE_LOAD,
 } from './action-types';
 
@@ -244,8 +244,11 @@ export const notificationRemove = (id) => ({
   payload: { id },
 });
 
-export const loadStateStorage = () => ({
-  type: STATE_LOAD_STORAGE,
+export const loadStateStorage = createAction('state/load/storage', (name) => {
+  const serializedState = localStorage.getItem(getStorageCombinedKey(name));
+  return {
+    payload: serializedState ? JSON.parse(serializedState) : undefined,
+  };
 });
 
 export const stateLoad = (state) => ({

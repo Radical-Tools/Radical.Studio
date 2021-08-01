@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import { Box, Card, CardContent, CardHeader } from '@material-ui/core';
 import FileReader from '../utils/FileReader';
 import CommonForm from '../common/CommonForm';
+import config from '../../../config/app-config';
 
 const useDialogStyles = makeStyles((theme) => ({
   paper: {
@@ -66,6 +66,25 @@ const projectForm = {
   },
 };
 
+const localStorageForm = {
+  data: {
+    title: 'Local storage',
+    type: 'object',
+    required: ['name'],
+    properties: {
+      name: { type: 'string', title: 'Name' },
+    },
+  },
+  ui: {
+    ui: {
+      name: {
+        'ui:autofocus': false,
+        'ui:emptyValue': '',
+      },
+    },
+  },
+};
+
 const HomeDialog = ({
   show,
   metamodels,
@@ -76,6 +95,10 @@ const HomeDialog = ({
   const onSubmitProjectFormCallback = useCallback(
     (title, data) => onSubmitProjectForm(data),
     [onSubmitProjectForm]
+  );
+  const onSubmitLoadStorageCallback = useCallback(
+    (title, data) => onLoadStorage(data.name),
+    [onLoadStorage]
   );
   return (
     <Dialog
@@ -107,13 +130,22 @@ const HomeDialog = ({
                 />
               </Box>
               <Box m={1}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={onLoadStorage}
-                >
-                  Local Storage
-                </Button>
+                <CommonForm
+                  uiSchema={localStorageForm.ui}
+                  dataSchema={set(
+                    'properties.name.enum',
+                    Object.keys(localStorage)
+                      .filter((key) =>
+                        key.startsWith(config.operations.storageKey)
+                      )
+                      .map((key) =>
+                        key.replace(`${config.operations.storageKey}:`, '')
+                      ),
+                    localStorageForm.data
+                  )}
+                  onSubmit={onSubmitLoadStorageCallback}
+                  testId="local-storage"
+                />
               </Box>
             </CardContent>
           </Card>
@@ -135,7 +167,6 @@ const HomeDialog = ({
                 onSubmit={onSubmitProjectFormCallback}
                 testId="project"
               />
-              {process.env.REACT_APP_VERSION}
             </CardContent>
           </Card>
         </Box>

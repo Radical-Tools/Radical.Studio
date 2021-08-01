@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
   onToggleDrawer: () => dispatch(layoutDrawerToggle()),
   onCloseHomeDialog: () => dispatch(layoutDrawerToggle()),
   onSubmitProjectForm: (data) => dispatch(initProject(data)),
-  onLoadStorage: () => dispatch(loadStateStorage()),
+  onLoadStorage: (name) => dispatch(loadStateStorage(name)),
   onLoadFile: (state) => dispatch(stateLoad(state)),
   onSave: () => dispatch(stateSave()),
 });

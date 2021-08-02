@@ -12,8 +12,6 @@
     "@projectstorm/react-canvas-core": "6.6.0",
     "@projectstorm/react-diagrams": "6.6.0",
     "@reduxjs/toolkit": "1.6.0",
-    "@revolist/revogrid": "3.0.97",
-    "@revolist/revogrid-react": "3.0.52",
     "@rjsf/core": "3.0.0",
     "@rjsf/material-ui": "3.0.0",
     "closest": "0.0.1",

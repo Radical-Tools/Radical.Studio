@@ -49,8 +49,10 @@ describe('Basic flow', () => {
     'Can open C4 model and see default view',
     async () => {
       await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project');
+      await page.waitForSelector('#common-form-project_name');
       await page.type('#common-form-project_name', 'Test project');
+      await page.waitForSelector('[data-testid=common-form-project-submit]');
+      await page.waitFor(500);
       await page.click('[data-testid=common-form-project-submit]');
       await page.waitForSelector('h6[data-testid=view-name]');
       const header = await page.$('h6[data-testid=view-name]');

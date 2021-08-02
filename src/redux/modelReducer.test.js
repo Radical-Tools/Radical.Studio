@@ -6,8 +6,8 @@ import {
   modelRelationRemove,
   modelObjectUpdate,
   modelRelationUpdate,
-  modelMetamodelSelect,
   modelItemUpdateName,
+  initProject,
 } from './action-creators';
 
 import { rootReducer, initialState } from './rootReducer';
@@ -542,8 +542,12 @@ describe('update item name', () => {
 
 describe('select metamodel', () => {
   it('should update the state and hide home dialog', () => {
-    const state = rootReducer(createInitialState(), modelMetamodelSelect('C4'));
+    const state = rootReducer(
+      createInitialState(),
+      initProject({ name: 'Test', metamodel: 'C4' })
+    );
     expect(state.metamodel.id).toEqual('C4');
+    expect(state.project.name).toEqual('Test');
     expect(state.layout.showHomeDialog).toEqual(false);
   });
 });

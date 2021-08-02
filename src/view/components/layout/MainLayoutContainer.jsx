@@ -8,7 +8,7 @@ import {
   layoutWidgetMinimize,
   layoutWidgetRestore,
   loadStateStorage,
-  modelMetamodelSelect,
+  initProject,
   stateLoad,
   stateSave,
   themeChanged,
@@ -34,9 +34,8 @@ const mapDispatchToProps = (dispatch) => ({
   onAddWidget: (widgetId) => dispatch(layoutWidgetAdd(widgetId)),
   onToggleDrawer: () => dispatch(layoutDrawerToggle()),
   onCloseHomeDialog: () => dispatch(layoutDrawerToggle()),
-  onSelectMetamodel: (metamodelId) =>
-    dispatch(modelMetamodelSelect(metamodelId)),
-  onLoadStorage: () => dispatch(loadStateStorage()),
+  onSubmitProjectForm: (data) => dispatch(initProject(data)),
+  onLoadStorage: (name) => dispatch(loadStateStorage(name)),
   onLoadFile: (state) => dispatch(stateLoad(state)),
   onSave: () => dispatch(stateSave()),
 });

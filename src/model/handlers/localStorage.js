@@ -1,20 +1,18 @@
 import throttle from 'lodash/throttle';
 import config from '../../config/app-config';
 
+export const getStorageCombinedKey = (name) =>
+  `${config.operations.storageKey}:${name || ''}`;
 const save = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    const { storageKey } = config.operations;
-    localStorage.setItem(storageKey, serializedState);
+    localStorage.setItem(
+      getStorageCombinedKey(state.project?.name),
+      serializedState
+    );
   } catch (e) {
     throw new Error(`Cannot save state`);
   }
-};
-
-export const load = (state) => {
-  const { storageKey } = config.operations;
-  const serializedState = localStorage.getItem(storageKey);
-  return serializedState ? JSON.parse(serializedState) : state;
 };
 
 /**

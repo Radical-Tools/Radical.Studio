@@ -4,14 +4,10 @@ import * as layout from '../model/handlers/layout';
 import * as theme from '../model/handlers/theme';
 import * as viewModel from '../model/handlers/viewModel';
 import * as notifications from '../model/handlers/notifications';
-import * as localStorage from '../model/handlers/localStorage';
+import * as project from '../model/handlers/project';
 import loadState from '../model/handlers/state';
 import * as actionTypes from './action-types';
-import {
-  notificationAdd,
-  setWindowDimensions,
-  layoutWidgetRestore,
-} from './action-creators';
+import * as actions from './action-creators';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,
@@ -44,8 +40,11 @@ const handlers = {
       : common.editItem(state, payload),
   [actionTypes.MODEL_ITEM_UPSERT]: (state, payload) =>
     viewModel.updateCurrentView(common.upsertItem(state, payload)),
-  [actionTypes.MODEL_METAMODEL_SELECT]: (state, payload) =>
-    model.selectMetamodel(layout.closeHomeDialog(state), payload),
+  [actions.initProject.toString()]: (state, payload) =>
+    project.init(
+      model.selectMetamodel(layout.closeHomeDialog(state), payload.metamodel),
+      payload
+    ),
   [actionTypes.VIEWMODEL_VIEW_ADD]: viewModel.addView,
   [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
   [actionTypes.VIEWMODEL_NODE_ADD]: (state, payload) =>
@@ -93,10 +92,10 @@ const handlers = {
     viewModel.updateCurrentView(model.objectDetach(state, payload)),
   [actionTypes.NOTIFICATION_ADD]: notifications.addNotification,
   [actionTypes.NOTIFICATION_REMOVE]: notifications.removeNotifcation,
-  [actionTypes.STATE_LOAD_STORAGE]: localStorage.load,
+  [actions.loadStateStorage.toString()]: loadState,
   [actionTypes.STATE_LOAD]: loadState,
-  [setWindowDimensions.toString()]: layout.setWindowDimensions,
-  [layoutWidgetRestore.toString()]: layout.performRestore,
+  [actions.setWindowDimensions.toString()]: layout.setWindowDimensions,
+  [actions.layoutWidgetRestore.toString()]: layout.performRestore,
 };
 
 export const initialState = {
@@ -106,6 +105,7 @@ export const initialState = {
   ...viewModel.initialState,
   ...common.initialState,
   ...notifications.initialState,
+  ...project.initialState,
 };
 
 export const rootReducer = (state = initialState, action) => {
@@ -115,7 +115,7 @@ export const rootReducer = (state = initialState, action) => {
     } catch (error) {
       return notifications.addNotification(
         state,
-        notificationAdd(error.message, 'error', error.name).payload
+        actions.notificationAdd(error.message, 'error', error.name).payload
       );
     }
   }

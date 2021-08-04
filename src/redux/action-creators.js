@@ -21,7 +21,6 @@ import {
   MODEL_ITEM_EDIT,
   MODEL_ITEM_CREATE,
   MODEL_ITEM_UPSERT,
-  VIEWMODEL_VIEW_ADD,
   VIEWMODEL_VIEW_CREATE,
   VIEWMODEL_VIEW_REMOVE,
   VIEWMODEL_VIEW_UPDATE,
@@ -129,7 +128,7 @@ export const modelItemEdit = (id, type) => ({
 
 export const modelItemUpsert = (type, item) => ({
   type: MODEL_ITEM_UPSERT,
-  payload: { type, item },
+  payload: { type, item: { ...item, id: item.id ? item.id : uuidv4() } },
 });
 
 export const initProject = createAction('project/init', (data) => ({
@@ -139,10 +138,12 @@ export const initProject = createAction('project/init', (data) => ({
   },
 }));
 
-export const viewModelViewAdd = (name, id, tags) => ({
-  type: VIEWMODEL_VIEW_ADD,
-  payload: { name, id, tags },
-});
+export const viewModelViewAdd = createAction(
+  'viewmodel/view/add',
+  (name, id = uuidv4(), tags) => ({
+    payload: { name, id, tags },
+  })
+);
 
 export const viewModelViewRemove = (id) => ({
   type: VIEWMODEL_VIEW_REMOVE,

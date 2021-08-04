@@ -1,5 +1,6 @@
 import set from 'lodash/fp/set';
 import merge from 'lodash/fp/merge';
+import has from 'lodash/fp/has';
 import transform from 'lodash/fp/transform';
 import { addObject, addRelation, updateObject, updateRelation } from './model';
 import { addView, updateView } from './viewModel';
@@ -23,17 +24,17 @@ export const upsertItem = (state, payload) => {
   let newState = {};
   switch (payload.type) {
     case 'Object':
-      newState = payload.item.id
+      newState = has(payload.item.id, state.model.objects)
         ? updateObject(state, payload.item)
         : addObject(state, payload.item);
       break;
     case 'Relation':
-      newState = payload.item.id
+      newState = has(payload.item.id, state.model.relations)
         ? updateRelation(state, payload.item)
         : addRelation(state, payload.item);
       break;
     case 'View':
-      newState = payload.item.id
+      newState = has(payload.item.id, state.viewModel.views)
         ? updateView(state, payload.item)
         : addView(state, payload.item);
       break;

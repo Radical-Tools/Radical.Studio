@@ -9,7 +9,6 @@ import mergeWith from 'lodash/fp/mergeWith';
 import pick from 'lodash/fp/pick';
 import keys from 'lodash/fp/keys';
 import cloneDeep from 'lodash/fp/cloneDeep';
-import { v4 as uuidv4 } from 'uuid';
 import {
   getNestedChildren,
   updateLinks,
@@ -131,9 +130,8 @@ export const updateCurrentView = (state) => {
   return newState;
 };
 export const addView = (state, payload) => {
-  const id = payload.id ? payload.id : uuidv4();
   return set(
-    ['viewModel', 'views', id],
+    ['viewModel', 'views', payload.id],
     {
       name: payload.name,
       version: '1.0',

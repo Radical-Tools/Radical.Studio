@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs } from '@material-ui/core';
 import WidgetsRoundedIcon from '@material-ui/icons/WidgetsRounded';
@@ -13,16 +13,19 @@ const ModelToolbarWidget = (props) => {
 
   const [tabIndex, setTabIndex] = useState(0);
 
-  const handleTabChange = (event, newValue) => {
-    setTabIndex(newValue);
-  };
+  const handleTabChangeCallback = useCallback(
+    (event, newValue) => {
+      setTabIndex(newValue);
+    },
+    [setTabIndex]
+  );
 
   return (
     <Box p={1} style={{ height: '92%' }}>
       <Box>
         <Tabs
           value={tabIndex}
-          onChange={handleTabChange}
+          onChange={handleTabChangeCallback}
           indicatorColor="primary"
           textColor="primary"
           variant="fullWidth"

@@ -6,7 +6,6 @@ import filter from 'lodash/fp/filter';
 import update from 'lodash/fp/update';
 import has from 'lodash/fp/has';
 import identity from 'lodash/fp/identity';
-import { v4 as uuidv4 } from 'uuid';
 
 import {
   findRelations,
@@ -44,6 +43,7 @@ export const updateObject = (state, payload) => {
         ...object,
         name: payload.name ? payload.name : object.name,
         attributes: {
+          ...object.attributes,
           ...(payload.attributes &&
           validateObjectAttributes(
             state.metamodel,
@@ -58,6 +58,18 @@ export const updateObject = (state, payload) => {
     );
   } catch (error) {
     throw createError(error.message, 'Update Object Error');
+  }
+};
+
+export const updateObjectAttribute = (state, payload) => {
+  try {
+    return set(
+      ['model', 'objects', payload.id, payload.name],
+      payload.value,
+      state
+    );
+  } catch (error) {
+    throw createError(error.message, 'Update Attribute Error');
   }
 };
 
@@ -111,11 +123,9 @@ export const addRelation = (state, payload) => {
           state.model.objects[payload.target].type
         )[0].id;
 
-    const relationId = payload.id ? payload.id : uuidv4();
-
-    const relation = has(relationId, state.model.relations)
+    const relation = has(payload.id, state.model.relations)
       ? {
-          ...state.model.relations[relationId],
+          ...state.model.relations[payload.id],
           target: payload.target,
         }
       : {
@@ -128,13 +138,13 @@ export const addRelation = (state, payload) => {
 
     validateRelation(
       state.metamodel,
-      has(relationId, state.model.relations)
-        ? unset(['relations', relationId], state.model)
+      has(payload.id, state.model.relations)
+        ? unset(['relations', payload.id], state.model)
         : state.model,
       relation
     );
     return flow(
-      set(['model', 'relations', relationId], relation),
+      set(['model', 'relations', payload.id], relation),
       relation.type === 'Includes'
         ? flow(
             update(['model', 'objects', relation.source], (object) =>
@@ -153,8 +163,6 @@ export const addRelation = (state, payload) => {
 };
 
 export const addObject = (state, payload) => {
-  const id = payload.id ? payload.id : uuidv4();
-
   const object = {
     name: payload.name ? payload.name : `New ${payload.type}`,
     type: payload.type,
@@ -162,18 +170,18 @@ export const addObject = (state, payload) => {
     children: [],
   };
 
-  if (has(id, state.model.objects)) {
+  if (has(payload.id, state.model.objects)) {
     throw createError('object already exist', 'Add Object Error');
   }
 
   try {
     validateObject(state.metamodel, state.model, object);
-    let newState = set(['model', 'objects', id], object, state);
+    let newState = set(['model', 'objects', payload.id], object, state);
     if (payload.nodeInPlace)
       newState = addRelation(newState, {
         type: 'Includes',
         source: payload.nodeInPlace,
-        target: id,
+        target: payload.id,
       });
     return newState;
   } catch (error) {
@@ -189,6 +197,7 @@ export const updateRelation = (state, payload) => {
         ...relation,
         name: payload.name ? payload.name : relation.name,
         attributes: {
+          ...relation.attributes,
           ...(payload.attributes &&
           validateRelationAttributes(
             state.metamodel,

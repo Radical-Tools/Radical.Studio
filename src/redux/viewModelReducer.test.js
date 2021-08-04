@@ -129,8 +129,8 @@ const createInitialState = () => ({
 describe('views management', () => {
   it('should add view', () => {
     expect(
-      rootReducer(createInitialState(), viewModelViewAdd('new name')).viewModel
-        .views['View-2'].name
+      rootReducer(createInitialState(), viewModelViewAdd('new name', 'View-5'))
+        .viewModel.views['View-5'].name
     ).toEqual('new name');
   });
 

@@ -130,9 +130,8 @@ export const updateCurrentView = (state) => {
   return newState;
 };
 export const addView = (state, payload) => {
-  const id = `View-${Object.keys(state.viewModel.views).length + 1}`;
   return set(
-    ['viewModel', 'views', id],
+    ['viewModel', 'views', payload.id],
     {
       name: payload.name,
       version: '1.0',

@@ -179,6 +179,7 @@ export const addObject = (state, payload) => {
     let newState = set(['model', 'objects', payload.id], object, state);
     if (payload.nodeInPlace)
       newState = addRelation(newState, {
+        id: payload.id,
         type: 'Includes',
         source: payload.nodeInPlace,
         target: payload.id,

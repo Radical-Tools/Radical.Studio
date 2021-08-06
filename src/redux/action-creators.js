@@ -76,12 +76,12 @@ export const layoutHomeDialogOpen = () => ({
 export const layoutHomeDialogClose = () => ({
   type: LAYOUT_HOME_DIALOG_CLOSE,
 });
-export const modelObjectAdd = (id, type, name, attributes) => ({
+export const modelObjectAdd = (id = uuidv4(), type, name, attributes) => ({
   type: MODEL_OBJECT_ADD,
   payload: { id, type, name, attributes },
 });
 export const modelRelationAdd = (
-  id,
+  id = uuidv4(),
   type,
   name,
   attributes,

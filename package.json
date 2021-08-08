@@ -2,6 +2,7 @@
   "name": "radical-studio-mvp",
   "version": "0.2.0",
   "private": true,
+  "homepage": "https://s3.eu-west-3.amazonaws.com/studio.radical.tools",
   "dependencies": {
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",

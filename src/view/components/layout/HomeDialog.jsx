@@ -118,7 +118,7 @@ const HomeDialog = ({
         <Box p={5} boxShadow={3} m={2}>
           <Card elevation={0}>
             <CardHeader
-              title="To open existing project <test change></test>"
+              title="To open existing project"
               subheader="upload the local file or load the local storage state"
             />
 

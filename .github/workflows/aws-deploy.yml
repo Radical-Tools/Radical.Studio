@@ -1,4 +1,4 @@
-name: Commit Validation
+name: AWS Deploy
 on: push
 
 jobs:

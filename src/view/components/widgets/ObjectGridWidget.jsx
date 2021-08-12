@@ -43,7 +43,6 @@ const DraggableCell = ({ value, data }) => {
   });
   return (
     <div data-testid={getObjectGridName(value)} ref={drag}>
-      {' '}
       {value}
     </div>
   );

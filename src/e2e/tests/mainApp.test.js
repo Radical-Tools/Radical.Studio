@@ -1,10 +1,7 @@
 /* eslint-disable no-console */
 import puppeteer from 'puppeteer';
 import path from 'path';
-import dragAndDrop, {
-  getDataTestIdAttribute,
-  getDataTestIdSelector,
-} from '../helpers';
+import dragAndDrop, { getDataTestIdSelector } from '../helpers';
 import {
   getCanvas,
   getCanvasLink,
@@ -14,7 +11,9 @@ import {
   getFileUploader,
   getFormSubmitButton,
   getMetamodelItem,
+  getModelGridToolbarItem,
   getObjectGridName,
+  getRelationGridItem,
 } from '../../view/getDataTestId';
 
 let browser = null;
@@ -75,6 +74,19 @@ describe('Basic flow', () => {
       expect(await header.evaluate((node) => node.textContent)).toBe(
         'Default View'
       );
+    },
+    process.env.TIMEOUT
+  );
+
+  it(
+    'Create a simple C4 model',
+    async () => {
+      await page.goto(process.env.APP_URL);
+      await page.waitForSelector('#common-form-project_name');
+      await page.type('#common-form-project_name', 'Test project');
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+
       await dragAndDrop(
         page,
         getDataTestIdSelector(getMetamodelItem('Actor')),
@@ -124,11 +136,126 @@ describe('Basic flow', () => {
         )
       );
 
-      let gridItem = await page.waitForSelector(
+      const gridItem = await page.waitForSelector(
         getDataTestIdSelector(getObjectGridName('New Actor'))
       );
       expect(await gridItem.evaluate((node) => node.textContent)).toBe(
-        ' New Actor'
+        'New Actor'
+      );
+    },
+    process.env.TIMEOUT
+  );
+
+  it(
+    'Can change the object name by editing grid item',
+    async () => {
+      await page.goto(process.env.APP_URL);
+      await page.waitForSelector('#common-form-project_name');
+      await page.type('#common-form-project_name', 'Test project');
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Actor')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+
+      const gridItem = await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New Actor'))
+      );
+      expect(await gridItem.evaluate((node) => node.textContent)).toBe(
+        'New Actor'
+      );
+
+      await page.click(getDataTestIdSelector(getObjectGridName('New Actor')));
+      await page.waitForTimeout(10);
+      await page.click(getDataTestIdSelector(getObjectGridName('New Actor')), {
+        clickCount: 2,
+      });
+      await page.keyboard.press('2');
+      await page.keyboard.press('Enter');
+
+      expect(await gridItem.evaluate((node) => node.textContent)).toBe(
+        'New Actor2'
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Actor2'))
+      );
+    },
+    process.env.TIMEOUT
+  );
+
+  it(
+    'Can change the relation name by editing grid item',
+    async () => {
+      await page.goto(process.env.APP_URL);
+      await page.waitForSelector('#common-form-project_name');
+      await page.type('#common-form-project_name', 'Test project');
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Actor')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('System')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 900 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New System'))
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Actor')));
+      await page.click(
+        getDataTestIdSelector(
+          getCanvasNodePossibleRelation('New System', 'Interacts')
+        )
+      );
+
+      await page.click(
+        getDataTestIdSelector(getModelGridToolbarItem('Relations'))
+      );
+      await page.waitForTimeout(100);
+
+      const gridItem = await page.waitForSelector(
+        getDataTestIdSelector(getRelationGridItem('Interacts'))
+      );
+
+      expect(await gridItem.evaluate((node) => node.textContent)).toBe(
+        'Interacts'
+      );
+
+      await page.click(getDataTestIdSelector(getRelationGridItem('Interacts')));
+      await page.waitForTimeout(10);
+      await page.click(
+        getDataTestIdSelector(getRelationGridItem('Interacts')),
+        {
+          clickCount: 2,
+        }
+      );
+      await page.keyboard.press('2');
+      await page.keyboard.press('Enter');
+
+      expect(await gridItem.evaluate((node) => node.textContent)).toBe(
+        'Interacts2'
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts2', 'New Actor', 'New System')
+        )
       );
     },
     process.env.TIMEOUT

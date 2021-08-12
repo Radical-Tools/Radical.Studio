@@ -24,3 +24,6 @@ export const getRelationGridItem = (relationName) =>
 export const getWidgetListItem = (id) => `WidgetList-${id}`;
 
 export const getFormSubmitButton = (Context) => `Form-${Context}`;
+
+export const getModelGridToolbarItem = (TabName) =>
+  `Model-Grid-Tabs-${TabName}`;

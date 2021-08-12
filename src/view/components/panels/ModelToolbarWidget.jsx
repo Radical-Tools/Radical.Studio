@@ -6,6 +6,7 @@ import InsertLinkRoundedIcon from '@material-ui/icons/InsertLinkRounded';
 import Box from '@material-ui/core/Box';
 import ObjectGridWidget from '../widgets/ObjectGridWidget';
 import RelationGridWidget from '../widgets/RelationGridWidget';
+import { getModelGridToolbarItem } from '../../getDataTestId';
 
 const ModelToolbarWidget = (props) => {
   const { model, viewModel, onRemoveObject, onRemoveRelation, onUpsertItem } =
@@ -30,8 +31,16 @@ const ModelToolbarWidget = (props) => {
           textColor="primary"
           variant="fullWidth"
         >
-          <Tab aria-label="Objects" icon={<WidgetsRoundedIcon />} />
-          <Tab aria-label="Relations" icon={<InsertLinkRoundedIcon />} />
+          <Tab
+            data-testid={getModelGridToolbarItem('Objects')}
+            aria-label="Objects"
+            icon={<WidgetsRoundedIcon />}
+          />
+          <Tab
+            data-testid={getModelGridToolbarItem('Relations')}
+            aria-label="Relations"
+            icon={<InsertLinkRoundedIcon />}
+          />
         </Tabs>
       </Box>
       <Box pt={1} style={{ height: '100%' }}>

@@ -17,6 +17,7 @@ import {
   DIAGRAM_NODE_DETACHED,
   DIAGRAM_NODE_EXPANDED,
 } from '../../diagram/consts';
+import { getCanvasNodePossibleRelation } from '../../getDataTestId';
 
 const useStyles = makeStyles(() => ({
   panel: () => ({
@@ -71,6 +72,10 @@ const NodeContextPanel = ({ node }) => {
           <Tooltip key={type} title={`Create a ${type} relation`}>
             <Chip
               key={type}
+              data-testid={getCanvasNodePossibleRelation(
+                node.options.name,
+                type
+              )}
               className="controlEl"
               label={type}
               size="small"

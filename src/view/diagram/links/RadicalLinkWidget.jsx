@@ -2,6 +2,7 @@
 import { DefaultLinkWidget } from '@projectstorm/react-diagrams';
 import * as React from 'react';
 import RadicalLinkSegmentWidget from './RadicalLinkSegmentWidget';
+import { getCanvasLink } from '../../getDataTestId';
 
 const CustomLinkArrowWidget = ({ point, previousPoint, color }) => {
   const angle =
@@ -81,6 +82,11 @@ export default class RadicalLinkWidget extends DefaultLinkWidget {
     }
     return (
       <g
+        data-testid={getCanvasLink(
+          this.props.link.getOptions().name,
+          this.props.link.getSourcePort().getNode().getOptions().name,
+          this.props.link.getTargetPort().getNode().getOptions().name
+        )}
         style={{ strokeDasharray: 7 }}
         data-default-link-test={this.props.link.getOptions().testName}
       >

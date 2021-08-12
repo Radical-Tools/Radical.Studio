@@ -3,6 +3,7 @@ import readery from 'readery';
 import Button from '@material-ui/core/Button';
 import { InputBase } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { getFileUploader } from '../../getDataTestId';
 
 const FileReader = ({
   onChange,
@@ -41,7 +42,7 @@ const FileReader = ({
           type="file"
           hidden
           accept="radical"
-          data-testid="file-uploader"
+          data-testid={getFileUploader()}
         />
       </Button>
     </div>

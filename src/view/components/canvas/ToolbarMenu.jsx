@@ -7,12 +7,13 @@ import ZoomOutMapRoundedIcon from '@material-ui/icons/ZoomOutMapRounded';
 import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
 import Typography from '@material-ui/core/Typography';
 import ViewExportMenu from './ViewExportMenu';
+import { getCanvasViewName } from '../../getDataTestId';
 
 function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
   return (
     <Box display="flex" flexShrink={0} boxShadow={0} height="36px">
       <Box width="100%" ml={1} mt={0.3}>
-        <Typography data-testid="view-name" variant="h6">
+        <Typography data-testid={getCanvasViewName()} variant="h6">
           {name}
         </Typography>
       </Box>

@@ -6,6 +6,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import IconButton from '@material-ui/core/IconButton';
+import { getWidgetListItem } from '../../getDataTestId';
 
 const MenuWidgetListItem = ({ id, isDisabled, title, onAddWidget }) => {
   const addWidgetCallback = useCallback(
@@ -17,7 +18,7 @@ const MenuWidgetListItem = ({ id, isDisabled, title, onAddWidget }) => {
       <ListItemAvatar>
         <Avatar>
           <IconButton
-            data-testid={id}
+            data-testid={getWidgetListItem(id)}
             disabled={isDisabled}
             onClick={addWidgetCallback}
           >

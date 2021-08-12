@@ -10,6 +10,7 @@ import values from 'lodash/fp/values';
 import { getPortStyle } from '../helpers';
 import EditableLabel from '../../components/canvas/EditableLabel';
 import NodeContextPanel from '../../components/canvas/NodeContextPanel';
+import { getCanvasNode } from '../../getDataTestId';
 
 const useStyles = makeStyles({
   smartPort: {
@@ -35,7 +36,7 @@ const RadicalComposedNodeWidget = ({
 }) => {
   const classes = useStyles();
   return (
-    <div data-testid={`node-widget-${name}`}>
+    <div data-testid={getCanvasNode(name)}>
       <div
         style={{
           position: 'relative',

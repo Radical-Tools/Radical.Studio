@@ -1,7 +1,21 @@
 /* eslint-disable no-console */
 import puppeteer from 'puppeteer';
 import path from 'path';
-import dragAndDrop from '../helpers';
+import dragAndDrop, {
+  getDataTestIdAttribute,
+  getDataTestIdSelector,
+} from '../helpers';
+import {
+  getCanvas,
+  getCanvasLink,
+  getCanvasNode,
+  getCanvasNodePossibleRelation,
+  getCanvasViewName,
+  getFileUploader,
+  getFormSubmitButton,
+  getMetamodelItem,
+  getObjectGridName,
+} from '../../view/getDataTestId';
 
 let browser = null;
 let page = null;
@@ -51,28 +65,75 @@ describe('Basic flow', () => {
       await page.goto(process.env.APP_URL);
       await page.waitForSelector('#common-form-project_name');
       await page.type('#common-form-project_name', 'Test project');
-      await page.waitForSelector('[data-testid=common-form-project-submit]');
-      await page.waitFor(500);
-      await page.click('[data-testid=common-form-project-submit]');
-      await page.waitForSelector('h6[data-testid=view-name]');
-      const header = await page.$('h6[data-testid=view-name]');
+      await page.waitForSelector(
+        getDataTestIdSelector(getFormSubmitButton('project'))
+      );
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+      await page.waitForSelector(getDataTestIdSelector(getCanvasViewName()));
+      const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
       expect(await header.evaluate((node) => node.textContent)).toBe(
         'Default View'
       );
       await dragAndDrop(
         page,
-        '[data-testid=metamodel-toolbar-item-Component]',
-        '[data-testid=radical-canvas]',
+        getDataTestIdSelector(getMetamodelItem('Actor')),
+        getDataTestIdSelector(getCanvas()),
         { x: 500, y: 500 }
       );
-      await page.waitForSelector('[data-testid="node-widget-New Component"]');
-      const component = await page.$(
-        '[data-testid="node-widget-New Component"]'
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Actor'))
       );
-      expect(component).toBeTruthy();
+      await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New Actor'))
+      );
+
+      const actor = await page.$(
+        getDataTestIdSelector(getCanvasNode('New Actor'))
+      );
+      expect(actor).toBeTruthy();
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('System')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 900 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New System'))
+      );
+
+      const system = await page.$(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+      expect(system).toBeTruthy();
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Actor')));
+      await page.click(
+        getDataTestIdSelector(
+          getCanvasNodePossibleRelation('New System', 'Interacts')
+        )
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New System')
+        )
+      );
+
+      let gridItem = await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New Actor'))
+      );
+      expect(await gridItem.evaluate((node) => node.textContent)).toBe(
+        ' New Actor'
+      );
     },
     process.env.TIMEOUT
   );
+
   it(
     'Can open file and see view',
     async () => {
@@ -82,12 +143,12 @@ describe('Basic flow', () => {
       );
       await page.goto(process.env.APP_URL);
       const loader = await page.waitForSelector(
-        'div[data-testid=file-uploader]'
+        getDataTestIdSelector(getFileUploader())
       );
       const elementHandle = await loader.$('input[type=file]');
       await elementHandle.uploadFile(filePath);
-      await page.waitForSelector('h6[data-testid=view-name]');
-      const header = await page.$('h6[data-testid=view-name]');
+      await page.waitForSelector(getDataTestIdSelector(getCanvasViewName()));
+      const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
       expect(await header.evaluate((node) => node.textContent)).toBe(
         'Test view'
       );

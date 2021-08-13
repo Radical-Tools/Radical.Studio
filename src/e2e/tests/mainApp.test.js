@@ -455,6 +455,87 @@ describe('Basic flow', () => {
   );
 
   it(
+    'Remove a view node and should update the target to parent node',
+    async () => {
+      await page.goto(process.env.APP_URL);
+      await page.waitForSelector('#common-form-project_name');
+      await page.type('#common-form-project_name', 'Test project');
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Actor')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Actor'))
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('System')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 700, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Container')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 700, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Container'))
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Actor')));
+      await page.click(
+        getDataTestIdSelector(
+          getCanvasNodePossibleRelation('New Container', 'Interacts')
+        )
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New Container')
+        )
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Container')));
+
+      await page.click(
+        getDataTestIdSelector(getCanvasNodeRemoveButton('New Container'))
+      );
+
+      await page.waitForTimeout(100);
+
+      await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New Container'))
+      );
+
+      const canvasNode = await page.$(
+        getDataTestIdSelector(getCanvasNode('New Container'))
+      );
+
+      if (canvasNode) {
+        throw new Error('New Container Node still visible');
+      }
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New System')
+        )
+      );
+    },
+    process.env.TIMEOUT
+  );
+
+  it(
     'Can open file and see view',
     async () => {
       const filePath = path.relative(

@@ -6,7 +6,9 @@ import {
   getCanvas,
   getCanvasLink,
   getCanvasNode,
+  getCanvasNodeDeleteButton,
   getCanvasNodePossibleRelation,
+  getCanvasNodeRemoveButton,
   getCanvasViewName,
   getFileUploader,
   getFormSubmitButton,
@@ -147,6 +149,61 @@ describe('Basic flow', () => {
   );
 
   it(
+    'Create a nested object by drag & drop',
+    async () => {
+      await page.goto(process.env.APP_URL);
+      await page.waitForSelector('#common-form-project_name');
+      await page.type('#common-form-project_name', 'Test project');
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('System')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Container')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Container'))
+      );
+
+      const containerNode = await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New Container'))
+      );
+      expect(await containerNode.evaluate((node) => node.textContent)).toBe(
+        'New Container'
+      );
+
+      await page.click(
+        getDataTestIdSelector(getModelGridToolbarItem('Relations'))
+      );
+      await page.waitForTimeout(100);
+
+      const gridItem = await page.waitForSelector(
+        getDataTestIdSelector(getRelationGridItem('Includes'))
+      );
+
+      expect(await gridItem.evaluate((node) => node.textContent)).toBe(
+        'Includes'
+      );
+    },
+
+    process.env.TIMEOUT
+  );
+
+  it(
     'Can change the object name by editing grid item',
     async () => {
       await page.goto(process.env.APP_URL);
@@ -257,6 +314,142 @@ describe('Basic flow', () => {
           getCanvasLink('Interacts2', 'New Actor', 'New System')
         )
       );
+    },
+    process.env.TIMEOUT
+  );
+
+  it(
+    'Hide a canvas node',
+    async () => {
+      await page.goto(process.env.APP_URL);
+      await page.waitForSelector('#common-form-project_name');
+      await page.type('#common-form-project_name', 'Test project');
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Actor')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Actor'))
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('System')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 700, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Actor')));
+      await page.click(
+        getDataTestIdSelector(
+          getCanvasNodePossibleRelation('New System', 'Interacts')
+        )
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New System')
+        )
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New System')));
+
+      await page.click(
+        getDataTestIdSelector(getCanvasNodeRemoveButton('New System'))
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New System'))
+      );
+
+      await page.waitForTimeout(100);
+
+      const linkItem = await page.$(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New System')
+        )
+      );
+
+      if (linkItem) {
+        throw new Error('Link is visible on the canvas');
+      }
+    },
+    process.env.TIMEOUT
+  );
+
+  it(
+    'Remove a model node from the canvas node toolbar',
+    async () => {
+      await page.goto(process.env.APP_URL);
+      await page.waitForSelector('#common-form-project_name');
+      await page.type('#common-form-project_name', 'Test project');
+      await page.waitForTimeout(100);
+      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Actor')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Actor'))
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('System')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 700, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Actor')));
+      await page.click(
+        getDataTestIdSelector(
+          getCanvasNodePossibleRelation('New System', 'Interacts')
+        )
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New System')
+        )
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New System')));
+
+      await page.click(
+        getDataTestIdSelector(getCanvasNodeDeleteButton('New System'))
+      );
+
+      await page.waitForTimeout(100);
+
+      const canvasNode = await page.$(
+        getDataTestIdSelector(getObjectGridName('New System'))
+      );
+
+      if (canvasNode) {
+        throw new Error('New System Node still visible');
+      }
+
+      const gridNode = await page.$(
+        getDataTestIdSelector(getObjectGridName('New System'))
+      );
+
+      if (gridNode) {
+        throw new Error('New System Grid Item still visible');
+      }
     },
     process.env.TIMEOUT
   );

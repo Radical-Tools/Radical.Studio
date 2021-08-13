@@ -12,6 +12,18 @@ export const getCanvasNode = (nodeName) => `Canvas-Node-${nodeName}`;
 export const getCanvasNodePossibleRelation = (nodeName, relationName) =>
   `Canvas-Node-${nodeName}-Toolbar-PossibleRelation-${relationName}`;
 
+export const getCanvasNodeRemoveButton = (nodeName) =>
+  `Canvas-Node-${nodeName}-Toolbar-RemoveButton`;
+
+export const getCanvasNodeExpandButton = (nodeName) =>
+  `Canvas-Node-${nodeName}-Toolbar-ExpandButton`;
+
+export const getCanvasNodeCollapseButton = (nodeName) =>
+  `Canvas-Node-${nodeName}-Toolbar-CollapseButton`;
+
+export const getCanvasNodeDeleteButton = (nodeName) =>
+  `Canvas-Node-${nodeName}-Toolbar-DeleteButton`;
+
 export const getCanvasLink = (relationName, sourceName, targetName) =>
   `Canvas-Link-${relationName}-Source-${sourceName}-Target-${targetName}`;
 

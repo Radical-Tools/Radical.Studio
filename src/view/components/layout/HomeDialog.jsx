@@ -11,8 +11,8 @@ import Slide from '@material-ui/core/Slide';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
-import SettingsBackupRestoreRoundedIcon from '@material-ui/icons/SettingsBackupRestoreRounded';
 import KeyboardReturnRoundedIcon from '@material-ui/icons/KeyboardReturnRounded';
+import WidgetsIcon from '@material-ui/icons/Widgets';
 import Box from '@material-ui/core/Box';
 import { Tooltip } from '@material-ui/core';
 import FileReader from '../utils/FileReader';
@@ -119,9 +119,17 @@ const HomeDialog = ({
     >
       <AppBar classes={useAppBarStyles()}>
         <Toolbar>
-          <Typography variant="h6" classes={useTitleStyles()}>
-            Radical Studio - Wizard
-          </Typography>
+          <WidgetsIcon />
+          <Box display="flex" alignItems="flex-end">
+            <Box>
+              <Typography variant="h6" classes={useTitleStyles()}>
+                Radical.Studio
+              </Typography>
+            </Box>
+            <Box ml={0.5}>
+              <Typography variant="caption">v0.1</Typography>
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
       {page === 'Initial' && (
@@ -132,7 +140,9 @@ const HomeDialog = ({
           margin={30}
         >
           <Box padding={3}>
-            <Tooltip title={<Typography variant="h6">Create</Typography>}>
+            <Tooltip
+              title={<Typography variant="h6">Create A New Project</Typography>}
+            >
               <IconButton
                 variant="contained"
                 color="primary"
@@ -144,7 +154,9 @@ const HomeDialog = ({
             </Tooltip>
           </Box>
           <Box padding={3}>
-            <Tooltip title={<Typography variant="h6">Load</Typography>}>
+            <Tooltip
+              title={<Typography variant="h6">Open From File</Typography>}
+            >
               <IconButton
                 variant="contained"
                 color="primary"
@@ -160,19 +172,11 @@ const HomeDialog = ({
             </Tooltip>
           </Box>
           <Box padding={3}>
-            <Tooltip title={<Typography variant="h6">Restore Last</Typography>}>
-              <IconButton
-                variant="contained"
-                color="primary"
-                data-testid={getWizardItemButton('RestoreLast')}
-                onClick={() => onSubmitLoadStorageCallback(undefined, 'Nowy')}
-              >
-                <SettingsBackupRestoreRoundedIcon style={{ fontSize: 120 }} />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box padding={3}>
-            <Tooltip title={<Typography variant="h6">Restore Any</Typography>}>
+            <Tooltip
+              title={
+                <Typography variant="h6">Open From Local Storage</Typography>
+              }
+            >
               <IconButton
                 variant="contained"
                 color="primary"

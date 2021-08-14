@@ -7,7 +7,7 @@ import MaterialDrawer from '@material-ui/core/Drawer';
 import toPairs from 'lodash/fp/toPairs';
 import ListItem from '@material-ui/core/ListItem';
 import SaveAltRoundedIcon from '@material-ui/icons/SaveAltRounded';
-import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
+import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
@@ -35,7 +35,9 @@ const Drawer = ({
     >
       <List>
         <ListItem key="Save">
-          <Tooltip title="save">
+          <Tooltip
+            title={<Typography variant="h6">Save To Local File</Typography>}
+          >
             <IconButton
               variant="contained"
               color="primary"
@@ -47,13 +49,15 @@ const Drawer = ({
           </Tooltip>
         </ListItem>
         <ListItem key="Load">
-          <Tooltip title="load">
+          <Tooltip
+            title={<Typography variant="h6">Load Local File</Typography>}
+          >
             <IconButton variant="contained" color="primary" component="label">
               <FileReader
                 onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
                 chunkSize={400000}
               />
-              <PublishRoundedIcon />
+              <FileCopyRoundedIcon />
             </IconButton>
           </Tooltip>
         </ListItem>

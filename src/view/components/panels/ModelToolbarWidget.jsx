@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs } from '@material-ui/core';
-import WidgetsRoundedIcon from '@material-ui/icons/WidgetsRounded';
+import ViewModuleRoundedIcon from '@material-ui/icons/ViewModuleRounded';
 import InsertLinkRoundedIcon from '@material-ui/icons/InsertLinkRounded';
 import Box from '@material-ui/core/Box';
 import ObjectGridWidget from '../widgets/ObjectGridWidget';
@@ -34,7 +34,7 @@ const ModelToolbarWidget = (props) => {
           <Tab
             data-testid={getModelGridToolbarItem('Objects')}
             aria-label="Objects"
-            icon={<WidgetsRoundedIcon />}
+            icon={<ViewModuleRoundedIcon />}
           />
           <Tab
             data-testid={getModelGridToolbarItem('Relations')}

@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
+import WidgetsIcon from '@material-ui/icons/Widgets';
 import Box from '@material-ui/core/Box';
 import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
@@ -27,7 +27,7 @@ const useToolbarStyles = makeStyles(() => ({
 }));
 const useMenuButtonStyles = makeStyles((theme) => ({
   root: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(0),
   },
 }));
 
@@ -51,14 +51,14 @@ const TopMenu = ({
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            <WidgetsIcon />
           </IconButton>
           <Box display="flex" alignItems="flex-end">
             <Box>
               <Typography variant="h6">Radical.Studio</Typography>
             </Box>
             <Box ml={0.5}>
-              <Typography variant="caption">Beta</Typography>
+              <Typography variant="caption">v0.1</Typography>
             </Box>
           </Box>
           <div className={classes.grow} />

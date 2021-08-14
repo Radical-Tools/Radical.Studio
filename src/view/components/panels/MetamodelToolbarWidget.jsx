@@ -19,7 +19,6 @@ const ToolbarItem = ({ name, id }) => {
     <Box p={1}>
       <Chip
         avatar={<Avatar>C4</Avatar>}
-        color="secondary"
         data-testid={getMetamodelItem(id)}
         label={name}
         ref={drag}

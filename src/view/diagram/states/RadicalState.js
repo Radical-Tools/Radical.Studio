@@ -1,5 +1,4 @@
 import {
-  SelectingState,
   State,
   Action,
   InputType,
@@ -14,7 +13,6 @@ export default class RadicalState extends State {
     super({
       name: 'default-diagrams',
     });
-    this.childStates = [new SelectingState()];
     this.dragCanvas = new RadicalDragCanvasState();
     this.dragNewLink = new DragNewLinkState();
     this.dragItems = new RadicalDragDiagramItemsState();

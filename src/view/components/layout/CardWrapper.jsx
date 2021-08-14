@@ -129,16 +129,24 @@ function CardWrapper({
     </Card>
   );
 }
+
+CardWrapper.defaultProps = {
+  onMinimize: undefined,
+  onMaximize: undefined,
+  onClose: undefined,
+  onRestore: undefined,
+};
+
 CardWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
   isMaximized: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  onMinimize: PropTypes.func.isRequired,
-  onMaximize: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onRestore: PropTypes.func.isRequired,
+  onMinimize: PropTypes.func,
+  onMaximize: PropTypes.func,
+  onClose: PropTypes.func,
+  onRestore: PropTypes.func,
 };
 CardWrapper.defaultProps = {
   className: '',

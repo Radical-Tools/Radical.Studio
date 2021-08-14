@@ -1,4 +1,3 @@
-import { grey, indigo } from '@material-ui/core/colors';
 import { createTheme } from '@material-ui/core';
 import { MIN_HEIGHT, MIN_WIDTH } from './consts';
 
@@ -7,10 +6,10 @@ const createAppTheme = (type) =>
     palette: {
       type,
       secondary: {
-        main: grey[400],
+        main: '#FF9912',
       },
       primary: {
-        main: indigo[700],
+        main: '#3D59AB',
       },
     },
     overrides: {

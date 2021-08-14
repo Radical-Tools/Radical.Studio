@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 14.x
       - run: npm install
-      - run: npm run build-subdir
+      - run: npm run build
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:

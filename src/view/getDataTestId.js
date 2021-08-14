@@ -39,3 +39,5 @@ export const getFormSubmitButton = (Context) => `Form-${Context}`;
 
 export const getModelGridToolbarItem = (TabName) =>
   `Model-Grid-Tabs-${TabName}`;
+
+export const getWizardItemButton = (Name) => `Wizard-Initial-${Name}-Button`;

@@ -48,7 +48,7 @@ const Drawer = ({
         </ListItem>
         <ListItem key="Load">
           <Tooltip title="load">
-            <IconButton variant="contained" color="primary">
+            <IconButton variant="contained" color="primary" component="label">
               <FileReader
                 onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
                 chunkSize={400000}

@@ -1,4 +1,7 @@
 /* eslint-disable no-underscore-dangle */
+
+export const getDataTestIdSelector = (value) => `[data-testid="${value}"]`;
+
 export default async function dragAndDrop(
   pageObject,
   originSelector,

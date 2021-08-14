@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Form from '@rjsf/material-ui';
 import Box from '@material-ui/core/Box';
 import { Button } from '@material-ui/core';
+import { getFormSubmitButton } from '../../getDataTestId';
 
 const getId = (testId, suffix = '') => `common-form-${testId}${suffix}`;
 const CommonForm = ({ dataSchema, uiSchema, onSubmit, testId }) => {
@@ -25,7 +26,7 @@ const CommonForm = ({ dataSchema, uiSchema, onSubmit, testId }) => {
           type="submit"
           variant="contained"
           color="primary"
-          data-testid={getId(testId, '-submit')}
+          data-testid={getFormSubmitButton(testId)}
         >
           Submit
         </Button>

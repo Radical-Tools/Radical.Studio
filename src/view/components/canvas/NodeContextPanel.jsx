@@ -17,6 +17,13 @@ import {
   DIAGRAM_NODE_DETACHED,
   DIAGRAM_NODE_EXPANDED,
 } from '../../diagram/consts';
+import {
+  getCanvasNodeCollapseButton,
+  getCanvasNodeDeleteButton,
+  getCanvasNodeExpandButton,
+  getCanvasNodePossibleRelation,
+  getCanvasNodeRemoveButton,
+} from '../../getDataTestId';
 
 const useStyles = makeStyles(() => ({
   panel: () => ({
@@ -33,6 +40,7 @@ const NodeContextPanel = ({ node }) => {
       {node.isSelected() && !node.options.isExpanded && node.options.isParent && (
         <Tooltip title="Expand Node" aria-label="expand">
           <IconButton
+            data-testid={getCanvasNodeExpandButton(node.options.name)}
             size="small"
             className="controlEl"
             onClick={() => {
@@ -51,6 +59,7 @@ const NodeContextPanel = ({ node }) => {
       {node.isSelected() && node.options.isExpanded && node.options.isParent && (
         <Tooltip title="Collapse Node" aria-label="collapse">
           <IconButton
+            data-testid={getCanvasNodeCollapseButton(node.options.name)}
             size="small"
             className="controlEl"
             onClick={() => {
@@ -71,6 +80,10 @@ const NodeContextPanel = ({ node }) => {
           <Tooltip key={type} title={`Create a ${type} relation`}>
             <Chip
               key={type}
+              data-testid={getCanvasNodePossibleRelation(
+                node.options.name,
+                type
+              )}
               className="controlEl"
               label={type}
               size="small"
@@ -109,6 +122,7 @@ const NodeContextPanel = ({ node }) => {
       {node.isSelected() && (
         <Tooltip title="Delete from model" aria-label="delete">
           <IconButton
+            data-testid={getCanvasNodeDeleteButton(node.options.name)}
             size="small"
             className="controlEl"
             onClick={() => {
@@ -128,6 +142,7 @@ const NodeContextPanel = ({ node }) => {
       {node.isSelected() && (
         <Tooltip title="Remove from view" aria-label="remove">
           <IconButton
+            data-testid={getCanvasNodeRemoveButton(node.options.name)}
             size="small"
             className="controlEl"
             onClick={() => {

@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import { useDrag } from 'react-dnd';
 
 import { METAMODEL_DROP_TYPE } from '../../diagram/consts';
+import { getMetamodelItem } from '../../getDataTestId';
 
 const ToolbarItem = ({ name, id }) => {
   const [, drag] = useDrag({
@@ -18,7 +19,7 @@ const ToolbarItem = ({ name, id }) => {
     <Box p={1}>
       <Chip
         color="primary"
-        data-testid={`metamodel-toolbar-item-${id}`}
+        data-testid={getMetamodelItem(id)}
         label={name}
         ref={drag}
       />

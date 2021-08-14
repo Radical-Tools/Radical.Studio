@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import zipObjectDeep from 'lodash/fp/zipObjectDeep';
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { MODEL_DROP_TYPE } from '../../diagram/consts';
+import { getObjectGridName } from '../../getDataTestId';
 
 const getRows = (model) => {
   const data = [];
@@ -40,7 +41,11 @@ const DraggableCell = ({ value, data }) => {
       isDragging: !!monitor.isDragging(),
     }),
   });
-  return <div ref={drag}> {value}</div>;
+  return (
+    <div data-testid={getObjectGridName(value)} ref={drag}>
+      {value}
+    </div>
+  );
 };
 
 DraggableCell.propTypes = {

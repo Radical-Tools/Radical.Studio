@@ -4,6 +4,7 @@ import '@inovua/reactdatagrid-community/index.css';
 import PropTypes from 'prop-types';
 import zipObjectDeep from 'lodash/fp/zipObjectDeep';
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
+import { getRelationGridItem } from '../../getDataTestId';
 
 const getRows = (model) => {
   const data = [];
@@ -50,6 +51,9 @@ const columns = [
     minWidth: 50,
     defaultFlex: 2,
     editable: () => true,
+    render: ({ value }) => (
+      <div data-testid={getRelationGridItem(value)}>{value}</div>
+    ),
   },
   {
     name: 'type',

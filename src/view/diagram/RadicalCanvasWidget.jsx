@@ -25,6 +25,7 @@ import {
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
 import ToolbarMenu from '../components/canvas/ToolbarMenu';
+import { getCanvas } from '../getDataTestId';
 
 const zoomDebounceTime = 500;
 const mapViewmodel = (viewmodel) => {
@@ -204,7 +205,7 @@ const RadicalCanvasWidget = ({
             name={viewName}
           />
           <div
-            data-testid="radical-canvas"
+            data-testid={getCanvas()}
             ref={drop}
             className={classes.fillCanvas}
           >

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import FileReader from './FileReader';
+import { getFileUploader } from '../../getDataTestId';
 
 describe('FileReader', () => {
   let file;
@@ -17,7 +18,7 @@ describe('FileReader', () => {
       <FileReader onDataChunk={onDataChunk} onChange={onChange} />
     );
 
-    const uploader = getByTestId('file-uploader');
+    const uploader = getByTestId(getFileUploader());
 
     fireEvent.change(uploader.firstChild, {
       target: { files: [file] },

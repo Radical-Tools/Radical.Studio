@@ -75,7 +75,7 @@ function CardWrapper({
         title={<Typography variant="h6">{title}</Typography>}
         action={
           <Box>
-            {isMaximized ? (
+            {isMaximized && onRestore ? (
               <IconButton
                 size="small"
                 label="Restore"
@@ -87,33 +87,39 @@ function CardWrapper({
               </IconButton>
             ) : (
               <>
-                <IconButton
-                  size="small"
-                  label="Minimize"
-                  classes={buttonClasses}
-                  aria-label={getAriaLabel('Minimize')}
-                  onClick={onMinimizeCallback}
-                >
-                  <MinimizeRoundedIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  label="Maximize"
-                  classes={buttonClasses}
-                  aria-label={getAriaLabel('Maximize')}
-                  onClick={onMaximizeCallback}
-                >
-                  <FullscreenRoundedIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  label="Close"
-                  classes={buttonClasses}
-                  aria-label={getAriaLabel('Close')}
-                  onClick={onCloseCallback}
-                >
-                  <HighlightOffRoundedIcon />
-                </IconButton>
+                {onMinimize && (
+                  <IconButton
+                    size="small"
+                    label="Minimize"
+                    classes={buttonClasses}
+                    aria-label={getAriaLabel('Minimize')}
+                    onClick={onMinimizeCallback}
+                  >
+                    <MinimizeRoundedIcon />
+                  </IconButton>
+                )}
+                {onMaximize && (
+                  <IconButton
+                    size="small"
+                    label="Maximize"
+                    classes={buttonClasses}
+                    aria-label={getAriaLabel('Maximize')}
+                    onClick={onMaximizeCallback}
+                  >
+                    <FullscreenRoundedIcon />
+                  </IconButton>
+                )}
+                {onClose && (
+                  <IconButton
+                    size="small"
+                    label="Close"
+                    classes={buttonClasses}
+                    aria-label={getAriaLabel('Close')}
+                    onClick={onCloseCallback}
+                  >
+                    <HighlightOffRoundedIcon />
+                  </IconButton>
+                )}
               </>
             )}
           </Box>

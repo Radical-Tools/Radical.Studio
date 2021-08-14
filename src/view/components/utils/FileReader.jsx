@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import readery from 'readery';
-import Button from '@material-ui/core/Button';
 import { InputBase } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { getFileUploader } from '../../getDataTestId';
@@ -33,19 +32,14 @@ const FileReader = ({
     [chunkSize, onChange, onDataChunk, onFinished, onProgress, readeryConfig]
   );
   return (
-    <div>
-      <Button variant="contained" color="primary" component="label">
-        Upload File
-        <InputBase
-          onChange={handleFileChange}
-          style={{ display: 'None' }}
-          type="file"
-          hidden
-          accept="radical"
-          data-testid={getFileUploader()}
-        />
-      </Button>
-    </div>
+    <InputBase
+      onChange={handleFileChange}
+      style={{ display: 'None' }}
+      type="file"
+      hidden
+      accept="radical"
+      data-testid={getFileUploader()}
+    />
   );
 };
 FileReader.propTypes = {

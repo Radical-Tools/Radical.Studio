@@ -1,17 +1,15 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import MaterialDrawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ListIcon from '@material-ui/icons/List';
+import MaterialDrawer from '@material-ui/core/Drawer';
 import toPairs from 'lodash/fp/toPairs';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import SaveAltRoundedIcon from '@material-ui/icons/SaveAltRounded';
 import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
+import IconButton from '@material-ui/core/IconButton';
+import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
 import FileReader from '../utils/FileReader';
 
@@ -28,31 +26,42 @@ const Drawer = ({
     onClose();
   }, [onSave, onClose]);
   return (
-    <MaterialDrawer anchor="left" open={show} onClose={onClose}>
+    <MaterialDrawer
+      anchor="left"
+      open={show}
+      onClose={onClose}
+      variant="temporary"
+      BackdropProps={{ invisible: true }}
+    >
       <List>
-        <Box p={1}>
-          <ListIcon fontSize="large" />
-        </Box>
+        <ListItem key="Save">
+          <Tooltip title="save">
+            <IconButton
+              variant="contained"
+              color="primary"
+              component="label"
+              onClick={handleSaveButtonClick}
+            >
+              <SaveAltRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        </ListItem>
+        <ListItem key="Load">
+          <Tooltip title="load">
+            <IconButton variant="contained" color="primary">
+              <FileReader
+                onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
+                chunkSize={400000}
+              />
+              <PublishRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        </ListItem>
         <Divider />
-        <ListItem button key="Save" onClick={handleSaveButtonClick}>
-          <ListItemIcon>
-            <SaveAltRoundedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Save" />
-        </ListItem>
-        <ListItem button key="Load">
-          <ListItemIcon>
-            <PublishRoundedIcon />
-          </ListItemIcon>
-          <FileReader
-            onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
-            chunkSize={400000}
-          />
-        </ListItem>
 
-        <Divider />
         {widgetsConfig && (
           <>
+            <Divider />
             <Typography variant="h6" noWrap>
               Toolbox
             </Typography>
@@ -68,7 +77,6 @@ const Drawer = ({
           </>
         )}
       </List>
-      <Divider />
     </MaterialDrawer>
   );
 };

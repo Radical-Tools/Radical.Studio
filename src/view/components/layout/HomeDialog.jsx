@@ -7,7 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
-import { Box, Card, CardContent, CardHeader } from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader } from '@material-ui/core';
 import FileReader from '../utils/FileReader';
 import CommonForm from '../common/CommonForm';
 import config from '../../../config/app-config';
@@ -124,10 +124,15 @@ const HomeDialog = ({
 
             <CardContent>
               <Box m={1}>
-                <FileReader
-                  onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
-                  chunkSize={400000}
-                />
+                <Button variant="contained" color="primary" component="label">
+                  Upload
+                  <FileReader
+                    onDataChunk={(dataChunk) =>
+                      onLoadFile(JSON.parse(dataChunk))
+                    }
+                    chunkSize={400000}
+                  />
+                </Button>
               </Box>
               <Box m={1}>
                 <CommonForm

@@ -40,7 +40,6 @@ const MainLayout = ({
       windowDimensions={windowDimensions}
     />
     <Drawer
-      widgetsConfig={config.widgets}
       onAddWidget={onAddWidget}
       show={showDrawer}
       onClose={onToggleDrawer}

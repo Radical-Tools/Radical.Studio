@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PUBLIC_URL: studio
+      PUBLIC_URL: https://www.radical.tools/studio
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2

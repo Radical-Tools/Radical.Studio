@@ -4,6 +4,8 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_URL: studio
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2

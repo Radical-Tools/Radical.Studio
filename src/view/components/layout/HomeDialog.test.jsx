@@ -16,7 +16,7 @@ describe('HomeDialog', () => {
   it('renders radical studio wizard initial screen', async () => {
     render(<HomeDialog metamodels={metamodels} show />);
     await waitFor(() =>
-      expect(screen.getByText('Radical Studio - Wizard')).toBeInTheDocument()
+      expect(screen.getByText('Radical.Studio')).toBeInTheDocument()
     );
   });
 });

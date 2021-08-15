@@ -12,6 +12,9 @@ export const widgets = {
   model: {
     isActive: true,
     isMaximized: false,
+    canBeMaximized: true,
+    canBeClosed: false,
+    canBeMinimized: false,
     title: 'Model',
     initialDimensions: {
       x: 0,
@@ -24,6 +27,9 @@ export const widgets = {
   views: {
     isActive: true,
     isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
     title: 'Views',
     initialDimensions: {
       x: 0,
@@ -36,6 +42,9 @@ export const widgets = {
   canvas: {
     isActive: true,
     isMaximized: false,
+    canBeMaximized: true,
+    canBeClosed: false,
+    canBeMinimized: false,
     title: 'Canvas',
     initialDimensions: {
       x: 7,
@@ -49,6 +58,9 @@ export const widgets = {
   metamodel: {
     isActive: true,
     isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
     title: 'Metamodel',
     initialDimensions: {
       x: 7,
@@ -61,6 +73,9 @@ export const widgets = {
   properties: {
     isActive: false,
     isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
     title: 'Properties',
     initialDimensions: {
       x: 20,

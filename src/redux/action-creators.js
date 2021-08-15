@@ -258,7 +258,11 @@ export const stateLoad = (state) => ({
 });
 
 export const stateSave = createAsyncThunk('state/save', async (_, thunkAPI) => {
-  await save(JSON.stringify(thunkAPI.getState()), 'state.radical');
+  const state = thunkAPI.getState();
+  await save(
+    JSON.stringify(state),
+    `${state.project.name}-${state.project.version}.radical`
+  );
 });
 
 export const setWindowDimensions = createAction('layout/windowDimensions/set');

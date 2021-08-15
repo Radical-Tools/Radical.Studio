@@ -49,6 +49,8 @@ const WidgetsPanel = ({
       compactType="vertical"
       margin={[LAYOUT_MARGIN, LAYOUT_MARGIN]}
       preventCollision
+      isDraggable={false}
+      isResizable={false}
     >
       <div key="top-panel">
         <Card elevation={3}>
@@ -67,10 +69,10 @@ const WidgetsPanel = ({
               id={key}
               title={widget.title}
               className={dragableClassName}
-              onClose={onCloseWidget}
-              onRestore={onRestoreWidget}
-              onMaximize={onMaximizeWidget}
-              onMinimize={onMinimizeWidget}
+              onClose={widget.canBeClosed ? onCloseWidget : undefined}
+              onRestore={widget.canBeMaximized ? onRestoreWidget : undefined}
+              onMaximize={widget.canBeMaximized ? onMaximizeWidget : undefined}
+              onMinimize={widget.canBeMinimized ? onMinimizeWidget : undefined}
               isMaximized={widget.isMaximized}
             >
               {React.createElement(widgetsComponentMapping[key])}

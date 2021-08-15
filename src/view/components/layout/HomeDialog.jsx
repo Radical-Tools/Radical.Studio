@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import set from 'lodash/fp/set';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,11 +6,19 @@ import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
-import { Box, Card, CardContent, CardHeader } from '@material-ui/core';
+import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
+import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import KeyboardReturnRoundedIcon from '@material-ui/icons/KeyboardReturnRounded';
+import WidgetsIcon from '@material-ui/icons/Widgets';
+import Box from '@material-ui/core/Box';
+import { Tooltip } from '@material-ui/core';
 import FileReader from '../utils/FileReader';
 import CommonForm from '../common/CommonForm';
 import config from '../../../config/app-config';
+import { getWizardItemButton } from '../../getDataTestId';
 
 const useDialogStyles = makeStyles((theme) => ({
   paper: {
@@ -45,7 +53,7 @@ const projectForm = {
     type: 'object',
     required: ['name', 'metamodel'],
     properties: {
-      name: { type: 'string', title: 'Name' },
+      name: { type: 'string', title: 'Project Name' },
       metamodel: {
         type: 'string',
         title: 'Metamodel',
@@ -68,11 +76,11 @@ const projectForm = {
 
 const localStorageForm = {
   data: {
-    title: 'Local storage',
+    title: '',
     type: 'object',
     required: ['name'],
     properties: {
-      name: { type: 'string', title: 'Name' },
+      name: { type: 'string', title: 'Project Name' },
     },
   },
   ui: {
@@ -92,6 +100,8 @@ const HomeDialog = ({
   onLoadStorage,
   onLoadFile,
 }) => {
+  const [page, setPage] = useState('Initial');
+
   const onSubmitProjectFormCallback = useCallback(
     (title, data) => onSubmitProjectForm(data),
     [onSubmitProjectForm]
@@ -109,54 +119,126 @@ const HomeDialog = ({
     >
       <AppBar classes={useAppBarStyles()}>
         <Toolbar>
-          <Typography variant="h6" classes={useTitleStyles()}>
-            Radical Studio - Setup
-          </Typography>
+          <WidgetsIcon />
+          <Box display="flex" alignItems="flex-end">
+            <Box>
+              <Typography variant="h6" classes={useTitleStyles()}>
+                Radical.Studio
+              </Typography>
+            </Box>
+            <Box ml={0.5}>
+              <Typography variant="caption">v0.1</Typography>
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
-      <Box justifyContent="center" display="flex" m={20}>
-        <Box p={5} boxShadow={3} m={2}>
-          <Card elevation={0}>
-            <CardHeader
-              title="To open existing project"
-              subheader="upload the local file or load the local storage state"
-            />
-
-            <CardContent>
-              <Box m={1}>
+      {page === 'Initial' && (
+        <Box
+          justifyContent="center"
+          alignItems="center"
+          display="flex"
+          margin={30}
+        >
+          <Box padding={3}>
+            <Tooltip
+              title={<Typography variant="h6">Create A New Project</Typography>}
+            >
+              <IconButton
+                variant="contained"
+                color="primary"
+                data-testid={getWizardItemButton('CreateProject')}
+                onClick={() => setPage('CreateNew')}
+              >
+                <AddCircleRoundedIcon style={{ fontSize: 120 }} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box padding={3}>
+            <Tooltip
+              title={<Typography variant="h6">Open From File</Typography>}
+            >
+              <IconButton
+                variant="contained"
+                color="primary"
+                component="label"
+                data-testid={getWizardItemButton('LoadFile')}
+              >
+                <FileCopyRoundedIcon style={{ fontSize: 120 }} />
                 <FileReader
                   onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
                   chunkSize={400000}
                 />
-              </Box>
-              <Box m={1}>
-                <CommonForm
-                  uiSchema={localStorageForm.ui}
-                  dataSchema={set(
-                    'properties.name.enum',
-                    Object.keys(localStorage)
-                      .filter((key) =>
-                        key.startsWith(config.operations.storageKey)
-                      )
-                      .map((key) =>
-                        key.replace(`${config.operations.storageKey}:`, '')
-                      ),
-                    localStorageForm.data
-                  )}
-                  onSubmit={onSubmitLoadStorageCallback}
-                  testId="local-storage"
-                />
-              </Box>
-            </CardContent>
-          </Card>
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box padding={3}>
+            <Tooltip
+              title={
+                <Typography variant="h6">Open From Local Storage</Typography>
+              }
+            >
+              <IconButton
+                variant="contained"
+                color="primary"
+                data-testid={getWizardItemButton('RestoreAny')}
+                onClick={() => setPage('LoadFromLocalStorage')}
+              >
+                <StorageRoundedIcon style={{ fontSize: 120 }} />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
-        <Box boxShadow={3} m={2}>
-          <Card elevation={0}>
-            <CardHeader
-              title="To create a new project"
-              subheader="select one of the predefined metamodels and type project's name"
-            />
-            <CardContent>
+      )}
+      {page === 'LoadFromLocalStorage' && (
+        <Box margin={30} justifyContent="center" display="flex">
+          <Box width="500px">
+            <Box>
+              <Tooltip title="return to the initial screen">
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setPage('Initial')}
+                >
+                  <KeyboardReturnRoundedIcon style={{ fontSize: 40 }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <CommonForm
+                uiSchema={localStorageForm.ui}
+                dataSchema={set(
+                  'properties.name.enum',
+                  Object.keys(localStorage)
+                    .filter((key) =>
+                      key.startsWith(config.operations.storageKey)
+                    )
+                    .map((key) =>
+                      key.replace(`${config.operations.storageKey}:`, '')
+                    ),
+                  localStorageForm.data
+                )}
+                onSubmit={onSubmitLoadStorageCallback}
+                testId="LoadFromLocal"
+              />
+            </Box>
+          </Box>
+        </Box>
+      )}
+      {page === 'CreateNew' && (
+        <Box margin={30} justifyContent="center" display="flex">
+          <Box width="500px">
+            <Box>
+              <Tooltip title="return to the initial screen">
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setPage('Initial')}
+                >
+                  <KeyboardReturnRoundedIcon style={{ fontSize: 40 }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
               <CommonForm
                 uiSchema={projectForm.ui}
                 dataSchema={set(
@@ -165,12 +247,12 @@ const HomeDialog = ({
                   projectForm.data
                 )}
                 onSubmit={onSubmitProjectFormCallback}
-                testId="project"
+                testId="CreateNew"
               />
-            </CardContent>
-          </Card>
+            </Box>
+          </Box>
         </Box>
-      </Box>
+      )}
     </Dialog>
   );
 };

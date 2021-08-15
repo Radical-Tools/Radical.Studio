@@ -16,6 +16,7 @@ import {
   getModelGridToolbarItem,
   getObjectGridName,
   getRelationGridItem,
+  getWizardItemButton,
 } from '../../view/getDataTestId';
 
 let browser = null;
@@ -59,19 +60,28 @@ afterEach(async () => {
   await page.close();
 });
 
+async function CreateNewProject() {
+  await page.goto(process.env.APP_URL);
+  await page.waitForTimeout(1000);
+  await page.waitForSelector(
+    getDataTestIdSelector(getWizardItemButton('CreateProject'))
+  );
+  await page.click(getDataTestIdSelector(getWizardItemButton('CreateProject')));
+  await page.waitForSelector('#common-form-CreateNew_name');
+  await page.type('#common-form-CreateNew_name', 'Test project');
+  await page.waitForSelector(
+    getDataTestIdSelector(getFormSubmitButton('CreateNew'))
+  );
+  await page.click(getDataTestIdSelector(getFormSubmitButton('CreateNew')));
+  await page.waitForSelector(getDataTestIdSelector(getCanvasViewName()));
+  await page.waitForTimeout(1000);
+}
+
 describe('Basic flow', () => {
   it(
     'Can open C4 model and see default view',
     async () => {
-      await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project_name');
-      await page.type('#common-form-project_name', 'Test project');
-      await page.waitForSelector(
-        getDataTestIdSelector(getFormSubmitButton('project'))
-      );
-      await page.waitForTimeout(100);
-      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
-      await page.waitForSelector(getDataTestIdSelector(getCanvasViewName()));
+      await CreateNewProject();
       const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
       expect(await header.evaluate((node) => node.textContent)).toBe(
         'Default View'
@@ -83,11 +93,7 @@ describe('Basic flow', () => {
   it(
     'Create a simple C4 model',
     async () => {
-      await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project_name');
-      await page.type('#common-form-project_name', 'Test project');
-      await page.waitForTimeout(100);
-      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+      await CreateNewProject();
 
       await dragAndDrop(
         page,
@@ -151,11 +157,7 @@ describe('Basic flow', () => {
   it(
     'Create a nested object by drag & drop',
     async () => {
-      await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project_name');
-      await page.type('#common-form-project_name', 'Test project');
-      await page.waitForTimeout(100);
-      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+      await CreateNewProject();
 
       await dragAndDrop(
         page,
@@ -189,7 +191,6 @@ describe('Basic flow', () => {
       await page.click(
         getDataTestIdSelector(getModelGridToolbarItem('Relations'))
       );
-      await page.waitForTimeout(100);
 
       const gridItem = await page.waitForSelector(
         getDataTestIdSelector(getRelationGridItem('Includes'))
@@ -206,12 +207,7 @@ describe('Basic flow', () => {
   it(
     'Can change the object name by editing grid item',
     async () => {
-      await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project_name');
-      await page.type('#common-form-project_name', 'Test project');
-      await page.waitForTimeout(100);
-      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
-
+      await CreateNewProject();
       await dragAndDrop(
         page,
         getDataTestIdSelector(getMetamodelItem('Actor')),
@@ -248,11 +244,7 @@ describe('Basic flow', () => {
   it(
     'Can change the relation name by editing grid item',
     async () => {
-      await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project_name');
-      await page.type('#common-form-project_name', 'Test project');
-      await page.waitForTimeout(100);
-      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+      await CreateNewProject();
 
       await dragAndDrop(
         page,
@@ -284,7 +276,6 @@ describe('Basic flow', () => {
       await page.click(
         getDataTestIdSelector(getModelGridToolbarItem('Relations'))
       );
-      await page.waitForTimeout(100);
 
       const gridItem = await page.waitForSelector(
         getDataTestIdSelector(getRelationGridItem('Interacts'))
@@ -321,11 +312,7 @@ describe('Basic flow', () => {
   it(
     'Hide a canvas node',
     async () => {
-      await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project_name');
-      await page.type('#common-form-project_name', 'Test project');
-      await page.waitForTimeout(100);
-      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+      await CreateNewProject();
 
       await dragAndDrop(
         page,
@@ -348,6 +335,11 @@ describe('Basic flow', () => {
       );
 
       await page.click(getDataTestIdSelector(getCanvasNode('New Actor')));
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasNodePossibleRelation('New System', 'Interacts')
+        )
+      );
       await page.click(
         getDataTestIdSelector(
           getCanvasNodePossibleRelation('New System', 'Interacts')
@@ -360,17 +352,23 @@ describe('Basic flow', () => {
         )
       );
 
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
       await page.click(getDataTestIdSelector(getCanvasNode('New System')));
 
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNodeRemoveButton('New System'))
+      );
       await page.click(
         getDataTestIdSelector(getCanvasNodeRemoveButton('New System'))
       );
 
+      await page.waitForTimeout(1000);
+
       await page.waitForSelector(
         getDataTestIdSelector(getObjectGridName('New System'))
       );
-
-      await page.waitForTimeout(100);
 
       const linkItem = await page.$(
         getDataTestIdSelector(
@@ -388,11 +386,7 @@ describe('Basic flow', () => {
   it(
     'Remove a model node from the canvas node toolbar',
     async () => {
-      await page.goto(process.env.APP_URL);
-      await page.waitForSelector('#common-form-project_name');
-      await page.type('#common-form-project_name', 'Test project');
-      await page.waitForTimeout(100);
-      await page.click(getDataTestIdSelector(getFormSubmitButton('project')));
+      await CreateNewProject();
 
       await dragAndDrop(
         page,
@@ -427,13 +421,17 @@ describe('Basic flow', () => {
         )
       );
 
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+
       await page.click(getDataTestIdSelector(getCanvasNode('New System')));
 
       await page.click(
         getDataTestIdSelector(getCanvasNodeDeleteButton('New System'))
       );
 
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(1000);
 
       const canvasNode = await page.$(
         getDataTestIdSelector(getObjectGridName('New System'))
@@ -450,6 +448,83 @@ describe('Basic flow', () => {
       if (gridNode) {
         throw new Error('New System Grid Item still visible');
       }
+    },
+    process.env.TIMEOUT
+  );
+
+  it(
+    'Remove a view node and should update the target to parent node',
+    async () => {
+      await CreateNewProject();
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Actor')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 500, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Actor'))
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('System')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 700, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New System'))
+      );
+
+      await dragAndDrop(
+        page,
+        getDataTestIdSelector(getMetamodelItem('Container')),
+        getDataTestIdSelector(getCanvas()),
+        { x: 700, y: 500 }
+      );
+      await page.waitForSelector(
+        getDataTestIdSelector(getCanvasNode('New Container'))
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Actor')));
+      await page.click(
+        getDataTestIdSelector(
+          getCanvasNodePossibleRelation('New Container', 'Interacts')
+        )
+      );
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New Container')
+        )
+      );
+
+      await page.click(getDataTestIdSelector(getCanvasNode('New Container')));
+
+      await page.click(
+        getDataTestIdSelector(getCanvasNodeRemoveButton('New Container'))
+      );
+
+      await page.waitForTimeout(1000);
+
+      await page.waitForSelector(
+        getDataTestIdSelector(getObjectGridName('New Container'))
+      );
+
+      const canvasNode = await page.$(
+        getDataTestIdSelector(getCanvasNode('New Container'))
+      );
+
+      if (canvasNode) {
+        throw new Error('New Container Node still visible');
+      }
+
+      await page.waitForSelector(
+        getDataTestIdSelector(
+          getCanvasLink('Interacts', 'New Actor', 'New System')
+        )
+      );
     },
     process.env.TIMEOUT
   );

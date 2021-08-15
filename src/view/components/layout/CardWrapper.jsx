@@ -75,7 +75,7 @@ function CardWrapper({
         title={<Typography variant="h6">{title}</Typography>}
         action={
           <Box>
-            {isMaximized ? (
+            {isMaximized && onRestore ? (
               <IconButton
                 size="small"
                 label="Restore"
@@ -87,33 +87,39 @@ function CardWrapper({
               </IconButton>
             ) : (
               <>
-                <IconButton
-                  size="small"
-                  label="Minimize"
-                  classes={buttonClasses}
-                  aria-label={getAriaLabel('Minimize')}
-                  onClick={onMinimizeCallback}
-                >
-                  <MinimizeRoundedIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  label="Maximize"
-                  classes={buttonClasses}
-                  aria-label={getAriaLabel('Maximize')}
-                  onClick={onMaximizeCallback}
-                >
-                  <FullscreenRoundedIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  label="Close"
-                  classes={buttonClasses}
-                  aria-label={getAriaLabel('Close')}
-                  onClick={onCloseCallback}
-                >
-                  <HighlightOffRoundedIcon />
-                </IconButton>
+                {onMinimize && (
+                  <IconButton
+                    size="small"
+                    label="Minimize"
+                    classes={buttonClasses}
+                    aria-label={getAriaLabel('Minimize')}
+                    onClick={onMinimizeCallback}
+                  >
+                    <MinimizeRoundedIcon />
+                  </IconButton>
+                )}
+                {onMaximize && (
+                  <IconButton
+                    size="small"
+                    label="Maximize"
+                    classes={buttonClasses}
+                    aria-label={getAriaLabel('Maximize')}
+                    onClick={onMaximizeCallback}
+                  >
+                    <FullscreenRoundedIcon />
+                  </IconButton>
+                )}
+                {onClose && (
+                  <IconButton
+                    size="small"
+                    label="Close"
+                    classes={buttonClasses}
+                    aria-label={getAriaLabel('Close')}
+                    onClick={onCloseCallback}
+                  >
+                    <HighlightOffRoundedIcon />
+                  </IconButton>
+                )}
               </>
             )}
           </Box>
@@ -123,16 +129,24 @@ function CardWrapper({
     </Card>
   );
 }
+
+CardWrapper.defaultProps = {
+  onMinimize: undefined,
+  onMaximize: undefined,
+  onClose: undefined,
+  onRestore: undefined,
+};
+
 CardWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
   isMaximized: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  onMinimize: PropTypes.func.isRequired,
-  onMaximize: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onRestore: PropTypes.func.isRequired,
+  onMinimize: PropTypes.func,
+  onMaximize: PropTypes.func,
+  onClose: PropTypes.func,
+  onRestore: PropTypes.func,
 };
 CardWrapper.defaultProps = {
   className: '',

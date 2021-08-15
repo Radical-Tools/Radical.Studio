@@ -13,8 +13,10 @@ const metamodels = [
   },
 ];
 describe('HomeDialog', () => {
-  it('renders default C4 metamodel in form', async () => {
+  it('renders radical studio wizard initial screen', async () => {
     render(<HomeDialog metamodels={metamodels} show />);
-    await waitFor(() => expect(screen.getByText('C4')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText('Radical.Studio')).toBeInTheDocument()
+    );
   });
 });

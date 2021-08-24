@@ -15,7 +15,7 @@ const getRows = (viewModel) => {
 };
 
 /* eslint-disable react/prop-types */
-const columns = [
+const getColumns = (editMode) => [
   {
     name: 'id',
     header: 'id',
@@ -29,7 +29,7 @@ const columns = [
     header: 'Name',
     minWidth: 50,
     defaultFlex: 4,
-    editable: () => true,
+    editable: () => editMode,
   },
 ];
 
@@ -41,6 +41,8 @@ const gridStyle = { height: '100%' };
 
 const ViewGridWidget = ({
   viewModel,
+  current,
+  editMode,
   onRemoveView,
   onUpsertItem,
   onViewActivate,
@@ -80,7 +82,7 @@ const ViewGridWidget = ({
   return (
     <ReactDataGrid
       idProperty="id"
-      columns={columns}
+      columns={getColumns(editMode)}
       dataSource={getRows(viewModel)}
       style={gridStyle}
       defaultFilterValue={filterValue}
@@ -88,17 +90,19 @@ const ViewGridWidget = ({
       renderRowContextMenu={renderRowContextMenu}
       onEditComplete={onViewEditComplete}
       onSelectionChange={(data) => onViewActivateCallback(data.selected)}
-      selected={viewModel.current}
+      selected={current}
       showHoverRows={false}
       toggleRowSelectOnClick={false}
       preventRowSelectionOnClickWithMouseMove={false}
       scrollTopOnFilter={false}
+      enableKeyboardNavigation={false}
     />
   );
 };
 
 ViewGridWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
+  current: PropTypes.string.isRequired,
   onRemoveView: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
   onViewActivate: PropTypes.func.isRequired,

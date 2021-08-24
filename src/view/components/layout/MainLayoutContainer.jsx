@@ -12,6 +12,7 @@ import {
   stateLoad,
   stateSave,
   themeChanged,
+  layoutModeChange,
 } from '../../../redux/action-creators';
 import MainLayout from './MainLayout';
 
@@ -22,6 +23,7 @@ const mapStateToProps = (state) => ({
   showDrawer: state.layout.showDrawer,
   showHomeDialog: state.layout.showHomeDialog,
   windowDimensions: state.layout.windowDimensions,
+  mode: state.layout.mode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -38,6 +40,7 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadStorage: (name) => dispatch(loadStateStorage(name)),
   onLoadFile: (state) => dispatch(stateLoad(state)),
   onSave: () => dispatch(stateSave()),
+  onSetMode: (mode) => dispatch(layoutModeChange(mode)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

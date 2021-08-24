@@ -17,13 +17,16 @@ import RadicalDeleteItemsAction from '../actions/RadicalDeleteItemsAction';
 import RadicalZoomCanvasAction from '../actions/RadicalZoomCanvasAction';
 import RadicalLinkLayerFactory from '../links/RadicalLinkLayerFactory';
 
-const createRadicalEngine = () => {
+const createRadicalEngine = (editMode = true) => {
   const engine = new RadicalDiagramEngine({
     registerDefaultDeleteItemsAction: false,
     registerDefaultZoomCanvasAction: false,
     repaintDebounceMs: 10,
   });
-  engine.getStateMachine().pushState(new RadicalState());
+
+  if (editMode) {
+    engine.getStateMachine().pushState(new RadicalState());
+  }
 
   engine.getLayerFactories().registerFactory(new NodeLayerFactory());
   engine.getLayerFactories().registerFactory(new RadicalLinkLayerFactory());
@@ -45,9 +48,11 @@ const createRadicalEngine = () => {
     );
   engine.getLabelFactories().registerFactory(new RadicalLabelFactory());
 
-  engine
-    .getActionEventBus()
-    .registerAction(new RadicalDeleteItemsAction({ keyCodes: [46] }));
+  if (editMode) {
+    engine
+      .getActionEventBus()
+      .registerAction(new RadicalDeleteItemsAction({ keyCodes: [46] }));
+  }
   engine.getActionEventBus().registerAction(new RadicalZoomCanvasAction());
   return engine;
 };

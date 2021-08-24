@@ -7,7 +7,14 @@ import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRoun
 import ViewGridWidget from '../widgets/ViewGridWidget';
 
 const ViewsToolbarWidget = (props) => {
-  const { viewModel, onRemoveView, onUpsertItem, onViewActivate } = props;
+  const {
+    viewModel,
+    current,
+    editMode,
+    onRemoveView,
+    onUpsertItem,
+    onViewActivate,
+  } = props;
 
   const onUpsertViewCallback = useCallback(
     () => onUpsertItem({ name: 'New View' }),
@@ -18,23 +25,29 @@ const ViewsToolbarWidget = (props) => {
     <Box p={1} style={{ height: '100%' }}>
       <ViewGridWidget
         viewModel={viewModel}
+        current={current}
+        editMode={editMode}
         onUpsertItem={onUpsertItem}
         onRemoveView={onRemoveView}
         onViewActivate={onViewActivate}
       />
-      <div style={{ position: 'absolute', top: 50, right: 30 }}>
-        <Tooltip title="Add New View">
-          <IconButton size="small" onClick={onUpsertViewCallback}>
-            <AddCircleOutlineRoundedIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
+      {editMode && (
+        <div style={{ position: 'absolute', top: 50, right: 30 }}>
+          <Tooltip title="Add New View">
+            <IconButton size="small" onClick={onUpsertViewCallback}>
+              <AddCircleOutlineRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+      )}
     </Box>
   );
 };
 
 ViewsToolbarWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
+  current: PropTypes.string.isRequired,
+  editMode: PropTypes.bool.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
   onRemoveView: PropTypes.func.isRequired,
   onViewActivate: PropTypes.func.isRequired,

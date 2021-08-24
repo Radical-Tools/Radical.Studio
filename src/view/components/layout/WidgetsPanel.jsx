@@ -45,7 +45,6 @@ const WidgetsPanel = ({
       resizeHandles={['e', 'se', 'ne']}
       draggableHandle={`.${dragableClassName}`}
       onLayoutChange={onLayoutChange}
-      isBounded
       compactType="vertical"
       margin={[LAYOUT_MARGIN, LAYOUT_MARGIN]}
       preventCollision

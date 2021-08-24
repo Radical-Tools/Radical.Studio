@@ -8,9 +8,9 @@ import {
   MIN_WIDTH_NUMBER,
 } from '../../app/consts';
 
-export const widgets = {
+export const getWidgets = (mode = 'edit') => ({
   model: {
-    isActive: true,
+    isActive: mode === 'edit',
     isMaximized: false,
     canBeMaximized: true,
     canBeClosed: false,
@@ -35,7 +35,37 @@ export const widgets = {
       x: 0,
       y: LAYOUT_MAX_ROWS - 5,
       w: 7,
-      h: 6,
+      h: mode === 'edit' ? 6 : 11,
+      minW: 1,
+    },
+  },
+  presentations: {
+    isActive: mode === 'presentation',
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Presentations',
+    initialDimensions: {
+      x: 0,
+      y: 1,
+      w: 7,
+      h: 8,
+      minW: 1,
+    },
+  },
+  timeline: {
+    isActive: mode === 'presentation',
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Timeline',
+    initialDimensions: {
+      x: 7,
+      y: 1,
+      w: 17,
+      h: 3,
       minW: 1,
     },
   },
@@ -50,13 +80,13 @@ export const widgets = {
       x: 7,
       y: 3,
       w: 17,
-      h: LAYOUT_MAX_ROWS - 3,
+      h: mode === 'edit' ? LAYOUT_MAX_ROWS - 3 : LAYOUT_MAX_ROWS - 4,
       minW: 4,
       minH: 1,
     },
   },
   metamodel: {
-    isActive: true,
+    isActive: mode === 'edit',
     isMaximized: false,
     canBeMaximized: false,
     canBeClosed: false,
@@ -85,7 +115,7 @@ export const widgets = {
       minW: 1,
     },
   },
-};
+});
 
 export const initialState = {
   layout: {
@@ -98,12 +128,12 @@ export const initialState = {
     showDrawer: false,
     showHomeDialog: true,
     config: {
-      widgets,
+      widgets: getWidgets(),
     },
     gridLayout: {
       lg: [
         { i: 'top-panel', x: 0, y: 0, w: 24, h: 1, static: true },
-        ...toPairs(widgets).map(([key, widget]) => ({
+        ...toPairs(getWidgets()).map(([key, widget]) => ({
           i: key,
           x: widget.initialDimensions.x,
           y: widget.initialDimensions.y,
@@ -114,6 +144,7 @@ export const initialState = {
         })),
       ],
     },
+    mode: 'edit',
   },
 };
 
@@ -186,3 +217,29 @@ export const setWindowDimensions = (state, payload) =>
       payload.width < MIN_WIDTH_NUMBER ? MIN_WIDTH_NUMBER : payload.width
     )
   )(state);
+
+export const setMode = (state, payload) =>
+  payload.mode !== state.layout.mode
+    ? flow(
+        set(['layout', 'savedGridLayout'], state.layout.gridLayout),
+        set(['layout', 'savedConfig'], state.layout.config),
+        set(['layout', 'config', 'widgets'], getWidgets(payload.mode)),
+        set(
+          ['layout', 'gridLayout', 'lg'],
+          [
+            { i: 'top-panel', x: 0, y: 0, w: 24, h: 1, static: true },
+            ...toPairs(getWidgets(payload.mode)).map(([key, widget]) => ({
+              i: key,
+              x: widget.initialDimensions.x,
+              y: widget.initialDimensions.y,
+              w: widget.initialDimensions.w,
+              h: widget.initialDimensions.h,
+              minW: widget.initialDimensions.minW,
+              minH: widget.initialDimensions.minH,
+            })),
+          ]
+        ),
+        set(['layout', 'mode'], payload.mode),
+        set(['layout', 'showDrawer'], false)
+      )(state)
+    : state;

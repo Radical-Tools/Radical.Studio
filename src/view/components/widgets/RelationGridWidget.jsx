@@ -189,6 +189,7 @@ const RelationGridWidget = ({
       toggleRowSelectOnClick={false}
       preventRowSelectionOnClickWithMouseMove={false}
       scrollTopOnFilter={false}
+      enableKeyboardNavigation={false}
     />
   );
 };

@@ -23,7 +23,9 @@ const MainLayout = ({
   onLoadStorage,
   onLoadFile,
   onSave,
+  onSetMode,
   windowDimensions,
+  mode,
 }) => (
   <>
     <WidgetsPanel
@@ -45,6 +47,8 @@ const MainLayout = ({
       onClose={onToggleDrawer}
       onLoadFile={onLoadFile}
       onSave={onSave}
+      onSetMode={onSetMode}
+      mode={mode}
     />
     <HomeDialog
       show={showHomeDialog}
@@ -74,6 +78,8 @@ MainLayout.propTypes = {
   onLoadStorage: PropTypes.func.isRequired,
   onLoadFile: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  onSetMode: PropTypes.func.isRequired,
   windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
+  mode: PropTypes.string.isRequired,
 };
 export default MainLayout;

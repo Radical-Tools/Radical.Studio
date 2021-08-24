@@ -28,10 +28,10 @@ import ToolbarMenu from '../components/canvas/ToolbarMenu';
 import { getCanvas } from '../getDataTestId';
 
 const zoomDebounceTime = 500;
-const mapViewmodel = (viewmodel) => {
+const mapViewmodel = (viewmodel, editMode) => {
   const diagramModel = new RadicalDiagramModel();
-  addNodes(diagramModel, viewmodel);
-  addLinks(diagramModel, viewmodel);
+  addNodes(diagramModel, viewmodel, editMode);
+  addLinks(diagramModel, viewmodel, editMode);
   return diagramModel;
 };
 const useStyles = makeStyles(() => ({
@@ -48,6 +48,7 @@ const useStyles = makeStyles(() => ({
 const RadicalCanvasWidget = ({
   viewmodel,
   alignment,
+  editMode,
   onDragItemsEnd,
   onLinkConnected,
   onDiagramAlignmentUpdated,
@@ -143,12 +144,13 @@ const RadicalCanvasWidget = ({
     ]
   );
 
-  const [engine] = useState(createRadicalEngine());
+  const [engine] = useState(createRadicalEngine(editMode));
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   useEffect(() => {
+    const viewChanged = viewName !== viewmodel.name;
     setViewName(viewmodel.name);
-    const model = mapViewmodel(viewmodel);
+    const model = mapViewmodel(viewmodel, editMode);
     model.registerListener(registerCallbacks());
     model.getNodes().forEach((node) => {
       node.registerListener(registerCallbacks());
@@ -157,11 +159,26 @@ const RadicalCanvasWidget = ({
       link.registerListener(registerCallbacks());
       link.update();
     });
-    engine.setModel(model);
-    model.setInitialZoomLevel(alignment.zoom);
-    model.setInitialOffset(alignment.offsetX, alignment.offsetY);
+    if (editMode || viewChanged) {
+      engine.setModel(model);
+      model.setInitialZoomLevel(alignment.zoom);
+      model.setInitialOffset(alignment.offsetX, alignment.offsetY);
+    } else {
+      const sourceZoomLevel = engine.getModel().getZoomLevel();
+      const sourceOffsetX = engine.getModel().getOffsetX();
+      const sourceOffsetY = engine.getModel().getOffsetY();
+      engine.setModel(model);
+      engine.moveWithAnim(
+        sourceZoomLevel,
+        sourceOffsetX,
+        sourceOffsetY,
+        alignment.zoom,
+        alignment.offsetX,
+        alignment.offsetY
+      );
+    }
     setIsModelSet(true);
-  }, [viewmodel, alignment, engine, registerCallbacks]);
+  }, [viewmodel, editMode, alignment, engine, registerCallbacks, viewName]);
   const [, drop] = useDrop(() => ({
     accept: [MODEL_DROP_TYPE, METAMODEL_DROP_TYPE],
     drop: (item, monitor) => {
@@ -190,7 +207,7 @@ const RadicalCanvasWidget = ({
       {engine && isModelSet && (
         <div className={classes.fill}>
           <ToolbarMenu
-            onLayoutAlign={onLayoutAlign}
+            onLayoutAlign={editMode ? onLayoutAlign : undefined}
             onZoomToFit={() => {
               engine.zoomToFitNodes({ margin: 50 });
               engine.getModel().fireEvent(
@@ -222,6 +239,7 @@ const RadicalCanvasWidget = ({
 RadicalCanvasWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
+  editMode: PropTypes.bool.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,

@@ -46,6 +46,7 @@ const useCardContentStyles = makeStyles((theme) => ({
 
 function CardWrapper({
   title,
+  icon,
   onMinimize,
   onMaximize,
   onClose,
@@ -72,7 +73,16 @@ function CardWrapper({
       <CardHeader
         classes={useCardHeaderStyles()}
         className={className}
-        title={<Typography variant="h6">{title}</Typography>}
+        title={
+          icon ? (
+            <>
+              <icon />
+              <Typography variant="h6">{title}</Typography>
+            </>
+          ) : (
+            <Typography variant="h6">{title}</Typography>
+          )
+        }
         action={
           <Box>
             {isMaximized && onRestore ? (
@@ -131,6 +141,7 @@ function CardWrapper({
 }
 
 CardWrapper.defaultProps = {
+  icon: undefined,
   onMinimize: undefined,
   onMaximize: undefined,
   onClose: undefined,
@@ -139,6 +150,7 @@ CardWrapper.defaultProps = {
 
 CardWrapper.propTypes = {
   title: PropTypes.string.isRequired,
+  icon: PropTypes.objectOf(PropTypes.any),
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
   isMaximized: PropTypes.bool.isRequired,

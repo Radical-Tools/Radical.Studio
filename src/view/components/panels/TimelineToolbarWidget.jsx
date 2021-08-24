@@ -31,15 +31,15 @@ const TimelineToolbarWidget = (props) => {
   return presentation ? (
     <Box display="flex" alignItems="center">
       <Box>
-        <IconButton color="secondary"  onClick={() => onAppendStepCallback()}>
-          <AddCircleRoundedIcon
-            style={{ fontSize: 40 }}
-          />
+        <IconButton color="secondary" onClick={() => onAppendStepCallback()}>
+          <AddCircleRoundedIcon style={{ fontSize: 40 }} />
         </IconButton>
-        <IconButton color="secondary" disabled={presentation.steps.length <= 1}    onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}>
-          <RemoveCircleRoundedIcon
-            style={{ fontSize: 40 }}
-          />
+        <IconButton
+          color="secondary"
+          disabled={presentation.steps.length <= 1}
+          onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}
+        >
+          <RemoveCircleRoundedIcon style={{ fontSize: 40 }} />
         </IconButton>
       </Box>
       <Box flexGrow={1}>
@@ -54,9 +54,7 @@ const TimelineToolbarWidget = (props) => {
         >
           {presentation.steps.map((step, index) => (
             <Step key={step.id} onClick={() => onGotoStepCallback(index)}>
-              <StepButton
-                key={step.name}
-              >
+              <StepButton key={step.name}>
                 <Typography variant="button">{step.name}</Typography>
               </StepButton>
             </Step>
@@ -67,38 +65,29 @@ const TimelineToolbarWidget = (props) => {
         <IconButton
           color="secondary"
           disabled={presentation.currentStepIndex === 0}
-          onClick={() =>
-            onGotoStepCallback(presentation.currentStepIndex - 1)
-          }
+          onClick={() => onGotoStepCallback(presentation.currentStepIndex - 1)}
         >
-          <ArrowLeftIcon
-            style={{ fontSize: 50 }}
-          />
+          <ArrowLeftIcon style={{ fontSize: 50 }} />
         </IconButton>
         <IconButton
           color="secondary"
           disabled={
             presentation.currentStepIndex === presentation.steps.length - 1
           }
-          onClick={() =>
-            onGotoStepCallback(presentation.currentStepIndex + 1)
-          }
+          onClick={() => onGotoStepCallback(presentation.currentStepIndex + 1)}
         >
-          <ArrowRightIcon
-            style={{ fontSize: 50 }}
-          />
+          <ArrowRightIcon style={{ fontSize: 50 }} />
         </IconButton>
       </Box>
     </Box>
-  ) :
+  ) : (
     <div />
-  ;
+  );
 };
 TimelineToolbarWidget.defaultProps = {
   presentation: undefined,
-  presentationId: undefined
-}
-
+  presentationId: undefined,
+};
 
 TimelineToolbarWidget.propTypes = {
   presentation: PropTypes.objectOf(PropTypes.any),

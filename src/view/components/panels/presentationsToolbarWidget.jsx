@@ -31,7 +31,7 @@ const PresentationsToolbarWidget = (props) => {
       <div style={{ position: 'absolute', top: 50, right: 30 }}>
         <Tooltip title="Add New Presentation">
           <IconButton size="small" onClick={onCreatePresentationCallback}>
-            <AddCircleRoundedIcon color='secondary'/>
+            <AddCircleRoundedIcon color="secondary" />
           </IconButton>
         </Tooltip>
       </div>

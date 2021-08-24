@@ -45,9 +45,8 @@ const ViewsToolbarWidget = (props) => {
 };
 
 ViewsToolbarWidget.defaultProps = {
-  current: undefined
-}
-
+  current: undefined,
+};
 
 ViewsToolbarWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,

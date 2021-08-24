@@ -101,8 +101,8 @@ const ViewGridWidget = ({
 };
 
 ViewGridWidget.defaultProps = {
-  current: undefined
-}
+  current: undefined,
+};
 
 ViewGridWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,

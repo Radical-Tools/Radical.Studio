@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Step, StepButton, Stepper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
-import RemoveCircleOutlineRoundedIcon from '@material-ui/icons/RemoveCircleOutlineRounded';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,14 +31,14 @@ const TimelineToolbarWidget = (props) => {
   return presentation ? (
     <Box display="flex" alignItems="center">
       <Box>
-        <IconButton color="primary"  onClick={() => onAppendStepCallback()}>
-          <AddCircleOutlineRoundedIcon
-            style={{ fontSize: 30 }}
+        <IconButton color="secondary"  onClick={() => onAppendStepCallback()}>
+          <AddCircleRoundedIcon
+            style={{ fontSize: 40 }}
           />
         </IconButton>
-        <IconButton color="primary" disabled={presentation.steps.length <= 1}    onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}>
-          <RemoveCircleOutlineRoundedIcon
-            style={{ fontSize: 30 }}
+        <IconButton color="secondary" disabled={presentation.steps.length <= 1}    onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}>
+          <RemoveCircleRoundedIcon
+            style={{ fontSize: 40 }}
           />
         </IconButton>
       </Box>
@@ -65,7 +65,7 @@ const TimelineToolbarWidget = (props) => {
       </Box>
       <Box>
         <IconButton
-          color="primary"
+          color="secondary"
           disabled={presentation.currentStepIndex === 0}
           onClick={() =>
             onGotoStepCallback(presentation.currentStepIndex - 1)
@@ -76,7 +76,7 @@ const TimelineToolbarWidget = (props) => {
           />
         </IconButton>
         <IconButton
-          color="primary"
+          color="secondary"
           disabled={
             presentation.currentStepIndex === presentation.steps.length - 1
           }

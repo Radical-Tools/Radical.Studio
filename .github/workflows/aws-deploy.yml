@@ -28,4 +28,4 @@ jobs:
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./build/ s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio --delete
       - name: Invalidate index
-        run: aws cloudfront create-invalidation --distribution-id E2ABYWQFXDZ2DJ --paths '/studio/index.html';"
+        run: aws cloudfront create-invalidation --distribution-id E2ABYWQFXDZ2DJ --paths '/studio/index.html'

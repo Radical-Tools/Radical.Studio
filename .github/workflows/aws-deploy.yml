@@ -22,14 +22,13 @@ jobs:
           node-version: 14.x
       - run: npm install
       - run: npm run build
-      - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@master
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          args: --acl public-read --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_STUDIO_PRD_BUCKET_REGION }}
-          SOURCE_DIR: "build"
-          DEST_DIR: "studio"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_STUDIO_PRD_BUCKET_REGION }}
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./build/ s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio --delete
+      - name: Invalidate index
+        run: aws cloudfront create-invalidation --distribution-id E2ABYWQFXDZ2DJ --paths '/studio/index.html'

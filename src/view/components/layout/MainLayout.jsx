@@ -26,6 +26,7 @@ const MainLayout = ({
   windowDimensions,
 }) => (
   <>
+    <div>Tesssdfdsfds div</div>
     <WidgetsPanel
       currentTheme={currentTheme}
       layout={layout}

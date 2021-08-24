@@ -52,7 +52,7 @@ const Drawer = ({
         <List>
           <ListItem key="Save">
             <Tooltip
-              title={<Typography variant="h7">Save To Local File</Typography>}
+              title={<Typography variant="h6">Save To Local File</Typography>}
             >
               <IconButton
                 variant="contained"
@@ -66,7 +66,7 @@ const Drawer = ({
           </ListItem>
           <ListItem key="Load">
             <Tooltip
-              title={<Typography variant="h7">Load Local File</Typography>}
+              title={<Typography variant="h6">Load Local File</Typography>}
             >
               <IconButton variant="contained" color="primary" component="label">
                 <FileReader
@@ -85,7 +85,7 @@ const Drawer = ({
         <Divider />
         <List>
           <ListItem key="Edit" selected={mode === 'edit'}>
-            <Tooltip title={<Typography variant="h7">Design</Typography>}>
+            <Tooltip title={<Typography variant="h6">Design</Typography>}>
               <IconButton
                 variant="contained"
                 color="primary"
@@ -97,7 +97,7 @@ const Drawer = ({
             </Tooltip>
           </ListItem>
           <ListItem key="Presentation" selected={mode === 'presentation'}>
-            <Tooltip title={<Typography variant="h7">Presentation</Typography>}>
+            <Tooltip title={<Typography variant="h6">Presentation</Typography>}>
               <IconButton
                 variant="contained"
                 color="primary"

@@ -49,6 +49,7 @@ const RadicalCanvasWidget = ({
   viewmodel,
   alignment,
   editMode,
+  animMode,
   onDragItemsEnd,
   onLinkConnected,
   onDiagramAlignmentUpdated,
@@ -148,7 +149,7 @@ const RadicalCanvasWidget = ({
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   useEffect(() => {
-    const viewChanged = viewName !== viewmodel.name;
+    const isViewChanged = viewName !== viewmodel.name;
     setViewName(viewmodel.name);
     const model = mapViewmodel(viewmodel, editMode);
     model.registerListener(registerCallbacks());
@@ -159,11 +160,7 @@ const RadicalCanvasWidget = ({
       link.registerListener(registerCallbacks());
       link.update();
     });
-    if (editMode || viewChanged) {
-      engine.setModel(model);
-      model.setInitialZoomLevel(alignment.zoom);
-      model.setInitialOffset(alignment.offsetX, alignment.offsetY);
-    } else {
+    if (animMode && !isViewChanged) {
       const sourceZoomLevel = engine.getModel().getZoomLevel();
       const sourceOffsetX = engine.getModel().getOffsetX();
       const sourceOffsetY = engine.getModel().getOffsetY();
@@ -176,9 +173,22 @@ const RadicalCanvasWidget = ({
         alignment.offsetX,
         alignment.offsetY
       );
+    } else {
+      engine.setModel(model);
+      model.setInitialZoomLevel(alignment.zoom);
+      model.setInitialOffset(alignment.offsetX, alignment.offsetY);
     }
     setIsModelSet(true);
-  }, [viewmodel, editMode, alignment, engine, registerCallbacks, viewName]);
+  }, [
+    viewmodel,
+    editMode,
+    animMode,
+    alignment,
+    engine,
+    registerCallbacks,
+    viewName,
+  ]);
+
   const [, drop] = useDrop(() => ({
     accept: [MODEL_DROP_TYPE, METAMODEL_DROP_TYPE],
     drop: (item, monitor) => {
@@ -240,6 +250,7 @@ RadicalCanvasWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
   editMode: PropTypes.bool.isRequired,
+  animMode: PropTypes.bool.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,

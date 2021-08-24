@@ -87,7 +87,7 @@ const ViewGridWidget = ({
       style={gridStyle}
       defaultFilterValue={filterValue}
       showColumnMenuTool={false}
-      renderRowContextMenu={renderRowContextMenu}
+      renderRowContextMenu={editMode ? renderRowContextMenu : undefined}
       onEditComplete={onViewEditComplete}
       onSelectionChange={(data) => onViewActivateCallback(data.selected)}
       selected={current}
@@ -100,9 +100,13 @@ const ViewGridWidget = ({
   );
 };
 
+ViewGridWidget.defaultProps = {
+  current: undefined
+}
+
 ViewGridWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
-  current: PropTypes.string.isRequired,
+  current: PropTypes.string,
   onRemoveView: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
   onViewActivate: PropTypes.func.isRequired,

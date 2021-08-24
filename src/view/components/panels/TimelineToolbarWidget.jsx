@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Step, StepButton, Stepper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
-import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
-import NavigateBeforeRoundedIcon from '@material-ui/icons/NavigateBeforeRounded';
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
+import RemoveCircleOutlineRoundedIcon from '@material-ui/icons/RemoveCircleOutlineRounded';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 
@@ -31,21 +31,14 @@ const TimelineToolbarWidget = (props) => {
   return presentation ? (
     <Box display="flex" alignItems="center">
       <Box>
-        <IconButton color="primary" disabled={presentation.steps.length <= 1}>
-          <RemoveRoundedIcon
-            style={{ fontSize: 35 }}
-            onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}
+        <IconButton color="primary"  onClick={() => onAppendStepCallback()}>
+          <AddCircleOutlineRoundedIcon
+            style={{ fontSize: 30 }}
           />
         </IconButton>
-        <IconButton
-          color="primary"
-          disabled={presentation.currentStepIndex === 0}
-        >
-          <NavigateBeforeRoundedIcon
-            style={{ fontSize: 35 }}
-            onClick={() =>
-              onGotoStepCallback(presentation.currentStepIndex - 1)
-            }
+        <IconButton color="primary" disabled={presentation.steps.length <= 1}    onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}>
+          <RemoveCircleOutlineRoundedIcon
+            style={{ fontSize: 30 }}
           />
         </IconButton>
       </Box>
@@ -60,10 +53,9 @@ const TimelineToolbarWidget = (props) => {
           }
         >
           {presentation.steps.map((step, index) => (
-            <Step key={step.name}>
+            <Step key={step.id} onClick={() => onGotoStepCallback(index)}>
               <StepButton
                 key={step.name}
-                onClick={() => onGotoStepCallback(index)}
               >
                 <Typography variant="button">{step.name}</Typography>
               </StepButton>
@@ -74,33 +66,43 @@ const TimelineToolbarWidget = (props) => {
       <Box>
         <IconButton
           color="primary"
+          disabled={presentation.currentStepIndex === 0}
+          onClick={() =>
+            onGotoStepCallback(presentation.currentStepIndex - 1)
+          }
+        >
+          <ArrowLeftIcon
+            style={{ fontSize: 50 }}
+          />
+        </IconButton>
+        <IconButton
+          color="primary"
           disabled={
             presentation.currentStepIndex === presentation.steps.length - 1
           }
+          onClick={() =>
+            onGotoStepCallback(presentation.currentStepIndex + 1)
+          }
         >
-          <NavigateNextRoundedIcon
-            style={{ fontSize: 35 }}
-            onClick={() =>
-              onGotoStepCallback(presentation.currentStepIndex + 1)
-            }
-          />
-        </IconButton>
-        <IconButton color="primary">
-          <AddRoundedIcon
-            style={{ fontSize: 35 }}
-            onClick={() => onAppendStepCallback()}
+          <ArrowRightIcon
+            style={{ fontSize: 50 }}
           />
         </IconButton>
       </Box>
     </Box>
-  ) : (
+  ) :
     <div />
-  );
+  ;
 };
+TimelineToolbarWidget.defaultProps = {
+  presentation: undefined,
+  presentationId: undefined
+}
+
 
 TimelineToolbarWidget.propTypes = {
-  presentation: PropTypes.arrayOf(PropTypes.object).isRequired,
-  presentationId: PropTypes.number.isRequired,
+  presentation: PropTypes.objectOf(PropTypes.any),
+  presentationId: PropTypes.string,
   gotoStep: PropTypes.func.isRequired,
   appendStep: PropTypes.func.isRequired,
   removeStep: PropTypes.func.isRequired,

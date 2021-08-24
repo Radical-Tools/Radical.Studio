@@ -40,15 +40,12 @@ export const addNodes = (diagramModel, viewModel, editMode, viewModelNode) => {
         addNodes(diagramModel, viewModel, editMode, { id, ...node });
       });
   } else {
-    const node = addNode(diagramModel, viewModelNode, editMode);
+    addNode(diagramModel, viewModelNode, editMode);
     Object.values(viewModelNode.childrenNodes).forEach((id) => {
-      addNodes(
-        diagramModel,
-        viewModel,
-        editMode,
-        { id, ...viewModel.nodes[id] },
-        node
-      );
+      addNodes(diagramModel, viewModel, editMode, {
+        id,
+        ...viewModel.nodes[id],
+      });
     });
   }
 };

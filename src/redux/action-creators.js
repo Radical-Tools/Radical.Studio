@@ -305,7 +305,7 @@ export const presentationSetGoTo = createAction(
 export const presentationStepAppend = createAction(
   'presentation/step/append',
   (presentationId) => ({
-    payload: { presentationId },
+    payload: { presentationId, stepId: uuidv4() },
   })
 );
 

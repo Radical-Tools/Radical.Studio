@@ -43,6 +43,7 @@ const DiagramWidget = (props) => {
       viewmodel={view}
       alignment={alignment}
       editMode={editMode}
+      animMode={!editMode}
       onLayoutAlign={onLayoutAlign}
       onAddObjectToView={onAddObjectToView}
       onItemSelected={onItemSelected}

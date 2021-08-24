@@ -10,7 +10,6 @@ import ViewsToolbarWidget from './ViewsToolbarWidget';
 
 const mapStateToProps = (state) => {
   let currentViewId;
-
   if (state.layout.mode === 'presentation' && state.presentationModel.current) {
     currentViewId =
       state.presentationModel.presentations[state.presentationModel.current]

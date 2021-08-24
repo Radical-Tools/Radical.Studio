@@ -44,9 +44,14 @@ const ViewsToolbarWidget = (props) => {
   );
 };
 
+ViewsToolbarWidget.defaultProps = {
+  current: undefined
+}
+
+
 ViewsToolbarWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
-  current: PropTypes.string.isRequired,
+  current: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
   onRemoveView: PropTypes.func.isRequired,

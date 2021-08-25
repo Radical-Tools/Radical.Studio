@@ -2,12 +2,14 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Step, StepButton, Stepper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
-import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
-import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const TimelineToolbarWidget = (props) => {
   const { presentation, presentationId, gotoStep, appendStep, removeStep } =
@@ -30,21 +32,31 @@ const TimelineToolbarWidget = (props) => {
 
   return presentation ? (
     <Box display="flex" alignItems="center">
-      <Box>
-        <IconButton color="secondary" onClick={() => onAppendStepCallback()}>
-          <AddCircleRoundedIcon style={{ fontSize: 40 }} />
-        </IconButton>
-        <IconButton
-          color="secondary"
-          disabled={presentation.steps.length <= 1}
-          onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}
+      <Box paddingLeft={2}>
+        <ButtonGroup
+          orientation="vertical"
+          aria-label="steps management group"
+          variant="text"
+          size="small"
+          color="primary"
         >
-          <RemoveCircleRoundedIcon style={{ fontSize: 40 }} />
-        </IconButton>
+          <Button onClick={() => onAppendStepCallback()}>
+            <Tooltip title="Add step">
+              <AddRoundedIcon color="inherit" style={{ fontSize: 35 }} />
+            </Tooltip>
+          </Button>
+          <Button
+            onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}
+            disabled={presentation.steps.length < 2}
+          >
+            <Tooltip title="Remove the selected step">
+              <RemoveRoundedIcon color="inherit" style={{ fontSize: 35 }} />
+            </Tooltip>
+          </Button>
+        </ButtonGroup>
       </Box>
-      <Box flexGrow={1}>
+      <Box pt={2} flexGrow={1}>
         <Stepper
-          alternativeLabel
           nonLinear
           activeStep={
             presentation.currentStepIndex
@@ -62,22 +74,35 @@ const TimelineToolbarWidget = (props) => {
         </Stepper>
       </Box>
       <Box>
-        <IconButton
-          color="secondary"
-          disabled={presentation.currentStepIndex === 0}
-          onClick={() => onGotoStepCallback(presentation.currentStepIndex - 1)}
+        <ButtonGroup
+          orientation="vertical"
+          aria-label="steps management group"
+          variant="text"
+          size="small"
         >
-          <ArrowLeftIcon style={{ fontSize: 50 }} />
-        </IconButton>
-        <IconButton
-          color="secondary"
-          disabled={
-            presentation.currentStepIndex === presentation.steps.length - 1
-          }
-          onClick={() => onGotoStepCallback(presentation.currentStepIndex + 1)}
-        >
-          <ArrowRightIcon style={{ fontSize: 50 }} />
-        </IconButton>
+          <Button
+            onClick={() =>
+              onGotoStepCallback(presentation.currentStepIndex + 1)
+            }
+            disabled={
+              presentation.currentStepIndex === presentation.steps.length - 1
+            }
+          >
+            <Tooltip title="Go to the next step">
+              <ArrowRightIcon style={{ fontSize: 35 }} />
+            </Tooltip>
+          </Button>
+          <Button
+            onClick={() =>
+              onGotoStepCallback(presentation.currentStepIndex - 1)
+            }
+            disabled={presentation.currentStepIndex === 0}
+          >
+            <Tooltip title="Go to the previous step">
+              <ArrowLeftIcon style={{ fontSize: 35 }} />
+            </Tooltip>
+          </Button>
+        </ButtonGroup>
       </Box>
     </Box>
   ) : (

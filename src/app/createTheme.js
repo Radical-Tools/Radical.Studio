@@ -9,7 +9,7 @@ const createAppTheme = (type) =>
         main: '#e08b27',
       },
       primary: {
-        main: '#2b458a',
+        main: '#294a91',
       },
     },
     overrides: {

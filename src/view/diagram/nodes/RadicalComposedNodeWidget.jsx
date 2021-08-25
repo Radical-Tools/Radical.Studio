@@ -42,6 +42,7 @@ const RadicalComposedNodeWidget = ({
           position: 'relative',
           width: node.width,
           height: node.height,
+          color: isExpanded ? '#2f2f2f' : '#ffffff',
         }}
       >
         <div

@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     fontSize: 14,
     padding: '0px',
+    color: 'inherit',
   },
 });
 const useTypographyStyles = makeStyles({

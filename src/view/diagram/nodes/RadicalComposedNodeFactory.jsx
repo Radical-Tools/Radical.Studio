@@ -12,18 +12,35 @@ import {
   C4System,
 } from './c4/c4Icons';
 
-function Generic({ width, height, isSelected }) {
-  return (
+const selectedColor = '#e08b27';
+
+function Generic({ width, height, isSelected, isExpanded }) {
+  return isExpanded ? (
     <rect
-      fill="#85bbf0"
-      fillOpacity="1.0"
-      stroke={isSelected ? 'black' : 'white'}
+      fill="#1168bd"
+      fillOpacity="0.01"
+      strokeDasharray="5 10"
+      stroke={isSelected ? selectedColor : '#808080'}
       rx="5"
       ry="5"
       x="1"
       y="1"
       width={width - 2}
       height={height - 2}
+      strokeWidth={isSelected ? 4 : 1}
+    />
+  ) : (
+    <rect
+      fill="#0099cc"
+      fillOpacity="1.0"
+      stroke={isSelected ? selectedColor : 'white'}
+      rx="5"
+      ry="5"
+      x="1"
+      y="1"
+      width={width - 2}
+      height={height - 2}
+      strokeWidth={isSelected ? 4 : 1}
     />
   );
 }

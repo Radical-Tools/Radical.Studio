@@ -31,14 +31,14 @@ const TimelineToolbarWidget = (props) => {
   );
 
   return presentation ? (
-    <Box display="flex" alignItems="center">
-      <Box paddingLeft={2}>
+    <Box display="flex" alignItems="center" height="100%">
+      <Box>
         <ButtonGroup
           orientation="vertical"
           aria-label="steps management group"
           variant="text"
           size="small"
-          color="primary"
+          color="secondary"
         >
           <Button onClick={() => onAppendStepCallback()}>
             <Tooltip title="Add step">
@@ -55,7 +55,7 @@ const TimelineToolbarWidget = (props) => {
           </Button>
         </ButtonGroup>
       </Box>
-      <Box pt={2} flexGrow={1}>
+      <Box flexGrow={1}>
         <Stepper
           nonLinear
           activeStep={
@@ -79,6 +79,7 @@ const TimelineToolbarWidget = (props) => {
           aria-label="steps management group"
           variant="text"
           size="small"
+          color="secondary"
         >
           <Button
             onClick={() =>

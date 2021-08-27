@@ -15,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
 import FileReader from '../utils/FileReader';
+import { LAYOUT_MODE } from '../../../app/consts';
 
 const Drawer = ({
   widgetsConfig,
@@ -84,25 +85,28 @@ const Drawer = ({
         <Typography variant="subtitle2">Perspective</Typography>
         <Divider />
         <List>
-          <ListItem key="Edit" selected={mode === 'edit'}>
+          <ListItem key="Edit" selected={mode === LAYOUT_MODE.EDIT}>
             <Tooltip title={<Typography variant="h6">Design</Typography>}>
               <IconButton
                 variant="contained"
                 color="primary"
                 component="label"
-                onClick={() => onSetModeCallback('edit')}
+                onClick={() => onSetModeCallback(LAYOUT_MODE.EDIT)}
               >
                 <EditRoundedIcon />
               </IconButton>
             </Tooltip>
           </ListItem>
-          <ListItem key="Presentation" selected={mode === 'presentation'}>
+          <ListItem
+            key="Presentation"
+            selected={mode === LAYOUT_MODE.PRESENTATION}
+          >
             <Tooltip title={<Typography variant="h6">Presentation</Typography>}>
               <IconButton
                 variant="contained"
                 color="primary"
                 component="label"
-                onClick={() => onSetModeCallback('presentation')}
+                onClick={() => onSetModeCallback(LAYOUT_MODE.PRESENTATION)}
               >
                 <SlideshowRoundedIcon />
               </IconButton>

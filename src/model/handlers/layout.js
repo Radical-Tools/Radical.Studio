@@ -4,13 +4,14 @@ import flow from 'lodash/fp/flow';
 import {
   LAYOUT_MAX_COLS,
   LAYOUT_MAX_ROWS,
+  LAYOUT_MODE,
   MIN_HEIGHT_NUMBER,
   MIN_WIDTH_NUMBER,
 } from '../../app/consts';
 
-export const getWidgets = (mode = 'edit') => ({
+export const getWidgets = (mode = LAYOUT_MODE.EDIT) => ({
   model: {
-    isActive: mode === 'edit',
+    isActive: mode === LAYOUT_MODE.EDIT,
     isMaximized: false,
     canBeMaximized: true,
     canBeClosed: false,
@@ -35,12 +36,12 @@ export const getWidgets = (mode = 'edit') => ({
       x: 0,
       y: LAYOUT_MAX_ROWS - 5,
       w: 7,
-      h: mode === 'edit' ? 6 : 11,
+      h: mode === LAYOUT_MODE.EDIT ? 6 : 11,
       minW: 1,
     },
   },
   presentations: {
-    isActive: mode === 'presentation',
+    isActive: mode === LAYOUT_MODE.PRESENTATION,
     isMaximized: false,
     canBeMaximized: false,
     canBeClosed: false,
@@ -55,7 +56,7 @@ export const getWidgets = (mode = 'edit') => ({
     },
   },
   timeline: {
-    isActive: mode === 'presentation',
+    isActive: mode === LAYOUT_MODE.PRESENTATION,
     isMaximized: false,
     canBeMaximized: false,
     canBeClosed: false,
@@ -80,13 +81,13 @@ export const getWidgets = (mode = 'edit') => ({
       x: 7,
       y: 3,
       w: 17,
-      h: mode === 'edit' ? LAYOUT_MAX_ROWS - 3 : LAYOUT_MAX_ROWS - 4,
+      h: mode === LAYOUT_MODE.EDIT ? LAYOUT_MAX_ROWS - 3 : LAYOUT_MAX_ROWS - 4,
       minW: 4,
       minH: 1,
     },
   },
   metamodel: {
-    isActive: mode === 'edit',
+    isActive: mode === LAYOUT_MODE.EDIT,
     isMaximized: false,
     canBeMaximized: false,
     canBeClosed: false,
@@ -144,7 +145,7 @@ export const initialState = {
         })),
       ],
     },
-    mode: 'edit',
+    mode: LAYOUT_MODE.EDIT,
   },
 };
 

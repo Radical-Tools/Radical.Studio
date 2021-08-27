@@ -13,3 +13,8 @@ export const LAYOUT_MAX_COLS = 24;
 export const LAYOUT_MARGIN = 5;
 export const LAYOUT_HEIGHT_OFFSET_FOR_MARGIN =
   (LAYOUT_MAX_ROWS + 2) * LAYOUT_MARGIN;
+
+export const LAYOUT_MODE = {
+  EDIT: 'edit',
+  PRESENTATION: 'presentation',
+};

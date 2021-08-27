@@ -16,6 +16,7 @@ import {
 } from '../helpers/viewmodel';
 import adjust, { alignNested, autoAlign } from '../helpers/layout';
 import { findValidRelations } from '../helpers/model';
+import { LAYOUT_MODE } from '../../app/consts';
 
 export const initialState = {
   viewModel: {
@@ -174,7 +175,7 @@ export const updateView = (state, payload) =>
   );
 
 export const activateView = (state, payload) => {
-  if (state.layout.mode === 'edit') {
+  if (state.layout.mode === LAYOUT_MODE.EDIT) {
     const newState = set(['viewModel', 'current'], payload.id, state);
     return updateCurrentView(newState);
   }
@@ -300,7 +301,7 @@ export const addLink = (state, payload) =>
   );
 
 export const viewAlignmentUpdate = (state, payload) =>
-  state.layout.mode === 'edit'
+  state.layout.mode === LAYOUT_MODE.EDIT
     ? set(
         [
           'viewModel',

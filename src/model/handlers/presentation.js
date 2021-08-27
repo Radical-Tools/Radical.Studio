@@ -7,6 +7,7 @@ import identity from 'lodash/fp/identity';
 import slice from 'lodash/fp/slice';
 import concat from 'lodash/fp/concat';
 import update from 'lodash/fp/update';
+import { LAYOUT_MODE } from '../../app/consts';
 
 export const initialState = {
   presentationModel: {
@@ -150,7 +151,8 @@ export const removeStep = (state, payload) => {
 };
 
 export const updateStepAlignment = (state, payload) =>
-  state.layout.mode === 'presentation' && state.presentationModel.current
+  state.layout.mode === LAYOUT_MODE.PRESENTATION &&
+  state.presentationModel.current
     ? set(
         [
           'presentationModel',
@@ -172,7 +174,8 @@ export const updateStepAlignment = (state, payload) =>
     : state;
 
 export const updateStepView = (state, payload) =>
-  state.layout.mode === 'presentation' && state.presentationModel.current
+  state.layout.mode === LAYOUT_MODE.PRESENTATION &&
+  state.presentationModel.current
     ? set(
         [
           'presentationModel',

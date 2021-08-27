@@ -18,10 +18,11 @@ import {
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
 } from '../../../redux/action-creators';
+import { LAYOUT_MODE } from '../../../app/consts';
 
 const mapStateToProps = (state) => {
   const view =
-    state.layout.mode === 'presentation' &&
+    state.layout.mode === LAYOUT_MODE.PRESENTATION &&
     state.presentationModel.current &&
     state.presentationModel.presentations[state.presentationModel.current]
       ? state.presentationModel.presentations[state.presentationModel.current]
@@ -38,7 +39,7 @@ const mapStateToProps = (state) => {
         state.model
       ),
       alignment: view.properties.alignment,
-      editMode: state.layout.mode === 'edit',
+      editMode: state.layout.mode === LAYOUT_MODE.EDIT,
     };
   }
 
@@ -48,7 +49,7 @@ const mapStateToProps = (state) => {
       state.model
     ),
     alignment: state.viewModel.views[state.viewModel.current].alignment,
-    editMode: state.layout.mode === 'edit',
+    editMode: state.layout.mode === LAYOUT_MODE.EDIT,
   };
 };
 const mapDispatchToProps = (dispatch) => ({

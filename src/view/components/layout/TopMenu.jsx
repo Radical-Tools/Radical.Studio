@@ -48,7 +48,7 @@ const TopMenu = ({
             onClick={onShowDrawer}
             edge="start"
             classes={useMenuButtonStyles()}
-            color="secondary"
+            color="inherit"
             aria-label="open drawer"
           >
             <WidgetsIcon />

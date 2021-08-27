@@ -18,3 +18,8 @@ export const LAYOUT_MODE = {
   EDIT: 'edit',
   PRESENTATION: 'presentation',
 };
+
+export const LAYOUT_COLOR = {
+  PRIMARY: '#504e6e',
+  SECONDARY: '#e06c2e',
+};

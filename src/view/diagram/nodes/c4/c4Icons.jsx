@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
-const selectedColor = '#e08b27';
+import { LAYOUT_COLOR } from '../../../../app/consts';
 
 export function C4Container({ width, height, isSelected, isExpanded }) {
   return isExpanded ? (
@@ -9,7 +8,7 @@ export function C4Container({ width, height, isSelected, isExpanded }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={isSelected ? selectedColor : '#808080'}
+      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : '#808080'}
       rx="5"
       ry="5"
       x="1"
@@ -22,7 +21,7 @@ export function C4Container({ width, height, isSelected, isExpanded }) {
     <rect
       fill="#287ac9"
       fillOpacity="1.0"
-      stroke={isSelected ? selectedColor : 'white'}
+      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
       rx="10"
       ry="10"
       x="2"
@@ -47,7 +46,7 @@ export function C4Component({ width, height, isSelected, isExpanded }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={isSelected ? selectedColor : '#808080'}
+      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : '#808080'}
       rx="5"
       ry="5"
       x="1"
@@ -60,7 +59,7 @@ export function C4Component({ width, height, isSelected, isExpanded }) {
     <rect
       fill="#438dd5"
       fillOpacity="1.0"
-      stroke={isSelected ? selectedColor : 'white'}
+      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
       rx="10"
       ry="10"
       x="2"
@@ -85,7 +84,7 @@ export function C4System({ width, height, isSelected, isExpanded }) {
       fill="#1168bd"
       fillOpacity="0.01"
       strokeDasharray="5 10"
-      stroke={isSelected ? selectedColor : '#808080'}
+      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : '#808080'}
       rx="5"
       ry="5"
       x="1"
@@ -98,7 +97,7 @@ export function C4System({ width, height, isSelected, isExpanded }) {
     <rect
       fill="#075bad"
       fillOpacity="1.0"
-      stroke={isSelected ? selectedColor : 'white'}
+      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
       rx="10"
       ry="10"
       x="2"
@@ -122,7 +121,7 @@ export function C4ExternalSystem({ width, height, isSelected }) {
     <rect
       fill="#7d7d7d"
       fillOpacity="1.0"
-      stroke={isSelected ? selectedColor : 'white'}
+      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
       rx="10"
       ry="10"
       x="2"
@@ -146,7 +145,7 @@ export function C4Actor({ width, height, isSelected }) {
       <rect
         fill="#0f4880"
         fillOpacity="1.0"
-        stroke={isSelected ? selectedColor : 'white'}
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
         rx="20"
         ry="20"
         x="5"
@@ -157,7 +156,7 @@ export function C4Actor({ width, height, isSelected }) {
       />
       <circle
         fill="#0f4880"
-        stroke={isSelected ? selectedColor : 'white'}
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
         fillOpacity="1.0"
         cx="75"
         cy="30"
@@ -178,7 +177,7 @@ export function C4Database({ width, height, isSelected }) {
   return (
     <g>
       <rect
-        stroke={isSelected ? selectedColor : 'white'}
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
         fill="#438dd5"
         fillOpacity="1.0"
         rx="0"
@@ -192,7 +191,7 @@ export function C4Database({ width, height, isSelected }) {
       <ellipse
         fill="#438dd5"
         fillOpacity="1.0"
-        stroke={isSelected ? selectedColor : 'white'}
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
         cx="75"
         cy="108"
         rx="72"
@@ -202,7 +201,7 @@ export function C4Database({ width, height, isSelected }) {
       <ellipse
         fill="#438dd5"
         fillOpacity="1.0"
-        stroke={isSelected ? selectedColor : 'white'}
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
         cx="75"
         cy="22"
         rx="73"

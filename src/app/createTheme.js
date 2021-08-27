@@ -1,15 +1,15 @@
 import { createTheme } from '@material-ui/core';
-import { MIN_HEIGHT, MIN_WIDTH } from './consts';
+import { LAYOUT_COLOR, MIN_HEIGHT, MIN_WIDTH } from './consts';
 
 const createAppTheme = (type) =>
   createTheme({
     palette: {
       type,
       secondary: {
-        main: '#fd903a',
+        main: LAYOUT_COLOR.SECONDARY,
       },
       primary: {
-        main: '#5c5c6c',
+        main: LAYOUT_COLOR.PRIMARY,
       },
     },
     overrides: {

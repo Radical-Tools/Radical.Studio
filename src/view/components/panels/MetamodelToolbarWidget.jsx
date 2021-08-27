@@ -41,7 +41,7 @@ const MetamodelToolbarWidget = (props) => {
             display="flex"
             alignItems="center"
           >
-            <Chip label={categoryId} avatar={categoryId} color="primary" />
+            <Chip label={categoryId} color="primary" />
             {items.map((item) => (
               <ToolbarItem key={item.id} id={item.id} name={item.name} />
             ))}
@@ -51,8 +51,12 @@ const MetamodelToolbarWidget = (props) => {
   );
 };
 
+MetamodelToolbarWidget.defaultProps = {
+  objectClasses: undefined,
+};
+
 MetamodelToolbarWidget.propTypes = {
-  objectClasses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  objectClasses: PropTypes.objectOf(PropTypes.any),
 };
 ToolbarItem.propTypes = {
   name: PropTypes.string.isRequired,

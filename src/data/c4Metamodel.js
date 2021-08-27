@@ -40,12 +40,6 @@ const c4Metamodel = {
       attributes: ['technology', 'description'],
       category: 'C4',
     },
-    {
-      id: 'DomainObject',
-      name: 'Domain Object',
-      attributes: ['description'],
-      category: 'Domain',
-    },
   ],
   relations: [
     {

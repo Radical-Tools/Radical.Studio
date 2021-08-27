@@ -52,7 +52,7 @@ const ViewExportMenu = ({ name }) => {
           size="small"
           onClick={handleClick}
           edge="start"
-          color="inherit"
+          color="primary"
         >
           <GetAppRoundedIcon />
         </IconButton>

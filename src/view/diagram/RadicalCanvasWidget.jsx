@@ -152,6 +152,7 @@ const RadicalCanvasWidget = ({
     const isViewChanged = viewName !== viewmodel.name;
     setViewName(viewmodel.name);
     const model = mapViewmodel(viewmodel, editMode);
+
     model.registerListener(registerCallbacks());
     model.getNodes().forEach((node) => {
       node.registerListener(registerCallbacks());

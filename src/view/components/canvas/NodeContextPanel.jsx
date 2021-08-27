@@ -35,7 +35,7 @@ const useStyles = makeStyles(() => ({
     color: 'white',
   },
   iconExpanded: {
-    color: 'black',
+    color: '#595959',
   },
 }));
 

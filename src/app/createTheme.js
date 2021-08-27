@@ -6,10 +6,10 @@ const createAppTheme = (type) =>
     palette: {
       type,
       secondary: {
-        main: '#fc8b0b',
+        main: '#fd903a',
       },
       primary: {
-        main: '#4d4f62',
+        main: '#5c5c6c',
       },
     },
     overrides: {

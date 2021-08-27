@@ -24,7 +24,7 @@ function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
               size="small"
               onClick={onLayoutAlign}
               edge="start"
-              color="inherit"
+              color="primary"
             >
               <AccountTreeRoundedIcon />
             </IconButton>
@@ -35,7 +35,7 @@ function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
             size="small"
             onClick={onZoomToFit}
             edge="start"
-            color="inherit"
+            color="primary"
           >
             <ZoomOutMapRoundedIcon />
           </IconButton>

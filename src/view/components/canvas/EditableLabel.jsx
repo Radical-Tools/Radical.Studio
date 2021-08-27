@@ -84,8 +84,13 @@ const EditableLabel = ({
     </Typography>
   );
 };
+
+EditableLabel.defaultProps = {
+  width: undefined,
+};
+
 EditableLabel.propTypes = {
-  width: PropTypes.number.isRequired,
+  width: PropTypes.number,
   label: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   isItemSelected: PropTypes.bool.isRequired,

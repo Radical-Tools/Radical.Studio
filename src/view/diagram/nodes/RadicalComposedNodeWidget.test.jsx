@@ -1,25 +1,24 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import * as muiStyles from '@material-ui/core/styles';
 
 import RadicalComposedNodeWidget from './RadicalComposedNodeWidget';
 
-jest.mock('@material-ui/core/styles', () => {
-  const mock = jest.fn();
-  return {
-    makeStyles: () => mock,
-  };
-});
+// jest.mock('@material-ui/core/styles', () => {
+//   const mock = jest.fn();
+//   return {
+//     makeStyles: () => mock,
+//   };
+// });
 
 describe('RadicalComposedNodeWidget', () => {
   it('renders node title with given node width', async () => {
-    muiStyles.makeStyles().mockImplementation(() => ({}));
+    // muiStyles.styled.mockImplementation(() => ({}));
     const nodeWidth = { width: 200 };
 
-    const { getByRole } = render(
+    const { getByRole, getByText } = render(
       <RadicalComposedNodeWidget
         node={{
-          width: 200,
+          width: nodeWidth.width,
           height: 300,
           isSelected: () => false,
           isLocked: () => false,
@@ -37,6 +36,8 @@ describe('RadicalComposedNodeWidget', () => {
     );
 
     expect(getByRole('heading')).toBeDefined();
-    expect(muiStyles.makeStyles()).toHaveBeenCalledWith(nodeWidth);
+    expect(getByText('Gandalf')).toBeDefined();
+    expect(getByText('Gandalf')).toHaveStyle(`width: ${nodeWidth.width}px;`);
+    // expect(muiStyles.styled()).toHaveBeenCalledWith(nodeWidth);
   });
 });

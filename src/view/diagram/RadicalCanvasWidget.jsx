@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { useDrop } from 'react-dnd';
-import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';
@@ -34,17 +34,16 @@ const mapViewmodel = (viewmodel, editMode) => {
   addLinks(diagramModel, viewmodel, editMode);
   return diagramModel;
 };
-const useStyles = makeStyles(() => ({
-  fill: {
-    width: '100%',
-    height: '100%',
-  },
-  fillCanvas: {
-    width: '100%',
-    height: '94%',
-  },
-}));
 
+const fillStyle = {
+  width: '100%',
+  height: '100%',
+};
+const fillCanvasStyle = {
+  width: '100%',
+  height: '94%',
+  '& .fill': fillStyle,
+};
 const RadicalCanvasWidget = ({
   viewmodel,
   alignment,
@@ -66,7 +65,6 @@ const RadicalCanvasWidget = ({
   onItemNameUpdated,
   onNodeDetached,
 }) => {
-  const classes = useStyles();
   const debouncedZoom = debounce(onDiagramAlignmentUpdated, zoomDebounceTime);
   const registerCallbacks = useCallback(
     () => ({
@@ -216,7 +214,7 @@ const RadicalCanvasWidget = ({
   return (
     <>
       {engine && isModelSet && (
-        <div className={classes.fill}>
+        <Box sx={fillStyle}>
           <ToolbarMenu
             onLayoutAlign={editMode ? onLayoutAlign : undefined}
             onZoomToFit={() => {
@@ -232,17 +230,10 @@ const RadicalCanvasWidget = ({
             }}
             name={viewName}
           />
-          <div
-            data-testid={getCanvas()}
-            ref={drop}
-            className={classes.fillCanvas}
-          >
-            <CanvasWidget
-              className={[classes.fill, 'canvas-view'].join(' ')}
-              engine={engine}
-            />
-          </div>
-        </div>
+          <Box data-testid={getCanvas()} ref={drop} sx={fillCanvasStyle}>
+            <CanvasWidget className="fill canvas-view" engine={engine} />
+          </Box>
+        </Box>
       )}
     </>
   );

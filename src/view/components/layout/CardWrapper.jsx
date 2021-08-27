@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import { Box, Card, CardContent, CardHeader } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import MinimizeRoundedIcon from '@material-ui/icons/MinimizeRounded';
 import FullscreenRoundedIcon from '@material-ui/icons/FullscreenRounded';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
@@ -10,39 +9,33 @@ import FullscreenExitRoundedIcon from '@material-ui/icons/FullscreenExitRounded'
 import Typography from '@material-ui/core/Typography';
 
 const headerHeight = 37;
-const useCardStyles = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(0),
-    height: '100%',
+const cardStyles = {
+  padding: 0,
+  height: '100%',
+};
+const iconButtonStyle = {
+  marginTop: '12px',
+  marginRight: '5px',
+  color: '#ffffff',
+};
+
+const cardHeaderStyle = {
+  backgroundColor: 'primary.main',
+  padding: 0,
+  paddingRight: '10px',
+  paddingLeft: '10px',
+  color: 'white',
+  height: `${headerHeight}px`,
+};
+
+const cardContentStyle = {
+  padding: 0,
+  height: `calc(100% - ${headerHeight}px)`,
+  overflow: 'auto',
+  '&:last-child': {
+    paddingBottom: 0,
   },
-}));
-const useIconButtonStyles = makeStyles(() => ({
-  root: {
-    marginTop: '12px',
-    marginRight: '5px',
-    color: '#ffffff',
-  },
-}));
-const useCardHeaderStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    padding: theme.spacing(0),
-    paddingRight: '10px',
-    paddingLeft: '10px',
-    color: 'white',
-    height: `${headerHeight}px`,
-  },
-}));
-const useCardContentStyles = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(0),
-    height: `calc(100% - ${headerHeight}px)`,
-    overflow: 'auto',
-    '&:last-child': {
-      paddingBottom: 0,
-    },
-  },
-}));
+};
 
 function CardWrapper({
   title,
@@ -56,7 +49,6 @@ function CardWrapper({
   className,
   isMaximized,
 }) {
-  const buttonClasses = useIconButtonStyles();
   const onMinimizeCallback = useCallback(
     () => onMinimize(id),
     [onMinimize, id]
@@ -69,9 +61,9 @@ function CardWrapper({
   const onRestoreCallback = useCallback(() => onRestore(id), [onRestore, id]);
   const getAriaLabel = (iconPurpose) => `${iconPurpose} ${title}`;
   return (
-    <Card elevation={3} classes={useCardStyles()}>
+    <Card elevation={3} sx={cardStyles}>
       <CardHeader
-        classes={useCardHeaderStyles()}
+        sx={cardHeaderStyle}
         className={className}
         title={
           icon ? (
@@ -89,7 +81,7 @@ function CardWrapper({
               <IconButton
                 size="small"
                 label="Restore"
-                classes={buttonClasses}
+                sx={iconButtonStyle}
                 aria-label={getAriaLabel('Restore')}
                 onClick={onRestoreCallback}
               >
@@ -101,7 +93,7 @@ function CardWrapper({
                   <IconButton
                     size="small"
                     label="Minimize"
-                    classes={buttonClasses}
+                    sx={iconButtonStyle}
                     aria-label={getAriaLabel('Minimize')}
                     onClick={onMinimizeCallback}
                   >
@@ -112,7 +104,7 @@ function CardWrapper({
                   <IconButton
                     size="small"
                     label="Maximize"
-                    classes={buttonClasses}
+                    sx={iconButtonStyle}
                     aria-label={getAriaLabel('Maximize')}
                     onClick={onMaximizeCallback}
                   >
@@ -123,7 +115,7 @@ function CardWrapper({
                   <IconButton
                     size="small"
                     label="Close"
-                    classes={buttonClasses}
+                    sx={iconButtonStyle}
                     aria-label={getAriaLabel('Close')}
                     onClick={onCloseCallback}
                   >
@@ -135,7 +127,7 @@ function CardWrapper({
           </Box>
         }
       />
-      <CardContent classes={useCardContentStyles()}>{children}</CardContent>
+      <CardContent sx={cardContentStyle}>{children}</CardContent>
     </Card>
   );
 }

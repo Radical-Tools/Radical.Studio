@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SnackbarProvider } from 'notistack';
@@ -25,7 +25,7 @@ const App = ({ themeType, onWindowResize }) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={MAX_SNACKS}>
           <CssBaseline />
           <NotificationsDisplayHandlerContainer />
@@ -33,7 +33,7 @@ const App = ({ themeType, onWindowResize }) => {
             <MainLayoutContainer />
           </ErrorBoundary>
         </SnackbarProvider>
-      </MuiThemeProvider>
+      </ThemeProvider>
     </DndProvider>
   );
 };

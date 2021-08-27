@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import set from 'lodash/fp/set';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,28 +19,21 @@ import CommonForm from '../common/CommonForm';
 import config from '../../../config/app-config';
 import { getWizardItemButton } from '../../getDataTestId';
 
-const useDialogStyles = makeStyles((theme) => ({
-  paper: {
-    minWidth: theme.app?.minWidth || 'initial',
-    minHeight: theme.app?.minHeight || 'initial',
-  },
-  paperScrollPaper: {},
-  container: {
+const dialogStyle = {
+  minWidth: (theme) => theme.app?.minWidth || 'initial',
+  minHeight: (theme) => theme.app?.minHeight || 'initial',
+  '& .MuiDialog-container': {
     overflow: 'auto',
     display: 'block',
   },
-}));
-const useAppBarStyles = makeStyles(() => ({
-  root: {
-    position: 'relative',
-  },
-}));
-const useTitleStyles = makeStyles((theme) => ({
-  root: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
+};
+const appBarStyle = {
+  position: 'relative',
+};
+const titleStyle = {
+  ml: 2,
+  flex: 1,
+};
 
 const Transition = React.forwardRef((props, ref) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
@@ -115,14 +107,14 @@ const HomeDialog = ({
       fullScreen
       open={show}
       TransitionComponent={Transition}
-      classes={useDialogStyles()}
+      sx={dialogStyle}
     >
-      <AppBar classes={useAppBarStyles()}>
+      <AppBar sx={appBarStyle}>
         <Toolbar>
           <WidgetsIcon />
           <Box display="flex" alignItems="flex-end">
             <Box>
-              <Typography variant="h6" classes={useTitleStyles()}>
+              <Typography variant="h6" sx={titleStyle}>
                 Radical.Studio
               </Typography>
             </Box>

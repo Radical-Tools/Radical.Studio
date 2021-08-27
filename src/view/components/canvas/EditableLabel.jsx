@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     fontSize: 14,
     padding: '0px',
+    color: 'inherit',
   },
 });
 const useTypographyStyles = makeStyles({
@@ -83,8 +84,13 @@ const EditableLabel = ({
     </Typography>
   );
 };
+
+EditableLabel.defaultProps = {
+  width: undefined,
+};
+
 EditableLabel.propTypes = {
-  width: PropTypes.number.isRequired,
+  width: PropTypes.number,
   label: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   isItemSelected: PropTypes.bool.isRequired,

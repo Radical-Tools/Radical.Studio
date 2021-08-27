@@ -145,7 +145,7 @@ const HomeDialog = ({
             >
               <IconButton
                 variant="contained"
-                color="primary"
+                color="secondary"
                 data-testid={getWizardItemButton('CreateProject')}
                 onClick={() => setPage('CreateNew')}
               >

@@ -1,4 +1,5 @@
 import { DiagramEngine } from '@projectstorm/react-diagrams';
+import gsap from 'gsap';
 
 export default class RadicalDiagramEngine extends DiagramEngine {
   getMouseElement(event) {
@@ -27,5 +28,35 @@ export default class RadicalDiagramEngine extends DiagramEngine {
     }
 
     return undefined;
+  }
+
+  moveWithAnim(
+    sourceZoomLevel,
+    sourceOffsetX,
+    sourceOffsetY,
+    targetZoomLevel,
+    targetOffsetX,
+    targetOffsetY
+  ) {
+    const obj = { zoomLevel: 0, offsetX: 0, offsetY: 0 };
+    gsap.fromTo(
+      obj,
+      {
+        zoomLevel: sourceZoomLevel,
+        offsetX: sourceOffsetX,
+        offsetY: sourceOffsetY,
+      },
+      {
+        zoomLevel: targetZoomLevel,
+        offsetX: targetOffsetX,
+        offsetY: targetOffsetY,
+        duration: 0.4,
+        onUpdate: () => {
+          this.getModel().setZoomLevel(obj.zoomLevel);
+          this.getModel().setOffset(obj.offsetX, obj.offsetY);
+          this.repaintCanvas();
+        },
+      }
+    );
   }
 }

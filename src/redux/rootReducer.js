@@ -8,6 +8,7 @@ import * as project from '../model/handlers/project';
 import loadState from '../model/handlers/state';
 import * as actionTypes from './action-types';
 import * as actions from './action-creators';
+import * as presentations from '../model/handlers/presentation';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,
@@ -64,13 +65,22 @@ const handlers = {
   [actionTypes.VIEWMODEL_LINK_ADD]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.addLink(state, payload)),
   [actionTypes.VIEWMODEL_VIEW_ACTIVATE]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.activateView(state, payload)),
+    viewModel.updateCurrentView(
+      presentations.updateStepView(
+        viewModel.activateView(state, payload),
+        payload
+      )
+    ),
   [actionTypes.VIEWMODEL_VIEW_UPDATE]: viewModel.updateView,
   [actionTypes.VIEWMODEL_NODE_UPDATE]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.updateNode(state, payload)),
   [actionTypes.VIEWMODEL_NODE_REMOVE]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.removeNode(state, payload)),
-  [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: viewModel.viewAlignmentUpdate,
+  [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: (state, payload) =>
+    presentations.updateStepAlignment(
+      viewModel.viewAlignmentUpdate(state, payload),
+      payload
+    ),
   [actionTypes.VIEWMODEL_VIEW_LAYOUT_ALIGN]: viewModel.alignLayout,
   [actionTypes.VIEWMODEL_NODE_COLLAPSE]: (state, payload) =>
     viewModel.alignChildren(
@@ -96,6 +106,14 @@ const handlers = {
   [actionTypes.STATE_LOAD]: loadState,
   [actions.setWindowDimensions.toString()]: layout.setWindowDimensions,
   [actions.layoutWidgetRestore.toString()]: layout.performRestore,
+  [actionTypes.LAYOUT_MODE_CHANGE]: layout.setMode,
+  [actions.presentationSelect.toString()]: presentations.select,
+  [actions.presentationCreate.toString()]: presentations.create,
+  [actions.presentationUpdateName.toString()]: presentations.updateName,
+  [actions.presentationRemove.toString()]: presentations.remove,
+  [actions.presentationSetGoTo.toString()]: presentations.goToStep,
+  [actions.presentationStepAppend.toString()]: presentations.appendStep,
+  [actions.presentationStepRemove.toString()]: presentations.removeStep,
 };
 
 export const initialState = {
@@ -106,6 +124,7 @@ export const initialState = {
   ...common.initialState,
   ...notifications.initialState,
   ...project.initialState,
+  ...presentations.initialState,
 };
 
 export const rootReducer = (state = initialState, action) => {

@@ -31,6 +31,12 @@ const useStyles = makeStyles(() => ({
     bottom: 5,
     left: 10,
   }),
+  iconNormal: {
+    color: 'white',
+  },
+  iconExpanded: {
+    color: '#595959',
+  },
 }));
 
 const NodeContextPanel = ({ node }) => {
@@ -52,7 +58,13 @@ const NodeContextPanel = ({ node }) => {
               );
             }}
           >
-            <ZoomInRoundedIcon />
+            <ZoomInRoundedIcon
+              className={
+                node.options.isExpanded
+                  ? classes.iconExpanded
+                  : classes.iconNormal
+              }
+            />
           </IconButton>
         </Tooltip>
       )}
@@ -71,7 +83,13 @@ const NodeContextPanel = ({ node }) => {
               );
             }}
           >
-            <ZoomOutRoundedIcon />
+            <ZoomOutRoundedIcon
+              className={
+                node.options.isExpanded
+                  ? classes.iconExpanded
+                  : classes.iconNormal
+              }
+            />
           </IconButton>
         </Tooltip>
       )}
@@ -85,6 +103,7 @@ const NodeContextPanel = ({ node }) => {
                 type
               )}
               className="controlEl"
+              color="secondary"
               label={type}
               size="small"
               onClick={() => {
@@ -115,7 +134,13 @@ const NodeContextPanel = ({ node }) => {
               );
             }}
           >
-            <LinkOffIcon />
+            <LinkOffIcon
+              className={
+                node.options.isExpanded
+                  ? classes.iconExpanded
+                  : classes.iconNormal
+              }
+            />
           </IconButton>
         </Tooltip>
       )}
@@ -135,7 +160,13 @@ const NodeContextPanel = ({ node }) => {
               );
             }}
           >
-            <DeleteForeverRoundedIcon />
+            <DeleteForeverRoundedIcon
+              className={
+                node.options.isExpanded
+                  ? classes.iconExpanded
+                  : classes.iconNormal
+              }
+            />
           </IconButton>
         </Tooltip>
       )}
@@ -155,7 +186,13 @@ const NodeContextPanel = ({ node }) => {
               );
             }}
           >
-            <VisibilityOffIcon />
+            <VisibilityOffIcon
+              className={
+                node.options.isExpanded
+                  ? classes.iconExpanded
+                  : classes.iconNormal
+              }
+            />
           </IconButton>
         </Tooltip>
       )}

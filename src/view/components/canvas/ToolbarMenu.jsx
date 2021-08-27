@@ -18,22 +18,24 @@ function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
         </Typography>
       </Box>
       <Box flexShrink={0} mt={0.5} mr={0.5}>
-        <Tooltip title="Align Layout">
-          <IconButton
-            size="small"
-            onClick={onLayoutAlign}
-            edge="start"
-            color="inherit"
-          >
-            <AccountTreeRoundedIcon />
-          </IconButton>
-        </Tooltip>
+        {onLayoutAlign && (
+          <Tooltip title="Align Layout">
+            <IconButton
+              size="small"
+              onClick={onLayoutAlign}
+              edge="start"
+              color="primary"
+            >
+              <AccountTreeRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        )}
         <Tooltip title="Zoom to Fit">
           <IconButton
             size="small"
             onClick={onZoomToFit}
             edge="start"
-            color="inherit"
+            color="primary"
           >
             <ZoomOutMapRoundedIcon />
           </IconButton>
@@ -44,8 +46,12 @@ function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
   );
 }
 
+ToolbarMenu.defaultProps = {
+  onLayoutAlign: undefined,
+};
+
 ToolbarMenu.propTypes = {
-  onLayoutAlign: PropTypes.func.isRequired,
+  onLayoutAlign: PropTypes.func,
   onZoomToFit: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
 };

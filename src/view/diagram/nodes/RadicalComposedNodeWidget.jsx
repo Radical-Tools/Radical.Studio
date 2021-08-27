@@ -42,6 +42,7 @@ const RadicalComposedNodeWidget = ({
           position: 'relative',
           width: node.width,
           height: node.height,
+          color: isExpanded ? '#2f2f2f' : '#ffffff',
         }}
       >
         <div
@@ -101,7 +102,7 @@ const RadicalComposedNodeWidget = ({
           </PortWidget>
         ))}
       </div>
-      <NodeContextPanel node={node} />
+      {!node.isLocked() && <NodeContextPanel node={node} />}
       {!node.isSelected() && !node.options.isExpanded && node.options.isParent && (
         <Box className={classes.composedIcon}>
           <AccountTreeIcon fontSize="small" />

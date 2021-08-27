@@ -16,6 +16,7 @@ import {
 } from '../helpers/viewmodel';
 import adjust, { alignNested, autoAlign } from '../helpers/layout';
 import { findValidRelations } from '../helpers/model';
+import { LAYOUT_MODE } from '../../app/consts';
 
 export const initialState = {
   viewModel: {
@@ -174,8 +175,12 @@ export const updateView = (state, payload) =>
   );
 
 export const activateView = (state, payload) => {
-  const newState = set(['viewModel', 'current'], payload.id, state);
-  return updateCurrentView(newState);
+  if (state.layout.mode === LAYOUT_MODE.EDIT) {
+    const newState = set(['viewModel', 'current'], payload.id, state);
+    return updateCurrentView(newState);
+  }
+
+  return state;
 };
 
 export const addNode = (state, payload) =>
@@ -296,20 +301,22 @@ export const addLink = (state, payload) =>
   );
 
 export const viewAlignmentUpdate = (state, payload) =>
-  set(
-    [
-      'viewModel',
-      'views',
-      payload.viewId ? payload.viewId : state.viewModel.current,
-      'alignment',
-    ],
-    {
-      offsetX: payload.offsetX,
-      offsetY: payload.offsetY,
-      zoom: payload.zoom,
-    },
-    state
-  );
+  state.layout.mode === LAYOUT_MODE.EDIT
+    ? set(
+        [
+          'viewModel',
+          'views',
+          payload.viewId ? payload.viewId : state.viewModel.current,
+          'alignment',
+        ],
+        {
+          offsetX: payload.offsetX,
+          offsetY: payload.offsetY,
+          zoom: payload.zoom,
+        },
+        state
+      )
+    : state;
 
 export const alignLayout = (state) => {
   const newState = cloneDeep(state);

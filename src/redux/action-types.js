@@ -7,6 +7,7 @@ export const LAYOUT_WIDGET_ADD = 'layout/widget/add';
 export const LAYOUT_DRAWER_TOGGLE = 'layout/drawer/toggle';
 export const LAYOUT_HOME_DIALOG_OPEN = 'layout/home-dialog/open';
 export const LAYOUT_HOME_DIALOG_CLOSE = 'layout/home-dialog/close';
+export const LAYOUT_MODE_CHANGE = 'layout/mode/change';
 export const MODEL_OBJECT_ADD = 'model/object/add';
 export const MODEL_OBJECT_UPDATE = 'model/object/update';
 export const MODEL_ITEM_UPDATE_NAME = 'model/item/update/name';

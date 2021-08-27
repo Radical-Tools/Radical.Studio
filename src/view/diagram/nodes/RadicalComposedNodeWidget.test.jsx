@@ -22,6 +22,7 @@ describe('RadicalComposedNodeWidget', () => {
           width: 200,
           height: 300,
           isSelected: () => false,
+          isLocked: () => false,
           getPorts: () => ({}),
           options: {},
         }}

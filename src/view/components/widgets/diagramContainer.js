@@ -18,11 +18,40 @@ import {
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
 } from '../../../redux/action-creators';
+import { LAYOUT_MODE } from '../../../app/consts';
 
-const mapStateToProps = (state) => ({
-  view: renderView(state.viewModel.views[state.viewModel.current], state.model),
-  alignment: state.viewModel.views[state.viewModel.current].alignment,
-});
+const mapStateToProps = (state) => {
+  const view =
+    state.layout.mode === LAYOUT_MODE.PRESENTATION &&
+    state.presentationModel.current &&
+    state.presentationModel.presentations[state.presentationModel.current]
+      ? state.presentationModel.presentations[state.presentationModel.current]
+          .steps[
+          state.presentationModel.presentations[state.presentationModel.current]
+            .currentStepIndex
+        ]
+      : undefined;
+
+  if (view) {
+    return {
+      view: renderView(
+        state.viewModel.views[view.properties.view],
+        state.model
+      ),
+      alignment: view.properties.alignment,
+      editMode: state.layout.mode === LAYOUT_MODE.EDIT,
+    };
+  }
+
+  return {
+    view: renderView(
+      state.viewModel.views[state.viewModel.current],
+      state.model
+    ),
+    alignment: state.viewModel.views[state.viewModel.current].alignment,
+    editMode: state.layout.mode === LAYOUT_MODE.EDIT,
+  };
+};
 const mapDispatchToProps = (dispatch) => ({
   onAddRelation: (id, source, target, type) =>
     dispatch(modelRelationAdd(id, type, undefined, undefined, source, target)),

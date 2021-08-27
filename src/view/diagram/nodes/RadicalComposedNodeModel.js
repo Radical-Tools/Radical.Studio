@@ -93,8 +93,10 @@ export default class RadicalComposedNodeModel extends NodeModel {
       { top: 50, bottom: 50, left: 50, right: 50 }
     );
     if (boundedRect.getWidth() > 0) {
-      this.width = boundedRect.points[1].x - boundedRect.points[0].x;
-      this.height = boundedRect.points[2].y - boundedRect.points[0].y;
+      this.setSize(
+        boundedRect.points[1].x - boundedRect.points[0].x,
+        boundedRect.points[2].y - boundedRect.points[0].y
+      );
 
       // +1 issue with the update width/height only
       this.setPositionAsParent(
@@ -102,8 +104,7 @@ export default class RadicalComposedNodeModel extends NodeModel {
         boundedRect.points[0].y
       );
     } else {
-      this.width = 150;
-      this.height = 75;
+      this.setSize(150, 75);
     }
     this.updateLinks();
     if (this.parentNode) {
@@ -158,6 +159,10 @@ export default class RadicalComposedNodeModel extends NodeModel {
     this.width = width;
     this.height = height;
   }
+
+  // fix: issue with the node size changes while moving & zooming
+  // eslint-disable-next-line class-methods-use-this
+  updateDimensions() {}
 
   setPositionAsParent(x, y) {
     if (this.parentNode) {

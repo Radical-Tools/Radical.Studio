@@ -42,6 +42,7 @@ import {
   NOTIFICATION_ADD,
   NOTIFICATION_REMOVE,
   STATE_LOAD,
+  LAYOUT_MODE_CHANGE,
 } from './action-types';
 
 export const themeChanged = () => ({
@@ -267,3 +268,50 @@ export const stateSave = createAsyncThunk('state/save', async (_, thunkAPI) => {
 
 export const setWindowDimensions = createAction('layout/windowDimensions/set');
 export const layoutWidgetRestore = createAction('layout/widget/restore');
+
+export const layoutModeChange = (mode) => ({
+  type: LAYOUT_MODE_CHANGE,
+  payload: {
+    mode,
+  },
+});
+
+export const presentationSelect = createAction(
+  'presentation/select',
+  (presentationId) => ({ payload: { presentationId } })
+);
+
+export const presentationCreate = createAction(
+  'presentation/create',
+  (name) => ({ payload: { id: uuidv4(), name } })
+);
+
+export const presentationUpdateName = createAction(
+  'presentation/updateName',
+  (id, name) => ({ payload: { id, name } })
+);
+
+export const presentationRemove = createAction('presentation/remove', (id) => ({
+  payload: { id },
+}));
+
+export const presentationSetGoTo = createAction(
+  'presentation/step/goto',
+  (presentationId, stepIndex) => ({
+    payload: { presentationId, stepIndex },
+  })
+);
+
+export const presentationStepAppend = createAction(
+  'presentation/step/append',
+  (presentationId) => ({
+    payload: { presentationId, stepId: uuidv4() },
+  })
+);
+
+export const presentationStepRemove = createAction(
+  'presentation/step/remove',
+  (presentationId, stepIndex) => ({
+    payload: { presentationId, stepIndex },
+  })
+);

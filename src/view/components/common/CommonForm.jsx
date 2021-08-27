@@ -25,7 +25,7 @@ const CommonForm = ({ dataSchema, uiSchema, onSubmit, testId }) => {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
+          color="secondary"
           data-testid={getFormSubmitButton(testId)}
         >
           Submit

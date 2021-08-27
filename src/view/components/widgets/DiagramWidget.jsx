@@ -6,6 +6,7 @@ const DiagramWidget = (props) => {
   const {
     view,
     alignment,
+    editMode,
     onAddRelation,
     onNodeUpdate,
     onNodeRemoved,
@@ -41,6 +42,8 @@ const DiagramWidget = (props) => {
       onRelationRemove={onRelationRemoved}
       viewmodel={view}
       alignment={alignment}
+      editMode={editMode}
+      animMode={!editMode}
       onLayoutAlign={onLayoutAlign}
       onAddObjectToView={onAddObjectToView}
       onItemSelected={onItemSelected}
@@ -56,6 +59,7 @@ const DiagramWidget = (props) => {
 DiagramWidget.propTypes = {
   view: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
+  editMode: PropTypes.bool.isRequired,
   onAddRelation: PropTypes.func.isRequired,
   onNodeUpdate: PropTypes.func.isRequired,
   onNodeRemoved: PropTypes.func.isRequired,

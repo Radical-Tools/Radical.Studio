@@ -8,31 +8,37 @@ const c4Metamodel = {
       id: 'Actor',
       name: 'Actor',
       attributes: ['technology', 'description'],
+      category: 'C4',
     },
     {
       id: 'System',
       name: 'System',
       attributes: ['technology', 'description'],
+      category: 'C4',
     },
     {
       id: 'External System',
       name: 'External System',
       attributes: ['technology', 'description'],
+      category: 'C4',
     },
     {
       id: 'Container',
       name: 'Container',
       attributes: ['technology', 'description'],
+      category: 'C4',
     },
     {
       id: 'Component',
       name: 'Component',
       attributes: ['technology', 'description'],
+      category: 'C4',
     },
     {
       id: 'Database',
       name: 'Database',
       attributes: ['technology', 'description'],
+      category: 'C4',
     },
   ],
   relations: [

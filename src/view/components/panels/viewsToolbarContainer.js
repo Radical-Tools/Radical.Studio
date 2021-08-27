@@ -7,11 +7,31 @@ import {
   viewModelViewRemove,
 } from '../../../redux/action-creators';
 import ViewsToolbarWidget from './ViewsToolbarWidget';
+import { LAYOUT_MODE } from '../../../app/consts';
 
-const mapStateToProps = (state) => ({
-  model: state.model,
-  viewModel: state.viewModel,
-});
+const mapStateToProps = (state) => {
+  let currentViewId;
+  if (
+    state.layout.mode === LAYOUT_MODE.PRESENTATION &&
+    state.presentationModel.current
+  ) {
+    currentViewId =
+      state.presentationModel.presentations[state.presentationModel.current]
+        .steps[
+        state.presentationModel.presentations[state.presentationModel.current]
+          .currentStepIndex
+      ].properties.view;
+  } else if (state.layout.mode === LAYOUT_MODE.EDIT) {
+    currentViewId = state.viewModel.current;
+  }
+
+  return {
+    model: state.model,
+    viewModel: state.viewModel,
+    current: currentViewId,
+    editMode: state.layout.mode === LAYOUT_MODE.EDIT,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   onRemoveView: (id) => dispatch(viewModelViewRemove(id)),

@@ -3,7 +3,7 @@ import RadicalComposedNodeModel from '../nodes/RadicalComposedNodeModel';
 import RadicalLabelModel from '../labels/RadicalLabelModel';
 import { DEFAULT_SOURCE_PORT, DEFAULT_TARGET_PORT } from '../consts';
 
-const addNode = (diagramModel, viewModelNode) => {
+const addNode = (diagramModel, viewModelNode, editMode) => {
   const node = new RadicalComposedNodeModel({
     id: viewModelNode.id,
     radical_type: viewModelNode.type,
@@ -18,8 +18,11 @@ const addNode = (diagramModel, viewModelNode) => {
     x: viewModelNode.position.x - viewModelNode.dimension.width / 2,
     y: viewModelNode.position.y - viewModelNode.dimension.height / 2,
   });
+
   node.setSize(viewModelNode.dimension.width, viewModelNode.dimension.height);
+
   node.setSelected(viewModelNode.isSelected);
+  node.setLocked(!editMode);
 
   diagramModel.addNode(node);
   if (viewModelNode.parentNode) {
@@ -31,21 +34,24 @@ const addNode = (diagramModel, viewModelNode) => {
   }
   return node;
 };
-export const addNodes = (diagramModel, viewModel, viewModelNode) => {
+export const addNodes = (diagramModel, viewModel, editMode, viewModelNode) => {
   if (!viewModelNode) {
     Object.entries(viewModel.nodes)
       .filter(([, node]) => node.parentNode === undefined)
       .forEach(([id, node]) => {
-        addNodes(diagramModel, viewModel, { id, ...node });
+        addNodes(diagramModel, viewModel, editMode, { id, ...node });
       });
   } else {
-    const node = addNode(diagramModel, viewModelNode);
+    addNode(diagramModel, viewModelNode, editMode);
     Object.values(viewModelNode.childrenNodes).forEach((id) => {
-      addNodes(diagramModel, viewModel, { id, ...viewModel.nodes[id] }, node);
+      addNodes(diagramModel, viewModel, editMode, {
+        id,
+        ...viewModel.nodes[id],
+      });
     });
   }
 };
-export const addLinks = (diagramModel, viewmodel) => {
+export const addLinks = (diagramModel, viewmodel, editMode) => {
   Object.entries(viewmodel.links).forEach(([linkId, link]) => {
     const diagramLink = new RadicalLinkModel({
       id: linkId,
@@ -53,6 +59,8 @@ export const addLinks = (diagramModel, viewmodel) => {
       name: link.name,
       attributes: link.attributes,
     });
+
+    diagramLink.setLocked(!editMode);
     diagramLink.addLabel(
       new RadicalLabelModel({
         label: link.name,

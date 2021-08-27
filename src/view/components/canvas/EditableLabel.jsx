@@ -1,26 +1,18 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/styles';
+import { styled } from '@material-ui/core/styles';
 import { DIAGRAM_ITEM_NAME_CHANGED } from '../../diagram/consts';
 
-const useStyles = makeStyles({
-  nameInput: {
-    width: '100%',
-    border: 'none',
-    outline: 'none',
-    background: 'transparent',
-    textAlign: 'center',
-    fontSize: 14,
-    padding: '0px',
-    color: 'inherit',
-  },
-});
-const useTypographyStyles = makeStyles({
-  root: ({ width }) => ({
-    width, // workaround for https://github.com/bubkoo/html-to-image/issues/132
-    pointerEvents: 'all',
-  }),
+const NameInput = styled('input')({
+  width: '100%',
+  border: 'none',
+  outline: 'none',
+  background: 'transparent',
+  textAlign: 'center',
+  fontSize: 14,
+  padding: '0px',
+  color: 'inherit',
 });
 const EditableLabel = ({
   label,
@@ -29,8 +21,6 @@ const EditableLabel = ({
   variant,
   isItemSelected,
 }) => {
-  const classes = useStyles();
-  const typographyStyles = useTypographyStyles({ width });
   const inputEl = useRef(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [currentLabel, setCurrentLabel] = useState('');
@@ -65,8 +55,7 @@ const EditableLabel = ({
     setCurrentLabel(label);
   }, [isItemSelected, isInEditMode, label, finishEditCallback]);
   return isInEditMode && isItemSelected ? (
-    <input
-      className={classes.nameInput}
+    <NameInput
       autoComplete="off"
       ref={inputEl}
       onBlur={finishEditCallback}
@@ -76,7 +65,10 @@ const EditableLabel = ({
     />
   ) : (
     <Typography
-      classes={typographyStyles}
+      sx={{
+        width, // workaround for https://github.com/bubkoo/html-to-image/issues/132
+        pointerEvents: 'all',
+      }}
       onDoubleClick={startEditCallback}
       variant={variant}
     >

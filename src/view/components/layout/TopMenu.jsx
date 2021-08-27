@@ -17,8 +17,12 @@ const growStyle = {
   flexGrow: 1,
 };
 const toolbarStyle = (height) => ({
-  minHeight: (height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) / LAYOUT_MAX_ROWS,
-  height: (height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) / LAYOUT_MAX_ROWS,
+  minHeight: `${
+    (height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) / LAYOUT_MAX_ROWS
+  }px !important`, // TODO: important needed because of completely changed new styles behaviour css scope
+  height: `${
+    (height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) / LAYOUT_MAX_ROWS
+  }px !important`,
 });
 
 const menuButtonStyle = {

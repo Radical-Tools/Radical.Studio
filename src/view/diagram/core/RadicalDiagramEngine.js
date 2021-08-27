@@ -38,7 +38,7 @@ export default class RadicalDiagramEngine extends DiagramEngine {
     targetOffsetX,
     targetOffsetY
   ) {
-    const obj = { zoomLevel: 0, sourceOffsetX: 0, sourceOffsetY: 0 };
+    const obj = { zoomLevel: 0, offsetX: 0, offsetY: 0 };
     gsap.fromTo(
       obj,
       {

@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import values from 'lodash/fp/values';
 
 import { getPortStyle } from '../helpers';

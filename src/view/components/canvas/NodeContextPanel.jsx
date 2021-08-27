@@ -8,7 +8,7 @@ import ZoomOutRoundedIcon from '@material-ui/icons/ZoomOutRounded';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import Chip from '@material-ui/core/Chip';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import {
   DIAGRAM_ENTITY_DELETED,

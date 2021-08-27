@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { useDrop } from 'react-dnd';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import createRadicalEngine from './core/createRadicalEngine';

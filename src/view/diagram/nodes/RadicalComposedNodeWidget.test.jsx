@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import * as muiStyles from '@material-ui/core/styles';
+import * as muiStyles from '@material-ui/styles';
 
 import RadicalComposedNodeWidget from './RadicalComposedNodeWidget';
 
-jest.mock('@material-ui/core/styles', () => {
+jest.mock('@material-ui/styles', () => {
   const mock = jest.fn();
   return {
     makeStyles: () => mock,

@@ -7,12 +7,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setWindowDimensions(windowDimensions)),
 });
 
-const mapStateToProps = (state) => {
-  // eslint-disable-next-line no-console
-  console.log(state);
-  return {
-    themeType: state.theme.current,
-  };
-};
+const mapStateToProps = (state) => ({
+  themeType: state.theme.current,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

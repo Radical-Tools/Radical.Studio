@@ -23,3 +23,4 @@ export const MODEL_DROP_TYPE = 'model-object';
 export const METAMODEL_DROP_TYPE = 'metamodel-object';
 export const DIAGRAM_LINK_TARGET_SELECTED_EVENT = 'linkSelected';
 export const DIAGRAM_NODE_DETACHED = 'nodeDetached';
+export const ENGINE_REPAINT_DEBOUNCE = 0; // Having value different than 0 makes links not render correctly

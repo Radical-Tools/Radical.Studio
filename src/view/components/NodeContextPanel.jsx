@@ -15,14 +15,14 @@ import {
   DIAGRAM_NODE_COLLAPSED,
   DIAGRAM_NODE_DETACHED,
   DIAGRAM_NODE_EXPANDED,
-} from './canvas/diagram/consts';
+} from '../widgets/DiagramWidget/diagram/consts';
 import {
   getCanvasNodeCollapseButton,
   getCanvasNodeDeleteButton,
   getCanvasNodeExpandButton,
   getCanvasNodePossibleRelation,
   getCanvasNodeRemoveButton,
-} from '../common/getDataTestId';
+} from '../../tests/getDataTestId';
 
 const panelStyle = {
   position: 'absolute',

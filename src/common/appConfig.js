@@ -1,4 +1,4 @@
-import { StorageType } from '../common/consts';
+import { StorageType } from './consts';
 
 const config = {
   operations: {

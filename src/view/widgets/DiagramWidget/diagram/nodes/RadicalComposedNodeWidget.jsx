@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import values from 'lodash/fp/values';
 
 import { getPortStyle } from '../helpers';
-import EditableLabel from '../../../EditableLabel';
-import NodeContextPanel from '../../../NodeContextPanel';
-import { getCanvasNode } from '../../../../common/getDataTestId';
+import EditableLabel from '../../../../components/EditableLabel';
+import NodeContextPanel from '../../../../components/NodeContextPanel';
+import { getCanvasNode } from '../../../../../tests/getDataTestId';
 
 const composedIconStyle = {
   position: 'absolute',

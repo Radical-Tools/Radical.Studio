@@ -15,7 +15,7 @@ import {
   validateRelation,
   validateRelationAttributes,
 } from '../common/model';
-import metamodels from '../../data/metamodels';
+import metamodels from '../../common/metamodels/metamodels';
 import { createError } from './notifications';
 
 export const initialState = {

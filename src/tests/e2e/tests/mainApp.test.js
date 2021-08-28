@@ -17,7 +17,7 @@ import {
   getObjectGridName,
   getRelationGridItem,
   getWizardItemButton,
-} from '../../../view/common/getDataTestId';
+} from '../../getDataTestId';
 
 let browser = null;
 let page = null;
@@ -310,7 +310,7 @@ describe('Basic flow', () => {
   );
 
   it(
-    'Hide a canvas node',
+    'Hide a DiagramWidget node',
     async () => {
       await CreateNewProject();
 
@@ -377,14 +377,14 @@ describe('Basic flow', () => {
       );
 
       if (linkItem) {
-        throw new Error('Link is visible on the canvas');
+        throw new Error('Link is visible on the DiagramWidget');
       }
     },
     process.env.TIMEOUT
   );
 
   it(
-    'Remove a model node from the canvas node toolbar',
+    'Remove a model node from the DiagramWidget node toolbar',
     async () => {
       await CreateNewProject();
 

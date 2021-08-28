@@ -1,4 +1,4 @@
-import c4Metamodel from '../../data/c4Metamodel';
+import c4Metamodel from '../../common/metamodels/c4Metamodel';
 import {
   modelObjectAdd,
   modelObjectRemove,

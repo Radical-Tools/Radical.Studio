@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RadicalCanvasWidget from '../components/canvas/diagram/RadicalCanvasWidget';
+import RadicalCanvasWidget from './DiagramWidget/diagram/RadicalCanvasWidget';
 
 const DiagramWidget = (props) => {
   const {

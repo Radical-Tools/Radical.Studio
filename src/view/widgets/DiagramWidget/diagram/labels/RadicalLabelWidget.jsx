@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import EditableLabel from '../../../EditableLabel';
+import EditableLabel from '../../../../components/EditableLabel';
 
 const RadicalLabelWidget = ({ visible, label, label2, link }) => {
   if (visible) {

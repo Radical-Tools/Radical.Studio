@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import readery from 'readery';
 import { InputBase } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { getFileUploader } from '../common/getDataTestId';
+import { getFileUploader } from '../../tests/getDataTestId';
 
 const FileReader = ({
   onChange,

@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { styled } from '@material-ui/core/styles';
-import { DIAGRAM_ITEM_NAME_CHANGED } from './canvas/diagram/consts';
+import { DIAGRAM_ITEM_NAME_CHANGED } from '../widgets/DiagramWidget/diagram/consts';
 
 const NameInput = styled('input')({
   width: '100%',

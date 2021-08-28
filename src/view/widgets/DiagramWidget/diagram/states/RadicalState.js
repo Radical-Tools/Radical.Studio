@@ -25,7 +25,7 @@ export default class RadicalState extends State {
             .getActionEventBus()
             .getModelForEvent(event);
 
-          // the canvas was clicked on, transition to the dragging canvas state
+          // the DiagramWidget was clicked on, transition to the dragging DiagramWidget state
           if (!element) {
             this.transitionWithEvent(this.dragCanvas, event);
           }

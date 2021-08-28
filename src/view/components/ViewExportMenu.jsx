@@ -15,7 +15,7 @@ const ViewExportMenu = ({ name }) => {
     };
 
     htmlToImage
-      .toPng(document.querySelector('.canvas-view'), opt)
+      .toPng(document.querySelector('.DiagramWidget-view'), opt)
       .then((dataUrl) => {
         download(dataUrl, `${name}.png`);
       });
@@ -29,7 +29,7 @@ const ViewExportMenu = ({ name }) => {
     };
 
     htmlToImage
-      .toSvg(document.querySelector('.canvas-view'), opt)
+      .toSvg(document.querySelector('.DiagramWidget-view'), opt)
       .then((dataUrl) => {
         download(dataUrl, `${name}.svg`);
       });

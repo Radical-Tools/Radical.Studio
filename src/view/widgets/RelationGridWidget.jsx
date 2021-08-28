@@ -4,7 +4,7 @@ import '@inovua/reactdatagrid-community/index.css';
 import PropTypes from 'prop-types';
 import zipObjectDeep from 'lodash/fp/zipObjectDeep';
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
-import { getRelationGridItem } from '../common/getDataTestId';
+import { getRelationGridItem } from '../../tests/getDataTestId';
 
 const getRows = (model) => {
   const data = [];

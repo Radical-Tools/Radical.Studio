@@ -6,7 +6,7 @@ import InsertLinkRoundedIcon from '@material-ui/icons/InsertLinkRounded';
 import Box from '@material-ui/core/Box';
 import ObjectGridWidget from '../widgets/ObjectGridWidget';
 import RelationGridWidget from '../widgets/RelationGridWidget';
-import { getModelGridToolbarItem } from '../common/getDataTestId';
+import { getModelGridToolbarItem } from '../../tests/getDataTestId';
 
 const ModelToolbarWidget = (props) => {
   const { model, viewModel, onRemoveObject, onRemoveRelation, onUpsertItem } =

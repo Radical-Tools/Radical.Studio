@@ -5,8 +5,8 @@ import { useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
 import zipObjectDeep from 'lodash/fp/zipObjectDeep';
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
-import { MODEL_DROP_TYPE } from '../components/canvas/diagram/consts';
-import { getObjectGridName } from '../common/getDataTestId';
+import { MODEL_DROP_TYPE } from './DiagramWidget/diagram/consts';
+import { getObjectGridName } from '../../tests/getDataTestId';
 
 const getRows = (model) => {
   const data = [];

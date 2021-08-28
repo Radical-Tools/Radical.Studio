@@ -6,7 +6,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import IconButton from '@material-ui/core/IconButton';
-import { getWidgetListItem } from '../common/getDataTestId';
+import { getWidgetListItem } from '../../tests/getDataTestId';
 
 const MenuWidgetListItem = ({ id, isDisabled, title, onAddWidget }) => {
   const addWidgetCallback = useCallback(

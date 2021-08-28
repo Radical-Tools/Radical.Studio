@@ -7,7 +7,7 @@ import ZoomOutMapRoundedIcon from '@material-ui/icons/ZoomOutMapRounded';
 import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
 import Typography from '@material-ui/core/Typography';
 import ViewExportMenu from './ViewExportMenu';
-import { getCanvasViewName } from '../common/getDataTestId';
+import { getCanvasViewName } from '../../tests/getDataTestId';
 
 function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
   return (

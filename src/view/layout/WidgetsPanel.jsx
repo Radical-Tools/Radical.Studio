@@ -12,7 +12,7 @@ import {
   LAYOUT_MAX_ROWS,
   THEME_DARK,
 } from '../../common/consts';
-import widgetsComponentMapping from '../widgets/widgetsComponentMapping';
+import panelsMapping from '../panels/panelsMapping';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const dragableClassName = 'BoxHeader';
@@ -74,7 +74,7 @@ const WidgetsPanel = ({
               onMinimize={widget.canBeMinimized ? onMinimizeWidget : undefined}
               isMaximized={widget.isMaximized}
             >
-              {React.createElement(widgetsComponentMapping[key])}
+              {React.createElement(panelsMapping[key])}
             </CardWrapper>
           </div>
         ))}

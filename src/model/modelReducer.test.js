@@ -10,7 +10,8 @@ import {
   initProject,
 } from '../controller/actions/actionCreators';
 
-import { rootReducer, initialState } from './rootReducer';
+import rootReducer from './rootReducer';
+import initialState from './initialState';
 
 const createInitialState = () => ({
   ...initialState,

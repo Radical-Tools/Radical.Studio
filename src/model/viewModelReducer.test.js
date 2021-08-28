@@ -10,8 +10,9 @@ import {
   viewModelNodeExpand,
 } from '../controller/actions/actionCreators';
 
-import { rootReducer, initialState } from './rootReducer';
+import rootReducer from './rootReducer';
 import renderView from '../controller/handlers/common/viewmodel';
+import initialState from './initialState';
 
 const createInitialState = () => ({
   ...initialState,

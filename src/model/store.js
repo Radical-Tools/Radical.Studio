@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import diff from 'redux-deep-diff';
-import { rootReducer } from './rootReducer';
+import rootReducer from './rootReducer';
 import subscribeToStoreChanges from '../controller/handlers/localStorage';
 
 const store = configureStore({

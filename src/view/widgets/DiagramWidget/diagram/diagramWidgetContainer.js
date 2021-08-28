@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import DiagramWidget from './DiagramWidget';
-import renderView from '../../controller/handlers/common/viewmodel';
+import renderView from '../../../../controller/handlers/common/viewmodel';
 import {
   modelObjectRemove,
   modelItemUpdateName,
@@ -17,8 +16,9 @@ import {
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
-} from '../../controller/actions/actionCreators';
-import { LAYOUT_MODE } from '../../common/consts';
+} from '../../../../controller/actions/actionCreators';
+import { LAYOUT_MODE } from '../../../../common/consts';
+import RadicalCanvasWidget from './DiagramWidget';
 
 const mapStateToProps = (state) => {
   const view =
@@ -34,34 +34,46 @@ const mapStateToProps = (state) => {
 
   if (view) {
     return {
-      view: renderView(
+      viewmodel: renderView(
         state.viewModel.views[view.properties.view],
         state.model
       ),
       alignment: view.properties.alignment,
       editMode: state.layout.mode === LAYOUT_MODE.EDIT,
+      animMode: state.layout.mode === LAYOUT_MODE.PRESENTATION,
     };
   }
 
   return {
-    view: renderView(
+    viewmodel: renderView(
       state.viewModel.views[state.viewModel.current],
       state.model
     ),
     alignment: state.viewModel.views[state.viewModel.current].alignment,
     editMode: state.layout.mode === LAYOUT_MODE.EDIT,
+    animMode: state.layout.mode === LAYOUT_MODE.PRESENTATION,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  onAddRelation: (id, source, target, type) =>
+  onLinkConnected: (id, source, target, type) =>
     dispatch(modelRelationAdd(id, type, undefined, undefined, source, target)),
-  onNodeUpdate: (id, position, dimension) =>
-    dispatch(viewModelNodeUpdate(undefined, id, position, dimension)),
-  onNodeRemoved: (id) => dispatch(viewModelNodeRemove(id)),
-  onLinkRemoved: (id) => dispatch(viewModelLinkRemove(id)),
-  onObjectRemoved: (id) => dispatch(modelObjectRemove(id)),
-  onRelationRemoved: (id) => dispatch(modelRelationRemove(id)),
-  onCanvasAlignmentUpdated: (offsetX, offsetY, zoom) =>
+  onDragItemsEnd: (point, items) => {
+    items.forEach((item) => {
+      dispatch(
+        viewModelNodeUpdate(
+          undefined,
+          item.getID(),
+          { ...item.position },
+          item.dimension
+        )
+      );
+    });
+  },
+  onNodeRemove: (id) => dispatch(viewModelNodeRemove(id)),
+  onLinkRemove: (id) => dispatch(viewModelLinkRemove(id)),
+  onObjectRemove: (id) => dispatch(modelObjectRemove(id)),
+  onRelationRemove: (id) => dispatch(modelRelationRemove(id)),
+  onDiagramAlignmentUpdated: (offsetX, offsetY, zoom) =>
     dispatch(viewModelViewAlignmentUpdate(offsetX, offsetY, zoom)),
   onLayoutAlign: () => dispatch(viewModelLayoutAlign()),
   onAddObjectToView: (id, position) =>
@@ -77,4 +89,7 @@ const mapDispatchToProps = (dispatch) => ({
   onNodeDetached: (id) => dispatch(modelObjectDetach(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DiagramWidget);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RadicalCanvasWidget);

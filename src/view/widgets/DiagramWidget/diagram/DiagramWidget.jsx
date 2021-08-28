@@ -44,7 +44,7 @@ const fillCanvasStyle = {
   height: '94%',
   '& .fill': fillStyle,
 };
-const RadicalCanvasWidget = ({
+const DiagramWidget = ({
   viewmodel,
   alignment,
   editMode,
@@ -238,7 +238,7 @@ const RadicalCanvasWidget = ({
     </>
   );
 };
-RadicalCanvasWidget.propTypes = {
+DiagramWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
   editMode: PropTypes.bool.isRequired,
@@ -260,4 +260,4 @@ RadicalCanvasWidget.propTypes = {
   onNodeDetached: PropTypes.func.isRequired,
 };
 
-export default React.memo(RadicalCanvasWidget);
+export default React.memo(DiagramWidget);

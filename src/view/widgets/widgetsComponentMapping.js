@@ -1,6 +1,6 @@
 import modelToolbarContainer from '../panels/modelToolbarContainer';
 import metamodelToolbarContainer from '../panels/metamodelToolbarContainer';
-import diagramContainer from './diagramWidgetContainer';
+import diagramContainer from './DiagramWidget/diagram/diagramWidgetContainer';
 import viewsToolbarContainer from '../panels/viewsToolbarContainer';
 import propertiesToolbarContainer from '../panels/propertiesToolbarContainer';
 import presentationsToolbarContainer from '../panels/presentationsToolbarContainer';

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setWindowDimensions } from '../model/state/action-creators';
+import { setWindowDimensions } from '../controller/actions/action-creators';
 import App from './App';
 
 const mapDispatchToProps = (dispatch) => ({

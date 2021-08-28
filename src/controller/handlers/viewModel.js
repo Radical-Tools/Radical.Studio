@@ -13,9 +13,9 @@ import {
   getNestedChildren,
   updateLinks,
   updateParentalStructure,
-} from '../common/viewmodel';
-import adjust, { alignNested, autoAlign } from '../common/layout';
-import { findValidRelations } from '../common/model';
+} from './common/viewmodel';
+import adjust, { alignNested, autoAlign } from './common/layout';
+import { findValidRelations } from './common/model';
 import { LAYOUT_MODE } from '../../common/consts';
 
 export const initialState = {

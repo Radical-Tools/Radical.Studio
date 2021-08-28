@@ -1,4 +1,4 @@
-import * as model from '../model/handlers/model';
+import * as model from '../controller/handlers/model';
 
 const generateTestState = (state) => {
   let newState = model.addObject(state, {

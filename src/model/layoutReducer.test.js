@@ -1,7 +1,7 @@
-import { themeChanged } from './action-creators';
+import { themeChanged } from '../controller/actions/action-creators';
 
 import { rootReducer, initialState } from './rootReducer';
-import { THEME_DARK, THEME_LIGHT } from '../../common/consts';
+import { THEME_DARK, THEME_LIGHT } from '../common/consts';
 
 describe('layout handling', () => {
   it('should handle THEME_CHANGE', () => {

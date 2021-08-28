@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { notificationRemove } from '../../model/state/action-creators';
+import { notificationRemove } from '../../controller/actions/action-creators';
 import NotificationsDisplayHandler from './NotificationsDisplayHandler';
 
 const mapStateToProps = (state) => ({

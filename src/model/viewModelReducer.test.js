@@ -1,4 +1,4 @@
-import c4Metamodel from '../../common/metamodels/c4Metamodel';
+import c4Metamodel from '../common/metamodels/c4Metamodel';
 import {
   viewModelViewAdd,
   viewModelViewRemove,
@@ -8,10 +8,10 @@ import {
   viewModelLinkAdd,
   viewModelNodeCollapse,
   viewModelNodeExpand,
-} from './action-creators';
+} from '../controller/actions/action-creators';
 
 import { rootReducer, initialState } from './rootReducer';
-import renderView from '../common/viewmodel';
+import renderView from '../controller/handlers/common/viewmodel';
 
 const createInitialState = () => ({
   ...initialState,

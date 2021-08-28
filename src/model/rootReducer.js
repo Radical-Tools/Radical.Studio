@@ -1,14 +1,14 @@
-import * as model from '../handlers/model';
-import * as common from '../handlers/common';
-import * as layout from '../handlers/layout';
-import * as theme from '../handlers/theme';
-import * as viewModel from '../handlers/viewModel';
-import * as notifications from '../handlers/notifications';
-import * as project from '../handlers/project';
-import loadState from '../handlers/state';
-import * as actionTypes from './action-types';
-import * as actions from './action-creators';
-import * as presentations from '../handlers/presentation';
+import * as model from '../controller/handlers/model';
+import * as common from '../controller/handlers/common';
+import * as layout from '../controller/handlers/layout';
+import * as theme from '../controller/handlers/theme';
+import * as viewModel from '../controller/handlers/viewModel';
+import * as notifications from '../controller/handlers/notifications';
+import * as project from '../controller/handlers/project';
+import loadState from '../controller/handlers/state';
+import * as actionTypes from '../controller/actions/action-types';
+import * as actions from '../controller/actions/action-creators';
+import * as presentations from '../controller/handlers/presentation';
 
 const handlers = {
   [actionTypes.THEME_CHANGE]: theme.changeTheme,

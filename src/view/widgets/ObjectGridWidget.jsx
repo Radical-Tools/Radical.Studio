@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import zipObjectDeep from 'lodash/fp/zipObjectDeep';
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { MODEL_DROP_TYPE } from './DiagramWidget/diagram/consts';
-import { getObjectGridName } from '../../tests/getDataTestId';
+import { getObjectGridName } from '../../test/getDataTestId';
 
 const getRows = (model) => {
   const data = [];

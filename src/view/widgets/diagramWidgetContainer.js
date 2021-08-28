@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import DiagramWidget from './DiagramWidget';
-import renderView from '../../model/common/viewmodel';
+import renderView from '../../controller/handlers/common/viewmodel';
 import {
   modelObjectRemove,
   modelItemUpdateName,
@@ -17,7 +17,7 @@ import {
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
-} from '../../model/state/action-creators';
+} from '../../controller/actions/action-creators';
 import { LAYOUT_MODE } from '../../common/consts';
 
 const mapStateToProps = (state) => {

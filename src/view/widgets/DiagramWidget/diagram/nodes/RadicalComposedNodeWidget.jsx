@@ -9,7 +9,7 @@ import values from 'lodash/fp/values';
 import { getPortStyle } from '../helpers';
 import EditableLabel from '../../../../components/EditableLabel';
 import NodeContextPanel from '../../../../components/NodeContextPanel';
-import { getCanvasNode } from '../../../../../tests/getDataTestId';
+import { getCanvasNode } from '../../../../../test/getDataTestId';
 
 const composedIconStyle = {
   position: 'absolute',

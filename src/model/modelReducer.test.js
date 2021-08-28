@@ -1,4 +1,4 @@
-import c4Metamodel from '../../common/metamodels/c4Metamodel';
+import c4Metamodel from '../common/metamodels/c4Metamodel';
 import {
   modelObjectAdd,
   modelObjectRemove,
@@ -8,7 +8,7 @@ import {
   modelRelationUpdate,
   modelItemUpdateName,
   initProject,
-} from './action-creators';
+} from '../controller/actions/action-creators';
 
 import { rootReducer, initialState } from './rootReducer';
 

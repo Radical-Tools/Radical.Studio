@@ -67,8 +67,8 @@ async function CreateNewProject() {
     getDataTestIdSelector(getWizardItemButton('CreateProject'))
   );
   await page.click(getDataTestIdSelector(getWizardItemButton('CreateProject')));
-  await page.waitForSelector('#data-form-CreateNew_name');
-  await page.type('#data-form-CreateNew_name', 'Test project');
+  await page.waitForSelector('#common-form-CreateNew_name');
+  await page.type('#common-form-CreateNew_name', 'Test project');
   await page.waitForSelector(
     getDataTestIdSelector(getFormSubmitButton('CreateNew'))
   );
@@ -534,7 +534,7 @@ describe('Basic flow', () => {
     async () => {
       const filePath = path.relative(
         process.cwd(),
-        path.join(__dirname, '../resources/tests.radical')
+        path.join(__dirname, '../resources/test.radical')
       );
       await page.goto(process.env.APP_URL);
       const loader = await page.waitForSelector(

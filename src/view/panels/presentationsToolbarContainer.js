@@ -4,7 +4,7 @@ import {
   presentationCreate,
   presentationUpdateName,
   presentationRemove,
-} from '../../controller/actions/action-creators';
+} from '../../controller/actions/actionCreators';
 import PresentationsToolbarWidget from './presentationsToolbarWidget';
 
 const mapStateToProps = (state) => ({

@@ -5,7 +5,7 @@ import {
   modelRelationRemove,
   viewModelItemSelectionChanged,
   viewModelNodeAdd,
-} from '../../controller/actions/action-creators';
+} from '../../controller/actions/actionCreators';
 import ModelToolbarWidget from './ModelToolbarWidget';
 
 const mapStateToProps = (state) => ({

@@ -13,7 +13,7 @@ import {
   stateSave,
   themeChanged,
   layoutModeChange,
-} from '../../controller/actions/action-creators';
+} from '../../controller/actions/actionCreators';
 import MainLayout from './MainLayout';
 
 const mapStateToProps = (state) => ({

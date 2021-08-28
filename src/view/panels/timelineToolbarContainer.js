@@ -4,7 +4,7 @@ import {
   presentationSetGoTo,
   presentationStepAppend,
   presentationStepRemove,
-} from '../../controller/actions/action-creators';
+} from '../../controller/actions/actionCreators';
 
 const mapStateToProps = (state) => ({
   presentation: state.presentationModel.current

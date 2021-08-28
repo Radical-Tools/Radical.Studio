@@ -15,7 +15,7 @@ const ViewExportMenu = ({ name }) => {
     };
 
     htmlToImage
-      .toPng(document.querySelector('.DiagramWidget-view'), opt)
+      .toPng(document.querySelector('.canvas-view'), opt)
       .then((dataUrl) => {
         download(dataUrl, `${name}.png`);
       });

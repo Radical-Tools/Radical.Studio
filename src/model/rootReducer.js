@@ -6,51 +6,50 @@ import * as viewModel from '../controller/handlers/viewModel';
 import * as notifications from '../controller/handlers/notifications';
 import * as project from '../controller/handlers/project';
 import loadState from '../controller/handlers/state';
-import * as actionTypes from '../controller/actions/action-types';
-import * as actions from '../controller/actions/action-creators';
+import * as actions from '../controller/actions/actionCreators';
 import * as presentations from '../controller/handlers/presentation';
 
 const handlers = {
-  [actionTypes.THEME_CHANGE]: theme.changeTheme,
-  [actionTypes.LAYOUT_GRID_SET]: layout.setGridLayout,
-  [actionTypes.LAYOUT_WIDGET_MAXIMIZE]: layout.performMaximize,
-  [actionTypes.LAYOUT_WIDGET_MINIMIZE]: layout.performMinimize,
-  [actionTypes.LAYOUT_WIDGET_CLOSE]: layout.performClose,
-  [actionTypes.LAYOUT_WIDGET_ADD]: layout.performAdd,
-  [actionTypes.LAYOUT_DRAWER_TOGGLE]: layout.toggleDrawer,
-  [actionTypes.MODEL_OBJECT_ADD]: (state, payload) =>
+  [actions.themeChanged.toString()]: theme.changeTheme,
+  [actions.layoutSet.toString()]: layout.setGridLayout,
+  [actions.layoutWidgetMaximize.toString()]: layout.performMaximize,
+  [actions.layoutWidgetMinimize.toString()]: layout.performMinimize,
+  [actions.layoutWidgetClose.toString()]: layout.performClose,
+  [actions.layoutWidgetAdd.toString()]: layout.performAdd,
+  [actions.layoutDrawerToggle.toString()]: layout.toggleDrawer,
+  [actions.modelObjectAdd.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.addObject(state, payload)),
-  [actionTypes.MODEL_RELATION_ADD]: (state, payload) =>
+  [actions.modelRelationAdd.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.addRelation(state, payload)),
-  [actionTypes.MODEL_OBJECT_REMOVE]: (state, payload) =>
+  [actions.modelObjectRemove.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.removeObject(state, payload)),
-  [actionTypes.MODEL_RELATION_REMOVE]: (state, payload) =>
+  [actions.modelRelationRemove.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.removeRelation(state, payload)),
-  [actionTypes.MODEL_OBJECT_UPDATE]: (state, payload) =>
+  [actions.modelObjectUpdate.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.updateObject(state, payload)),
-  [actionTypes.MODEL_ITEM_UPDATE_NAME]: (state, payload) =>
+  [actions.modelItemUpdateName.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.updateItemName(state, payload)),
-  [actionTypes.MODEL_RELATION_UPDATE]: (state, payload) =>
+  [actions.modelRelationUpdate.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.updateRelation(state, payload)),
-  [actionTypes.MODEL_ITEM_CREATE]: common.createItem,
-  [actionTypes.MODEL_ITEM_EDIT]: (state, payload) =>
+  [actions.modelItemCreate.toString()]: common.createItem,
+  [actions.modelItemEdit.toString()]: (state, payload) =>
     payload.type === 'view'
       ? viewModel.updateCurrentView(
           viewModel.activateView(common.editItem(state, payload), payload)
         )
       : common.editItem(state, payload),
-  [actionTypes.MODEL_ITEM_UPSERT]: (state, payload) =>
+  [actions.modelItemUpsert.toString()]: (state, payload) =>
     viewModel.updateCurrentView(common.upsertItem(state, payload)),
   [actions.initProject.toString()]: (state, payload) =>
     project.init(
       model.selectMetamodel(layout.closeHomeDialog(state), payload.metamodel),
       payload
     ),
-  [actionTypes.VIEWMODEL_VIEW_ADD]: viewModel.addView,
-  [actionTypes.VIEWMODEL_VIEW_REMOVE]: viewModel.removeView,
-  [actionTypes.VIEWMODEL_NODE_ADD]: (state, payload) =>
+  [actions.viewModelViewAdd.toString()]: viewModel.addView,
+  [actions.viewModelViewRemove.toString()]: viewModel.removeView,
+  [actions.viewModelNodeAdd.toString()]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.addNode(state, payload)),
-  [actionTypes.VIEWMODEL_METAMODELOBJECT_ADD]: (state, payload) =>
+  [actions.viewModelMetamodelObjectAdd.toString()]: (state, payload) =>
     common.editItem(
       viewModel.updateCurrentView(
         viewModel.addNode(model.addObject(state, payload), payload)
@@ -60,53 +59,53 @@ const handlers = {
         type: 'object',
       }
     ),
-  [actionTypes.VIEWMODEL_LINK_REMOVE]: (state, payload) =>
+  [actions.viewModelLinkRemove.toString()]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.removeLink(state, payload)),
-  [actionTypes.VIEWMODEL_LINK_ADD]: (state, payload) =>
+  [actions.viewModelLinkAdd.toString()]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.addLink(state, payload)),
-  [actionTypes.VIEWMODEL_VIEW_ACTIVATE]: (state, payload) =>
+  [actions.viewModelViewActivate.toString()]: (state, payload) =>
     viewModel.updateCurrentView(
       presentations.updateStepView(
         viewModel.activateView(state, payload),
         payload
       )
     ),
-  [actionTypes.VIEWMODEL_VIEW_UPDATE]: viewModel.updateView,
-  [actionTypes.VIEWMODEL_NODE_UPDATE]: (state, payload) =>
+  [actions.viewModelViewUpdate.toString()]: viewModel.updateView,
+  [actions.viewModelNodeUpdate.toString()]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.updateNode(state, payload)),
-  [actionTypes.VIEWMODEL_NODE_REMOVE]: (state, payload) =>
+  [actions.viewModelNodeRemove.toString()]: (state, payload) =>
     viewModel.updateCurrentView(viewModel.removeNode(state, payload)),
-  [actionTypes.VIEWMODEL_VIEW_ALIGNMENT_UPDATE]: (state, payload) =>
+  [actions.viewModelViewAlignmentUpdate.toString()]: (state, payload) =>
     presentations.updateStepAlignment(
       viewModel.viewAlignmentUpdate(state, payload),
       payload
     ),
-  [actionTypes.VIEWMODEL_VIEW_LAYOUT_ALIGN]: viewModel.alignLayout,
-  [actionTypes.VIEWMODEL_NODE_COLLAPSE]: (state, payload) =>
+  [actions.viewModelLayoutAlign.toString()]: viewModel.alignLayout,
+  [actions.viewModelNodeCollapse.toString()]: (state, payload) =>
     viewModel.alignChildren(
       viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
       payload,
       state.viewModel.views[state.viewModel.current].nodes[payload.id].dimension
     ),
-  [actionTypes.VIEWMODEL_NODE_EXPAND]: (state, payload) =>
+  [actions.viewModelNodeExpand.toString()]: (state, payload) =>
     viewModel.alignChildren(
       viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
       payload,
       state.viewModel.views[state.viewModel.current].nodes[payload.id].dimension
     ),
-  [actionTypes.VIEWMODEL_ITEM_SELECTION_CHANGED]: (state, payload) =>
+  [actions.viewModelItemSelectionChanged.toString()]: (state, payload) =>
     viewModel.updateCurrentView(
       common.editItem(viewModel.itemSelectionChanged(state, payload), payload)
     ),
-  [actionTypes.MODEL_OBJECT_DETACH]: (state, payload) =>
+  [actions.modelObjectDetach.toString()]: (state, payload) =>
     viewModel.updateCurrentView(model.objectDetach(state, payload)),
-  [actionTypes.NOTIFICATION_ADD]: notifications.addNotification,
-  [actionTypes.NOTIFICATION_REMOVE]: notifications.removeNotifcation,
+  [actions.notificationAdd.toString()]: notifications.addNotification,
+  [actions.notificationRemove.toString()]: notifications.removeNotifcation,
   [actions.loadStateStorage.toString()]: loadState,
-  [actionTypes.STATE_LOAD]: loadState,
+  [actions.stateLoad.toString()]: loadState,
   [actions.setWindowDimensions.toString()]: layout.setWindowDimensions,
   [actions.layoutWidgetRestore.toString()]: layout.performRestore,
-  [actionTypes.LAYOUT_MODE_CHANGE]: layout.setMode,
+  [actions.layoutModeChange.toString()]: layout.setMode,
   [actions.presentationSelect.toString()]: presentations.select,
   [actions.presentationCreate.toString()]: presentations.create,
   [actions.presentationUpdateName.toString()]: presentations.updateName,

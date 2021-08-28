@@ -1,4 +1,4 @@
-import { themeChanged } from '../controller/actions/action-creators';
+import { themeChanged } from '../controller/actions/actionCreators';
 
 import { rootReducer, initialState } from './rootReducer';
 import { THEME_DARK, THEME_LIGHT } from '../common/consts';

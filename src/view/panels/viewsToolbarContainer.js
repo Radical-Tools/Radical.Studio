@@ -5,7 +5,7 @@ import {
   modelItemUpsert,
   viewModelViewActivate,
   viewModelViewRemove,
-} from '../../controller/actions/action-creators';
+} from '../../controller/actions/actionCreators';
 import ViewsToolbarWidget from './ViewsToolbarWidget';
 import { LAYOUT_MODE } from '../../common/consts';
 

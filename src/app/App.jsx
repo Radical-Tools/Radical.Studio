@@ -5,7 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SnackbarProvider } from 'notistack';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import createTheme from './createTheme';
+import createTheme from './createAppTheme';
 import { MAX_SNACKS } from '../common/consts';
 import MainLayoutContainer from '../view/layout/MainLayoutContainer';
 import ErrorBoundary from './ErrorBoundary';

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { modelItemUpsert } from '../../controller/actions/action-creators';
+import { modelItemUpsert } from '../../controller/actions/actionCreators';
 import PropertiesToolbarWidget from './PropertiesToolbarWidget';
 
 const mapStateToProps = (state) => ({

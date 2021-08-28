@@ -17,7 +17,7 @@ import {
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
-} from '../../controller/actions/action-creators';
+} from '../../controller/actions/actionCreators';
 import { LAYOUT_MODE } from '../../common/consts';
 
 const mapStateToProps = (state) => {

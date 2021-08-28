@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setWindowDimensions } from '../controller/actions/action-creators';
+import { setWindowDimensions } from '../controller/actions/actionCreators';
 import App from './App';
 
 const mapDispatchToProps = (dispatch) => ({
@@ -7,8 +7,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setWindowDimensions(windowDimensions)),
 });
 
-const mapStateToProps = (state) => ({
-  themeType: state.theme.current,
-});
+const mapStateToProps = (state) => {
+  // eslint-disable-next-line no-console
+  console.log(state);
+  return {
+    themeType: state.theme.current,
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

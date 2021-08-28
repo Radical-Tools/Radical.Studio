@@ -8,7 +8,7 @@ import {
   viewModelLinkAdd,
   viewModelNodeCollapse,
   viewModelNodeExpand,
-} from '../controller/actions/action-creators';
+} from '../controller/actions/actionCreators';
 
 import { rootReducer, initialState } from './rootReducer';
 import renderView from '../controller/handlers/common/viewmodel';

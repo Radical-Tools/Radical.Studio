@@ -8,7 +8,7 @@ import {
   modelRelationUpdate,
   modelItemUpdateName,
   initProject,
-} from '../controller/actions/action-creators';
+} from '../controller/actions/actionCreators';
 
 import { rootReducer, initialState } from './rootReducer';
 

@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
 import FileReader from '../components/FileReader';
-import { LAYOUT_MODE } from '../../common/consts';
+import { LAYOUT_MODE } from '../../app/consts';
 
 const Drawer = ({
   widgetsConfig,

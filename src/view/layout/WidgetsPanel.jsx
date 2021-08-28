@@ -11,7 +11,7 @@ import {
   LAYOUT_MAX_COLS,
   LAYOUT_MAX_ROWS,
   THEME_DARK,
-} from '../../common/consts';
+} from '../../app/consts';
 import panelsMapping from '../panels/panelsMapping';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);

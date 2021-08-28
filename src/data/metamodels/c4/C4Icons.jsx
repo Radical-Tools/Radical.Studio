@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { LAYOUT_COLOR } from '../../../../../../common/consts';
+import { LAYOUT_COLOR } from '../../../app/consts';
 
-export function C4Container({ width, height, isSelected, isExpanded }) {
+function C4Container({ width, height, isSelected, isExpanded }) {
   return isExpanded ? (
     <rect
       fill="#1168bd"
@@ -40,7 +40,7 @@ C4Container.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
 };
 
-export function C4Component({ width, height, isSelected, isExpanded }) {
+function C4Component({ width, height, isSelected, isExpanded }) {
   return isExpanded ? (
     <rect
       fill="#1168bd"
@@ -78,7 +78,7 @@ C4Component.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
 };
 
-export function C4System({ width, height, isSelected, isExpanded }) {
+function C4System({ width, height, isSelected, isExpanded }) {
   return isExpanded ? (
     <rect
       fill="#1168bd"
@@ -116,7 +116,7 @@ C4System.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
 };
 
-export function C4ExternalSystem({ width, height, isSelected }) {
+function C4ExternalSystem({ width, height, isSelected }) {
   return (
     <rect
       fill="#7d7d7d"
@@ -139,7 +139,7 @@ C4ExternalSystem.propTypes = {
   isSelected: PropTypes.bool.isRequired,
 };
 
-export function C4Actor({ width, height, isSelected }) {
+function C4Actor({ width, height, isSelected }) {
   return (
     <g>
       <rect
@@ -173,7 +173,7 @@ C4Actor.propTypes = {
   isSelected: PropTypes.bool.isRequired,
 };
 
-export function C4Database({ width, height, isSelected }) {
+function C4Database({ width, height, isSelected }) {
   return (
     <g>
       <rect
@@ -217,3 +217,14 @@ C4Database.propTypes = {
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
 };
+
+const C4Icons = {
+  Actor: C4Actor,
+  Container: C4Container,
+  System: C4System,
+  Component: C4Component,
+  'External System': C4ExternalSystem,
+  Database: C4Database,
+};
+
+export default C4Icons;

@@ -2,7 +2,7 @@
 import { DefaultLinkWidget } from '@projectstorm/react-diagrams';
 import * as React from 'react';
 import RadicalLinkSegmentWidget from './RadicalLinkSegmentWidget';
-import { getCanvasLink } from '../../../../../test/getDataTestId';
+import { getCanvasLink } from '../../../../../tests/getDataTestId';
 
 const CustomLinkArrowWidget = ({ point, previousPoint, color }) => {
   const angle =

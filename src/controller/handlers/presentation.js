@@ -7,7 +7,7 @@ import identity from 'lodash/fp/identity';
 import slice from 'lodash/fp/slice';
 import concat from 'lodash/fp/concat';
 import update from 'lodash/fp/update';
-import { LAYOUT_MODE } from '../../common/consts';
+import { LAYOUT_MODE } from '../../app/consts';
 
 export const initialState = {
   presentationModel: {

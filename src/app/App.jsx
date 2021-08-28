@@ -6,7 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SnackbarProvider } from 'notistack';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createTheme from './createAppTheme';
-import { MAX_SNACKS } from '../common/consts';
+import { MAX_SNACKS } from './consts';
 import MainLayoutContainer from '../view/layout/MainLayoutContainer';
 import ErrorBoundary from './ErrorBoundary';
 import NotificationsDisplayHandlerContainer from '../view/layout/NotificationsDisplayHandlerContainer';

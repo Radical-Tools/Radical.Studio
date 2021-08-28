@@ -11,7 +11,7 @@ import Box from '@material-ui/core/Box';
 import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
   LAYOUT_MAX_ROWS,
-} from '../../common/consts';
+} from '../../app/consts';
 
 const growStyle = {
   flexGrow: 1,

@@ -7,7 +7,7 @@ import {
   LAYOUT_MODE,
   MIN_HEIGHT_NUMBER,
   MIN_WIDTH_NUMBER,
-} from '../../common/consts';
+} from '../../app/consts';
 
 export const getWidgets = (mode = LAYOUT_MODE.EDIT) => ({
   model: {

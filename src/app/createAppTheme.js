@@ -1,5 +1,5 @@
 import { createTheme } from '@material-ui/core/styles';
-import { LAYOUT_COLOR, MIN_HEIGHT, MIN_WIDTH } from '../common/consts';
+import { LAYOUT_COLOR, MIN_HEIGHT, MIN_WIDTH } from './consts';
 
 const createAppTheme = (type) =>
   createTheme({

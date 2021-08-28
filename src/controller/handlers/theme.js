@@ -1,4 +1,4 @@
-import { THEME_DARK, THEME_LIGHT } from '../../common/consts';
+import { THEME_DARK, THEME_LIGHT } from '../../app/consts';
 
 export const initialState = {
   theme: {

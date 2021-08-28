@@ -17,7 +17,7 @@ import {
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
 } from '../../../../controller/actions/actionCreators';
-import { LAYOUT_MODE } from '../../../../common/consts';
+import { LAYOUT_MODE } from '../../../../app/consts';
 import RadicalCanvasWidget from './DiagramWidget';
 
 const mapStateToProps = (state) => {

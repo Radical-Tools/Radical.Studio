@@ -7,7 +7,7 @@ import {
   viewModelViewRemove,
 } from '../../controller/actions/actionCreators';
 import ViewsToolbarWidget from './ViewsToolbarWidget';
-import { LAYOUT_MODE } from '../../common/consts';
+import { LAYOUT_MODE } from '../../app/consts';
 
 const mapStateToProps = (state) => {
   let currentViewId;

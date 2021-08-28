@@ -1,7 +1,7 @@
 import { themeChanged } from '../controller/actions/actionCreators';
 
 import rootReducer from './rootReducer';
-import { THEME_DARK, THEME_LIGHT } from '../common/consts';
+import { THEME_DARK, THEME_LIGHT } from '../app/consts';
 import initialState from './initialState';
 
 describe('layout handling', () => {

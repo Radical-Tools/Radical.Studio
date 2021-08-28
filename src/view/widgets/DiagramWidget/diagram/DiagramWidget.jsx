@@ -25,7 +25,7 @@ import {
 import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
 import ToolbarMenu from '../../../components/ToolbarMenu';
-import { getCanvas } from '../../../../test/getDataTestId';
+import { getCanvas } from '../../../../tests/getDataTestId';
 
 const zoomDebounceTime = 500;
 const mapViewmodel = (viewmodel, editMode) => {

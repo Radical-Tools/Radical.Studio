@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import FileReader from './FileReader';
-import { getFileUploader } from '../../test/getDataTestId';
+import { getFileUploader } from '../../tests/getDataTestId';
 
 describe('FileReader', () => {
   let file;

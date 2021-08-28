@@ -1,5 +1,5 @@
 import throttle from 'lodash/throttle';
-import config from '../../common/appConfig';
+import config from '../../app/appConfig';
 
 export const getStorageCombinedKey = (name) =>
   `${config.operations.storageKey}:${name || ''}`;

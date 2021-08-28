@@ -3,63 +3,15 @@ import * as React from 'react';
 import { AbstractReactFactory } from '@projectstorm/react-canvas-core';
 import RadicalComposedNodeModel from './RadicalComposedNodeModel';
 import RadicalComposedNodeWidget from './RadicalComposedNodeWidget';
-import {
-  C4Actor,
-  C4Component,
-  C4Container,
-  C4Database,
-  C4ExternalSystem,
-  C4System,
-} from './c4/c4Icons';
-
-const selectedColor = '#e08b27';
-
-function Generic({ width, height, isSelected, isExpanded }) {
-  return isExpanded ? (
-    <rect
-      fill="#1168bd"
-      fillOpacity="0.01"
-      strokeDasharray="5 10"
-      stroke={isSelected ? selectedColor : '#808080'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
-      strokeWidth={isSelected ? 4 : 1}
-    />
-  ) : (
-    <rect
-      fill="#0099cc"
-      fillOpacity="1.0"
-      stroke={isSelected ? selectedColor : 'white'}
-      rx="5"
-      ry="5"
-      x="1"
-      y="1"
-      width={width - 2}
-      height={height - 2}
-      strokeWidth={isSelected ? 4 : 1}
-    />
-  );
-}
-
-const objects = {
-  Actor: C4Actor,
-  Container: C4Container,
-  System: C4System,
-  Component: C4Component,
-  'External System': C4ExternalSystem,
-  Database: C4Database,
-};
+import C4Icons from '../../../../../data/metamodels/c4/C4Icons';
+import GenericIcon from './GenericIcon';
 
 const Icon = React.memo(
   ({ radicalType, width, height, isSelected, isExpanded }) => {
-    if (Object.prototype.hasOwnProperty.call(objects, radicalType)) {
-      return objects[radicalType]({ width, height, isSelected, isExpanded });
+    if (Object.prototype.hasOwnProperty.call(C4Icons, radicalType)) {
+      return C4Icons[radicalType]({ width, height, isSelected, isExpanded });
     }
-    return Generic({ width, height, isSelected, isExpanded });
+    return GenericIcon({ width, height, isSelected, isExpanded });
   }
 );
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from './Drawer';
 import HomeDialog from './HomeDialog';
-import metamodels from '../../common/metamodels/metamodels';
+import metamodels from '../../data/metamodels/metamodels';
 import WidgetsPanel from './WidgetsPanel';
 
 const MainLayout = ({

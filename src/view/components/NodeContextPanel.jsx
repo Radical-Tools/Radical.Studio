@@ -22,7 +22,7 @@ import {
   getCanvasNodeExpandButton,
   getCanvasNodePossibleRelation,
   getCanvasNodeRemoveButton,
-} from '../../test/getDataTestId';
+} from '../../tests/getDataTestId';
 
 const panelStyle = {
   position: 'absolute',

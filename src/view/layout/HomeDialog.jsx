@@ -16,8 +16,8 @@ import Box from '@material-ui/core/Box';
 import { Tooltip } from '@material-ui/core';
 import FileReader from '../components/FileReader';
 import CommonForm from '../components/CommonForm';
-import config from '../../common/appConfig';
-import { getWizardItemButton } from '../../test/getDataTestId';
+import config from '../../app/appConfig';
+import { getWizardItemButton } from '../../tests/getDataTestId';
 
 const dialogStyle = {
   minWidth: (theme) => theme.app?.minWidth || 'initial',

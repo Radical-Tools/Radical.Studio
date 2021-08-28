@@ -16,7 +16,7 @@ import {
 } from './common/viewmodel';
 import adjust, { alignNested, autoAlign } from './common/layout';
 import { findValidRelations } from './common/model';
-import { LAYOUT_MODE } from '../../common/consts';
+import { LAYOUT_MODE } from '../../app/consts';
 
 export const initialState = {
   viewModel: {

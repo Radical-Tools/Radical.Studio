@@ -14,7 +14,7 @@ import {
   validateObjectAttributes,
   validateRelation,
   validateRelationAttributes,
-} from '../helpers/model';
+} from '../common/model';
 import metamodels from '../../data/metamodels';
 import { createError } from './notifications';
 

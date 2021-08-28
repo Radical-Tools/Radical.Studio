@@ -13,10 +13,10 @@ import {
   getNestedChildren,
   updateLinks,
   updateParentalStructure,
-} from '../helpers/viewmodel';
-import adjust, { alignNested, autoAlign } from '../helpers/layout';
-import { findValidRelations } from '../helpers/model';
-import { LAYOUT_MODE } from '../../app/consts';
+} from '../common/viewmodel';
+import adjust, { alignNested, autoAlign } from '../common/layout';
+import { findValidRelations } from '../common/model';
+import { LAYOUT_MODE } from '../../common/consts';
 
 export const initialState = {
   viewModel: {

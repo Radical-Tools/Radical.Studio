@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import config from '../../config/app-config';
+import config from '../../config/appConfig';
 import subscribeToStoreChanges from './localStorage';
 
 class LocalStorageMock {

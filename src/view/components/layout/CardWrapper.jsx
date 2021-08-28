@@ -14,8 +14,8 @@ const cardStyles = {
   height: '100%',
 };
 const iconButtonStyle = {
-  marginTop: '12px',
-  marginRight: '5px',
+  marginTop: '7px',
+  marginRight: '2px',
   color: '#ffffff',
 };
 

@@ -12,7 +12,7 @@ import RadicalPortFactory from '../ports/RadicalPortFactory';
 import RadicalComposedNodeFactory from '../nodes/RadicalComposedNodeFactory';
 import RadicalLinkFactory from '../links/RadicalLinkFactory';
 import RadicalLabelFactory from '../labels/RadicalLabelFactory';
-import { DEFAULT_TARGET_PORT } from '../consts';
+import { DEFAULT_TARGET_PORT, ENGINE_REPAINT_DEBOUNCE } from '../consts';
 import RadicalDeleteItemsAction from '../actions/RadicalDeleteItemsAction';
 import RadicalZoomCanvasAction from '../actions/RadicalZoomCanvasAction';
 import RadicalLinkLayerFactory from '../links/RadicalLinkLayerFactory';
@@ -21,7 +21,7 @@ const createRadicalEngine = (editMode = true) => {
   const engine = new RadicalDiagramEngine({
     registerDefaultDeleteItemsAction: false,
     registerDefaultZoomCanvasAction: false,
-    repaintDebounceMs: 10,
+    repaintDebounceMs: ENGINE_REPAINT_DEBOUNCE,
   });
 
   if (editMode) {

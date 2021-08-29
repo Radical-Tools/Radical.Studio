@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './AppContainer';
-import store from './redux/store';
+import App from './app/appContainer';
+import store from './model/store';
 import reportWebVitals from './reportWebVitals';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';

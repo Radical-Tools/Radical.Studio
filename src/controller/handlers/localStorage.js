@@ -5,10 +5,13 @@ export const getStorageCombinedKey = (name) =>
   `${config.operations.storageKey}:${name || ''}`;
 const save = (state) => {
   try {
-    const serializedState = JSON.stringify(state);
+    const serializedData = JSON.stringify({
+      timestamp: new Date().getTime(),
+      state,
+    });
     localStorage.setItem(
       getStorageCombinedKey(state.project?.name),
-      serializedState
+      serializedData
     );
   } catch (e) {
     throw new Error(`Cannot save state`);

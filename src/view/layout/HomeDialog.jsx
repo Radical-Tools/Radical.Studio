@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import set from 'lodash/fp/set';
+import flow from 'lodash/fp/flow';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,11 +10,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
+import RestoreRoundedIcon from '@material-ui/icons/RestoreRounded';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import KeyboardReturnRoundedIcon from '@material-ui/icons/KeyboardReturnRounded';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import Box from '@material-ui/core/Box';
 import { Tooltip } from '@material-ui/core';
+import orderBy from 'lodash/orderBy';
 import FileReader from '../components/FileReader';
 import CommonForm from '../components/CommonForm';
 import config from '../../app/appConfig';
@@ -85,6 +88,26 @@ const localStorageForm = {
   },
 };
 
+const getDateOrderedProjectsListFromLocalStorage = () => {
+  const projects = Object.entries(localStorage)
+    .filter(([key]) => key.startsWith(config.operations.storageKey))
+    .map(([key, value]) => {
+      const parsedValue = JSON.parse(value);
+      return {
+        name: key.replace(`${config.operations.storageKey}:`, ''),
+        timestamp: parsedValue.timestamp ? parsedValue.timestamp : 0,
+      };
+    });
+  return orderBy(projects, 'timestamp', ['desc']).map(
+    (project) => project.name
+  );
+};
+const getEnchancedLocalStorageSchema = (projects) =>
+  flow(
+    set('properties.name.enum', projects),
+    set('properties.name.default', projects.length ? projects[0] : undefined)
+  )(localStorageForm.data);
+
 const HomeDialog = ({
   show,
   metamodels,
@@ -93,7 +116,10 @@ const HomeDialog = ({
   onLoadFile,
 }) => {
   const [page, setPage] = useState('Initial');
-
+  const [orderedProjects, setOrderedProjects] = useState([]);
+  useEffect(() => {
+    setOrderedProjects(getDateOrderedProjectsListFromLocalStorage());
+  }, [setOrderedProjects]);
   const onSubmitProjectFormCallback = useCallback(
     (title, data) => onSubmitProjectForm(data),
     [onSubmitProjectForm]
@@ -101,6 +127,10 @@ const HomeDialog = ({
   const onSubmitLoadStorageCallback = useCallback(
     (title, data) => onLoadStorage(data.name),
     [onLoadStorage]
+  );
+  const onLoadLastProject = useCallback(
+    () => onLoadStorage(orderedProjects[0]),
+    [onLoadStorage, orderedProjects]
   );
   return (
     <Dialog
@@ -119,7 +149,9 @@ const HomeDialog = ({
               </Typography>
             </Box>
             <Box ml={0.5}>
-              <Typography variant="caption">v0.1</Typography>
+              <Typography variant="caption">
+                v{process.env.REACT_APP_VERSION}
+              </Typography>
             </Box>
           </Box>
         </Toolbar>
@@ -141,7 +173,7 @@ const HomeDialog = ({
                 data-testid={getWizardItemButton('CreateProject')}
                 onClick={() => setPage('CreateNew')}
               >
-                <AddCircleRoundedIcon style={{ fontSize: 120 }} />
+                <AddCircleRoundedIcon sx={{ fontSize: 120 }} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -155,7 +187,7 @@ const HomeDialog = ({
                 component="label"
                 data-testid={getWizardItemButton('LoadFile')}
               >
-                <FileCopyRoundedIcon style={{ fontSize: 120 }} />
+                <FileCopyRoundedIcon sx={{ fontSize: 120 }} />
                 <FileReader
                   onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
                   chunkSize={400000}
@@ -163,6 +195,24 @@ const HomeDialog = ({
               </IconButton>
             </Tooltip>
           </Box>
+          {!!orderedProjects.length && (
+            <Box padding={3}>
+              <Tooltip
+                title={
+                  <Typography variant="h6">Restore last project</Typography>
+                }
+              >
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  data-testid={getWizardItemButton('RestoreLast')}
+                  onClick={onLoadLastProject}
+                >
+                  <RestoreRoundedIcon sx={{ fontSize: 120 }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
           <Box padding={3}>
             <Tooltip
               title={
@@ -175,7 +225,7 @@ const HomeDialog = ({
                 data-testid={getWizardItemButton('RestoreAny')}
                 onClick={() => setPage('LoadFromLocalStorage')}
               >
-                <StorageRoundedIcon style={{ fontSize: 120 }} />
+                <StorageRoundedIcon sx={{ fontSize: 120 }} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -198,17 +248,7 @@ const HomeDialog = ({
             <Box>
               <CommonForm
                 uiSchema={localStorageForm.ui}
-                dataSchema={set(
-                  'properties.name.enum',
-                  Object.keys(localStorage)
-                    .filter((key) =>
-                      key.startsWith(config.operations.storageKey)
-                    )
-                    .map((key) =>
-                      key.replace(`${config.operations.storageKey}:`, '')
-                    ),
-                  localStorageForm.data
-                )}
+                dataSchema={getEnchancedLocalStorageSchema(orderedProjects)}
                 onSubmit={onSubmitLoadStorageCallback}
                 testId="LoadFromLocal"
               />

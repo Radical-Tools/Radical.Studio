@@ -119,7 +119,9 @@ const HomeDialog = ({
               </Typography>
             </Box>
             <Box ml={0.5}>
-              <Typography variant="caption">v0.1</Typography>
+              <Typography variant="caption">
+                v{process.env.REACT_APP_VERSION}
+              </Typography>
             </Box>
           </Box>
         </Toolbar>

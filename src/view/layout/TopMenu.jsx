@@ -53,7 +53,9 @@ const TopMenu = ({
             <Typography variant="h6">Radical.Studio</Typography>
           </Box>
           <Box ml={0.5}>
-            <Typography variant="caption">v0.1</Typography>
+            <Typography variant="caption">
+              v{process.env.REACT_APP_VERSION}
+            </Typography>
           </Box>
         </Box>
         <Box sx={growStyle} />

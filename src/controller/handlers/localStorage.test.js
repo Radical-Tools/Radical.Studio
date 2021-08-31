@@ -55,7 +55,9 @@ describe('saveState', () => {
     const { storageKey } = config.operations;
     subscribeToStoreChanges(store);
     store.dispatch({ type: 'ADD_TODO', text: 'Use Angular' });
-    const parsedState = JSON.parse(localStorage.getItem(`${storageKey}:`));
+    const parsedState = JSON.parse(
+      localStorage.getItem(`${storageKey}:`)
+    ).state;
     expect(parsedState).toEqual(['Use Redux', 'Use Angular']);
   });
 });

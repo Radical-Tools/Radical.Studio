@@ -219,9 +219,9 @@ export const notificationRemove = createAction('notification/remove', (id) => ({
 }));
 
 export const loadStateStorage = createAction('state/load/storage', (name) => {
-  const serializedState = localStorage.getItem(getStorageCombinedKey(name));
+  const serializedData = localStorage.getItem(getStorageCombinedKey(name));
   return {
-    payload: serializedState ? JSON.parse(serializedState) : undefined,
+    payload: serializedData ? JSON.parse(serializedData).state : undefined,
   };
 });
 

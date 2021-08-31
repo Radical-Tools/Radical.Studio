@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import set from 'lodash/fp/set';
+import flow from 'lodash/fp/flow';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,6 +15,7 @@ import KeyboardReturnRoundedIcon from '@material-ui/icons/KeyboardReturnRounded'
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import Box from '@material-ui/core/Box';
 import { Tooltip } from '@material-ui/core';
+import orderBy from 'lodash/orderBy';
 import FileReader from '../components/FileReader';
 import CommonForm from '../components/CommonForm';
 import config from '../../app/appConfig';
@@ -85,6 +87,28 @@ const localStorageForm = {
   },
 };
 
+const getDateOrderedProjectsListFromLocalStorage = () => {
+  const projects = Object.entries(localStorage)
+    .filter(([key]) => key.startsWith(config.operations.storageKey))
+    .map(([key, value]) => {
+      const parsedValue = JSON.parse(value);
+      return {
+        name: key.replace(`${config.operations.storageKey}:`, ''),
+        timestamp: parsedValue.timestamp ? parsedValue.timestamp : 0,
+      };
+    });
+  return orderBy(projects, 'timestamp', ['desc']).map(
+    (project) => project.name
+  );
+};
+const getEnchancedLocalStorageSchema = () => {
+  const projects = getDateOrderedProjectsListFromLocalStorage();
+  return flow(
+    set('properties.name.enum', projects),
+    set('properties.name.default', projects.length ? projects[0] : undefined)
+  )(localStorageForm.data);
+};
+
 const HomeDialog = ({
   show,
   metamodels,
@@ -93,7 +117,6 @@ const HomeDialog = ({
   onLoadFile,
 }) => {
   const [page, setPage] = useState('Initial');
-
   const onSubmitProjectFormCallback = useCallback(
     (title, data) => onSubmitProjectForm(data),
     [onSubmitProjectForm]
@@ -200,17 +223,7 @@ const HomeDialog = ({
             <Box>
               <CommonForm
                 uiSchema={localStorageForm.ui}
-                dataSchema={set(
-                  'properties.name.enum',
-                  Object.keys(localStorage)
-                    .filter((key) =>
-                      key.startsWith(config.operations.storageKey)
-                    )
-                    .map((key) =>
-                      key.replace(`${config.operations.storageKey}:`, '')
-                    ),
-                  localStorageForm.data
-                )}
+                dataSchema={getEnchancedLocalStorageSchema()}
                 onSubmit={onSubmitLoadStorageCallback}
                 testId="LoadFromLocal"
               />

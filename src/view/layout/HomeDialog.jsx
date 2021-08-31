@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
+import RestoreRoundedIcon from '@material-ui/icons/RestoreRounded';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import KeyboardReturnRoundedIcon from '@material-ui/icons/KeyboardReturnRounded';
 import WidgetsIcon from '@material-ui/icons/Widgets';
@@ -101,13 +102,11 @@ const getDateOrderedProjectsListFromLocalStorage = () => {
     (project) => project.name
   );
 };
-const getEnchancedLocalStorageSchema = () => {
-  const projects = getDateOrderedProjectsListFromLocalStorage();
-  return flow(
+const getEnchancedLocalStorageSchema = (projects) =>
+  flow(
     set('properties.name.enum', projects),
     set('properties.name.default', projects.length ? projects[0] : undefined)
   )(localStorageForm.data);
-};
 
 const HomeDialog = ({
   show,
@@ -117,6 +116,10 @@ const HomeDialog = ({
   onLoadFile,
 }) => {
   const [page, setPage] = useState('Initial');
+  const [orderedProjects, setOrderedProjects] = useState([]);
+  useEffect(() => {
+    setOrderedProjects(getDateOrderedProjectsListFromLocalStorage());
+  }, [setOrderedProjects]);
   const onSubmitProjectFormCallback = useCallback(
     (title, data) => onSubmitProjectForm(data),
     [onSubmitProjectForm]
@@ -124,6 +127,10 @@ const HomeDialog = ({
   const onSubmitLoadStorageCallback = useCallback(
     (title, data) => onLoadStorage(data.name),
     [onLoadStorage]
+  );
+  const onLoadLastProject = useCallback(
+    () => onLoadStorage(orderedProjects[0]),
+    [onLoadStorage, orderedProjects]
   );
   return (
     <Dialog
@@ -166,7 +173,7 @@ const HomeDialog = ({
                 data-testid={getWizardItemButton('CreateProject')}
                 onClick={() => setPage('CreateNew')}
               >
-                <AddCircleRoundedIcon style={{ fontSize: 120 }} />
+                <AddCircleRoundedIcon sx={{ fontSize: 120 }} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -180,7 +187,7 @@ const HomeDialog = ({
                 component="label"
                 data-testid={getWizardItemButton('LoadFile')}
               >
-                <FileCopyRoundedIcon style={{ fontSize: 120 }} />
+                <FileCopyRoundedIcon sx={{ fontSize: 120 }} />
                 <FileReader
                   onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
                   chunkSize={400000}
@@ -188,6 +195,24 @@ const HomeDialog = ({
               </IconButton>
             </Tooltip>
           </Box>
+          {!!orderedProjects.length && (
+            <Box padding={3}>
+              <Tooltip
+                title={
+                  <Typography variant="h6">Restore last project</Typography>
+                }
+              >
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  data-testid={getWizardItemButton('RestoreLast')}
+                  onClick={onLoadLastProject}
+                >
+                  <RestoreRoundedIcon sx={{ fontSize: 120 }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
           <Box padding={3}>
             <Tooltip
               title={
@@ -200,7 +225,7 @@ const HomeDialog = ({
                 data-testid={getWizardItemButton('RestoreAny')}
                 onClick={() => setPage('LoadFromLocalStorage')}
               >
-                <StorageRoundedIcon style={{ fontSize: 120 }} />
+                <StorageRoundedIcon sx={{ fontSize: 120 }} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -223,7 +248,7 @@ const HomeDialog = ({
             <Box>
               <CommonForm
                 uiSchema={localStorageForm.ui}
-                dataSchema={getEnchancedLocalStorageSchema()}
+                dataSchema={getEnchancedLocalStorageSchema(orderedProjects)}
                 onSubmit={onSubmitLoadStorageCallback}
                 testId="LoadFromLocal"
               />

@@ -1,10 +1,17 @@
 import { connect } from 'react-redux';
-import { setWindowDimensions } from '../controller/actions/actionCreators';
+import {
+  setWindowDimensions,
+  stateLoad,
+  notificationAdd,
+} from '../controller/actions/actionCreators';
 import App from './App';
 
 const mapDispatchToProps = (dispatch) => ({
   onWindowResize: (windowDimensions) =>
     dispatch(setWindowDimensions(windowDimensions)),
+  onLoadStateFromUrl: (state) => dispatch(stateLoad(state)),
+  onAddNotification: (message, type, name) =>
+    dispatch(notificationAdd(message, type, name)),
 });
 
 const mapStateToProps = (state) => ({

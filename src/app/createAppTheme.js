@@ -12,9 +12,9 @@ const createAppTheme = (type) =>
         main: LAYOUT_COLOR.PRIMARY,
       },
     },
-    overrides: {
+    components: {
       MuiCssBaseline: {
-        '@global': {
+        styleOverrides: {
           body: {
             minWidth: MIN_WIDTH,
             minHeight: MIN_HEIGHT,

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -12,6 +13,12 @@ import ErrorBoundary from './ErrorBoundary';
 import NotificationsDisplayHandlerContainer from '../view/layout/NotificationsDisplayHandlerContainer';
 
 const App = ({ themeType, onWindowResize }) => {
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    console.log(params);
+    console.log(urlSearchParams.get('name'));
+  }, []);
   useEffect(() => {
     const { innerWidth: width, innerHeight: height } = window;
     onWindowResize({ width, height });

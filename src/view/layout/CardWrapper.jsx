@@ -28,14 +28,14 @@ const cardHeaderStyle = {
   height: `${headerHeight}px`,
 };
 
-const cardContentStyle = {
+const cardContentStyle = (removeOverflow) => ({
   padding: 0,
   height: `calc(100% - ${headerHeight}px)`,
-  overflow: 'auto',
   '&:last-child': {
     paddingBottom: 0,
   },
-};
+  overflow: removeOverflow ? 'unset' : 'auto',
+});
 
 function CardWrapper({
   title,
@@ -48,6 +48,7 @@ function CardWrapper({
   children,
   className,
   isMaximized,
+  removeOverflow,
 }) {
   const onMinimizeCallback = useCallback(
     () => onMinimize(id),
@@ -127,7 +128,9 @@ function CardWrapper({
           </Box>
         }
       />
-      <CardContent sx={cardContentStyle}>{children}</CardContent>
+      <CardContent sx={cardContentStyle(removeOverflow)}>
+        {children}
+      </CardContent>
     </Card>
   );
 }
@@ -138,6 +141,7 @@ CardWrapper.defaultProps = {
   onMaximize: undefined,
   onClose: undefined,
   onRestore: undefined,
+  removeOverflow: false,
 };
 
 CardWrapper.propTypes = {
@@ -151,6 +155,7 @@ CardWrapper.propTypes = {
   onMaximize: PropTypes.func,
   onClose: PropTypes.func,
   onRestore: PropTypes.func,
+  removeOverflow: PropTypes.bool,
 };
 CardWrapper.defaultProps = {
   className: '',

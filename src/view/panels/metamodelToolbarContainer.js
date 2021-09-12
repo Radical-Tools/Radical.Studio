@@ -6,5 +6,6 @@ const mapStateToProps = (state) => ({
   objectClasses: state.metamodel
     ? groupBy('category', state.metamodel.classes)
     : undefined,
+  smallHeight: state.layout.windowDimensions?.height < 1000,
 });
 export default connect(mapStateToProps)(MetamodelToolbarWidget);

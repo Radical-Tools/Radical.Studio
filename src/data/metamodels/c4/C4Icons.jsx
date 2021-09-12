@@ -2,7 +2,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { LAYOUT_COLOR } from '../../../app/consts';
 
-function C4Container({ width, height, isSelected, isExpanded }) {
+function C4Container({
+  width,
+  height,
+  isSelected,
+  isExpanded,
+  showComponentTypeText,
+}) {
   return isExpanded ? (
     <rect
       fill="#1168bd"
@@ -18,29 +24,45 @@ function C4Container({ width, height, isSelected, isExpanded }) {
       strokeWidth={isSelected ? 4 : 1}
     />
   ) : (
-    <rect
-      fill="#287ac9"
-      fillOpacity="1.0"
-      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
-      rx="10"
-      ry="10"
-      x="2"
-      y="2"
-      width={width - 4}
-      height={height - 4}
-      strokeWidth={isSelected ? 4 : 2}
-    />
+    <>
+      <rect
+        fill="#287ac9"
+        fillOpacity="1.0"
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
+        rx="10"
+        ry="10"
+        x="2"
+        y="2"
+        width={width - 4}
+        height={height - 4}
+        strokeWidth={isSelected ? 4 : 2}
+      />
+      {showComponentTypeText && (
+        <text x="5" y="94" fontSize="30px" fill="white">
+          Container
+        </text>
+      )}
+    </>
   );
 }
-
+C4Container.defaultProps = {
+  showComponentTypeText: false,
+};
 C4Container.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
+  showComponentTypeText: PropTypes.bool,
 };
 
-function C4Component({ width, height, isSelected, isExpanded }) {
+function C4Component({
+  width,
+  height,
+  isSelected,
+  isExpanded,
+  showComponentTypeText,
+}) {
   return isExpanded ? (
     <rect
       fill="#1168bd"
@@ -56,29 +78,45 @@ function C4Component({ width, height, isSelected, isExpanded }) {
       strokeWidth={isSelected ? 4 : 1}
     />
   ) : (
-    <rect
-      fill="#438dd5"
-      fillOpacity="1.0"
-      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
-      rx="10"
-      ry="10"
-      x="2"
-      y="2"
-      width={width - 4}
-      height={height - 4}
-      strokeWidth={isSelected ? 4 : 2}
-    />
+    <>
+      <rect
+        fill="#438dd5"
+        fillOpacity="1.0"
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
+        rx="10"
+        ry="10"
+        x="2"
+        y="2"
+        width={width - 4 + (showComponentTypeText ? 20 : 0)}
+        height={height - 4}
+        strokeWidth={isSelected ? 4 : 2}
+      />
+      {showComponentTypeText && (
+        <text x="5" y="94" fontSize="30px" fill="white">
+          Component
+        </text>
+      )}
+    </>
   );
 }
-
+C4Component.defaultProps = {
+  showComponentTypeText: false,
+};
 C4Component.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
+  showComponentTypeText: PropTypes.bool,
 };
 
-function C4System({ width, height, isSelected, isExpanded }) {
+function C4System({
+  width,
+  height,
+  isSelected,
+  isExpanded,
+  showComponentTypeText,
+}) {
   return isExpanded ? (
     <rect
       fill="#1168bd"
@@ -94,52 +132,82 @@ function C4System({ width, height, isSelected, isExpanded }) {
       strokeWidth={isSelected ? 4 : 1}
     />
   ) : (
-    <rect
-      fill="#075bad"
-      fillOpacity="1.0"
-      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
-      rx="10"
-      ry="10"
-      x="2"
-      y="2"
-      width={width - 4}
-      height={height - 4}
-      strokeWidth={isSelected ? 4 : 2}
-    />
+    <>
+      <rect
+        fill="#075bad"
+        fillOpacity="1.0"
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
+        rx="10"
+        ry="10"
+        x="2"
+        y="2"
+        width={width - 4}
+        height={height - 4}
+        strokeWidth={isSelected ? 4 : 2}
+      />
+      {showComponentTypeText && (
+        <text x="20" y="94" fontSize="30px" fill="white">
+          System
+        </text>
+      )}
+    </>
   );
 }
-
+C4System.defaultProps = {
+  showComponentTypeText: false,
+};
 C4System.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
+  showComponentTypeText: PropTypes.bool,
 };
 
-function C4ExternalSystem({ width, height, isSelected }) {
+function C4ExternalSystem({
+  width,
+  height,
+  isSelected,
+  showComponentTypeText,
+}) {
   return (
-    <rect
-      fill="#7d7d7d"
-      fillOpacity="1.0"
-      stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
-      rx="10"
-      ry="10"
-      x="2"
-      y="2"
-      width={width - 4}
-      height={height - 4}
-      strokeWidth={isSelected ? 4 : 2}
-    />
+    <>
+      <rect
+        fill="#7d7d7d"
+        fillOpacity="1.0"
+        stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
+        rx="10"
+        ry="10"
+        x="2"
+        y="2"
+        width={width - 4}
+        height={height - 4}
+        strokeWidth={isSelected ? 4 : 2}
+      />
+      {showComponentTypeText && (
+        <>
+          <text x="15" y="70" fontSize="30px" fill="white">
+            External
+          </text>
+          <text x="18" y="104" fontSize="30px" fill="white">
+            System
+          </text>
+        </>
+      )}
+    </>
   );
 }
-
+C4ExternalSystem.defaultProps = {
+  showComponentTypeText: false,
+};
 C4ExternalSystem.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  showComponentTypeText: PropTypes.bool,
 };
 
-function C4Actor({ width, height, isSelected, text }) {
+function C4Actor({ width, height, isSelected, showComponentTypeText }) {
   return (
     <g>
       <rect
@@ -154,9 +222,9 @@ function C4Actor({ width, height, isSelected, text }) {
         width={width - 10}
         height={height - 45}
       />
-      {text && (
-        <text x="32" y="94" fontSize="35px" fill="white">
-          {text}
+      {showComponentTypeText && (
+        <text x="32" y="104" fontSize="30px" fill="white">
+          Actor
         </text>
       )}
 
@@ -173,16 +241,16 @@ function C4Actor({ width, height, isSelected, text }) {
   );
 }
 C4Actor.defaultProps = {
-  text: undefined,
+  showComponentTypeText: false,
 };
 C4Actor.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
-  text: PropTypes.string,
+  showComponentTypeText: PropTypes.bool,
 };
 
-function C4Database({ width, height, isSelected }) {
+function C4Database({ width, height, isSelected, showComponentTypeText }) {
   return (
     <g>
       <rect
@@ -202,7 +270,7 @@ function C4Database({ width, height, isSelected }) {
         fillOpacity="1.0"
         stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
         cx="75"
-        cy="108"
+        cy={108 + (showComponentTypeText ? 15 : 0)}
         rx="72"
         ry="20"
         strokeWidth={isSelected ? '2' : '0'}
@@ -217,14 +285,22 @@ function C4Database({ width, height, isSelected }) {
         ry="20"
         strokeWidth={isSelected ? 4 : 2}
       />
+      {showComponentTypeText && (
+        <text x="9" y="94" fontSize="30px" fill="white">
+          Database
+        </text>
+      )}
     </g>
   );
 }
-
+C4Database.defaultProps = {
+  showComponentTypeText: false,
+};
 C4Database.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  showComponentTypeText: PropTypes.bool,
 };
 
 const C4Icons = {

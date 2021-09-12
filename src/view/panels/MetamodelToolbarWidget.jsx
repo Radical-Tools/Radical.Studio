@@ -7,7 +7,12 @@ import { METAMODEL_DROP_TYPE } from '../widgets/DiagramWidget/diagram/consts';
 import { getMetamodelItem } from '../../tests/getDataTestId';
 import C4Icons from '../../data/metamodels/c4/C4Icons';
 
-const ToolbarItem = ({ name, id }) => {
+const iconContainerStyle = {
+  marginTop: '-40px',
+  width: '100px',
+  height: '50px',
+};
+const ToolbarItem = ({ id }) => {
   const [, drag] = useDrag({
     item: { metamodelType: id, type: METAMODEL_DROP_TYPE },
     type: METAMODEL_DROP_TYPE,
@@ -20,17 +25,13 @@ const ToolbarItem = ({ name, id }) => {
       ref={drag}
       p={1}
       data-testid={getMetamodelItem(id)}
-      sx={{
-        marginTop: '-15px',
-        width: '80px',
-        height: '50px',
-      }}
+      sx={iconContainerStyle}
     >
       <svg viewBox="0 0 200 200">
         {React.createElement(C4Icons[id], {
           height: 150,
           width: 150,
-          text: name,
+          showComponentTypeText: true,
         })}
       </svg>
     </Box>
@@ -69,7 +70,6 @@ MetamodelToolbarWidget.propTypes = {
   objectClasses: PropTypes.objectOf(PropTypes.any),
 };
 ToolbarItem.propTypes = {
-  name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
 };
 

@@ -93,6 +93,7 @@ export const getWidgets = (mode = LAYOUT_MODE.EDIT) => ({
     canBeClosed: false,
     canBeMinimized: false,
     title: 'Metamodel',
+    removeOverflow: true,
     initialDimensions: {
       x: 7,
       y: 1,

@@ -16,6 +16,10 @@ const iconContainerStyle = (smallHeight) => ({
   width: '100px',
   height: '50px',
 });
+
+const categoryChipStyle = {
+  marginRight: '25px',
+};
 const ToolbarItem = ({ id, smallHeight }) => {
   const [, drag] = useDrag({
     item: { metamodelType: id, type: METAMODEL_DROP_TYPE },
@@ -56,7 +60,7 @@ const MetamodelToolbarWidget = ({ objectClasses, smallHeight }) => (
           display="flex"
           alignItems="center"
         >
-          <Chip label={categoryId} color="primary" />
+          <Chip label={categoryId} color="primary" sx={categoryChipStyle} />
           {items.map((item) => (
             <ToolbarItem key={item.id} id={item.id} smallHeight={smallHeight} />
           ))}

@@ -139,7 +139,7 @@ C4ExternalSystem.propTypes = {
   isSelected: PropTypes.bool.isRequired,
 };
 
-function C4Actor({ width, height, isSelected }) {
+function C4Actor({ width, height, isSelected, text }) {
   return (
     <g>
       <rect
@@ -154,6 +154,12 @@ function C4Actor({ width, height, isSelected }) {
         width={width - 10}
         height={height - 45}
       />
+      {text && (
+        <text x="32" y="94" fontSize="35px" fill="white">
+          {text}
+        </text>
+      )}
+
       <circle
         fill="#0f4880"
         stroke={isSelected ? LAYOUT_COLOR.SECONDARY : 'white'}
@@ -166,11 +172,14 @@ function C4Actor({ width, height, isSelected }) {
     </g>
   );
 }
-
+C4Actor.defaultProps = {
+  text: undefined,
+};
 C4Actor.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  text: PropTypes.string,
 };
 
 function C4Database({ width, height, isSelected }) {

@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import { useDrag } from 'react-dnd';
 import { METAMODEL_DROP_TYPE } from '../widgets/DiagramWidget/diagram/consts';
 import { getMetamodelItem } from '../../tests/getDataTestId';
+import C4Icons from '../../data/metamodels/c4/C4Icons';
 
 const ToolbarItem = ({ name, id }) => {
   const [, drag] = useDrag({
@@ -15,14 +16,23 @@ const ToolbarItem = ({ name, id }) => {
     }),
   });
   return (
-    <Box p={1}>
-      <Chip
-        data-testid={getMetamodelItem(id)}
-        label={name}
-        ref={drag}
-        size="small"
-        color="secondary"
-      />
+    <Box
+      ref={drag}
+      p={1}
+      data-testid={getMetamodelItem(id)}
+      sx={{
+        marginTop: '-15px',
+        width: '80px',
+        height: '50px',
+      }}
+    >
+      <svg viewBox="0 0 200 200">
+        {React.createElement(C4Icons[id], {
+          height: 150,
+          width: 150,
+          text: name,
+        })}
+      </svg>
     </Box>
   );
 };

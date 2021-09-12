@@ -7,12 +7,16 @@ import { METAMODEL_DROP_TYPE } from '../widgets/DiagramWidget/diagram/consts';
 import { getMetamodelItem } from '../../tests/getDataTestId';
 import C4Icons from '../../data/metamodels/c4/C4Icons';
 
-const iconContainerStyle = {
-  marginTop: '-40px',
+const smallHeightViewBox = '340';
+const normalHeightViewBox = '200';
+const getViewBox = (smallHeight) =>
+  smallHeight ? smallHeightViewBox : normalHeightViewBox;
+const iconContainerStyle = (smallHeight) => ({
+  marginTop: `-${smallHeight ? 0 : 30}px`,
   width: '100px',
   height: '50px',
-};
-const ToolbarItem = ({ id }) => {
+});
+const ToolbarItem = ({ id, smallHeight }) => {
   const [, drag] = useDrag({
     item: { metamodelType: id, type: METAMODEL_DROP_TYPE },
     type: METAMODEL_DROP_TYPE,
@@ -20,14 +24,17 @@ const ToolbarItem = ({ id }) => {
       isDragging: !!monitor.isDragging(),
     }),
   });
+  const iconViewBox = `0 0 ${getViewBox(smallHeight)} ${getViewBox(
+    smallHeight
+  )}`;
   return (
     <Box
       ref={drag}
       p={1}
       data-testid={getMetamodelItem(id)}
-      sx={iconContainerStyle}
+      sx={iconContainerStyle(smallHeight)}
     >
-      <svg viewBox="0 0 200 200">
+      <svg viewBox={iconViewBox}>
         {React.createElement(C4Icons[id], {
           height: 150,
           width: 150,
@@ -38,29 +45,25 @@ const ToolbarItem = ({ id }) => {
   );
 };
 
-const MetamodelToolbarWidget = (props) => {
-  const { objectClasses } = props;
-
-  return (
-    <Box display="flex" alignItems="center" height="100%">
-      {objectClasses &&
-        Object.entries(objectClasses).map(([categoryId, items]) => (
-          <Box
-            key={categoryId}
-            paddingLeft={2}
-            flexDirection="row"
-            display="flex"
-            alignItems="center"
-          >
-            <Chip label={categoryId} color="primary" />
-            {items.map((item) => (
-              <ToolbarItem key={item.id} id={item.id} name={item.name} />
-            ))}
-          </Box>
-        ))}
-    </Box>
-  );
-};
+const MetamodelToolbarWidget = ({ objectClasses, smallHeight }) => (
+  <Box display="flex" alignItems="center" height="100%">
+    {objectClasses &&
+      Object.entries(objectClasses).map(([categoryId, items]) => (
+        <Box
+          key={categoryId}
+          paddingLeft={2}
+          flexDirection="row"
+          display="flex"
+          alignItems="center"
+        >
+          <Chip label={categoryId} color="primary" />
+          {items.map((item) => (
+            <ToolbarItem key={item.id} id={item.id} smallHeight={smallHeight} />
+          ))}
+        </Box>
+      ))}
+  </Box>
+);
 
 MetamodelToolbarWidget.defaultProps = {
   objectClasses: undefined,
@@ -68,9 +71,11 @@ MetamodelToolbarWidget.defaultProps = {
 
 MetamodelToolbarWidget.propTypes = {
   objectClasses: PropTypes.objectOf(PropTypes.any),
+  smallHeight: PropTypes.bool.isRequired,
 };
 ToolbarItem.propTypes = {
   id: PropTypes.string.isRequired,
+  smallHeight: PropTypes.bool.isRequired,
 };
 
 export default React.memo(MetamodelToolbarWidget);

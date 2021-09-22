@@ -301,7 +301,7 @@ export const addLink = (state, payload) =>
   );
 
 export const viewAlignmentUpdate = (state, payload) =>
-  state.layout.mode === LAYOUT_MODE.EDIT
+  state.layout.mode === LAYOUT_MODE.EDIT && !state.project.isLocked
     ? set(
         [
           'viewModel',

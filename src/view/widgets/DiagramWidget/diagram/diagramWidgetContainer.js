@@ -35,7 +35,9 @@ const mapStateToProps = (state) => {
   if (view) {
     return {
       viewmodel: renderView(
-        state.viewModel.views[view.properties.view],
+        view.properties.viewModel
+          ? view.properties.viewModel
+          : state.viewModel.views[view.properties.view],
         state.model
       ),
       alignment: view.properties.alignment,
@@ -50,7 +52,8 @@ const mapStateToProps = (state) => {
       state.model
     ),
     alignment: state.viewModel.views[state.viewModel.current].alignment,
-    editMode: state.layout.mode === LAYOUT_MODE.EDIT,
+    editMode:
+      state.layout.mode === LAYOUT_MODE.EDIT && !state.project?.isLocked,
     animMode: state.layout.mode === LAYOUT_MODE.PRESENTATION,
   };
 };

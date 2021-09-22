@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
-import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import Typography from '@material-ui/core/Typography';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import Box from '@material-ui/core/Box';
@@ -12,6 +10,7 @@ import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
   LAYOUT_MAX_ROWS,
 } from '../../app/consts';
+import Timeline from '../components/Timeline';
 
 const growStyle = {
   flexGrow: 1,
@@ -28,13 +27,15 @@ const toolbarStyle = (height) => ({
 const menuButtonStyle = {
   mr: 0,
 };
+
 const TopMenu = ({
   onShowDrawer,
+  jumpCmd,
+  windowDimensions,
+  lockCmd,
+  history,
   undoCmd,
   redoCmd,
-  isPrev,
-  isNext,
-  windowDimensions,
 }) => (
   <Box sx={growStyle}>
     <AppBar position="static">
@@ -60,12 +61,13 @@ const TopMenu = ({
         </Box>
         <Box sx={growStyle} />
         <div>
-          <IconButton disabled={!isPrev} onClick={undoCmd} color="inherit">
-            <ArrowBackIosRoundedIcon />
-          </IconButton>
-          <IconButton disabled={!isNext} onClick={redoCmd} color="inherit">
-            <ArrowForwardIosRoundedIcon />
-          </IconButton>
+          <Timeline
+            history={history}
+            jumpCmd={jumpCmd}
+            lockCmd={lockCmd}
+            undoCmd={undoCmd}
+            redoCmd={redoCmd}
+          />
         </div>
       </Toolbar>
     </AppBar>
@@ -74,11 +76,12 @@ const TopMenu = ({
 
 TopMenu.propTypes = {
   onShowDrawer: PropTypes.func.isRequired,
+  jumpCmd: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
+  lockCmd: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
-  isPrev: PropTypes.bool.isRequired,
-  isNext: PropTypes.bool.isRequired,
-  windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default TopMenu;

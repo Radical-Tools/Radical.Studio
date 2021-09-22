@@ -9,6 +9,18 @@ import * as presentations from './handlers/presentation';
 import * as notifications from './handlers/notifications';
 import loadState from './handlers/state';
 
+const isLocked = (state) =>
+  state.history.prev.length > 0 && state.history.next.length > 0
+    ? state.history.prev[state.history.prev.length - 1].isLocked
+    : false;
+
+const isLockedInfo = (state) =>
+  notifications.addNotification(state, {
+    id: 1,
+    message: 'You cannot modify the previous version of model',
+    type: 'info',
+  });
+
 const handlersMap = {
   [actions.themeChanged.toString()]: theme.changeTheme,
   [actions.layoutSet.toString()]: layout.setGridLayout,
@@ -18,20 +30,35 @@ const handlersMap = {
   [actions.layoutWidgetAdd.toString()]: layout.performAdd,
   [actions.layoutDrawerToggle.toString()]: layout.toggleDrawer,
   [actions.modelObjectAdd.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.addObject(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.addObject(state, payload))
+      : isLockedInfo(state),
   [actions.modelRelationAdd.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.addRelation(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.addRelation(state, payload))
+      : isLockedInfo(state),
   [actions.modelObjectRemove.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.removeObject(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.removeObject(state, payload))
+      : isLockedInfo(state),
   [actions.modelRelationRemove.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.removeRelation(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.removeRelation(state, payload))
+      : isLockedInfo(state),
   [actions.modelObjectUpdate.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.updateObject(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.updateObject(state, payload))
+      : isLockedInfo(state),
   [actions.modelItemUpdateName.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.updateItemName(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.updateItemName(state, payload))
+      : isLockedInfo(state),
   [actions.modelRelationUpdate.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.updateRelation(state, payload)),
-  [actions.modelItemCreate.toString()]: common.createItem,
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.updateRelation(state, payload))
+      : isLockedInfo(state),
+  [actions.modelItemCreate.toString()]: (state, payload) =>
+    !isLocked(state) ? common.createItem(state, payload) : state,
   [actions.modelItemEdit.toString()]: (state, payload) =>
     payload.type === 'view'
       ? viewModel.updateCurrentView(
@@ -39,30 +66,47 @@ const handlersMap = {
         )
       : common.editItem(state, payload),
   [actions.modelItemUpsert.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(common.upsertItem(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(common.upsertItem(state, payload))
+      : isLockedInfo(state),
   [actions.initProject.toString()]: (state, payload) =>
     project.init(
       model.selectMetamodel(layout.closeHomeDialog(state), payload.metamodel),
       payload
     ),
-  [actions.viewModelViewAdd.toString()]: viewModel.addView,
-  [actions.viewModelViewRemove.toString()]: viewModel.removeView,
+  [actions.viewModelViewAdd.toString()]: (state, payload) =>
+    !state.project.isLocked ? viewModel.addView(state, payload) : state,
+  [actions.viewModelViewRemove.toString()]: (state, payload) =>
+    !state.project.isLocked ? viewModel.removeView(state, payload) : state,
   [actions.viewModelNodeAdd.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.addNode(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(viewModel.addNode(state, payload))
+      : isLockedInfo(state),
   [actions.viewModelMetamodelObjectAdd.toString()]: (state, payload) =>
-    common.editItem(
-      viewModel.updateCurrentView(
-        viewModel.addNode(model.addObject(state, payload), payload)
-      ),
-      {
-        id: payload.id,
-        type: 'object',
-      }
-    ),
+    !isLocked(state)
+      ? common.editItem(
+          viewModel.updateCurrentView(
+            viewModel.addNode(model.addObject(state, payload), payload)
+          ),
+          {
+            id: payload.id,
+            type: 'object',
+          }
+        )
+      : state,
   [actions.viewModelLinkRemove.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.removeLink(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(viewModel.removeLink(state, payload))
+      : isLockedInfo(state),
   [actions.viewModelLinkAdd.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.addLink(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(viewModel.addLink(state, payload))
+      : notifications.addNotification(state, {
+          id: 3,
+          message: 'Model and ViewModel is locked',
+          type: 'warning',
+          name: 'Locked',
+        }),
   [actions.viewModelViewActivate.toString()]: (state, payload) =>
     viewModel.updateCurrentView(
       presentations.updateStepView(
@@ -70,35 +114,54 @@ const handlersMap = {
         payload
       )
     ),
-  [actions.viewModelViewUpdate.toString()]: viewModel.updateView,
+  [actions.viewModelViewUpdate.toString()]: (state, payload) =>
+    !isLocked(state) ? viewModel.updateView(state, payload) : state,
   [actions.viewModelNodeUpdate.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.updateNode(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(viewModel.updateNode(state, payload))
+      : isLockedInfo(state),
   [actions.viewModelNodeRemove.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(viewModel.removeNode(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(viewModel.removeNode(state, payload))
+      : isLockedInfo(state),
   [actions.viewModelViewAlignmentUpdate.toString()]: (state, payload) =>
     presentations.updateStepAlignment(
-      viewModel.viewAlignmentUpdate(state, payload),
+      !isLocked(state) ? viewModel.viewAlignmentUpdate(state, payload) : state,
       payload
     ),
-  [actions.viewModelLayoutAlign.toString()]: viewModel.alignLayout,
+  [actions.viewModelLayoutAlign.toString()]: (state, payload) =>
+    !isLocked(state) ? viewModel.alignLayout(state, payload) : state,
   [actions.viewModelNodeCollapse.toString()]: (state, payload) =>
-    viewModel.alignChildren(
-      viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
-      payload,
-      state.viewModel.views[state.viewModel.current].nodes[payload.id].dimension
-    ),
+    !isLocked(state)
+      ? viewModel.alignChildren(
+          viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
+          payload,
+          state.viewModel.views[state.viewModel.current].nodes[payload.id]
+            .dimension
+        )
+      : isLockedInfo(state),
   [actions.viewModelNodeExpand.toString()]: (state, payload) =>
-    viewModel.alignChildren(
-      viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
-      payload,
-      state.viewModel.views[state.viewModel.current].nodes[payload.id].dimension
-    ),
+    !isLocked(state)
+      ? viewModel.alignChildren(
+          viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
+          payload,
+          state.viewModel.views[state.viewModel.current].nodes[payload.id]
+            .dimension
+        )
+      : isLockedInfo(state),
   [actions.viewModelItemSelectionChanged.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(
-      common.editItem(viewModel.itemSelectionChanged(state, payload), payload)
-    ),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(
+          common.editItem(
+            viewModel.itemSelectionChanged(state, payload),
+            payload
+          )
+        )
+      : isLockedInfo(state),
   [actions.modelObjectDetach.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(model.objectDetach(state, payload)),
+    !isLocked(state)
+      ? viewModel.updateCurrentView(model.objectDetach(state, payload))
+      : isLockedInfo(state),
   [actions.notificationAdd.toString()]: notifications.addNotification,
   [actions.notificationRemove.toString()]: notifications.removeNotifcation,
   [actions.loadStateStorage.toString()]: loadState,
@@ -110,7 +173,12 @@ const handlersMap = {
   [actions.presentationCreate.toString()]: presentations.create,
   [actions.presentationUpdateName.toString()]: presentations.updateName,
   [actions.presentationRemove.toString()]: presentations.remove,
-  [actions.presentationSetGoTo.toString()]: presentations.goToStep,
+  [actions.presentationSetGoTo.toString()]: (state, payload) =>
+    viewModel.activateView(
+      presentations.goToStep(state, payload),
+      state.presentationModel.steps[state.presentationModel.currentStepIndex]
+        .properties.view
+    ),
   [actions.presentationStepAppend.toString()]: presentations.appendStep,
   [actions.presentationStepRemove.toString()]: presentations.removeStep,
 };

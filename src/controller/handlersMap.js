@@ -172,24 +172,38 @@ const handlersMap = {
   [actions.presentationCreate.toString()]: presentations.create,
   [actions.presentationUpdateName.toString()]: presentations.updateName,
   [actions.presentationRemove.toString()]: presentations.remove,
-  [actions.presentationSetGoTo.toString()]: (state, payload) =>
-    viewModel.updateCurrentView(
-      viewModel.viewAlignmentUpdate(
-        viewModel.activateView(presentations.goToStep(state, payload), {
-          id: state.presentationModel.presentations[
-            state.presentationModel.current
-          ].steps[payload.stepIndex].properties.view,
-        }),
-        state.presentationModel.presentations[state.presentationModel.current]
-          .steps[payload.stepIndex].properties.alignment
+  [actions.presentationSetGoTo.toString()]: (state, payload) => {
+    const presentation =
+      state.presentationModel.presentations[payload.presentationId];
+    const step = presentation.steps[payload.stepIndex];
+    return history.jumpByName(
+      viewModel.updateCurrentView(
+        viewModel.viewAlignmentUpdate(
+          viewModel.activateView(presentations.goToStep(state, payload), {
+            id: step.properties.view,
+          }),
+          step.properties.alignment
+        ),
+        step.properties.alignment
       ),
-      state.presentationModel.presentations[state.presentationModel.current]
-        .steps[payload.stepIndex].properties.alignment
-    ),
+      { stepName: step.properties.historyStepName }
+    );
+  },
   [actions.presentationStepAppend.toString()]: presentations.appendStep,
   [actions.presentationStepRemove.toString()]: presentations.removeStep,
-  [actions.historyUndo.toString()]: history.undo,
-  [actions.historyRedo.toString()]: history.redo
+  [actions.historyUndo.toString()]: (state, payload) =>
+    viewModel.fixBrokenView(
+      presentations.updateStepHistory(history.undo(state, payload))
+    ),
+  [actions.historyRedo.toString()]: (state, payload) =>
+    viewModel.fixBrokenView(
+      presentations.updateStepHistory(history.redo(state, payload))
+    ),
+  [actions.historyJump.toString()]: (state, payload) =>
+    viewModel.fixBrokenView(
+      presentations.updateStepHistory(history.jump(state, payload))
+    ),
+  [actions.historyLock.toString()]: history.lock,
 };
 
 export default handlersMap;

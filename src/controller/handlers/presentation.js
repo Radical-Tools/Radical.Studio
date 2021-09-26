@@ -56,7 +56,6 @@ export const create = (state, payload) =>
                 alignment: state.viewModel.current
                   ? state.viewModel.views[state.viewModel.current].alignment
                   : undefined,
-                viewModel: state.viewModel.views[state.viewModel.current],
                 historyStepName: state.history.prev[0].name,
               },
             },
@@ -199,34 +198,18 @@ export const updateStepView = (state, payload) =>
 export const updateStepHistory = (state) =>
   state.layout.mode === LAYOUT_MODE.PRESENTATION &&
   state.presentationModel.current
-    ? flow(
-        set(
-          [
-            'presentationModel',
-            'presentations',
-            state.presentationModel.current,
-            'steps',
-            state.presentationModel.presentations[
-              state.presentationModel.current
-            ].currentStepIndex,
-            'properties',
-            'viewModel',
-          ],
-          state.viewModel.views[state.viewModel.current]
-        ),
-        set(
-          [
-            'presentationModel',
-            'presentations',
-            state.presentationModel.current,
-            'steps',
-            state.presentationModel.presentations[
-              state.presentationModel.current
-            ].currentStepIndex,
-            'properties',
-            'historyStepName',
-          ],
-          state.history.prev.length > 0 ? state.history.prev[0].name : 'start'
-        )
-      )(state)
+    ? set(
+        [
+          'presentationModel',
+          'presentations',
+          state.presentationModel.current,
+          'steps',
+          state.presentationModel.presentations[state.presentationModel.current]
+            .currentStepIndex,
+          'properties',
+          'historyStepName',
+        ],
+        state.history.prev.length > 0 ? state.history.prev[0].name : 'start',
+        state
+      )
     : state;

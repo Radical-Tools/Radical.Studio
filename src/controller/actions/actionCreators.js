@@ -284,8 +284,10 @@ export const presentationStepRemove = createAction(
   })
 );
 
-export const historyUndo = createAction(
-  'history/undo');
-
-export const historyRedo = createAction(
-  'history/redo');
+export const historyUndo = createAction('history/undo');
+export const historyRedo = createAction('history/redo');
+export const historyLock = createAction('history/lock');
+export const historyJump = createAction('history/jump', (index) => ({
+  payload: { index },
+}));
+export const historyClear = createAction('history/clear');

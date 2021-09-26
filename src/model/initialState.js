@@ -6,6 +6,7 @@ import * as common from '../controller/handlers/common';
 import * as notifications from '../controller/handlers/notifications';
 import * as project from '../controller/handlers/project';
 import * as presentations from '../controller/handlers/presentation';
+import * as history from '../controller/handlers/history';
 
 const initialState = {
   ...layout.initialState,
@@ -16,6 +17,7 @@ const initialState = {
   ...notifications.initialState,
   ...project.initialState,
   ...presentations.initialState,
+  ...history.initialState,
 };
 
 export default initialState;

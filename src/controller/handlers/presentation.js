@@ -226,7 +226,7 @@ export const updateStepHistory = (state) =>
             'properties',
             'historyStepName',
           ],
-          state.history.prev[0].name
+          state.history.prev.length > 0 ? state.history.prev[0].name : 'start'
         )
       )(state)
     : state;

@@ -1,10 +1,16 @@
 import clone from 'clone-deep';
 import set from 'lodash/fp/set';
-import DiffAccumulator from './acumulator';
-import { UNDO, REDO, JUMP, CLEAR, LOCK, JUMPABSOLUTE } from './actions';
-import { applyChanges, applyDiffs, revertChanges, revertDiffs } from './util';
-import { v4 as uuidv4 } from 'uuid';
+import flow from 'lodash/fp/flow';
+import DiffAccumulator from '../redux-deep-diff/acumulator';
+import { UNDO, REDO, JUMP, CLEAR, LOCK } from '../redux-deep-diff';
+import {
+  applyChanges,
+  applyDiffs,
+  revertChanges,
+  revertDiffs,
+} from '../redux-deep-diff/util';
 import { updateStepHistory } from '../controller/handlers/presentation';
+import { fixBrokenView } from '../controller/handlers/viewModel';
 
 function addToHistory(history, addition) {
   return addition.length === 0
@@ -20,32 +26,32 @@ function addToHistory(history, addition) {
 }
 
 function jumpToPrevHistory(history, offset = 1) {
-  offset = Math.min(history.prev.length, offset);
+  const offsetNormalized = Math.min(history.prev.length, offset);
 
   return {
     ...history,
-    prev: history.prev.slice(offset),
-    next: [...history.prev.slice(0, offset).reverse(), ...history.next].slice(
-      0,
-      history.limit || history.next.length + offset
-    ),
+    prev: history.prev.slice(offsetNormalized),
+    next: [
+      ...history.prev.slice(0, offsetNormalized).reverse(),
+      ...history.next,
+    ].slice(0, history.limit || history.next.length + offsetNormalized),
   };
 }
 
 function jumpToNextHistory(history, offset = 1) {
-  offset = Math.min(history.next.length, offset);
+  const offsetNormalized = Math.min(history.next.length, offset);
 
   return {
     ...history,
-    prev: [...history.next.slice(0, offset).reverse(), ...history.prev].slice(
-      0,
-      history.limit || history.prev.length + offset
-    ),
-    next: history.next.slice(offset),
+    prev: [
+      ...history.next.slice(0, offsetNormalized).reverse(),
+      ...history.prev,
+    ].slice(0, history.limit || history.prev.length + offsetNormalized),
+    next: history.next.slice(offsetNormalized),
   };
 }
 
-export default function diff(reducer, config = {}) {
+export default function historyReducer(reducer, config = {}) {
   const {
     key = 'history',
     limit = 0,
@@ -56,22 +62,61 @@ export default function diff(reducer, config = {}) {
     prefilter = () => false,
   } = config;
 
-  // this will accumulate and merge diffs until `accum.clear()` is called
-  let accum = new DiffAccumulator({ flatten, prefilter });
+  const accum = new DiffAccumulator({ flatten, prefilter });
 
   return (rawState, action) => {
-    let { [key]: history, ...state } = rawState || {};
+    let { [key]: history } = rawState || {};
     history = history || { ...initialState, limit };
 
-    // let lhs = rawState && state;
-    let lhs = rawState;
-    let rhs = reducer(lhs, action);
+    const lhs = rawState;
+    const rhs = reducer(lhs, action);
     let nextState = rhs || {};
-    let changes, diffs;
+    let changes;
+    let diffs;
+    let stepName;
+    let index;
 
     switch (action.type) {
       case 'state/load/storage':
         history = rhs[key];
+        break;
+
+      case 'presentation/step/goto':
+        stepName =
+          rhs.presentationModel.presentations[rhs.presentationModel.current]
+            .steps[
+            rhs.presentationModel.presentations[rhs.presentationModel.current]
+              .currentStepIndex
+          ].properties.historyStepName;
+        index = history.prev.findIndex((item) => item.name === stepName);
+        if (index !== -1) {
+          diffs = history.prev
+            .slice(0, Math.abs(index))
+            .map((item) => item.changes);
+          nextState = revertDiffs(clone(lhs), diffs);
+          history = jumpToPrevHistory(history, Math.abs(index));
+        } else {
+          index = history.next.findIndex((item) => item.name === stepName) + 1;
+          diffs = history.next
+            .slice(0, Math.abs(index))
+            .map((item) => item.changes);
+          nextState = applyDiffs(clone(lhs), diffs);
+          history = jumpToNextHistory(history, index);
+        }
+
+        if (index !== 0) {
+          nextState = flow(
+            set(['model'], nextState.model),
+            set(['viewModel'], nextState.viewModel),
+            set(['viewModel', 'current'], rhs.viewModel.current),
+            set(
+              ['viewModel', 'views', rhs.viewModel.current, 'alignment'],
+              rhs.viewModel.views[rhs.viewModel.current].alignment
+            )
+          )(rhs);
+        } else {
+          nextState = rhs;
+        }
         break;
       case UNDO:
         nextState = revertChanges(clone(lhs), history.prev[0].changes);
@@ -84,9 +129,6 @@ export default function diff(reducer, config = {}) {
         nextState = applyChanges(clone(lhs), history.next[0].changes);
         history = jumpToNextHistory(history);
         nextState = updateStepHistory(nextState);
-        break;
-
-      case JUMPABSOLUTE:
         break;
 
       case JUMP:
@@ -107,7 +149,8 @@ export default function diff(reducer, config = {}) {
           history = jumpToNextHistory(history, action.index);
         }
 
-        nextState = updateStepHistory(nextState);
+        nextState = updateStepHistory({ ...nextState, [key]: history });
+        nextState = fixBrokenView(nextState);
 
         break;
 
@@ -134,7 +177,7 @@ export default function diff(reducer, config = {}) {
 
           if (changes.length > 0) {
             history = addToHistory(history, {
-              changes: changes,
+              changes,
               isLocked: true,
               name: history.prev.length + 1,
             });
@@ -154,7 +197,7 @@ export default function diff(reducer, config = {}) {
 
         if (!skipAction(action) && changes.length > 0) {
           history = addToHistory(history, {
-            changes: changes,
+            changes,
             isLocked: false,
             name: history.prev.length + 1,
           });

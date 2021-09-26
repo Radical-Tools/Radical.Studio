@@ -283,3 +283,9 @@ export const presentationStepRemove = createAction(
     payload: { presentationId, stepIndex },
   })
 );
+
+export const historyUndo = createAction(
+  'history/undo');
+
+export const historyRedo = createAction(
+  'history/redo');

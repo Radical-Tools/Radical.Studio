@@ -7,12 +7,11 @@ import * as common from './handlers/common';
 import * as project from './handlers/project';
 import * as presentations from './handlers/presentation';
 import * as notifications from './handlers/notifications';
+import * as history from './handlers/history';
 import loadState from './handlers/state';
 
 const isLocked = (state) =>
-  state.history.prev.length > 0 && state.history.next.length > 0
-    ? state.history.prev[state.history.prev.length - 1].isLocked
-    : false;
+  state.history.next.filter((item) => item.isLocked).length > 0;
 
 const isLockedInfo = (state) =>
   notifications.addNotification(state, {
@@ -174,13 +173,23 @@ const handlersMap = {
   [actions.presentationUpdateName.toString()]: presentations.updateName,
   [actions.presentationRemove.toString()]: presentations.remove,
   [actions.presentationSetGoTo.toString()]: (state, payload) =>
-    viewModel.activateView(
-      presentations.goToStep(state, payload),
-      state.presentationModel.steps[state.presentationModel.currentStepIndex]
-        .properties.view
+    viewModel.updateCurrentView(
+      viewModel.viewAlignmentUpdate(
+        viewModel.activateView(presentations.goToStep(state, payload), {
+          id: state.presentationModel.presentations[
+            state.presentationModel.current
+          ].steps[payload.stepIndex].properties.view,
+        }),
+        state.presentationModel.presentations[state.presentationModel.current]
+          .steps[payload.stepIndex].properties.alignment
+      ),
+      state.presentationModel.presentations[state.presentationModel.current]
+        .steps[payload.stepIndex].properties.alignment
     ),
   [actions.presentationStepAppend.toString()]: presentations.appendStep,
   [actions.presentationStepRemove.toString()]: presentations.removeStep,
+  [actions.historyUndo.toString()]: history.undo,
+  [actions.historyRedo.toString()]: history.redo
 };
 
 export default handlersMap;

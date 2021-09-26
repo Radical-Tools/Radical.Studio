@@ -22,22 +22,6 @@ const Timeline = ({ jumpCmd, lockCmd, history, undoCmd, redoCmd }) => (
     </Box>
     <Box maxWidth="1200px" minWidth="1200px" alignItems="center">
       <Stepper activeStep={history.prev.length + history.next.length}>
-        <Step key={0}>
-          <StepButton
-            icon={
-              <RadioButtonCheckedRoundedIcon
-                color={history.prev.length === 0 ? 'secondary' : 'inherit'}
-              />
-            }
-            onClick={() => jumpCmd(-history.prev.length)}
-          >
-            <Typography
-              color={history.prev.length === 0 ? 'secondary' : 'white'}
-            >
-              Start
-            </Typography>
-          </StepButton>
-        </Step>
         {history.prev
           .filter((item) => item.isLocked)
           .slice()

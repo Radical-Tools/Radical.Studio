@@ -6,8 +6,8 @@ import {
   applyDiffs,
   revertChanges,
   revertDiffs,
-} from '../../redux-deep-diff/util';
-import DiffAccumulator from '../../redux-deep-diff/acumulator';
+} from '../../utils/history/util';
+import DiffAccumulator from '../../utils/history/acumulator';
 
 export const initialState = { history: { prev: [], next: [] } };
 const limit = 100;

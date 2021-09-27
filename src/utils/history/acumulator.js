@@ -1,13 +1,6 @@
-/* eslint-disable */
-import deepDiff from './deep-diff';
+import deepDiff from 'deep-diff';
 const { diff } = deepDiff;
 
-/**
- * Returns true when two arrays of keys are equal
- * @param {[String]} actual - array of keys
- * @param {[String]} expected - array of expected keys
- * @returns {Boolean}
- */
 function isPathsEqual(actual, expected) {
   return (
     actual.length === expected.length &&
@@ -15,12 +8,6 @@ function isPathsEqual(actual, expected) {
   );
 }
 
-/**
- * Returns the value at the specified path in the target objecgt
- * @param {Object} target - target object
- * @param {[String]} path - array of nested keys
- * @returns {Mixed} value at the specified path
- */
 function getSubjectAtPath(target, path) {
   return typeof target !== 'object'
     ? null
@@ -30,12 +17,6 @@ function getSubjectAtPath(target, path) {
       );
 }
 
-/**
- * Merges two `deep-diff` change objects as POJOs
- * @param {Object} a - first change to merge
- * @param {Object} b - second change to merge
- * @returns {Object} a new, merged change
- */
 export function mergeChanges(a, b) {
   // if an empty object is returned, there is no change
   let merged = {};
@@ -72,35 +53,16 @@ export function mergeChanges(a, b) {
   return merged;
 }
 
-/**
- * A diff accumulator is simply something that implements `.push()`
- *
- * This diff accumulator will flatten changes that match the `filter`
- * option. It will also automatically add those flattened changes to the
- * `prefilter` argument to prevent `deep-diff` from doing any further
- * analysis on the flattened object-property path.
- */
 export default class DiffAccumulator {
   flattened = [];
   changes = [];
   lhs = null;
   rhs = null;
 
-  /**
-   * @constructor
-   * @param {Function} flatten - matches changes that should be flattened
-   * @param {Function} prefilter - matches changes that should not be analyzed
-   */
   constructor({ flatten, prefilter } = {}) {
     this.opts = { flatten, prefilter };
   }
 
-  /**
-   * Wrap the `prefilter` option to also filter flattened changes
-   * @param {[String]} path - object-property path
-   * @param {String} key - current key to filter
-   * @returns {Boolean} `true` to filter, `false` otherwise
-   */
   prefilter = (path, key) => {
     if (this.isFlattened([...path, key])) {
       return true;
@@ -111,13 +73,6 @@ export default class DiffAccumulator {
     }
   };
 
-  /**
-   * Calculates the structural difference between two object, passing
-   * this instance as the accumulator
-   * @param {Object} lhs - left hand side assignment
-   * @param {Object} rhs - right hand side aassignment
-   * @returns {Array} the accumulated changes
-   */
   diff(lhs, rhs) {
     this.flattened = [];
     this.lhs = lhs;
@@ -127,19 +82,10 @@ export default class DiffAccumulator {
     return this.changes;
   }
 
-  /**
-   * Clears the current accumulated diffs
-   */
   clear() {
     this.changes = [];
   }
 
-  /**
-   * If the path of the change should be flattened, this method
-   * returns the flattened path
-   * @param {Object} change - `deep-diff` change object
-   * @returns {[String]} the path of the flattened change
-   */
   getFlatPath(change) {
     let index = -1;
 
@@ -152,22 +98,12 @@ export default class DiffAccumulator {
     return index >= 0 ? change.path.slice(0, index + 1) : change.path;
   }
 
-  /**
-   * Returns `true` if the path or any parent path was flattened,
-   * 'false' otherwise
-   * @param {[String]} path - path to check
-   * @returns {Boolean} `true` if any parent path was flattend
-   */
   isFlattened(path) {
     return this.flattened.some((done) => {
       return isPathsEqual(done, path);
     });
   }
 
-  /**
-   * Pushes a POJO change to the diff array, maybe merging previous changes
-   * @param {Object} change - `deep-diff` change object
-   */
   addChange(change) {
     let existingIndex = this.changes.findIndex((c) => {
       // array paths should include the index when comparing across changes
@@ -199,11 +135,6 @@ export default class DiffAccumulator {
     }
   }
 
-  /**
-   * Handles how changes are pushed to the diff. Will push flattened
-   * changes when neccesary
-   * @param {Object} change - `deep-diff` change object
-   */
   push(change) {
     let flatPath = this.getFlatPath(change);
     if (this.isFlattened(flatPath)) return;

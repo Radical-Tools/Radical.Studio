@@ -20,7 +20,12 @@ describe.skip('Theme', () => {
 
 describe('TopMenu', () => {
   it('renders app name', async () => {
-    render(<TopMenu windowDimensions={{ height: 768 }} />);
+    render(
+      <TopMenu
+        history={{ prev: [], next: [] }}
+        windowDimensions={{ height: 768 }}
+      />
+    );
     expect(screen.getByText('Radical.Studio')).toBeInTheDocument();
   });
 });

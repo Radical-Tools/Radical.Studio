@@ -19,13 +19,10 @@ export default function historyReducer(reducer) {
     const rState = reducer(state, action);
 
     if (!skipActions.includes(action.type) && state) {
-      const changes = historyAccumulator.diff(
-        { model: state.model, viewModel: state.viewModel },
-        { model: rState.model, viewModel: rState.viewModel }
-      );
+      const changes = historyAccumulator.diff(state, rState);
       if (changes.length > 0) {
         history = addToHistory(history, {
-          changes: historyAccumulator.diff(state, rState),
+          changes,
           isLocked: false,
           name: history.prev.length + 1,
         });

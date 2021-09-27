@@ -24,7 +24,7 @@ export default function historyReducer(reducer) {
         history = addToHistory(history, {
           changes,
           isLocked: false,
-          name: history.prev.length + 1,
+          name: `v${history.prev.length + 1}`,
         });
         historyAccumulator.clear();
       }

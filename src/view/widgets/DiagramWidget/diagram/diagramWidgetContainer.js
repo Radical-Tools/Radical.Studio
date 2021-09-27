@@ -27,6 +27,7 @@ const mapStateToProps = (state) => ({
   ),
   alignment: state.viewModel.views[state.viewModel.current].alignment,
   editMode: state.layout.mode === LAYOUT_MODE.EDIT && !state.project?.isLocked,
+  selectionEnabled: state.layout === LAYOUT_MODE.EDIT,
   animMode: state.layout.mode === LAYOUT_MODE.PRESENTATION,
 });
 const mapDispatchToProps = (dispatch) => ({

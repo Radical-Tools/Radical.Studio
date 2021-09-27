@@ -1,5 +1,6 @@
 import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
+import identity from 'lodash/fp/identity';
 import clone from 'clone-deep';
 import {
   applyChanges,
@@ -8,9 +9,11 @@ import {
   revertDiffs,
 } from '../../utils/history/util';
 import DiffAccumulator from '../../utils/history/acumulator';
+import { HISTORY_LIMIT } from '../../app/consts';
 
-export const initialState = { history: { prev: [], next: [] } };
-const limit = 100;
+export const initialState = {
+  history: { prev: [], next: [], limit: HISTORY_LIMIT },
+};
 
 export function addToHistory(history, addition) {
   return addition.length === 0
@@ -52,43 +55,36 @@ const jumpToNextHistory = (history, offset = 1) => {
 };
 
 export const jump = (state, payload) => {
-  if (payload.index < 0) {
-    const { model, viewModel } = revertDiffs(
-      clone(state),
-      state.history.prev
-        .slice(0, Math.abs(payload.index))
-        .map((item) => item.changes)
-    );
-    return flow(
-      set(['model'], model),
-      set(['viewModel'], viewModel),
-      set(
-        ['viewModel', 'views', state.viewModel.current, 'alignment'],
-        state.viewModel.views[state.viewModel.current].alignment
-      ),
-      set(
-        ['history'],
-        jumpToPrevHistory(state.history, Math.abs(payload.index))
-      ),
-      set(['viewModel', 'current'], state.viewModel.current)
-    )(state);
-  }
+  const { model, viewModel } =
+    payload.index < 0
+      ? revertDiffs(
+          clone(state),
+          state.history.prev
+            .slice(0, Math.abs(payload.index))
+            .map((item) => item.changes)
+        )
+      : applyDiffs(
+          clone(state),
+          state.history.next
+            .slice(0, Math.abs(payload.index))
+            .map((item) => item.changes)
+        );
 
-  const { model, viewModel } = applyDiffs(
-    clone(state),
-    state.history.next
-      .slice(0, Math.abs(payload.index))
-      .map((item) => item.changes)
-  );
+  const history =
+    payload.index < 0
+      ? jumpToPrevHistory(state.history, Math.abs(payload.index))
+      : jumpToNextHistory(state.history, payload.index);
 
   return flow(
     set(['model'], model),
     set(['viewModel'], viewModel),
-    set(
-      ['viewModel', 'views', state.viewModel.current, 'alignment'],
-      state.viewModel.views[state.viewModel.current].alignment
-    ),
-    set(['history'], jumpToNextHistory(state.history, payload.index)),
+    viewModel.views[viewModel.current]
+      ? set(
+          ['viewModel', 'views', state.viewModel.current, 'alignment'],
+          state.viewModel.views[state.viewModel.current].alignment
+        )
+      : identity,
+    set(['history'], history),
     set(['viewModel', 'current'], state.viewModel.current)
   )(state);
 };
@@ -107,13 +103,11 @@ export const jumpByName = (state, payload) => {
 };
 
 export const jumpByPresentation = (state) => {
+  const presentation =
+    state.presentationModel.presentations[state.presentationModel.current];
   const stepName =
-    state.presentationModel.presentations[state.presentationModel.current]
-      .steps[
-      state.presentationModel.presentations[state.presentationModel.current]
-        .currentStepIndex
-    ].properties.historyStepName;
-
+    presentation.steps[presentation.currentStepIndex].properties
+      .historyStepName;
   return jumpByName(state, { stepName });
 };
 
@@ -127,8 +121,7 @@ export const redo = (state) => ({
   history: jumpToNextHistory(state.history),
 });
 
-export const clear = (state) =>
-  set(['history'], { ...initialState, limit }, state);
+export const clear = (state) => set(['history'], { ...initialState }, state);
 
 const prefilter = (path, key) =>
   (path.length === 0 && ['model', 'viewModel'].indexOf(key) === -1) ||
@@ -164,7 +157,7 @@ export const lock = (state) => {
       history = addToHistory(history, {
         changes,
         isLocked: true,
-        name: history.prev.length + 1,
+        name: `v${history.prev.length + 1}`,
       });
       historyAccumulator.clear();
     }

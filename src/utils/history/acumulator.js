@@ -1,4 +1,4 @@
-import deepDiff from 'deep-diff';
+import deepDiff from './deepDiff';
 const { diff } = deepDiff;
 
 function isPathsEqual(actual, expected) {

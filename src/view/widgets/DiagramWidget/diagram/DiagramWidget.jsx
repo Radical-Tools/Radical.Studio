@@ -221,9 +221,9 @@ const DiagramWidget = ({
               engine.zoomToFitNodes({ margin: 50 });
               engine.getModel().fireEvent(
                 {
-                  offsetX: engine.getModel().options.offsetX,
-                  offsetY: engine.getModel().options.offsetY,
-                  zoom: engine.getModel().options.zoom,
+                  offsetX: engine.getModel().getOptions().offsetX,
+                  offsetY: engine.getModel().getOptions().offsetY,
+                  zoom: engine.getModel().getOptions().zoom,
                 },
                 CANVAS_ZOOM_CHANGED
               );

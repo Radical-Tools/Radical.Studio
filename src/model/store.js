@@ -8,12 +8,7 @@ const store = configureStore({
   devTools: {
     name: 'Studio.Radical.Tools',
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      immutableCheck: {
-        ignoredPaths: ['history2'],
-      },
-    }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 subscribeToStoreChanges(store, (state) => !state.layout.showHomeDialog);

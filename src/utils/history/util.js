@@ -1,4 +1,4 @@
-import deepDiff from 'deep-diff';
+import deepDiff from './deepDiff';
 import cloneDeep from 'lodash/fp/cloneDeep';
 
 const { applyChange, revertChange } = deepDiff;

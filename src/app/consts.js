@@ -23,3 +23,5 @@ export const LAYOUT_COLOR = {
   PRIMARY: '#504e6e',
   SECONDARY: '#e06c2e',
 };
+
+export const HISTORY_LIMIT = 100;

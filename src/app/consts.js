@@ -5,6 +5,7 @@ export const MIN_HEIGHT = `${MIN_HEIGHT_NUMBER}px`;
 export const MIN_WIDTH_NUMBER = 1024;
 export const MIN_WIDTH = `${MIN_WIDTH_NUMBER}px`;
 export const MAX_SNACKS = 5;
+export const QUERY_STRING_PROJECT_LOCATION = 'projectLocation';
 export const StorageType = {
   LOCAL_STORAGE: 'localStorage',
 };
@@ -25,3 +26,10 @@ export const LAYOUT_COLOR = {
 };
 
 export const HISTORY_LIMIT = 10;
+
+export const NOTIFICATION_TYPE = {
+  ERROR: 'error',
+  WARNING: 'warning',
+  INFO: 'info',
+  SUCCESS: 'success',
+};

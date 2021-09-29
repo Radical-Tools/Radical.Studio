@@ -1,16 +1,19 @@
 import {
   addToHistory,
   historyAccumulator,
+  lock,
 } from '../controller/handlers/history';
 import * as actions from '../controller/actions/actionCreators';
 
 export const skipActions = [
   actions.loadStateStorage.toString(),
+  actions.stateLoad.toString(),
   actions.historyUndo.toString(),
   actions.historyRedo.toString(),
   actions.historyLock.toString(),
   actions.historyJump.toString(),
   actions.presentationSetGoTo.toString(),
+  actions.historyChangeName.toString(),
 ];
 
 export default function historyReducer(reducer) {
@@ -28,6 +31,10 @@ export default function historyReducer(reducer) {
         });
         historyAccumulator.clear();
       }
+
+      if (history.count === history.limit)
+        return lock({ ...rState, history }, false);
+
       return { ...rState, history };
     }
     return rState;

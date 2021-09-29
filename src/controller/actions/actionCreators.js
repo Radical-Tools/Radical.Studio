@@ -291,3 +291,10 @@ export const historyJump = createAction('history/jump', (index) => ({
   payload: { index },
 }));
 export const historyClear = createAction('history/clear');
+
+export const historyChangeName = createAction(
+  'history/name/change',
+  (name) => ({
+    payload: { name },
+  })
+);

@@ -56,7 +56,7 @@ export const create = (state, payload) =>
                 alignment: state.viewModel.current
                   ? state.viewModel.views[state.viewModel.current].alignment
                   : undefined,
-                historyStepName: state.history.prev[0].name,
+                historyStepId: state.history.prev[0].id,
               },
             },
           ],
@@ -111,7 +111,7 @@ export const appendStep = (state, payload) =>
                   presentation.steps[presentation.currentStepIndex].properties
                     .alignment,
                 viewModel: state.viewModel.views[state.viewModel.current],
-                historyStepName: state.history.prev[0].name,
+                historyStepId: state.history.prev[0].id,
               },
             },
             ...slice(
@@ -207,9 +207,9 @@ export const updateStepHistory = (state) =>
           state.presentationModel.presentations[state.presentationModel.current]
             .currentStepIndex,
           'properties',
-          'historyStepName',
+          'historyStepId',
         ],
-        state.history.prev.length > 0 ? state.history.prev[0].name : 'start',
+        state.history.prev.length > 0 ? state.history.prev[0].id : 'start',
         state
       )
     : state;

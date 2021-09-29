@@ -4,101 +4,162 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
 import RadioButtonUncheckedRoundedIcon from '@material-ui/icons/RadioButtonUncheckedRounded';
 import Box from '@material-ui/core/Box';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Badge, Step, StepButton, Stepper } from '@material-ui/core';
+import { Badge, Popover, Step, StepButton, Stepper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import TextFieldDebounced from './TextFieldDebounced';
+import {
+  getUnlockedCount,
+  isActive,
+  isFirst,
+  isLast,
+  isPrevLocked,
+} from '../../controller/handlers/common/historyUtils';
 
-const Timeline = ({ jumpCmd, lockCmd, history, undoCmd, redoCmd }) => (
-  <Box display="flex" flexDirection="row" alignItems="center">
-    <Box>
-      <IconButton
-        disabled={history.prev.length === 0}
-        onClick={() => undoCmd()}
-        color="secondary"
-      >
-        <ArrowBackIosRoundedIcon />
-      </IconButton>
-    </Box>
-    <Box maxWidth="1200px" minWidth="1200px" alignItems="center">
-      <Stepper activeStep={history.prev.length + history.next.length}>
-        {history.prev
-          .filter((item) => item.isLocked)
-          .slice()
-          .reverse()
-          .map((item, index) => (
-            /* eslint-disable react/no-array-index-key */
-            <Step key={`Prev-${index}`}>
-              <StepButton
-                icon={
-                  <RadioButtonCheckedRoundedIcon
-                    color={
-                      index === history.prev.length - 1
-                        ? 'secondary'
-                        : 'inherit'
+const Timeline = ({
+  jumpCmd,
+  lockCmd,
+  history,
+  undoCmd,
+  redoCmd,
+  changeNameCmd,
+}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'TimeLine-Popover' : undefined;
+
+  return (
+    <>
+      <Box display="flex" flexDirection="row" alignItems="center">
+        <Box maxWidth="1200px" minWidth="1000px" alignItems="center">
+          <Stepper activeStep={history.prev.length + history.next.length}>
+            {history.prev
+              .filter((item) => item.isLocked)
+              .slice()
+              .reverse()
+              .map((item, index) => (
+                /* eslint-disable react/no-array-index-key */
+                <Step key={`Prev-${index}`}>
+                  <StepButton
+                    icon={
+                      <RadioButtonCheckedRoundedIcon
+                        color={
+                          isActive(index, history) ? 'secondary' : 'inherit'
+                        }
+                      />
+                    }
+                    onClick={() => {
+                      jumpCmd(index - history.prev.length + 1);
+                    }}
+                    onContextMenu={(event) => {
+                      event.preventDefault();
+                      if (isActive(index, history)) {
+                        handleClick(event);
+                      }
+                    }}
+                    optional={
+                      <Typography
+                        color={isActive(index, history) ? 'secondary' : 'white'}
+                      >
+                        {item.name}
+                      </Typography>
                     }
                   />
-                }
-                onClick={() => jumpCmd(index - history.prev.length + 1)}
-              >
-                <Typography
-                  color={
-                    index === history.prev.length - 1 ? 'secondary' : 'white'
-                  }
-                >
-                  {item.name}
-                </Typography>
-              </StepButton>
-            </Step>
-          ))}
-        {history.next
-          .filter((item) => item.isLocked)
-          .map((item, index) => (
-            <Step key={`Next-${index}`}>
+                </Step>
+              ))}
+            {history.next
+              .filter((item) => item.isLocked)
+              .map((item, index) => (
+                <Step key={`Next-${index}`}>
+                  <StepButton
+                    icon={<RadioButtonCheckedRoundedIcon color="inherit" />}
+                    onClick={() => jumpCmd(index + 1)}
+                    optional={
+                      <Typography color="white">{item.name}</Typography>
+                    }
+                  />
+                </Step>
+              ))}
+            <Step key="Last">
               <StepButton
-                icon={<RadioButtonCheckedRoundedIcon color="inherit" />}
-                onClick={() => jumpCmd(index + 1)}
+                icon={
+                  <Badge
+                    badgeContent={getUnlockedCount(history)}
+                    color="secondary"
+                  >
+                    <RadioButtonUncheckedRoundedIcon
+                      color={isPrevLocked(history) ? 'secondary' : 'inherit'}
+                    />
+                  </Badge>
+                }
+                onClick={() =>
+                  isLast(history) ? lockCmd() : jumpCmd(history.next.length)
+                }
               />
             </Step>
-          ))}
-        <Step key={100}>
-          <StepButton
-            icon={
-              <Badge
-                badgeContent={
-                  history.prev.filter((item) => !item.isLocked).length
-                }
-                color="secondary"
-              >
-                <RadioButtonUncheckedRoundedIcon
-                  color={
-                    history.prev.filter((item) => !item.isLocked).length > 0
-                      ? 'secondary'
-                      : 'inherit'
-                  }
-                />
-              </Badge>
-            }
-            onClick={() =>
-              history.next.length === 0
-                ? lockCmd()
-                : jumpCmd(history.next.length)
-            }
-          />
-        </Step>
-      </Stepper>
-    </Box>
-    <Box>
-      <IconButton
-        disabled={history.next.length === 0}
-        onClick={() => redoCmd()}
-        color="secondary"
+          </Stepper>
+        </Box>
+        <Box>
+          <ButtonGroup
+            orientation="horizontal"
+            aria-label="steps navigation group"
+            variant="text"
+            size="small"
+            color="inherit"
+          >
+            <IconButton
+              disabled={isFirst(history)}
+              onClick={() => undoCmd()}
+              color="inherit"
+            >
+              <ArrowBackIosRoundedIcon />
+            </IconButton>
+            <IconButton
+              disabled={isLast(history)}
+              onClick={() => redoCmd()}
+              color="inherit"
+            >
+              <ArrowForwardIosRoundedIcon />
+            </IconButton>
+          </ButtonGroup>
+        </Box>
+      </Box>
+
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
       >
-        <ArrowForwardIosRoundedIcon />
-      </IconButton>
-    </Box>
-  </Box>
-);
+        <Box p={1}>
+          <TextFieldDebounced
+            initialValue={history.prev[0] ? history.prev[0].name : ''}
+            label="name"
+            onSubmit={(item) => {
+              handleClose();
+              changeNameCmd(item);
+            }}
+          />
+        </Box>
+      </Popover>
+    </>
+  );
+};
 
 Timeline.propTypes = {
   jumpCmd: PropTypes.func.isRequired,
@@ -106,6 +167,7 @@ Timeline.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
+  changeNameCmd: PropTypes.func.isRequired,
 };
 
 export default Timeline;

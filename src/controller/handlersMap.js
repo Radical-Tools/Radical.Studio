@@ -176,7 +176,7 @@ const handlersMap = {
     const presentation =
       state.presentationModel.presentations[payload.presentationId];
     const step = presentation.steps[payload.stepIndex];
-    return history.jumpByName(
+    return history.jumpById(
       viewModel.updateCurrentView(
         viewModel.viewAlignmentUpdate(
           viewModel.activateView(presentations.goToStep(state, payload), {
@@ -186,7 +186,7 @@ const handlersMap = {
         ),
         step.properties.alignment
       ),
-      { stepName: step.properties.historyStepName }
+      { id: step.properties.historyStepId }
     );
   },
   [actions.presentationStepAppend.toString()]: presentations.appendStep,
@@ -204,6 +204,7 @@ const handlersMap = {
       presentations.updateStepHistory(history.jump(state, payload))
     ),
   [actions.historyLock.toString()]: history.lock,
+  [actions.historyChangeName.toString()]: history.changeName,
 };
 
 export default handlersMap;

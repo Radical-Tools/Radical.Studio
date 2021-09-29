@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import TopMenu from './TopMenu';
 import {
+  historyChangeName,
   historyJump,
   historyLock,
   historyRedo,
@@ -12,6 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
   lockCmd: () => dispatch(historyLock()),
   undoCmd: () => dispatch(historyUndo()),
   redoCmd: () => dispatch(historyRedo()),
+  changeNameCmd: (name) => dispatch(historyChangeName(name)),
 });
 
 const mapStateToProps = (state) => ({

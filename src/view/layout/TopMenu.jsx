@@ -36,6 +36,7 @@ const TopMenu = ({
   history,
   undoCmd,
   redoCmd,
+  changeNameCmd,
 }) => (
   <Box sx={growStyle}>
     <AppBar position="static">
@@ -44,7 +45,7 @@ const TopMenu = ({
           onClick={onShowDrawer}
           edge="start"
           sx={menuButtonStyle}
-          color="inherit"
+          color="secondary"
           aria-label="open drawer"
         >
           <WidgetsIcon />
@@ -67,6 +68,7 @@ const TopMenu = ({
             lockCmd={lockCmd}
             undoCmd={undoCmd}
             redoCmd={redoCmd}
+            changeNameCmd={changeNameCmd}
           />
         </div>
       </Toolbar>
@@ -82,6 +84,7 @@ TopMenu.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
+  changeNameCmd: PropTypes.func.isRequired,
 };
 
 export default TopMenu;

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 import identity from 'lodash/fp/identity';
@@ -12,7 +13,7 @@ import DiffAccumulator from '../../utils/history/acumulator';
 import { HISTORY_LIMIT } from '../../app/consts';
 
 export const initialState = {
-  history: { prev: [], next: [], limit: HISTORY_LIMIT },
+  history: { prev: [], next: [], limit: HISTORY_LIMIT, count: 0 },
 };
 
 export function addToHistory(history, addition) {
@@ -20,11 +21,9 @@ export function addToHistory(history, addition) {
     ? history
     : {
         ...history,
-        prev: [addition, ...history.prev].slice(
-          0,
-          history.limit || history.prev.length + 1
-        ),
+        prev: [addition, ...history.prev].slice(0, history.prev.length + 1),
         next: [],
+        count: addition.isLocked ? history.count : history.count + 1,
       };
 }
 
@@ -37,7 +36,7 @@ const jumpToPrevHistory = (history, offset = 1) => {
     next: [
       ...history.prev.slice(0, normalizedOffset).reverse(),
       ...history.next,
-    ].slice(0, history.limit || history.next.length + normalizedOffset),
+    ].slice(0, history.next.length + normalizedOffset),
   };
 };
 
@@ -49,7 +48,7 @@ const jumpToNextHistory = (history, offset = 1) => {
     prev: [
       ...history.next.slice(0, normalizedOffset).reverse(),
       ...history.prev,
-    ].slice(0, history.limit || history.prev.length + normalizedOffset),
+    ].slice(0, history.prev.length + normalizedOffset),
     next: history.next.slice(normalizedOffset),
   };
 };
@@ -89,14 +88,10 @@ export const jump = (state, payload) => {
   )(state);
 };
 
-export const jumpByName = (state, payload) => {
-  let index = -state.history.prev.findIndex(
-    (item) => item.name === payload.stepName
-  );
+export const jumpById = (state, payload) => {
+  let index = -state.history.prev.findIndex((item) => item.id === payload.id);
   if (index > 0) {
-    index =
-      state.history.next.findIndex((item) => item.name === payload.stepName) +
-      1;
+    index = state.history.next.findIndex((item) => item.id === payload.id) + 1;
   }
 
   return index !== 0 ? jump(state, { index }) : state;
@@ -105,10 +100,9 @@ export const jumpByName = (state, payload) => {
 export const jumpByPresentation = (state) => {
   const presentation =
     state.presentationModel.presentations[state.presentationModel.current];
-  const stepName =
-    presentation.steps[presentation.currentStepIndex].properties
-      .historyStepName;
-  return jumpByName(state, { stepName });
+  const stepId =
+    presentation.steps[presentation.currentStepIndex].properties.historyStepId;
+  return jumpById(state, { stepId });
 };
 
 export const undo = (state) => ({
@@ -121,6 +115,9 @@ export const redo = (state) => ({
   history: jumpToNextHistory(state.history),
 });
 
+export const changeName = (state, payload) =>
+  set(['history', 'prev', 0, 'name'], payload.name, state);
+
 export const clear = (state) => set(['history'], { ...initialState }, state);
 
 const prefilter = (path, key) =>
@@ -132,7 +129,7 @@ export const historyAccumulator = new DiffAccumulator({
   flatten: () => false,
   prefilter,
 });
-export const lock = (state) => {
+export const lock = (state, isLocked = true) => {
   let changes;
   if (state.history.next.length === 0) {
     const firstLockedIndex =
@@ -151,13 +148,15 @@ export const lock = (state) => {
       ...state.history,
       prev: state.history.prev.slice(firstLockedIndex),
       next: [],
+      count: 0,
     };
 
     if (changes.length > 0) {
       history = addToHistory(history, {
         changes,
-        isLocked: true,
+        isLocked,
         name: `v${history.prev.length + 1}`,
+        id: uuidv4(),
       });
       historyAccumulator.clear();
     }

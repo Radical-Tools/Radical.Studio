@@ -24,4 +24,4 @@ export const LAYOUT_COLOR = {
   SECONDARY: '#e06c2e',
 };
 
-export const HISTORY_LIMIT = 100;
+export const HISTORY_LIMIT = 10;

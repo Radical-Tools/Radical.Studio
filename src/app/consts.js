@@ -25,6 +25,8 @@ export const LAYOUT_COLOR = {
   SECONDARY: '#e06c2e',
 };
 
+export const HISTORY_LIMIT = 10;
+
 export const NOTIFICATION_TYPE = {
   ERROR: 'error',
   WARNING: 'warning',

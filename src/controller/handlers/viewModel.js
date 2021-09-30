@@ -16,7 +16,6 @@ import {
 } from './common/viewmodel';
 import adjust, { alignNested, autoAlign } from './common/layout';
 import { findValidRelations } from './common/model';
-import { LAYOUT_MODE } from '../../app/consts';
 
 export const initialState = {
   viewModel: {
@@ -175,12 +174,8 @@ export const updateView = (state, payload) =>
   );
 
 export const activateView = (state, payload) => {
-  if (state.layout.mode === LAYOUT_MODE.EDIT) {
-    const newState = set(['viewModel', 'current'], payload.id, state);
-    return updateCurrentView(newState);
-  }
-
-  return state;
+  const newState = set(['viewModel', 'current'], payload.id, state);
+  return updateCurrentView(newState);
 };
 
 export const addNode = (state, payload) =>
@@ -300,23 +295,22 @@ export const addLink = (state, payload) =>
     state
   );
 
-export const viewAlignmentUpdate = (state, payload) =>
-  state.layout.mode === LAYOUT_MODE.EDIT
-    ? set(
-        [
-          'viewModel',
-          'views',
-          payload.viewId ? payload.viewId : state.viewModel.current,
-          'alignment',
-        ],
-        {
-          offsetX: payload.offsetX,
-          offsetY: payload.offsetY,
-          zoom: payload.zoom,
-        },
-        state
-      )
-    : state;
+export const viewAlignmentUpdate = (state, payload) => {
+  return set(
+    [
+      'viewModel',
+      'views',
+      payload.viewId ? payload.viewId : state.viewModel.current,
+      'alignment',
+    ],
+    {
+      offsetX: payload.offsetX,
+      offsetY: payload.offsetY,
+      zoom: payload.zoom,
+    },
+    state
+  );
+};
 
 export const alignLayout = (state) => {
   const newState = cloneDeep(state);
@@ -410,3 +404,12 @@ export const alignChildren = (state, payload, originDimension) => {
   adjust(state.viewModel.views[state.viewModel.current]);
   return state;
 };
+
+export const fixBrokenView = (state) =>
+  state.viewModel.views[state.viewModel.current] === undefined
+    ? set(
+        ['viewModel', 'current'],
+        Object.keys(state.viewModel.views)[0],
+        state
+      )
+    : state;

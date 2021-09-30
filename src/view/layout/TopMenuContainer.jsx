@@ -1,15 +1,23 @@
 import { connect } from 'react-redux';
-import { undo, redo } from 'redux-deep-diff';
 import TopMenu from './TopMenu';
+import {
+  historyChangeName,
+  historyJump,
+  historyLock,
+  historyRedo,
+  historyUndo,
+} from '../../controller/actions/actionCreators';
 
 const mapDispatchToProps = (dispatch) => ({
-  undoCmd: () => dispatch(undo()),
-  redoCmd: () => dispatch(redo()),
+  jumpCmd: (index) => dispatch(historyJump(index)),
+  lockCmd: () => dispatch(historyLock()),
+  undoCmd: () => dispatch(historyUndo()),
+  redoCmd: () => dispatch(historyRedo()),
+  changeNameCmd: (name) => dispatch(historyChangeName(name)),
 });
 
 const mapStateToProps = (state) => ({
-  isPrev: state.diff.prev.length > 0,
-  isNext: state.diff.next.length > 0,
+  history: state.history,
   windowDimensions: state.layout.windowDimensions,
 });
 

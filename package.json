@@ -17,6 +17,7 @@
     "@rjsf/material-ui": "3.1.0",
     "closest": "0.0.1",
     "dagre": "0.8.5",
+    "deep-diff": "1.0.2",
     "downloadjs": "1.4.7",
     "gsap": "3.7.1",
     "html-to-image": "1.7.0",
@@ -35,12 +36,12 @@
     "react-resizable": "3.0.4",
     "react-scripts": "4.0.3",
     "readery": "0.0.14",
-    "redux-deep-diff": "0.5.0",
     "resize-observer-polyfill": "1.5.1",
     "save-file": "2.3.1",
     "uuid": "8.3.2",
     "web-vitals": "2.1.0",
-    "webcola": "3.4.0"
+    "webcola": "3.4.0",
+    "clone-deep": "4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

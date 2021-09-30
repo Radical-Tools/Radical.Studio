@@ -545,7 +545,7 @@ describe('Basic flow', () => {
       await page.waitForSelector(getDataTestIdSelector(getCanvasViewName()));
       const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
       expect(await header.evaluate((node) => node.textContent)).toBe(
-        'Test view'
+        'Default View'
       );
     },
     process.env.TIMEOUT

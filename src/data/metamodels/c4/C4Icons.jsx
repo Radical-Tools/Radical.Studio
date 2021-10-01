@@ -47,12 +47,14 @@ function C4Container({
 }
 C4Container.defaultProps = {
   showComponentTypeText: false,
+  isSelected: false,
+  isExpanded: false,
 };
 C4Container.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  isExpanded: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
+  isExpanded: PropTypes.bool,
   showComponentTypeText: PropTypes.bool,
 };
 
@@ -101,12 +103,14 @@ function C4Component({
 }
 C4Component.defaultProps = {
   showComponentTypeText: false,
+  isSelected: false,
+  isExpanded: false,
 };
 C4Component.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  isExpanded: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
+  isExpanded: PropTypes.bool,
   showComponentTypeText: PropTypes.bool,
 };
 
@@ -155,12 +159,14 @@ function C4System({
 }
 C4System.defaultProps = {
   showComponentTypeText: false,
+  isSelected: false,
+  isExpanded: false,
 };
 C4System.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  isExpanded: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
+  isExpanded: PropTypes.bool,
   showComponentTypeText: PropTypes.bool,
 };
 
@@ -199,11 +205,12 @@ function C4ExternalSystem({
 }
 C4ExternalSystem.defaultProps = {
   showComponentTypeText: false,
+  isSelected: false,
 };
 C4ExternalSystem.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
   showComponentTypeText: PropTypes.bool,
 };
 
@@ -242,11 +249,12 @@ function C4Actor({ width, height, isSelected, showComponentTypeText }) {
 }
 C4Actor.defaultProps = {
   showComponentTypeText: false,
+  isSelected: false,
 };
 C4Actor.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
   showComponentTypeText: PropTypes.bool,
 };
 
@@ -295,11 +303,12 @@ function C4Database({ width, height, isSelected, showComponentTypeText }) {
 }
 C4Database.defaultProps = {
   showComponentTypeText: false,
+  isSelected: false,
 };
 C4Database.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
   showComponentTypeText: PropTypes.bool,
 };
 

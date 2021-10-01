@@ -32,7 +32,7 @@ const ViewsToolbarWidget = (props) => {
         onViewActivate={onViewActivate}
       />
       {editMode && (
-        <div style={{ position: 'absolute', top: 50, right: 30 }}>
+        <div style={{ position: 'absolute', top: 45, right: 30 }}>
           <Tooltip title="Add New View">
             <IconButton size="small" onClick={onUpsertViewCallback}>
               <AddCircleRoundedIcon color="primary" />

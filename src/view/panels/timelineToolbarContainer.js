@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import TimelineToolbarWidget from './TimelineToolbarWidget';
 import {
+  layoutModeChange,
   presentationSetGoTo,
   presentationStepAppend,
   presentationStepRemove,
@@ -15,6 +16,7 @@ const mapStateToProps = (state) => ({
     ? state.presentationModel.current
     : undefined,
   editEnabled: state.layout.mode === LAYOUT_MODE.PRESENTATION,
+  playEnabled: state.layout.mode === LAYOUT_MODE.PRESENTATION,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -24,6 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(presentationStepAppend(presentationId)),
   removeStep: (presentationId, stepIndex) =>
     dispatch(presentationStepRemove(presentationId, stepIndex)),
+  onSetMode: (mode) => dispatch(layoutModeChange(mode)),
 });
 
 export default connect(

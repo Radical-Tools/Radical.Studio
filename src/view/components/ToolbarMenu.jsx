@@ -20,7 +20,11 @@ function ToolbarMenu({
   return (
     <Box display="flex" flexShrink={0} boxShadow={0} height="36px">
       <Box width="100%" ml={1} mt={0.3}>
-        <Typography data-testid={getCanvasViewName()} variant="subtitle1">
+        <Typography
+          data-testid={getCanvasViewName()}
+          variant="subtitle1"
+          color="primary"
+        >
           {name}
         </Typography>
       </Box>

@@ -9,6 +9,7 @@ import * as presentations from './handlers/presentation';
 import * as notifications from './handlers/notifications';
 import * as history from './handlers/history';
 import loadState from './handlers/state';
+import { LAYOUT_MODE } from '../app/consts';
 
 const isLocked = (state) =>
   state.history.next.filter((item) => item.isLocked).length > 0;
@@ -167,7 +168,13 @@ const handlersMap = {
   [actions.stateLoad.toString()]: loadState,
   [actions.setWindowDimensions.toString()]: layout.setWindowDimensions,
   [actions.layoutWidgetRestore.toString()]: layout.performRestore,
-  [actions.layoutModeChange.toString()]: layout.setMode,
+  [actions.layoutModeChange.toString()]: (state, payload) =>
+    payload.mode === LAYOUT_MODE.SHOW
+      ? presentations.goToStep(layout.setMode(state, payload), {
+          stepIndex: 0,
+          presentationId: state.presentationModel.current,
+        })
+      : layout.setMode(state, payload),
   [actions.presentationSelect.toString()]: presentations.select,
   [actions.presentationCreate.toString()]: presentations.create,
   [actions.presentationUpdateName.toString()]: presentations.updateName,

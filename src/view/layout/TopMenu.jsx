@@ -88,7 +88,7 @@ TopMenu.propTypes = {
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
   changeNameCmd: PropTypes.func.isRequired,
-  historyEnabled: PropTypes.string.isRequired,
+  historyEnabled: PropTypes.bool.isRequired,
 };
 
 export default TopMenu;

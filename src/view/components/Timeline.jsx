@@ -1,4 +1,4 @@
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
@@ -118,20 +118,20 @@ const Timeline = ({
             size="small"
             color="inherit"
           >
-            <IconButton
+            <Button
               disabled={isFirst(history)}
               onClick={() => undoCmd()}
               color="inherit"
             >
               <ArrowBackIosRoundedIcon />
-            </IconButton>
-            <IconButton
+            </Button>
+            <Button
               disabled={isLast(history)}
               onClick={() => redoCmd()}
               color="inherit"
             >
               <ArrowForwardIosRoundedIcon />
-            </IconButton>
+            </Button>
           </ButtonGroup>
         </Box>
       </Box>

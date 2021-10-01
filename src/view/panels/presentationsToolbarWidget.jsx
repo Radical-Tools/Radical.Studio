@@ -28,7 +28,7 @@ const PresentationsToolbarWidget = (props) => {
         onRemovePresentation={onRemovePresentation}
         onPresentationActivate={onPresentationActivate}
       />
-      <div style={{ position: 'absolute', top: 50, right: 30 }}>
+      <div style={{ position: 'absolute', top: 45, right: 30 }}>
         <Tooltip title="Add New Presentation">
           <IconButton size="small" onClick={onCreatePresentationCallback}>
             <AddCircleRoundedIcon color="primary" />

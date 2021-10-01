@@ -127,7 +127,7 @@ const Drawer = ({
               </IconButton>
             </Tooltip>
           </ListItem>
-          <ListItem key="Presentation" selected={mode === LAYOUT_MODE.SHOW}>
+          <ListItem key="Show" selected={mode === LAYOUT_MODE.SHOW}>
             <Tooltip
               placement="right"
               title={<Typography variant="caption">Presenter</Typography>}

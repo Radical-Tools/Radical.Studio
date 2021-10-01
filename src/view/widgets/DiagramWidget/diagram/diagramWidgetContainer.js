@@ -27,15 +27,21 @@ const generateTitle = (state) =>
         state.viewModel.views[state.viewModel.current]?.name
       } `;
 
+function isEditEnabled(state) {
+  return (
+    state.layout.mode === LAYOUT_MODE.EDIT &&
+    (!state.history.prev[0]?.isLocked || state.history.next.length === 0)
+  );
+}
+
 const mapStateToProps = (state) => ({
   viewmodel: renderView(
     state.viewModel.views[state.viewModel.current],
     state.model
   ),
   alignment: state.viewModel.views[state.viewModel.current].alignment,
-  editEnabled:
-    state.layout.mode === LAYOUT_MODE.EDIT && !state.project?.isLocked,
-  selectionEnabled: state.layout === LAYOUT_MODE.EDIT,
+  editEnabled: isEditEnabled(state),
+  selectionEnabled: isEditEnabled(state),
   smoothTransitionMode: state.layout.mode !== LAYOUT_MODE.EDIT,
   alignEnabled: state.layout.mode === LAYOUT_MODE.EDIT,
   zoomToFitEnabled:

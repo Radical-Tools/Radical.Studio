@@ -5,7 +5,9 @@ import { useDrop } from 'react-dnd';
 import Box from '@material-ui/core/Box';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
-import createRadicalEngine from './core/createRadicalEngine';
+import createRadicalEngine, {
+  updateRadicalEngine,
+} from './core/createRadicalEngine';
 
 import {
   DRAG_DIAGRAM_ITEMS_END_EVENT,
@@ -68,6 +70,7 @@ const DiagramWidget = ({
   zoomToFitEnabled,
   exportEnabled,
   title,
+  selectionEnabled,
 }) => {
   const debouncedZoom = debounce(onDiagramAlignmentUpdated, zoomDebounceTime);
   const registerCallbacks = useCallback(
@@ -147,10 +150,11 @@ const DiagramWidget = ({
     ]
   );
 
-  const [engine] = useState(createRadicalEngine(editEnabled));
+  const [engine] = useState(createRadicalEngine());
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   useEffect(() => {
+    updateRadicalEngine(engine, editEnabled, selectionEnabled);
     const isViewChanged = viewName !== viewmodel.name;
     setViewName(viewmodel.name);
     const model = mapViewmodel(viewmodel, editEnabled);
@@ -190,6 +194,7 @@ const DiagramWidget = ({
     engine,
     registerCallbacks,
     viewName,
+    selectionEnabled,
   ]);
 
   const [, drop] = useDrop(() => ({
@@ -269,6 +274,7 @@ DiagramWidget.propTypes = {
   zoomToFitEnabled: PropTypes.bool.isRequired,
   exportEnabled: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
+  selectionEnabled: PropTypes.bool.isRequired,
 };
 
 export default React.memo(DiagramWidget);

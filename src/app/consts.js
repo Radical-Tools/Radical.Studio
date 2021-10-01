@@ -18,6 +18,7 @@ export const LAYOUT_HEIGHT_OFFSET_FOR_MARGIN =
 export const LAYOUT_MODE = {
   EDIT: 'edit',
   PRESENTATION: 'presentation',
+  SHOW: 'show',
 };
 
 export const LAYOUT_COLOR = {

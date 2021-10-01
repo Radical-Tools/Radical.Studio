@@ -37,6 +37,7 @@ const TopMenu = ({
   undoCmd,
   redoCmd,
   changeNameCmd,
+  historyEnabled,
 }) => (
   <Box sx={growStyle}>
     <AppBar position="static">
@@ -62,14 +63,16 @@ const TopMenu = ({
         </Box>
         <Box sx={growStyle} />
         <div>
-          <Timeline
-            history={history}
-            jumpCmd={jumpCmd}
-            lockCmd={lockCmd}
-            undoCmd={undoCmd}
-            redoCmd={redoCmd}
-            changeNameCmd={changeNameCmd}
-          />
+          {historyEnabled && (
+            <Timeline
+              history={history}
+              jumpCmd={jumpCmd}
+              lockCmd={lockCmd}
+              undoCmd={undoCmd}
+              redoCmd={redoCmd}
+              changeNameCmd={changeNameCmd}
+            />
+          )}
         </div>
       </Toolbar>
     </AppBar>
@@ -85,6 +88,7 @@ TopMenu.propTypes = {
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
   changeNameCmd: PropTypes.func.isRequired,
+  historyEnabled: PropTypes.string.isRequired,
 };
 
 export default TopMenu;

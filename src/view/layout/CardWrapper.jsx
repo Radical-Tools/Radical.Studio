@@ -8,13 +8,13 @@ import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import FullscreenExitRoundedIcon from '@material-ui/icons/FullscreenExitRounded';
 import Typography from '@material-ui/core/Typography';
 
-const headerHeight = 37;
+const headerHeight = 33;
 const cardStyles = {
   padding: 0,
   height: '100%',
 };
 const iconButtonStyle = {
-  marginTop: '7px',
+  marginTop: '5px',
   marginRight: '2px',
   color: '#ffffff',
 };
@@ -37,6 +37,15 @@ const cardContentStyle = (removeOverflow) => ({
   overflow: removeOverflow ? 'unset' : 'auto',
 });
 
+const headlessCardContentStyle = (removeOverflow) => ({
+  padding: 0,
+  height: '100%',
+  '&:last-child': {
+    paddingBottom: 0,
+  },
+  overflow: removeOverflow ? 'unset' : 'auto',
+});
+
 function CardWrapper({
   title,
   icon,
@@ -49,6 +58,7 @@ function CardWrapper({
   className,
   isMaximized,
   removeOverflow,
+  headless,
 }) {
   const onMinimizeCallback = useCallback(
     () => onMinimize(id),
@@ -63,72 +73,80 @@ function CardWrapper({
   const getAriaLabel = (iconPurpose) => `${iconPurpose} ${title}`;
   return (
     <Card elevation={3} sx={cardStyles}>
-      <CardHeader
-        sx={cardHeaderStyle}
-        className={className}
-        title={
-          icon ? (
-            <>
-              <icon />
-              <Typography variant="h6">{title}</Typography>
-            </>
-          ) : (
-            <Typography variant="h6">{title}</Typography>
-          )
-        }
-        action={
-          <Box>
-            {isMaximized && onRestore ? (
-              <IconButton
-                size="small"
-                label="Restore"
-                sx={iconButtonStyle}
-                aria-label={getAriaLabel('Restore')}
-                onClick={onRestoreCallback}
-              >
-                <FullscreenExitRoundedIcon />
-              </IconButton>
-            ) : (
+      {!headless && (
+        <CardHeader
+          sx={cardHeaderStyle}
+          className={className}
+          title={
+            icon ? (
               <>
-                {onMinimize && (
-                  <IconButton
-                    size="small"
-                    label="Minimize"
-                    sx={iconButtonStyle}
-                    aria-label={getAriaLabel('Minimize')}
-                    onClick={onMinimizeCallback}
-                  >
-                    <MinimizeRoundedIcon />
-                  </IconButton>
-                )}
-                {onMaximize && (
-                  <IconButton
-                    size="small"
-                    label="Maximize"
-                    sx={iconButtonStyle}
-                    aria-label={getAriaLabel('Maximize')}
-                    onClick={onMaximizeCallback}
-                  >
-                    <FullscreenRoundedIcon />
-                  </IconButton>
-                )}
-                {onClose && (
-                  <IconButton
-                    size="small"
-                    label="Close"
-                    sx={iconButtonStyle}
-                    aria-label={getAriaLabel('Close')}
-                    onClick={onCloseCallback}
-                  >
-                    <HighlightOffRoundedIcon />
-                  </IconButton>
-                )}
+                <icon />
+                <Typography variant="h6">{title}</Typography>
               </>
-            )}
-          </Box>
+            ) : (
+              <Typography variant="h6">{title}</Typography>
+            )
+          }
+          action={
+            <Box>
+              {isMaximized && onRestore ? (
+                <IconButton
+                  size="small"
+                  label="Restore"
+                  sx={iconButtonStyle}
+                  aria-label={getAriaLabel('Restore')}
+                  onClick={onRestoreCallback}
+                >
+                  <FullscreenExitRoundedIcon />
+                </IconButton>
+              ) : (
+                <>
+                  {onMinimize && (
+                    <IconButton
+                      size="small"
+                      label="Minimize"
+                      sx={iconButtonStyle}
+                      aria-label={getAriaLabel('Minimize')}
+                      onClick={onMinimizeCallback}
+                    >
+                      <MinimizeRoundedIcon />
+                    </IconButton>
+                  )}
+                  {onMaximize && (
+                    <IconButton
+                      size="small"
+                      label="Maximize"
+                      sx={iconButtonStyle}
+                      aria-label={getAriaLabel('Maximize')}
+                      onClick={onMaximizeCallback}
+                    >
+                      <FullscreenRoundedIcon />
+                    </IconButton>
+                  )}
+                  {onClose && (
+                    <IconButton
+                      size="small"
+                      label="Close"
+                      sx={iconButtonStyle}
+                      aria-label={getAriaLabel('Close')}
+                      onClick={onCloseCallback}
+                    >
+                      <HighlightOffRoundedIcon />
+                    </IconButton>
+                  )}
+                </>
+              )}
+            </Box>
+          }
+        />
+      )}
+      <CardContent
+        sx={
+          headless
+            ? headlessCardContentStyle(removeOverflow)
+            : cardContentStyle(removeOverflow)
         }
-      />
-      <CardContent sx={cardContentStyle(removeOverflow)}>
+      >
         {children}
       </CardContent>
     </Card>
@@ -142,6 +160,7 @@ CardWrapper.defaultProps = {
   onClose: undefined,
   onRestore: undefined,
   removeOverflow: false,
+  headless: false,
 };
 
 CardWrapper.propTypes = {
@@ -156,6 +175,7 @@ CardWrapper.propTypes = {
   onClose: PropTypes.func,
   onRestore: PropTypes.func,
   removeOverflow: PropTypes.bool,
+  headless: PropTypes.bool,
 };
 CardWrapper.defaultProps = {
   className: '',

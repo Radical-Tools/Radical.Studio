@@ -68,6 +68,7 @@ const WidgetsPanel = ({
               id={key}
               title={widget.title}
               className={dragableClassName}
+              headless={widget.headless}
               onClose={widget.canBeClosed ? onCloseWidget : undefined}
               onRestore={widget.canBeMaximized ? onRestoreWidget : undefined}
               onMaximize={widget.canBeMaximized ? onMaximizeWidget : undefined}

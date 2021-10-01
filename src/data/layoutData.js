@@ -1,0 +1,172 @@
+import { LAYOUT_MAX_ROWS, LAYOUT_MODE } from '../app/consts';
+
+const editModeWidgets = {
+  model: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: true,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Model',
+    initialDimensions: {
+      x: 0,
+      y: 1,
+      w: 7,
+      h: LAYOUT_MAX_ROWS - 7,
+      minW: 1,
+    },
+  },
+  views: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Views',
+    initialDimensions: {
+      x: 0,
+      y: LAYOUT_MAX_ROWS - 5,
+      w: 7,
+      h: 6,
+      minW: 1,
+    },
+  },
+  canvas: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: true,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Canvas',
+    initialDimensions: {
+      x: 7,
+      y: 3,
+      w: 17,
+      h: LAYOUT_MAX_ROWS - 3,
+      minW: 4,
+      minH: 1,
+    },
+  },
+  metamodel: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Metamodel',
+    removeOverflow: true,
+    initialDimensions: {
+      x: 7,
+      y: 1,
+      w: 17,
+      h: 2,
+      minW: 1,
+    },
+  },
+};
+const presentationModeWidgets = {
+  views: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Views',
+    initialDimensions: {
+      x: 0,
+      y: LAYOUT_MAX_ROWS - 5,
+      w: 7,
+      h: 11,
+      minW: 1,
+    },
+  },
+  presentations: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Presentations',
+    initialDimensions: {
+      x: 0,
+      y: 1,
+      w: 7,
+      h: 8,
+      minW: 1,
+    },
+  },
+  timeline: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Timeline',
+    initialDimensions: {
+      x: 7,
+      y: 1,
+      w: 17,
+      h: 3,
+      minW: 1,
+    },
+  },
+  canvas: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: true,
+    canBeClosed: false,
+    canBeMinimized: false,
+    title: 'Canvas',
+    initialDimensions: {
+      x: 7,
+      y: 3,
+      w: 17,
+      h: LAYOUT_MAX_ROWS - 4,
+      minW: 4,
+      minH: 1,
+    },
+  },
+};
+const showModeWidgets = {
+  canvas: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: true,
+    canBeClosed: false,
+    canBeMinimized: false,
+    headless: true,
+    title: 'Canvas',
+    initialDimensions: {
+      x: 7,
+      y: 0,
+      w: 24,
+      h: LAYOUT_MAX_ROWS - 3,
+      minW: 4,
+      minH: 1,
+    },
+  },
+  timeline: {
+    isActive: true,
+    isMaximized: false,
+    canBeMaximized: false,
+    canBeClosed: false,
+    canBeMinimized: false,
+    headless: true,
+    title: 'Timeline',
+    initialDimensions: {
+      x: 7,
+      y: 0,
+      w: 24,
+      h: 2,
+      minW: 1,
+    },
+  },
+};
+const modeMapping = {
+  [LAYOUT_MODE.EDIT]: editModeWidgets,
+  [LAYOUT_MODE.SHOW]: showModeWidgets,
+  [LAYOUT_MODE.PRESENTATION]: presentationModeWidgets,
+};
+const getWidgets = (mode = LAYOUT_MODE.EDIT) => modeMapping[mode];
+
+export default getWidgets;

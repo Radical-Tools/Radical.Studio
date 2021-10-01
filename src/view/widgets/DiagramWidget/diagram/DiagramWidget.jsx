@@ -47,8 +47,8 @@ const fillCanvasStyle = {
 const DiagramWidget = ({
   viewmodel,
   alignment,
-  editMode,
-  animMode,
+  editEnabled,
+  smoothTransitionMode,
   onDragItemsEnd,
   onLinkConnected,
   onDiagramAlignmentUpdated,
@@ -64,6 +64,10 @@ const DiagramWidget = ({
   onAddMetamodelObjectToView,
   onItemNameUpdated,
   onNodeDetached,
+  alignEnabled,
+  zoomToFitEnabled,
+  exportEnabled,
+  title,
 }) => {
   const debouncedZoom = debounce(onDiagramAlignmentUpdated, zoomDebounceTime);
   const registerCallbacks = useCallback(
@@ -143,13 +147,13 @@ const DiagramWidget = ({
     ]
   );
 
-  const [engine] = useState(createRadicalEngine(editMode));
+  const [engine] = useState(createRadicalEngine(editEnabled));
   const [isModelSet, setIsModelSet] = useState(false);
   const [viewName, setViewName] = useState();
   useEffect(() => {
     const isViewChanged = viewName !== viewmodel.name;
     setViewName(viewmodel.name);
-    const model = mapViewmodel(viewmodel, editMode);
+    const model = mapViewmodel(viewmodel, editEnabled);
 
     model.registerListener(registerCallbacks());
     model.getNodes().forEach((node) => {
@@ -159,7 +163,7 @@ const DiagramWidget = ({
       link.registerListener(registerCallbacks());
       link.update();
     });
-    if (animMode && !isViewChanged) {
+    if (smoothTransitionMode && !isViewChanged) {
       const sourceZoomLevel = engine.getModel().getZoomLevel();
       const sourceOffsetX = engine.getModel().getOffsetX();
       const sourceOffsetY = engine.getModel().getOffsetY();
@@ -180,8 +184,8 @@ const DiagramWidget = ({
     setIsModelSet(true);
   }, [
     viewmodel,
-    editMode,
-    animMode,
+    editEnabled,
+    smoothTransitionMode,
     alignment,
     engine,
     registerCallbacks,
@@ -216,7 +220,7 @@ const DiagramWidget = ({
       {engine && isModelSet && (
         <Box sx={fillStyle}>
           <ToolbarMenu
-            onLayoutAlign={editMode ? onLayoutAlign : undefined}
+            onLayoutAlign={onLayoutAlign}
             onZoomToFit={() => {
               engine.zoomToFitNodes({ margin: 50 });
               engine.getModel().fireEvent(
@@ -228,7 +232,10 @@ const DiagramWidget = ({
                 CANVAS_ZOOM_CHANGED
               );
             }}
-            name={viewName}
+            name={title}
+            alignEnabled={alignEnabled}
+            zoomToFitEnabled={zoomToFitEnabled}
+            exportEnabled={exportEnabled}
           />
           <Box data-testid={getCanvas()} ref={drop} sx={fillCanvasStyle}>
             <CanvasWidget className="fill canvas-view" engine={engine} />
@@ -241,8 +248,8 @@ const DiagramWidget = ({
 DiagramWidget.propTypes = {
   viewmodel: PropTypes.objectOf(PropTypes.any).isRequired,
   alignment: PropTypes.objectOf(PropTypes.any).isRequired,
-  editMode: PropTypes.bool.isRequired,
-  animMode: PropTypes.bool.isRequired,
+  editEnabled: PropTypes.bool.isRequired,
+  smoothTransitionMode: PropTypes.bool.isRequired,
   onDragItemsEnd: PropTypes.func.isRequired,
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
@@ -258,6 +265,10 @@ DiagramWidget.propTypes = {
   onAddMetamodelObjectToView: PropTypes.func.isRequired,
   onItemNameUpdated: PropTypes.func.isRequired,
   onNodeDetached: PropTypes.func.isRequired,
+  alignEnabled: PropTypes.bool.isRequired,
+  zoomToFitEnabled: PropTypes.bool.isRequired,
+  exportEnabled: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default React.memo(DiagramWidget);

@@ -5,6 +5,7 @@ import {
   presentationStepAppend,
   presentationStepRemove,
 } from '../../controller/actions/actionCreators';
+import { LAYOUT_MODE } from '../../app/consts';
 
 const mapStateToProps = (state) => ({
   presentation: state.presentationModel.current
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => ({
   presentationId: state.presentationModel.current
     ? state.presentationModel.current
     : undefined,
+  editEnabled: state.layout.mode === LAYOUT_MODE.PRESENTATION,
 });
 
 const mapDispatchToProps = (dispatch) => ({

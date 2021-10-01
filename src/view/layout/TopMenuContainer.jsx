@@ -7,6 +7,7 @@ import {
   historyRedo,
   historyUndo,
 } from '../../controller/actions/actionCreators';
+import { LAYOUT_MODE } from '../../app/consts';
 
 const mapDispatchToProps = (dispatch) => ({
   jumpCmd: (index) => dispatch(historyJump(index)),
@@ -19,6 +20,9 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   history: state.history,
   windowDimensions: state.layout.windowDimensions,
+  historyEnabled:
+    state.layout.mode === LAYOUT_MODE.EDIT ||
+    state.layout.mode === LAYOUT_MODE.PRESENTATION,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);

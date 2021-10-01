@@ -13,8 +13,14 @@ import Tooltip from '@material-ui/core/Tooltip';
 import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
 
 const TimelineToolbarWidget = (props) => {
-  const { presentation, presentationId, gotoStep, appendStep, removeStep } =
-    props;
+  const {
+    presentation,
+    presentationId,
+    gotoStep,
+    appendStep,
+    removeStep,
+    editEnabled,
+  } = props;
 
   const onGotoStepCallback = useCallback(
     (stepIndex) => gotoStep(presentationId, stepIndex),
@@ -34,27 +40,31 @@ const TimelineToolbarWidget = (props) => {
   return presentation ? (
     <Box display="flex" alignItems="center" height="100%">
       <Box>
-        <ButtonGroup
-          orientation="horizontal"
-          aria-label="steps management group"
-          variant="text"
-          size="small"
-          color="primary"
-        >
-          <Button onClick={() => onAppendStepCallback()}>
-            <Tooltip title="Add step">
-              <AddCircleRoundedIcon style={{ fontSize: 30 }} />
-            </Tooltip>
-          </Button>
-          <Button
-            onClick={() => onRemoveStepCallback(presentation.currentStepIndex)}
-            disabled={presentation.steps.length < 2}
+        {editEnabled && (
+          <ButtonGroup
+            orientation="horizontal"
+            aria-label="steps management group"
+            variant="text"
+            size="small"
+            color="primary"
           >
-            <Tooltip title="Remove the selected step">
-              <RemoveCircleRoundedIcon style={{ fontSize: 30 }} />
-            </Tooltip>
-          </Button>
-        </ButtonGroup>
+            <Button onClick={() => onAppendStepCallback()}>
+              <Tooltip title="Add step">
+                <AddCircleRoundedIcon style={{ fontSize: 30 }} />
+              </Tooltip>
+            </Button>
+            <Button
+              onClick={() =>
+                onRemoveStepCallback(presentation.currentStepIndex)
+              }
+              disabled={presentation.steps.length < 2}
+            >
+              <Tooltip title="Remove the selected step">
+                <RemoveCircleRoundedIcon style={{ fontSize: 30 }} />
+              </Tooltip>
+            </Button>
+          </ButtonGroup>
+        )}
       </Box>
       <Box flexGrow={1}>
         <Stepper
@@ -134,6 +144,7 @@ TimelineToolbarWidget.propTypes = {
   gotoStep: PropTypes.func.isRequired,
   appendStep: PropTypes.func.isRequired,
   removeStep: PropTypes.func.isRequired,
+  editEnabled: PropTypes.bool.isRequired,
 };
 
 export default React.memo(TimelineToolbarWidget);

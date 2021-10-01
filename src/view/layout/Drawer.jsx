@@ -9,8 +9,9 @@ import toPairs from 'lodash/fp/toPairs';
 import ListItem from '@material-ui/core/ListItem';
 import SaveAltRoundedIcon from '@material-ui/icons/SaveAltRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DesignServicesRoundedIcon from '@material-ui/icons/DesignServicesRounded';
 import SlideshowRoundedIcon from '@material-ui/icons/SlideshowRounded';
+import TheatersRoundedIcon from '@material-ui/icons/TheatersRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
@@ -86,21 +87,21 @@ const Drawer = ({
         <Divider />
       </Box>
       <Box mt={5} p={1}>
-        <Typography variant="subtitle2">Perspective</Typography>
+        <Typography variant="subtitle2">Perspectives</Typography>
         <Divider />
         <List>
           <ListItem key="Edit" selected={mode === LAYOUT_MODE.EDIT}>
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Design</Typography>}
+              title={<Typography variant="caption">Designer</Typography>}
             >
               <IconButton
                 variant="contained"
-                color="primary"
+                color={mode === LAYOUT_MODE.EDIT ? 'secondary' : 'primary'}
                 component="label"
                 onClick={() => onSetModeCallback(LAYOUT_MODE.EDIT)}
               >
-                <EditRoundedIcon />
+                <DesignServicesRoundedIcon />
               </IconButton>
             </Tooltip>
           </ListItem>
@@ -110,13 +111,32 @@ const Drawer = ({
           >
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Presentation</Typography>}
+              title={
+                <Typography variant="caption">Presentation Builder</Typography>
+              }
             >
               <IconButton
                 variant="contained"
-                color="primary"
+                color={
+                  mode === LAYOUT_MODE.PRESENTATION ? 'secondary' : 'primary'
+                }
                 component="label"
                 onClick={() => onSetModeCallback(LAYOUT_MODE.PRESENTATION)}
+              >
+                <TheatersRoundedIcon />
+              </IconButton>
+            </Tooltip>
+          </ListItem>
+          <ListItem key="Presentation" selected={mode === LAYOUT_MODE.SHOW}>
+            <Tooltip
+              placement="right"
+              title={<Typography variant="caption">Presenter</Typography>}
+            >
+              <IconButton
+                variant="contained"
+                color={mode === LAYOUT_MODE.SHOW ? 'secondary' : 'primary'}
+                component="label"
+                onClick={() => onSetModeCallback(LAYOUT_MODE.SHOW)}
               >
                 <SlideshowRoundedIcon />
               </IconButton>

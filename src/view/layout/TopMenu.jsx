@@ -10,7 +10,7 @@ import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
   LAYOUT_MAX_ROWS,
 } from '../../app/consts';
-import Timeline from '../components/Timeline';
+import HistoryTimeline from '../components/HistoryTimeline';
 
 const growStyle = {
   flexGrow: 1,
@@ -64,7 +64,7 @@ const TopMenu = ({
         <Box sx={growStyle} />
         <div>
           {historyEnabled && (
-            <Timeline
+            <HistoryTimeline
               history={history}
               jumpCmd={jumpCmd}
               lockCmd={lockCmd}

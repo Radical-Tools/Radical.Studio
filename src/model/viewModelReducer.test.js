@@ -146,8 +146,8 @@ describe('views management', () => {
     expect(
       rootReducer(
         createInitialState(),
-        viewModelViewUpdate('View-1', 'updated name')
-      ).viewModel.views['View-1'].name
+        viewModelViewUpdate('default', 'updated name')
+      ).viewModel.views['default'].name
     ).toEqual('updated name');
   });
 });

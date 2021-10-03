@@ -93,7 +93,7 @@ const handlersMap = {
             type: 'object',
           }
         )
-      : state,
+      : isLockedInfo(state),
   [actions.viewModelLinkRemove.toString()]: (state, payload) =>
     !isLocked(state)
       ? viewModel.updateCurrentView(viewModel.removeLink(state, payload))
@@ -101,12 +101,7 @@ const handlersMap = {
   [actions.viewModelLinkAdd.toString()]: (state, payload) =>
     !isLocked(state)
       ? viewModel.updateCurrentView(viewModel.addLink(state, payload))
-      : notifications.addNotification(state, {
-          id: 3,
-          message: 'Model and ViewModel is locked',
-          type: 'warning',
-          name: 'Locked',
-        }),
+      : isLockedInfo(state),
   [actions.viewModelViewActivate.toString()]: (state, payload) =>
     viewModel.updateCurrentView(
       presentations.updateStepView(
@@ -115,7 +110,9 @@ const handlersMap = {
       )
     ),
   [actions.viewModelViewUpdate.toString()]: (state, payload) =>
-    !isLocked(state) ? viewModel.updateView(state, payload) : state,
+    !isLocked(state)
+      ? viewModel.updateView(state, payload)
+      : isLockedInfo(state),
   [actions.viewModelNodeUpdate.toString()]: (state, payload) =>
     !isLocked(state)
       ? viewModel.updateCurrentView(viewModel.updateNode(state, payload))
@@ -130,7 +127,9 @@ const handlersMap = {
       payload
     ),
   [actions.viewModelLayoutAlign.toString()]: (state, payload) =>
-    !isLocked(state) ? viewModel.alignLayout(state, payload) : state,
+    !isLocked(state)
+      ? viewModel.alignLayout(state, payload)
+      : isLockedInfo(state),
   [actions.viewModelNodeCollapse.toString()]: (state, payload) =>
     !isLocked(state)
       ? viewModel.alignChildren(
@@ -210,7 +209,22 @@ const handlersMap = {
     viewModel.fixBrokenView(
       presentations.updateStepHistory(history.jump(state, payload))
     ),
-  [actions.historyLock.toString()]: history.lock,
+  [actions.historyLock.toString()]: (state, payload) => {
+    const extendedPayload = {
+      id: state.common.sandbox.data.properties.id.default,
+      type: state.common.sandbox.data.type,
+      isSelected: false,
+    };
+    return history.lock(
+      viewModel.updateCurrentView(
+        common.editItem(
+          viewModel.itemSelectionChanged(state, extendedPayload),
+          extendedPayload
+        )
+      ),
+      payload
+    );
+  },
   [actions.historyChangeName.toString()]: history.changeName,
 };
 

@@ -18,7 +18,7 @@ import {
   isPrevLocked,
 } from '../../controller/handlers/common/historyUtils';
 
-const Timeline = ({
+const HistoryTimeline = ({
   jumpCmd,
   lockCmd,
   history,
@@ -42,7 +42,7 @@ const Timeline = ({
   return (
     <>
       <Box display="flex" flexDirection="row" alignItems="center">
-        <Box maxWidth="1200px" minWidth="1000px" alignItems="center">
+        <Box maxWidth="1200px" minWidth="1200px" alignItems="center">
           <Stepper activeStep={history.prev.length + history.next.length}>
             {history.prev
               .filter((item) => item.isLocked)
@@ -91,23 +91,25 @@ const Timeline = ({
                   />
                 </Step>
               ))}
-            <Step key="Last">
-              <StepButton
-                icon={
-                  <Badge
-                    badgeContent={getUnlockedCount(history)}
-                    color="secondary"
-                  >
-                    <RadioButtonUncheckedRoundedIcon
-                      color={isPrevLocked(history) ? 'secondary' : 'inherit'}
-                    />
-                  </Badge>
-                }
-                onClick={() =>
-                  isLast(history) ? lockCmd() : jumpCmd(history.next.length)
-                }
-              />
-            </Step>
+            {history.count > 0 && (
+              <Step key="Last">
+                <StepButton
+                  icon={
+                    <Badge
+                      badgeContent={getUnlockedCount(history)}
+                      color="secondary"
+                    >
+                      <RadioButtonUncheckedRoundedIcon
+                        color={isPrevLocked(history) ? 'secondary' : 'inherit'}
+                      />
+                    </Badge>
+                  }
+                  onClick={() => jumpCmd(history.next.length)}
+                  onDoubleClick={() => isLast(history) && lockCmd()}
+                  optional={<Typography color="white">Latest</Typography>}
+                />
+              </Step>
+            )}
           </Stepper>
         </Box>
         <Box>
@@ -161,7 +163,7 @@ const Timeline = ({
   );
 };
 
-Timeline.propTypes = {
+HistoryTimeline.propTypes = {
   jumpCmd: PropTypes.func.isRequired,
   lockCmd: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -170,4 +172,4 @@ Timeline.propTypes = {
   changeNameCmd: PropTypes.func.isRequired,
 };
 
-export default Timeline;
+export default HistoryTimeline;

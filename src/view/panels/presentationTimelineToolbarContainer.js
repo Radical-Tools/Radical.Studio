@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import TimelineToolbarWidget from './TimelineToolbarWidget';
+import TimelineToolbarWidget from './PresentationTimelineToolbarWidget';
 import {
   layoutModeChange,
   presentationSetGoTo,

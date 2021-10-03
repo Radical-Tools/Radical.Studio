@@ -26,6 +26,8 @@ const MainLayout = ({
   onSetMode,
   windowDimensions,
   mode,
+  isShowModeEnabled,
+  isPresentationModeEnabled,
 }) => (
   <>
     <WidgetsPanel
@@ -49,6 +51,8 @@ const MainLayout = ({
       onSave={onSave}
       onSetMode={onSetMode}
       mode={mode}
+      isShowModeEnabled={isShowModeEnabled}
+      isPresentationModeEnabled={isPresentationModeEnabled}
     />
     <HomeDialog
       show={showHomeDialog}
@@ -81,5 +85,7 @@ MainLayout.propTypes = {
   onSetMode: PropTypes.func.isRequired,
   windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
   mode: PropTypes.string.isRequired,
+  isShowModeEnabled: PropTypes.bool.isRequired,
+  isPresentationModeEnabled: PropTypes.bool.isRequired,
 };
 export default MainLayout;

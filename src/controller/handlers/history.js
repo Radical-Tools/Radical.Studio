@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 import identity from 'lodash/fp/identity';
+import findLastIndex from 'lodash/fp/findLastIndex';
 import clone from 'clone-deep';
 import {
   applyChanges,
@@ -24,6 +25,7 @@ export function addToHistory(history, addition) {
         prev: [addition, ...history.prev].slice(0, history.prev.length + 1),
         next: [],
         count: addition.isLocked ? history.count : history.count + 1,
+        id: 'latest',
       };
 }
 
@@ -91,7 +93,8 @@ export const jump = (state, payload) => {
 export const jumpById = (state, payload) => {
   let index = -state.history.prev.findIndex((item) => item.id === payload.id);
   if (index > 0) {
-    index = state.history.next.findIndex((item) => item.id === payload.id) + 1;
+    index =
+      findLastIndex((item) => item.id === payload.id, state.history.next) + 1;
   }
 
   return index !== 0 ? jump(state, { index }) : state;
@@ -123,7 +126,9 @@ export const clear = (state) => set(['history'], { ...initialState }, state);
 const prefilter = (path, key) =>
   (path.length === 0 && ['model', 'viewModel'].indexOf(key) === -1) ||
   key === 'current' ||
-  key === 'alignment';
+  key === 'alignment' ||
+  key === 'isSelected' ||
+  key === 'possibleRelations';
 
 export const historyAccumulator = new DiffAccumulator({
   flatten: () => false,

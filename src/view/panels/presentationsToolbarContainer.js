@@ -4,8 +4,9 @@ import {
   presentationCreate,
   presentationUpdateName,
   presentationRemove,
+  layoutModeChange,
 } from '../../controller/actions/actionCreators';
-import PresentationsToolbarWidget from './presentationsToolbarWidget';
+import PresentationsToolbarWidget from './PresentationsToolbarWidget';
 
 const mapStateToProps = (state) => ({
   presentationModel: state.presentationModel,
@@ -17,6 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(presentationUpdateName(id, name)),
   onCreatePresentation: (name) => dispatch(presentationCreate(name)),
   onPresentationActivate: (id) => dispatch(presentationSelect(id)),
+  onSetMode: (mode) => dispatch(layoutModeChange(mode)),
 });
 
 export default connect(

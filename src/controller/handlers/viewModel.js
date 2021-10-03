@@ -168,7 +168,7 @@ export const updateView = (state, payload) =>
     (view) => ({
       ...view,
       name: payload.name ? payload.name : view.name,
-      tags: payload.tags ? payload.tags : payload.tags,
+      tags: payload.tags ? payload.tags : view.tags,
     }),
     state
   );
@@ -331,18 +331,33 @@ export const collapseNode = (state, payload) => {
 };
 
 export const itemSelectionChanged = (state, payload) => {
-  const newState = cloneDeep(state);
   if (payload.type === 'object') {
-    newState.viewModel.views[newState.viewModel.current].nodes[
-      payload.id
-    ].isSelected = payload.isSelected;
-    return newState;
+    return set(
+      [
+        'viewModel',
+        'views',
+        state.viewModel.current,
+        'nodes',
+        payload.id,
+        'isSelected',
+      ],
+      payload.isSelected,
+      state
+    );
   }
   if (payload.type === 'relation') {
-    newState.viewModel.views[newState.viewModel.current].links[
-      payload.id
-    ].isSelected = payload.isSelected;
-    return newState;
+    return set(
+      [
+        'viewModel',
+        'views',
+        state.viewModel.current,
+        'links',
+        payload.id,
+        'isSelected',
+      ],
+      payload.isSelected,
+      state
+    );
   }
 
   return state;

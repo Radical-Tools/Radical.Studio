@@ -10,8 +10,8 @@ import ListItem from '@material-ui/core/ListItem';
 import SaveAltRoundedIcon from '@material-ui/icons/SaveAltRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import DesignServicesRoundedIcon from '@material-ui/icons/DesignServicesRounded';
-import SlideshowRoundedIcon from '@material-ui/icons/SlideshowRounded';
-import TheatersRoundedIcon from '@material-ui/icons/TheatersRounded';
+import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
+import PlayCircleRoundedIcon from '@material-ui/icons/PlayCircleRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
@@ -27,6 +27,8 @@ const Drawer = ({
   onSave,
   onSetMode,
   mode,
+  isShowModeEnabled,
+  isPresentationModeEnabled,
 }) => {
   const handleSaveButtonClick = useCallback(() => {
     onSave();
@@ -101,7 +103,7 @@ const Drawer = ({
                 component="label"
                 onClick={() => onSetModeCallback(LAYOUT_MODE.EDIT)}
               >
-                <DesignServicesRoundedIcon />
+                <DesignServicesRoundedIcon style={{ fontSize: 25 }} />
               </IconButton>
             </Tooltip>
           </ListItem>
@@ -112,19 +114,22 @@ const Drawer = ({
             <Tooltip
               placement="right"
               title={
-                <Typography variant="caption">Presentation Builder</Typography>
+                <Typography variant="caption">Presentation Creator</Typography>
               }
             >
-              <IconButton
-                variant="contained"
-                color={
-                  mode === LAYOUT_MODE.PRESENTATION ? 'secondary' : 'primary'
-                }
-                component="label"
-                onClick={() => onSetModeCallback(LAYOUT_MODE.PRESENTATION)}
-              >
-                <TheatersRoundedIcon />
-              </IconButton>
+              <span>
+                <IconButton
+                  disabled={!isPresentationModeEnabled}
+                  variant="contained"
+                  color={
+                    mode === LAYOUT_MODE.PRESENTATION ? 'secondary' : 'primary'
+                  }
+                  component="label"
+                  onClick={() => onSetModeCallback(LAYOUT_MODE.PRESENTATION)}
+                >
+                  <MovieCreationRoundedIcon style={{ fontSize: 25 }} />
+                </IconButton>
+              </span>
             </Tooltip>
           </ListItem>
           <ListItem key="Show" selected={mode === LAYOUT_MODE.SHOW}>
@@ -132,14 +137,17 @@ const Drawer = ({
               placement="right"
               title={<Typography variant="caption">Presenter</Typography>}
             >
-              <IconButton
-                variant="contained"
-                color={mode === LAYOUT_MODE.SHOW ? 'secondary' : 'primary'}
-                component="label"
-                onClick={() => onSetModeCallback(LAYOUT_MODE.SHOW)}
-              >
-                <SlideshowRoundedIcon />
-              </IconButton>
+              <span>
+                <IconButton
+                  disabled={!isShowModeEnabled}
+                  variant="contained"
+                  color={mode === LAYOUT_MODE.SHOW ? 'secondary' : 'primary'}
+                  component="label"
+                  onClick={() => onSetModeCallback(LAYOUT_MODE.SHOW)}
+                >
+                  <PlayCircleRoundedIcon style={{ fontSize: 25 }} />
+                </IconButton>
+              </span>
             </Tooltip>
           </ListItem>
         </List>
@@ -178,6 +186,8 @@ Drawer.propTypes = {
   onSave: PropTypes.func.isRequired,
   onSetMode: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
+  isShowModeEnabled: PropTypes.bool.isRequired,
+  isPresentationModeEnabled: PropTypes.bool.isRequired,
 };
 Drawer.defaultProps = {
   widgetsConfig: undefined,

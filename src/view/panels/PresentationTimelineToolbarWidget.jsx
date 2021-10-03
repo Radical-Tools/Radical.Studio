@@ -6,8 +6,7 @@ import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
-import SlideshowRoundedIcon from '@material-ui/icons/SlideshowRounded';
-import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import BackspaceRoundedIcon from '@material-ui/icons/BackspaceRounded';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -15,7 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
 import { LAYOUT_MODE } from '../../app/consts';
 
-const TimelineToolbarWidget = (props) => {
+const PresentationTimelineToolbarWidget = (props) => {
   const {
     presentation,
     presentationId,
@@ -71,23 +70,13 @@ const TimelineToolbarWidget = (props) => {
               </Tooltip>
             </Button>
           )}
-          {playEnabled && (
-            <Button
-              onClick={() => onSetMode(LAYOUT_MODE.SHOW)}
-              disabled={presentation.steps.length === 0}
-            >
-              <Tooltip title="Play">
-                <SlideshowRoundedIcon style={{ fontSize: 25 }} />
-              </Tooltip>
-            </Button>
-          )}
           {!playEnabled && (
             <Button
               onClick={() => onSetMode(LAYOUT_MODE.PRESENTATION)}
               disabled={presentation.steps.length === 0}
             >
               <Tooltip title="Back to the designer">
-                <ExitToAppRoundedIcon style={{ fontSize: 45 }} />
+                <BackspaceRoundedIcon style={{ fontSize: 25 }} />
               </Tooltip>
             </Button>
           )}
@@ -160,12 +149,12 @@ const TimelineToolbarWidget = (props) => {
     <div />
   );
 };
-TimelineToolbarWidget.defaultProps = {
+PresentationTimelineToolbarWidget.defaultProps = {
   presentation: undefined,
   presentationId: undefined,
 };
 
-TimelineToolbarWidget.propTypes = {
+PresentationTimelineToolbarWidget.propTypes = {
   presentation: PropTypes.objectOf(PropTypes.any),
   presentationId: PropTypes.string,
   gotoStep: PropTypes.func.isRequired,
@@ -176,4 +165,4 @@ TimelineToolbarWidget.propTypes = {
   playEnabled: PropTypes.bool.isRequired,
 };
 
-export default React.memo(TimelineToolbarWidget);
+export default React.memo(PresentationTimelineToolbarWidget);

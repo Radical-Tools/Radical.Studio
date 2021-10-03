@@ -147,7 +147,7 @@ describe('views management', () => {
       rootReducer(
         createInitialState(),
         viewModelViewUpdate('default', 'updated name')
-      ).viewModel.views['default'].name
+      ).viewModel.views.default.name
     ).toEqual('updated name');
   });
 });

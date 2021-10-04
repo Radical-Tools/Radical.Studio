@@ -21,7 +21,7 @@ function C4Container({
       y="1"
       width={width - 2}
       height={height - 2}
-      strokeWidth={isSelected ? 4 : 1}
+      strokeWidth={isSelected ? 2 : 1}
     />
   ) : (
     <>
@@ -35,7 +35,7 @@ function C4Container({
         y="2"
         width={width - 4}
         height={height - 4}
-        strokeWidth={isSelected ? 4 : 2}
+        strokeWidth={isSelected ? 2 : 2}
       />
       {showComponentTypeText && (
         <text x="8" y="85" fontSize="30px" fill="white">
@@ -77,7 +77,7 @@ function C4Component({
       y="1"
       width={width - 2}
       height={height - 2}
-      strokeWidth={isSelected ? 4 : 1}
+      strokeWidth={isSelected ? 2 : 1}
     />
   ) : (
     <>
@@ -91,7 +91,7 @@ function C4Component({
         y="2"
         width={width - 4 + (showComponentTypeText ? 20 : 0)}
         height={height - 4}
-        strokeWidth={isSelected ? 4 : 2}
+        strokeWidth={isSelected ? 2 : 2}
       />
       {showComponentTypeText && (
         <text x="5" y="85" fontSize="30px" fill="white">
@@ -133,7 +133,7 @@ function C4System({
       y="1"
       width={width - 2}
       height={height - 2}
-      strokeWidth={isSelected ? 4 : 1}
+      strokeWidth={isSelected ? 2 : 1}
     />
   ) : (
     <>
@@ -147,7 +147,7 @@ function C4System({
         y="2"
         width={width - 4}
         height={height - 4}
-        strokeWidth={isSelected ? 4 : 2}
+        strokeWidth={isSelected ? 2 : 2}
       />
       {showComponentTypeText && (
         <text x="20" y="85" fontSize="30px" fill="white">
@@ -188,7 +188,7 @@ function C4ExternalSystem({
         y="2"
         width={width - 4}
         height={height - 4}
-        strokeWidth={isSelected ? 4 : 2}
+        strokeWidth={isSelected ? 2 : 2}
       />
       {showComponentTypeText && (
         <>
@@ -225,7 +225,7 @@ function C4Actor({ width, height, isSelected, showComponentTypeText }) {
         ry="20"
         x="5"
         y="40"
-        strokeWidth={isSelected ? 4 : 2}
+        strokeWidth={isSelected ? 2 : 2}
         width={width - 10}
         height={height - 45}
       />
@@ -242,7 +242,7 @@ function C4Actor({ width, height, isSelected, showComponentTypeText }) {
         cx="75"
         cy="30"
         r="27"
-        strokeWidth={isSelected ? 4 : 2}
+        strokeWidth={isSelected ? 2 : 2}
       />
     </g>
   );

@@ -11,7 +11,7 @@ import * as history from './handlers/history';
 import loadState from './handlers/state';
 import { LAYOUT_MODE } from '../app/consts';
 
-const isLocked = (state) =>
+export const isLocked = (state) =>
   state.history.next.filter((item) => item.isLocked).length > 0;
 
 const isLockedInfo = (state) =>

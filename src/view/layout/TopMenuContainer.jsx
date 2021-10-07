@@ -5,16 +5,18 @@ import {
   historyJump,
   historyLock,
   historyRedo,
-  historyUndo,
+  historyUndo, undo, redo
 } from '../../controller/actions/actionCreators';
 import { LAYOUT_MODE } from '../../app/consts';
 
 const mapDispatchToProps = (dispatch) => ({
   jumpCmd: (index) => dispatch(historyJump(index)),
   lockCmd: () => dispatch(historyLock()),
-  undoCmd: () => dispatch(historyUndo()),
-  redoCmd: () => dispatch(historyRedo()),
+  historyUndoCmd: () => dispatch(historyUndo()),
+  historyRedoCmd: () => dispatch(historyRedo()),
   changeNameCmd: (name) => dispatch(historyChangeName(name)),
+  undoCmd: () => dispatch(undo()),
+  redoCmd: () => dispatch(redo()),
 });
 
 const mapStateToProps = (state) => ({
@@ -23,6 +25,8 @@ const mapStateToProps = (state) => ({
   historyEnabled:
     state.layout.mode === LAYOUT_MODE.EDIT ||
     state.layout.mode === LAYOUT_MODE.PRESENTATION,
+  isUndoFirst: state.undo.prev.length === 0,
+  isUndoLast: state.undo.next.length === 0,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);

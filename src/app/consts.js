@@ -28,6 +28,8 @@ export const LAYOUT_COLOR = {
 
 export const HISTORY_LIMIT = 10;
 
+export const UNDO_LIMIT = 10;
+
 export const NOTIFICATION_TYPE = {
   ERROR: 'error',
   WARNING: 'warning',

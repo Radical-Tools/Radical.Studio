@@ -1,8 +1,10 @@
 import {
   addToHistory,
   historyAccumulator,
-  lock,
+  lock, updateHistory
 } from '../controller/handlers/history';
+
+
 import * as actions from '../controller/actions/actionCreators';
 
 export const skipActions = [
@@ -14,28 +16,37 @@ export const skipActions = [
   actions.historyJump.toString(),
   actions.presentationSetGoTo.toString(),
   actions.historyChangeName.toString(),
+  actions.undo.toString(),
+  actions.redo.toString(),
 ];
 
 export default function historyReducer(reducer) {
   return (state, action) => {
-    let { history } = state || [];
+    const { history } = state || [];
     const rState = reducer(state, action);
 
-    if (!skipActions.includes(action.type) && state) {
+    if (!skipActions.includes(action.type) && state && history) {
       const changes = historyAccumulator.diff(state, rState);
       if (changes.length > 0) {
-        history = addToHistory(history, {
-          changes,
-          isLocked: false,
-          name: `v${history.prev.length + 1}`,
-        });
-        historyAccumulator.clear();
+        if (history.next.filter((item) => item.isLocked).length === 0) {
+          const history2 = addToHistory(history, {
+            changes,
+            isLocked: false,
+            name: `v${history.prev.length + 1}`,
+          });
+          historyAccumulator.clear();
+          if (history2.count === history2.limit)
+            return lock({ ...rState, history: history2 }, false);
+
+          return { ...rState, history: history2 };
+        }
+
+        if(history.prev.length > 0 ) {
+          return { ...rState, history: updateHistory(rState, history)}
+        }
+
+
       }
-
-      if (history.count === history.limit)
-        return lock({ ...rState, history }, false);
-
-      return { ...rState, history };
     }
     return rState;
   };

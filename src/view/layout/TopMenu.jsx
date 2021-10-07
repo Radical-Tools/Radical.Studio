@@ -5,6 +5,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import WidgetsIcon from '@material-ui/icons/Widgets';
+import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
+import RotateRightRoundedIcon from '@material-ui/icons/RotateRightRounded';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
@@ -34,10 +38,14 @@ const TopMenu = ({
   windowDimensions,
   lockCmd,
   history,
-  undoCmd,
-  redoCmd,
+  historyUndoCmd,
+  historyRedoCmd,
   changeNameCmd,
   historyEnabled,
+  undoCmd,
+  redoCmd,
+                   isUndoFirst,
+                   isUndoLast
 }) => (
   <Box sx={growStyle}>
     <AppBar position="static">
@@ -61,6 +69,28 @@ const TopMenu = ({
             </Typography>
           </Box>
         </Box>
+        <ButtonGroup
+          orientation="horizontal"
+          aria-label="steps navigation group"
+          variant="text"
+          size="small"
+          color="inherit"
+        >
+          <Button
+            disabled={isUndoFirst}
+            onClick={() => undoCmd()}
+            color="inherit"
+          >
+            <RotateLeftRoundedIcon />
+          </Button>
+          <Button
+            disabled={isUndoLast}
+            onClick={() => redoCmd()}
+            color="inherit"
+          >
+            <RotateRightRoundedIcon />
+          </Button>
+        </ButtonGroup>
         <Box sx={growStyle} />
         <div>
           {historyEnabled && (
@@ -68,8 +98,8 @@ const TopMenu = ({
               history={history}
               jumpCmd={jumpCmd}
               lockCmd={lockCmd}
-              undoCmd={undoCmd}
-              redoCmd={redoCmd}
+              undoCmd={historyUndoCmd}
+              redoCmd={historyRedoCmd}
               changeNameCmd={changeNameCmd}
             />
           )}
@@ -85,10 +115,14 @@ TopMenu.propTypes = {
   windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
   lockCmd: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
-  undoCmd: PropTypes.func.isRequired,
-  redoCmd: PropTypes.func.isRequired,
+  historyUndoCmd: PropTypes.func.isRequired,
+  historyRedoCmd: PropTypes.func.isRequired,
   changeNameCmd: PropTypes.func.isRequired,
   historyEnabled: PropTypes.bool.isRequired,
+  undoCmd: PropTypes.func.isRequired,
+  redoCmd: PropTypes.func.isRequired,
+  isUndoFirst: PropTypes.bool.isRequired,
+  isUndoLast: PropTypes.bool.isRequired,
 };
 
 export default TopMenu;

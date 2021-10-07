@@ -229,7 +229,6 @@ const handlersMap = {
   [actions.historyChangeName.toString()]: history.changeName,
   [actions.undo.toString()]: undo.undo,
   [actions.redo.toString()]: undo.redo,
-
 };
 
 export default handlersMap;

@@ -5,7 +5,9 @@ import {
   historyJump,
   historyLock,
   historyRedo,
-  historyUndo, undo, redo
+  historyUndo,
+  undo,
+  redo,
 } from '../../controller/actions/actionCreators';
 import { LAYOUT_MODE } from '../../app/consts';
 

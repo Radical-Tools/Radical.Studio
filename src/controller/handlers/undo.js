@@ -1,13 +1,10 @@
 import clone from 'clone-deep';
-import {
-  applyChanges,
-  revertChanges,
-} from '../../utils/history/util';
+import { applyChanges, revertChanges } from '../../utils/history/util';
 import DiffAccumulator from '../../utils/history/acumulator';
 import { UNDO_LIMIT } from '../../app/consts';
 
 export const initialState = {
-  undo: { prev: [], next: [], limit: UNDO_LIMIT},
+  undo: { prev: [], next: [], limit: UNDO_LIMIT },
 };
 
 export function addToUndo(undo, addition) {
@@ -15,7 +12,10 @@ export function addToUndo(undo, addition) {
     ? undo
     : {
         ...undo,
-        prev: [addition, ...undo.prev].slice(0, undo.limit || undo.prev.length + 1),
+        prev: [addition, ...undo.prev].slice(
+          0,
+          undo.limit || undo.prev.length + 1
+        ),
         next: [],
       };
 }
@@ -55,7 +55,6 @@ export const redo = (state) => ({
   ...applyChanges(clone(state), state.undo.next[0]),
   undo: jumpToNextUndo(state.undo),
 });
-
 
 const prefilter = (path, key) => key === 'undo';
 

@@ -1,9 +1,9 @@
 import {
   addToHistory,
   historyAccumulator,
-  lock, updateHistory
+  lock,
+  updateHistory,
 } from '../controller/handlers/history';
-
 
 import * as actions from '../controller/actions/actionCreators';
 
@@ -41,11 +41,9 @@ export default function historyReducer(reducer) {
           return { ...rState, history: history2 };
         }
 
-        if(history.prev.length > 0 ) {
-          return { ...rState, history: updateHistory(rState, history)}
+        if (history.prev.length > 0) {
+          return { ...rState, history: updateHistory(rState, history) };
         }
-
-
       }
     }
     return rState;

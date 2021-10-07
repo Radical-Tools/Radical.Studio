@@ -44,8 +44,8 @@ const TopMenu = ({
   historyEnabled,
   undoCmd,
   redoCmd,
-                   isUndoFirst,
-                   isUndoLast
+  isUndoFirst,
+  isUndoLast,
 }) => (
   <Box sx={growStyle}>
     <AppBar position="static">

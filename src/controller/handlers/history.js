@@ -29,8 +29,6 @@ export function addToHistory(history, addition) {
       };
 }
 
-
-
 const jumpToPrevHistory = (history, offset = 1) => {
   const normalizedOffset = Math.min(history.prev.length, offset);
 
@@ -175,15 +173,10 @@ export const lock = (state, isLocked = true) => {
 };
 
 export function updateHistory(state, history) {
-  const lastState = revertDiffs(
-    clone(state),
-    history.prev[0].changes
-  );
+  const lastState = revertDiffs(clone(state), history.prev[0].changes);
 
-  const changes =  historyAccumulator.diff(lastState, state);
+  const changes = historyAccumulator.diff(lastState, state);
   historyAccumulator.clear();
 
-  return set(['prev', 0, 'changes'], changes, history)
-
+  return set(['prev', 0, 'changes'], changes, history);
 }
-

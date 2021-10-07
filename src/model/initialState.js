@@ -7,7 +7,7 @@ import * as notifications from '../controller/handlers/notifications';
 import * as project from '../controller/handlers/project';
 import * as presentations from '../controller/handlers/presentation';
 import * as history from '../controller/handlers/history';
-import * as undo  from '../controller/handlers/undo';
+import * as undo from '../controller/handlers/undo';
 
 const initialState = {
   ...layout.initialState,

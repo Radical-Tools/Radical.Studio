@@ -3,10 +3,19 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
 import RadioButtonUncheckedRoundedIcon from '@material-ui/icons/RadioButtonUncheckedRounded';
+import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
 import Box from '@material-ui/core/Box';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Badge, Popover, Step, StepButton, Stepper } from '@material-ui/core';
+import {
+  Badge,
+  Popover,
+  Step,
+  StepButton,
+  StepConnector,
+  Stepper,
+  Tooltip,
+} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextFieldDebounced from './TextFieldDebounced';
@@ -25,6 +34,7 @@ const HistoryTimeline = ({
   undoCmd,
   redoCmd,
   changeNameCmd,
+  rollbackCmd,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -42,8 +52,17 @@ const HistoryTimeline = ({
   return (
     <>
       <Box display="flex" flexDirection="row" alignItems="center">
-        <Box maxWidth="1200px" minWidth="1200px" alignItems="center">
-          <Stepper activeStep={history.prev.length + history.next.length}>
+        <Box width="auto" alignItems="center">
+          <Stepper
+            activeStep={history.prev.length + history.next.length}
+            connector={
+              <StepConnector
+                sx={{
+                  width: '40px',
+                }}
+              />
+            }
+          >
             {history.prev
               .filter((item) => item.isLocked)
               .slice()
@@ -151,12 +170,31 @@ const HistoryTimeline = ({
         <Box p={1}>
           <TextFieldDebounced
             initialValue={history.prev[0] ? history.prev[0].name : ''}
-            label="name"
+            label="Name"
             onSubmit={(item) => {
               handleClose();
               changeNameCmd(item);
             }}
           />
+          <Tooltip
+            placement="bottom"
+            title={
+              <Typography variant="caption">Rollback to this state</Typography>
+            }
+          >
+            <span>
+              <Button
+                disabled={isLast(history)}
+                onClick={() => {
+                  handleClose();
+                  rollbackCmd();
+                }}
+                color="primary"
+              >
+                <SettingsBackupRestoreIcon />
+              </Button>
+            </span>
+          </Tooltip>
         </Box>
       </Popover>
     </>
@@ -170,6 +208,7 @@ HistoryTimeline.propTypes = {
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
   changeNameCmd: PropTypes.func.isRequired,
+  rollbackCmd: PropTypes.func.isRequired,
 };
 
 export default HistoryTimeline;

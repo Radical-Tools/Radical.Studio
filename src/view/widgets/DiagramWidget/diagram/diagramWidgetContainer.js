@@ -19,6 +19,7 @@ import {
 } from '../../../../controller/actions/actionCreators';
 import { LAYOUT_MODE } from '../../../../app/consts';
 import RadicalCanvasWidget from './DiagramWidget';
+import { isLocked } from '../../../../controller/handlersMap';
 
 const generateTitle = (state) =>
   state.layout.mode === LAYOUT_MODE.EDIT
@@ -28,10 +29,7 @@ const generateTitle = (state) =>
       } `;
 
 function isEditEnabled(state) {
-  return (
-    state.layout.mode === LAYOUT_MODE.EDIT &&
-    (!state.history.prev[0]?.isLocked || state.history.next.length === 0)
-  );
+  return state.layout.mode === LAYOUT_MODE.EDIT && !isLocked(state);
 }
 
 const mapStateToProps = (state) => ({

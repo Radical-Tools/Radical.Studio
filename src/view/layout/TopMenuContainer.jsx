@@ -8,6 +8,7 @@ import {
   historyUndo,
   undo,
   redo,
+  historyRollback,
 } from '../../controller/actions/actionCreators';
 import { LAYOUT_MODE } from '../../app/consts';
 
@@ -16,6 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
   lockCmd: () => dispatch(historyLock()),
   historyUndoCmd: () => dispatch(historyUndo()),
   historyRedoCmd: () => dispatch(historyRedo()),
+  historyRollbackCmd: () => dispatch(historyRollback()),
   changeNameCmd: (name) => dispatch(historyChangeName(name)),
   undoCmd: () => dispatch(undo()),
   redoCmd: () => dispatch(redo()),

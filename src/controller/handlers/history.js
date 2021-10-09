@@ -172,11 +172,14 @@ export const lock = (state, isLocked = true) => {
   return state;
 };
 
-export function updateHistory(state, history) {
-  const lastState = revertDiffs(clone(state), history.prev[0].changes);
+export const rollback = (state) => set(['history', 'next'], [], state);
 
+export const updateHistory = (beforeState, state, history) => {
+  const lastState = revertDiffs(clone(beforeState), history.prev[0].changes);
+
+  historyAccumulator.clear();
   const changes = historyAccumulator.diff(lastState, state);
   historyAccumulator.clear();
 
   return set(['prev', 0, 'changes'], changes, history);
-}
+};

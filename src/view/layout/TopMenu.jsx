@@ -40,6 +40,7 @@ const TopMenu = ({
   history,
   historyUndoCmd,
   historyRedoCmd,
+  historyRollbackCmd,
   changeNameCmd,
   historyEnabled,
   undoCmd,
@@ -68,33 +69,34 @@ const TopMenu = ({
               v{process.env.REACT_APP_VERSION}
             </Typography>
           </Box>
+          <ButtonGroup
+            orientation="horizontal"
+            aria-label="steps navigation group"
+            variant="text"
+            size="small"
+            color="inherit"
+          >
+            <Button
+              disabled={isUndoFirst}
+              onClick={() => undoCmd()}
+              color="inherit"
+            >
+              <RotateLeftRoundedIcon />
+            </Button>
+            <Button
+              disabled={isUndoLast}
+              onClick={() => redoCmd()}
+              color="inherit"
+            >
+              <RotateRightRoundedIcon />
+            </Button>
+          </ButtonGroup>
         </Box>
-        <ButtonGroup
-          orientation="horizontal"
-          aria-label="steps navigation group"
-          variant="text"
-          size="small"
-          color="inherit"
-        >
-          <Button
-            disabled={isUndoFirst}
-            onClick={() => undoCmd()}
-            color="inherit"
-          >
-            <RotateLeftRoundedIcon />
-          </Button>
-          <Button
-            disabled={isUndoLast}
-            onClick={() => redoCmd()}
-            color="inherit"
-          >
-            <RotateRightRoundedIcon />
-          </Button>
-        </ButtonGroup>
         <Box sx={growStyle} />
         <div>
           {historyEnabled && (
             <HistoryTimeline
+              rollbackCmd={historyRollbackCmd}
               history={history}
               jumpCmd={jumpCmd}
               lockCmd={lockCmd}
@@ -117,6 +119,7 @@ TopMenu.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   historyUndoCmd: PropTypes.func.isRequired,
   historyRedoCmd: PropTypes.func.isRequired,
+  historyRollbackCmd: PropTypes.func.isRequired,
   changeNameCmd: PropTypes.func.isRequired,
   historyEnabled: PropTypes.bool.isRequired,
   undoCmd: PropTypes.func.isRequired,

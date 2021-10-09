@@ -67,9 +67,7 @@ const handlersMap = {
         )
       : common.editItem(state, payload),
   [actions.modelItemUpsert.toString()]: (state, payload) =>
-    !isLocked(state)
-      ? viewModel.updateCurrentView(common.upsertItem(state, payload))
-      : isLockedInfo(state),
+    viewModel.updateCurrentView(common.upsertItem(state, payload)),
   [actions.initProject.toString()]: (state, payload) =>
     project.init(
       model.selectMetamodel(layout.closeHomeDialog(state), payload.metamodel),
@@ -213,7 +211,8 @@ const handlersMap = {
   [actions.historyLock.toString()]: (state, payload) => {
     const extendedPayload = {
       id: state.common.sandbox.data.properties.id.default,
-      type: state.common.sandbox.data.type,
+      type:
+        state.common.sandbox.data.title === 'Relation' ? 'relation' : 'object',
       isSelected: false,
     };
     return history.lock(
@@ -229,6 +228,7 @@ const handlersMap = {
   [actions.historyChangeName.toString()]: history.changeName,
   [actions.undo.toString()]: undo.undo,
   [actions.redo.toString()]: undo.redo,
+  [actions.historyRollback.toString()]: history.rollback,
 };
 
 export default handlersMap;

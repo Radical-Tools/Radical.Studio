@@ -42,7 +42,7 @@ export default function historyReducer(reducer) {
         }
 
         if (history.prev.length > 0) {
-          return { ...rState, history: updateHistory(rState, history) };
+          return { ...rState, history: updateHistory(state, rState, history) };
         }
       }
     }

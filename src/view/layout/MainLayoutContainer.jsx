@@ -24,6 +24,9 @@ const mapStateToProps = (state) => ({
   showHomeDialog: state.layout.showHomeDialog,
   windowDimensions: state.layout.windowDimensions,
   mode: state.layout.mode,
+  isPresentationModeEnabled:
+    state.history.prev.length > 0 || state.history.next.length > 0,
+  isShowModeEnabled: state.presentationModel.current !== undefined,
 });
 
 const mapDispatchToProps = (dispatch) => ({

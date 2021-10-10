@@ -298,3 +298,8 @@ export const historyChangeName = createAction(
     payload: { name },
   })
 );
+
+export const historyRollback = createAction('history/rollback');
+
+export const undo = createAction('undo');
+export const redo = createAction('redo');

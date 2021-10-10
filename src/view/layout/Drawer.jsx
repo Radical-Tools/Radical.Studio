@@ -9,8 +9,9 @@ import toPairs from 'lodash/fp/toPairs';
 import ListItem from '@material-ui/core/ListItem';
 import SaveAltRoundedIcon from '@material-ui/icons/SaveAltRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
-import SlideshowRoundedIcon from '@material-ui/icons/SlideshowRounded';
+import DesignServicesRoundedIcon from '@material-ui/icons/DesignServicesRounded';
+import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
+import PlayCircleRoundedIcon from '@material-ui/icons/PlayCircleRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
@@ -26,6 +27,8 @@ const Drawer = ({
   onSave,
   onSetMode,
   mode,
+  isShowModeEnabled,
+  isPresentationModeEnabled,
 }) => {
   const handleSaveButtonClick = useCallback(() => {
     onSave();
@@ -86,21 +89,21 @@ const Drawer = ({
         <Divider />
       </Box>
       <Box mt={5} p={1}>
-        <Typography variant="subtitle2">Perspective</Typography>
+        <Typography variant="subtitle2">Perspectives</Typography>
         <Divider />
         <List>
           <ListItem key="Edit" selected={mode === LAYOUT_MODE.EDIT}>
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Design</Typography>}
+              title={<Typography variant="caption">Designer</Typography>}
             >
               <IconButton
                 variant="contained"
-                color="primary"
+                color={mode === LAYOUT_MODE.EDIT ? 'secondary' : 'primary'}
                 component="label"
                 onClick={() => onSetModeCallback(LAYOUT_MODE.EDIT)}
               >
-                <EditRoundedIcon />
+                <DesignServicesRoundedIcon style={{ fontSize: 25 }} />
               </IconButton>
             </Tooltip>
           </ListItem>
@@ -110,16 +113,41 @@ const Drawer = ({
           >
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Presentation</Typography>}
+              title={
+                <Typography variant="caption">Presentation Creator</Typography>
+              }
             >
-              <IconButton
-                variant="contained"
-                color="primary"
-                component="label"
-                onClick={() => onSetModeCallback(LAYOUT_MODE.PRESENTATION)}
-              >
-                <SlideshowRoundedIcon />
-              </IconButton>
+              <span>
+                <IconButton
+                  disabled={!isPresentationModeEnabled}
+                  variant="contained"
+                  color={
+                    mode === LAYOUT_MODE.PRESENTATION ? 'secondary' : 'primary'
+                  }
+                  component="label"
+                  onClick={() => onSetModeCallback(LAYOUT_MODE.PRESENTATION)}
+                >
+                  <MovieCreationRoundedIcon style={{ fontSize: 25 }} />
+                </IconButton>
+              </span>
+            </Tooltip>
+          </ListItem>
+          <ListItem key="Show" selected={mode === LAYOUT_MODE.SHOW}>
+            <Tooltip
+              placement="right"
+              title={<Typography variant="caption">Presenter</Typography>}
+            >
+              <span>
+                <IconButton
+                  disabled={!isShowModeEnabled}
+                  variant="contained"
+                  color={mode === LAYOUT_MODE.SHOW ? 'secondary' : 'primary'}
+                  component="label"
+                  onClick={() => onSetModeCallback(LAYOUT_MODE.SHOW)}
+                >
+                  <PlayCircleRoundedIcon style={{ fontSize: 25 }} />
+                </IconButton>
+              </span>
             </Tooltip>
           </ListItem>
         </List>
@@ -158,6 +186,8 @@ Drawer.propTypes = {
   onSave: PropTypes.func.isRequired,
   onSetMode: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
+  isShowModeEnabled: PropTypes.bool.isRequired,
+  isPresentationModeEnabled: PropTypes.bool.isRequired,
 };
 Drawer.defaultProps = {
   widgetsConfig: undefined,

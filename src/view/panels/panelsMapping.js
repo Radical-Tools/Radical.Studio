@@ -4,7 +4,7 @@ import diagramContainer from '../widgets/DiagramWidget/diagram/diagramWidgetCont
 import viewsToolbarContainer from './viewsToolbarContainer';
 import propertiesToolbarContainer from './propertiesToolbarContainer';
 import presentationsToolbarContainer from './presentationsToolbarContainer';
-import timelineToolbarContainer from './timelineToolbarContainer';
+import timelineToolbarContainer from './presentationTimelineToolbarContainer';
 
 const panelsMapping = {
   model: modelToolbarContainer,

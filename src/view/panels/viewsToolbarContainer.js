@@ -8,12 +8,13 @@ import {
 } from '../../controller/actions/actionCreators';
 import ViewsToolbarWidget from './ViewsToolbarWidget';
 import { LAYOUT_MODE } from '../../app/consts';
+import { isLocked } from '../../controller/handlersMap';
 
 const mapStateToProps = (state) => ({
   model: state.model,
   viewModel: state.viewModel,
   current: state.viewModel.current,
-  editMode: state.layout.mode === LAYOUT_MODE.EDIT,
+  editMode: state.layout.mode === LAYOUT_MODE.EDIT && !isLocked(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

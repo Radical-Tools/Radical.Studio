@@ -18,6 +18,7 @@ export const LAYOUT_HEIGHT_OFFSET_FOR_MARGIN =
 export const LAYOUT_MODE = {
   EDIT: 'edit',
   PRESENTATION: 'presentation',
+  SHOW: 'show',
 };
 
 export const LAYOUT_COLOR = {
@@ -26,6 +27,8 @@ export const LAYOUT_COLOR = {
 };
 
 export const HISTORY_LIMIT = 10;
+
+export const UNDO_LIMIT = 10;
 
 export const NOTIFICATION_TYPE = {
   ERROR: 'error',

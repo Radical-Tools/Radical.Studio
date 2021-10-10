@@ -9,16 +9,27 @@ import Typography from '@material-ui/core/Typography';
 import ViewExportMenu from './ViewExportMenu';
 import { getCanvasViewName } from '../../tests/getDataTestId';
 
-function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
+function ToolbarMenu({
+  onLayoutAlign,
+  onZoomToFit,
+  name,
+  alignEnabled,
+  zoomToFitEnabled,
+  exportEnabled,
+}) {
   return (
     <Box display="flex" flexShrink={0} boxShadow={0} height="36px">
       <Box width="100%" ml={1} mt={0.3}>
-        <Typography data-testid={getCanvasViewName()} variant="h6">
+        <Typography
+          data-testid={getCanvasViewName()}
+          variant="subtitle1"
+          color="primary"
+        >
           {name}
         </Typography>
       </Box>
       <Box flexShrink={0} mt={0.5} mr={0.5}>
-        {onLayoutAlign && (
+        {alignEnabled && (
           <Tooltip title="Align Layout">
             <IconButton
               size="small"
@@ -30,17 +41,19 @@ function ToolbarMenu({ onLayoutAlign, onZoomToFit, name }) {
             </IconButton>
           </Tooltip>
         )}
-        <Tooltip title="Zoom to Fit">
-          <IconButton
-            size="small"
-            onClick={onZoomToFit}
-            edge="start"
-            color="primary"
-          >
-            <ZoomOutMapRoundedIcon />
-          </IconButton>
-        </Tooltip>
-        <ViewExportMenu name={name} />
+        {zoomToFitEnabled && (
+          <Tooltip title="Zoom to Fit">
+            <IconButton
+              size="small"
+              onClick={onZoomToFit}
+              edge="start"
+              color="primary"
+            >
+              <ZoomOutMapRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {exportEnabled && <ViewExportMenu name={name} />}
       </Box>
     </Box>
   );
@@ -54,6 +67,9 @@ ToolbarMenu.propTypes = {
   onLayoutAlign: PropTypes.func,
   onZoomToFit: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  alignEnabled: PropTypes.bool.isRequired,
+  zoomToFitEnabled: PropTypes.bool.isRequired,
+  exportEnabled: PropTypes.bool.isRequired,
 };
 
 export default ToolbarMenu;

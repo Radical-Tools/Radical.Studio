@@ -15,6 +15,7 @@ const iconContainerStyle = (smallHeight) => ({
   marginTop: `-${smallHeight ? 0 : 30}px`,
   width: '100px',
   height: '50px',
+  transform: 'translate(0, 0)',
 });
 
 const categoryChipStyle = {

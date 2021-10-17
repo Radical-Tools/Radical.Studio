@@ -5,10 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import WidgetsIcon from '@material-ui/icons/Widgets';
-import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
-import RotateRightRoundedIcon from '@material-ui/icons/RotateRightRounded';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
@@ -43,10 +39,6 @@ const TopMenu = ({
   historyRollbackCmd,
   changeNameCmd,
   historyEnabled,
-  undoCmd,
-  redoCmd,
-  isUndoFirst,
-  isUndoLast,
 }) => (
   <Box sx={growStyle}>
     <AppBar position="static">
@@ -69,28 +61,6 @@ const TopMenu = ({
               v{process.env.REACT_APP_VERSION}
             </Typography>
           </Box>
-          <ButtonGroup
-            orientation="horizontal"
-            aria-label="steps navigation group"
-            variant="text"
-            size="small"
-            color="inherit"
-          >
-            <Button
-              disabled={isUndoFirst}
-              onClick={() => undoCmd()}
-              color="inherit"
-            >
-              <RotateLeftRoundedIcon />
-            </Button>
-            <Button
-              disabled={isUndoLast}
-              onClick={() => redoCmd()}
-              color="inherit"
-            >
-              <RotateRightRoundedIcon />
-            </Button>
-          </ButtonGroup>
         </Box>
         <Box sx={growStyle} />
         <div>
@@ -122,10 +92,6 @@ TopMenu.propTypes = {
   historyRollbackCmd: PropTypes.func.isRequired,
   changeNameCmd: PropTypes.func.isRequired,
   historyEnabled: PropTypes.bool.isRequired,
-  undoCmd: PropTypes.func.isRequired,
-  redoCmd: PropTypes.func.isRequired,
-  isUndoFirst: PropTypes.bool.isRequired,
-  isUndoLast: PropTypes.bool.isRequired,
 };
 
 export default TopMenu;

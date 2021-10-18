@@ -22,7 +22,6 @@ export function addToUndo(undo, addition) {
 
 const jumpToPrevUndo = (undo, offset = 1) => {
   const normalizedOffset = Math.min(undo.prev.length, offset);
-
   return {
     ...undo,
     prev: undo.prev.slice(normalizedOffset),

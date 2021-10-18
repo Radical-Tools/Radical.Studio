@@ -13,6 +13,10 @@ import DesignServicesRoundedIcon from '@material-ui/icons/DesignServicesRounded'
 import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
 import PlayCircleRoundedIcon from '@material-ui/icons/PlayCircleRounded';
 import IconButton from '@material-ui/core/IconButton';
+import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
+import RotateRightRoundedIcon from '@material-ui/icons/RotateRightRounded';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
 import FileReader from '../components/FileReader';
@@ -29,6 +33,10 @@ const Drawer = ({
   mode,
   isShowModeEnabled,
   isPresentationModeEnabled,
+  undoCmd,
+  redoCmd,
+  isUndoFirst,
+  isUndoLast,
 }) => {
   const handleSaveButtonClick = useCallback(() => {
     onSave();
@@ -154,6 +162,33 @@ const Drawer = ({
 
         <Divider />
       </Box>
+      <Box mt={1} p={1}>
+        <Typography variant="subtitle2">Undo/Redo</Typography>
+        <Divider />
+        <ButtonGroup
+          orientation="horizontal"
+          aria-label="steps navigation group"
+          variant="text"
+          size="small"
+          color="inherit"
+        >
+          <Button
+            disabled={isUndoFirst}
+            onClick={() => undoCmd()}
+            color="inherit"
+          >
+            <RotateLeftRoundedIcon />
+          </Button>
+          <Button
+            disabled={isUndoLast}
+            onClick={() => redoCmd()}
+            color="inherit"
+          >
+            <RotateRightRoundedIcon />
+          </Button>
+        </ButtonGroup>
+      </Box>
+
       <Box>
         {widgetsConfig && (
           <>
@@ -188,6 +223,10 @@ Drawer.propTypes = {
   mode: PropTypes.string.isRequired,
   isShowModeEnabled: PropTypes.bool.isRequired,
   isPresentationModeEnabled: PropTypes.bool.isRequired,
+  undoCmd: PropTypes.func.isRequired,
+  redoCmd: PropTypes.func.isRequired,
+  isUndoFirst: PropTypes.bool.isRequired,
+  isUndoLast: PropTypes.bool.isRequired,
 };
 Drawer.defaultProps = {
   widgetsConfig: undefined,

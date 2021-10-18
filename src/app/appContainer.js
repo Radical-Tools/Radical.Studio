@@ -3,6 +3,8 @@ import {
   setWindowDimensions,
   stateLoad,
   notificationAdd,
+  undo,
+  redo,
 } from '../controller/actions/actionCreators';
 import App from './App';
 
@@ -12,6 +14,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadStateFromUrl: (state) => dispatch(stateLoad(state)),
   onAddNotification: (message, type, name) =>
     dispatch(notificationAdd(message, type, name)),
+  undoCmd: () => dispatch(undo()),
+  redoCmd: () => dispatch(redo()),
 });
 
 const mapStateToProps = (state) => ({

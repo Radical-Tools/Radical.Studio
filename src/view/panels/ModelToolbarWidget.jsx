@@ -9,8 +9,14 @@ import RelationGridWidget from '../widgets/RelationGridWidget';
 import { getModelGridToolbarItem } from '../../tests/getDataTestId';
 
 const ModelToolbarWidget = (props) => {
-  const { model, viewModel, onRemoveObject, onRemoveRelation, onUpsertItem } =
-    props;
+  const {
+    model,
+    viewModel,
+    onRemoveObject,
+    onRemoveRelation,
+    onUpsertItem,
+    isMaximized,
+  } = props;
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -50,6 +56,7 @@ const ModelToolbarWidget = (props) => {
             viewModel={viewModel}
             onUpsertItem={onUpsertItem}
             onRemoveObject={onRemoveObject}
+            isDescriptionVisible={isMaximized}
           />
         )}
 
@@ -72,6 +79,7 @@ ModelToolbarWidget.propTypes = {
   onRemoveObject: PropTypes.func.isRequired,
   onRemoveRelation: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
+  isMaximized: PropTypes.bool.isRequired,
 };
 
 export default React.memo(ModelToolbarWidget);

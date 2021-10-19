@@ -70,12 +70,6 @@ const RadicalComposedNodeWidget = ({
               [{node.options.radical_type}]
             </Typography>
           )}
-
-          <div>
-            <Typography variant="caption">
-              {node.options.attributes?.description}
-            </Typography>
-          </div>
         </div>
       </div>
       <svg width={node.width} height={node.height}>

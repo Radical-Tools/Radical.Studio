@@ -170,9 +170,15 @@ const Drawer = ({
               placement="right"
               title={<Typography variant="caption">Undo</Typography>}
             >
-              <Button disabled={isUndoFirst} onClick={undoCmd} color="inherit">
-                <RotateLeftRoundedIcon style={{ fontSize: 30 }} />
-              </Button>
+              <span>
+                <Button
+                  disabled={isUndoFirst}
+                  onClick={undoCmd}
+                  color="inherit"
+                >
+                  <RotateLeftRoundedIcon style={{ fontSize: 30 }} />
+                </Button>
+              </span>
             </Tooltip>
           </ListItem>
           <ListItem key="redo">
@@ -180,9 +186,11 @@ const Drawer = ({
               placement="right"
               title={<Typography variant="caption">Redo</Typography>}
             >
-              <Button disabled={isUndoLast} onClick={redoCmd} color="inherit">
-                <RotateRightRoundedIcon style={{ fontSize: 30 }} />
-              </Button>
+              <span>
+                <Button disabled={isUndoLast} onClick={redoCmd} color="inherit">
+                  <RotateRightRoundedIcon style={{ fontSize: 30 }} />
+                </Button>
+              </span>
             </Tooltip>
           </ListItem>
         </List>

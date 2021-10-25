@@ -84,7 +84,7 @@ describe('Basic flow', () => {
       await CreateNewProject();
       const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
       expect(await header.evaluate((node) => node.textContent)).toBe(
-        'Default View'
+        'Test project :: Latest :: Default View'
       );
     },
     process.env.TIMEOUT
@@ -545,7 +545,7 @@ describe('Basic flow', () => {
       await page.waitForSelector(getDataTestIdSelector(getCanvasViewName()));
       const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
       expect(await header.evaluate((node) => node.textContent)).toBe(
-        'Default View'
+        'Radical Tools :: 3.0 :: Default View'
       );
     },
     process.env.TIMEOUT

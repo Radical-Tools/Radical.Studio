@@ -213,7 +213,7 @@ ObjectGridWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
   onRemoveObject: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
-  isDescriptionVisible: PropTypes.func.isRequired,
+  isDescriptionVisible: PropTypes.bool.isRequired,
 };
 
 export default ObjectGridWidget;

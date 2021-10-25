@@ -52,21 +52,29 @@ const RadicalComposedNodeWidget = ({
           top: isAsymmetric ? 20 : 0,
         }}
       >
-        <div>
+        <div
+          style={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            marginLeft: 7,
+            marginRight: 7,
+            top: isAsymmetric ? 20 : 0,
+          }}
+        >
           <EditableLabel
             editedItem={node}
             isItemSelected={isSelected}
-            variant="subtitle2"
+            variant="body2"
             label={name}
-            width={node.width}
+            width={node.width - 14}
           />
           {node.options.attributes?.technology ? (
-            <Typography variant="caption">
+            <Typography noWrap variant="caption">
               [{node.options.radical_type}:{node.options.attributes?.technology}
               ]
             </Typography>
           ) : (
-            <Typography variant="caption">
+            <Typography noWrap variant="caption">
               [{node.options.radical_type}]
             </Typography>
           )}

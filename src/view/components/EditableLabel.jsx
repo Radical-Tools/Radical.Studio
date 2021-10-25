@@ -65,6 +65,7 @@ const EditableLabel = ({
     />
   ) : (
     <Typography
+      noWrap
       sx={{
         width, // workaround for https://github.com/bubkoo/html-to-image/issues/132
         pointerEvents: 'all',

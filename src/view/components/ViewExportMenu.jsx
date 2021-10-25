@@ -9,9 +9,10 @@ import PropTypes from 'prop-types';
 const ViewExportMenu = ({ name }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleDownloadPng = () => {
+  const handleDownloadPng = (pixelRatio = 1) => {
     const opt = {
       backgroundColor: 'white',
+      pixelRatio,
     };
 
     htmlToImage
@@ -23,10 +24,23 @@ const ViewExportMenu = ({ name }) => {
     setAnchorEl(null);
   };
 
-  const handleDownloadSvg = () => {
+  const handleDownloadJpg = (pixelRatio = 1) => {
     const opt = {
       backgroundColor: 'white',
+      pixelRatio,
     };
+
+    htmlToImage
+      .toJpeg(document.querySelector('.canvas-view'), opt)
+      .then((dataUrl) => {
+        download(dataUrl, `${name}.jpg`);
+      });
+
+    setAnchorEl(null);
+  };
+
+  const handleDownloadSvg = () => {
+    const opt = {};
 
     htmlToImage
       .toSvg(document.querySelector('.canvas-view'), opt)
@@ -64,8 +78,13 @@ const ViewExportMenu = ({ name }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleDownloadPng}>Png</MenuItem>
-        <MenuItem onClick={handleDownloadSvg}>Svg</MenuItem>
+        <MenuItem onClick={() => handleDownloadPng()}>png (standard)</MenuItem>
+        <MenuItem onClick={() => handleDownloadPng(5)}>png (high-res)</MenuItem>
+        <MenuItem onClick={() => handleDownloadJpg()}>jpeg (standard)</MenuItem>
+        <MenuItem onClick={() => handleDownloadJpg(5)}>
+          jpeg (high-res)
+        </MenuItem>
+        <MenuItem onClick={handleDownloadSvg}>svg</MenuItem>
       </Menu>
     </>
   );

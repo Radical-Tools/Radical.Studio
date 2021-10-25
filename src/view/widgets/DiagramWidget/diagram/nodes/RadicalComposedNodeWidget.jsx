@@ -69,7 +69,7 @@ const RadicalComposedNodeWidget = ({
             width={node.width - 14}
           />
           {node.options.attributes?.technology ? (
-            <Typography noWrap variant="caption">
+            <Typography variant="caption">
               [{node.options.radical_type}:{node.options.attributes?.technology}
               ]
             </Typography>

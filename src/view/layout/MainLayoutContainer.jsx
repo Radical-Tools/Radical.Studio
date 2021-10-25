@@ -13,6 +13,8 @@ import {
   stateSave,
   themeChanged,
   layoutModeChange,
+  undo,
+  redo,
 } from '../../controller/actions/actionCreators';
 import MainLayout from './MainLayout';
 
@@ -27,6 +29,8 @@ const mapStateToProps = (state) => ({
   isPresentationModeEnabled:
     state.history.prev.length > 0 || state.history.next.length > 0,
   isShowModeEnabled: state.presentationModel.current !== undefined,
+  isUndoFirst: state.undo.prev.length === 0,
+  isUndoLast: state.undo.next.length === 0,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -44,6 +48,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadFile: (state) => dispatch(stateLoad(state)),
   onSave: () => dispatch(stateSave()),
   onSetMode: (mode) => dispatch(layoutModeChange(mode)),
+  undoCmd: () => dispatch(undo()),
+  redoCmd: () => dispatch(redo()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

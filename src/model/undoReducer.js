@@ -6,6 +6,7 @@ export const skipActions = [
   actions.stateLoad.toString(),
   actions.undo.toString(),
   actions.redo.toString(),
+  actions.layoutDrawerToggle.toString(),
 ];
 
 export default function undoReducer(reducer) {

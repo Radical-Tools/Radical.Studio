@@ -14,18 +14,23 @@ import ErrorBoundary from './ErrorBoundary';
 import NotificationsDisplayHandlerContainer from '../view/layout/NotificationsDisplayHandlerContainer';
 import useProjectUrlLoad from '../controller/hooks/useProjectUrlLoad';
 import useWindowResizeObserver from '../controller/hooks/useWindowResizeObserver';
+import useGlobalKeyboardShortcuts from './useGlobalKeyboardShortcuts';
 
 const App = ({
   themeType,
   onWindowResize,
   onLoadStateFromUrl,
   onAddNotification,
+  undoCmd,
+  redoCmd,
 }) => {
   const isLoadingProject = useProjectUrlLoad(
     onLoadStateFromUrl,
     onAddNotification
   );
   useWindowResizeObserver(onWindowResize);
+  useGlobalKeyboardShortcuts(undoCmd, redoCmd);
+
   const theme = createTheme(themeType);
   return (
     <DndProvider backend={HTML5Backend}>
@@ -53,5 +58,7 @@ App.propTypes = {
   onWindowResize: PropTypes.func.isRequired,
   onLoadStateFromUrl: PropTypes.func.isRequired,
   onAddNotification: PropTypes.func.isRequired,
+  undoCmd: PropTypes.func.isRequired,
+  redoCmd: PropTypes.func.isRequired,
   themeType: PropTypes.string.isRequired,
 };

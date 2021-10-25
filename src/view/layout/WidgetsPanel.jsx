@@ -76,7 +76,9 @@ const WidgetsPanel = ({
               isMaximized={widget.isMaximized}
               removeOverflow={widget.removeOverflow}
             >
-              {React.createElement(panelsMapping[key])}
+              {React.createElement(panelsMapping[key], {
+                isMaximized: widget.isMaximized,
+              })}
             </CardWrapper>
           </div>
         ))}

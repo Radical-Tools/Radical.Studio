@@ -54,7 +54,7 @@ DraggableCell.propTypes = {
 };
 
 /* eslint-disable react/prop-types */
-const columns = [
+const getColumns = (isDescriptionVisible = false) => [
   {
     name: 'id',
     header: 'Id',
@@ -106,6 +106,12 @@ const columns = [
     defaultFlex: 2,
     defaultVisible: false,
     editable: () => true,
+    visible: isDescriptionVisible,
+
+    cellProps: {
+      style: { overflow: 'auto', padding: 0 },
+    },
+    render: ({ value }) => <div style={{ whiteSpace: 'normal' }}>{value}</div>,
   },
 ];
 
@@ -133,6 +139,7 @@ const ObjectGridWidget = ({
   viewModel,
   onRemoveObject,
   onUpsertItem,
+  isDescriptionVisible,
 }) => {
   const [gridRef, setGridRef] = useState(null);
   const scrollTo = useCallback(
@@ -184,7 +191,7 @@ const ObjectGridWidget = ({
       onReady={setGridRef}
       id="objectsGrid"
       idProperty="id"
-      columns={columns}
+      columns={getColumns(isDescriptionVisible)}
       dataSource={getRows(model)}
       style={gridStyle}
       defaultFilterValue={filterValue}
@@ -206,6 +213,7 @@ ObjectGridWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
   onRemoveObject: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
+  isDescriptionVisible: PropTypes.func.isRequired,
 };
 
 export default ObjectGridWidget;

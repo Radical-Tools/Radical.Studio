@@ -28,6 +28,10 @@ const MainLayout = ({
   mode,
   isShowModeEnabled,
   isPresentationModeEnabled,
+  undoCmd,
+  redoCmd,
+  isUndoFirst,
+  isUndoLast,
 }) => (
   <>
     <WidgetsPanel
@@ -53,6 +57,10 @@ const MainLayout = ({
       mode={mode}
       isShowModeEnabled={isShowModeEnabled}
       isPresentationModeEnabled={isPresentationModeEnabled}
+      undoCmd={undoCmd}
+      redoCmd={redoCmd}
+      isUndoFirst={isUndoFirst}
+      isUndoLast={isUndoLast}
     />
     <HomeDialog
       show={showHomeDialog}
@@ -87,5 +95,9 @@ MainLayout.propTypes = {
   mode: PropTypes.string.isRequired,
   isShowModeEnabled: PropTypes.bool.isRequired,
   isPresentationModeEnabled: PropTypes.bool.isRequired,
+  undoCmd: PropTypes.func.isRequired,
+  redoCmd: PropTypes.func.isRequired,
+  isUndoFirst: PropTypes.bool.isRequired,
+  isUndoLast: PropTypes.bool.isRequired,
 };
 export default MainLayout;

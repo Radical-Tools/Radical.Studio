@@ -2,6 +2,12 @@ import { DiagramEngine } from '@projectstorm/react-diagrams';
 import gsap from 'gsap';
 
 export default class RadicalDiagramEngine extends DiagramEngine {
+  constructor() {
+    super();
+    this.selectionEnabled = false;
+    this.editEnabled = false;
+  }
+
   getMouseElement(event) {
     const targets = document.elementsFromPoint(event.clientX, event.clientY);
 
@@ -58,5 +64,21 @@ export default class RadicalDiagramEngine extends DiagramEngine {
         },
       }
     );
+  }
+
+  getSelectionEnabled() {
+    return this.selectionEnabled;
+  }
+
+  setSelectionEnabled(selectionEnabled) {
+    this.selectionEnabled = selectionEnabled;
+  }
+
+  getEditEnabled() {
+    return this.editEnabled;
+  }
+
+  setEditEnabled(editEnabled) {
+    this.editEnabled = editEnabled;
   }
 }

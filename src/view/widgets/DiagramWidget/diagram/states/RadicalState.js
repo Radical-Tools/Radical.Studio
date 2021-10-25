@@ -9,11 +9,11 @@ import RadicalDragCanvasState from './RadicalDragCanvasState';
 import RadicalDragDiagramItemsState from './RadicalDragDiagramItemsState';
 
 export default class RadicalState extends State {
-  constructor(selectionEnabled) {
+  constructor() {
     super({
       name: 'default-diagrams',
     });
-    this.selectionEnabled = selectionEnabled;
+
     this.dragCanvas = new RadicalDragCanvasState();
     this.dragNewLink = new DragNewLinkState();
     this.dragItems = new RadicalDragDiagramItemsState();
@@ -31,7 +31,10 @@ export default class RadicalState extends State {
             this.transitionWithEvent(this.dragCanvas, event);
           }
           // move the items (and potentially link points)
-          else if (element instanceof BaseModel && this.selectionEnabled) {
+          else if (
+            element instanceof BaseModel &&
+            this.engine.getSelectionEnabled()
+          ) {
             this.transitionWithEvent(this.dragItems, event);
           }
         },

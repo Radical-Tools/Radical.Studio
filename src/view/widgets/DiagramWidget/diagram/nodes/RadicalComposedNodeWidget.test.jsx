@@ -15,7 +15,7 @@ describe('RadicalComposedNodeWidget', () => {
     // muiStyles.styled.mockImplementation(() => ({}));
     const nodeWidth = { width: 200 };
 
-    const { getByRole, getByText } = render(
+    const { getByText } = render(
       <RadicalComposedNodeWidget
         node={{
           width: nodeWidth.width,

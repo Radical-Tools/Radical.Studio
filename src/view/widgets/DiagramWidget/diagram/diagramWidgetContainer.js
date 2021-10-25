@@ -22,11 +22,9 @@ import RadicalCanvasWidget from './DiagramWidget';
 import { isLocked } from '../../../../controller/handlersMap';
 
 const generateTitle = (state) =>
-  state.layout.mode === LAYOUT_MODE.EDIT
-    ? `${state.viewModel.views[state.viewModel.current]?.name}`
-    : `${state.project?.name} :: ${state.history.prev[0]?.name} :: ${
-        state.viewModel.views[state.viewModel.current]?.name
-      } `;
+  `${state.project?.name} :: ${
+    !state.history.prev[0]?.isLocked ? 'Latest' : state.history.prev[0].name
+  } :: ${state.viewModel.views[state.viewModel.current]?.name}`;
 
 function isEditEnabled(state) {
   return state.layout.mode === LAYOUT_MODE.EDIT && !isLocked(state);

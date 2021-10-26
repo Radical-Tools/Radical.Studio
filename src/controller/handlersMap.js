@@ -215,7 +215,7 @@ const handlersMap = {
         state.common.sandbox.data.title === 'Relation' ? 'relation' : 'object',
       isSelected: false,
     };
-    return history.lock(
+    return history.merge(
       viewModel.updateCurrentView(
         common.editItem(
           viewModel.itemSelectionChanged(state, extendedPayload),

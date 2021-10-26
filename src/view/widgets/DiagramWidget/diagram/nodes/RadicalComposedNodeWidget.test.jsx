@@ -15,7 +15,7 @@ describe('RadicalComposedNodeWidget', () => {
     // muiStyles.styled.mockImplementation(() => ({}));
     const nodeWidth = { width: 200 };
 
-    const { getByRole, getByText } = render(
+    const { getByText } = render(
       <RadicalComposedNodeWidget
         node={{
           width: nodeWidth.width,
@@ -35,9 +35,10 @@ describe('RadicalComposedNodeWidget', () => {
       </RadicalComposedNodeWidget>
     );
 
-    expect(getByRole('heading')).toBeDefined();
     expect(getByText('Gandalf')).toBeDefined();
-    expect(getByText('Gandalf')).toHaveStyle(`width: ${nodeWidth.width}px;`);
+    expect(getByText('Gandalf')).toHaveStyle(
+      `width: ${nodeWidth.width - 14}px;`
+    );
     // expect(muiStyles.styled()).toHaveBeenCalledWith(nodeWidth);
   });
 });

@@ -45,16 +45,17 @@ const createRadicalEngine = () => {
   engine.getLabelFactories().registerFactory(new RadicalLabelFactory());
 
   engine.getActionEventBus().registerAction(new RadicalZoomCanvasAction());
+  engine.getStateMachine().pushState(new RadicalState());
+
+  engine
+    .getActionEventBus()
+    .registerAction(new RadicalDeleteItemsAction({ keyCodes: [46] }));
   return engine;
 };
 
 export const updateRadicalEngine = (engine, editEnabled, selectionEnabled) => {
-  engine.getStateMachine().pushState(new RadicalState(selectionEnabled));
-  if (editEnabled) {
-    engine
-      .getActionEventBus()
-      .registerAction(new RadicalDeleteItemsAction({ keyCodes: [46] }));
-  }
+  engine.setSelectionEnabled(selectionEnabled);
+  engine.setEditEnabled(editEnabled);
 };
 
 export default createRadicalEngine;

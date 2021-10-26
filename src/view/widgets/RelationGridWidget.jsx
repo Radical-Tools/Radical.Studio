@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import zipObjectDeep from 'lodash/fp/zipObjectDeep';
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { getRelationGridItem } from '../../tests/getDataTestId';
+import descriptionColumnCellConfig from './shared';
 
 const getRows = (model) => {
   const data = [];
@@ -36,7 +37,7 @@ const getSelected = (currentView) => {
 };
 
 /* eslint-disable react/prop-types */
-const columns = [
+const getColumns = (isDescriptionVisible) => [
   {
     name: 'id',
     header: 'Id',
@@ -97,6 +98,8 @@ const columns = [
     defaultFlex: 2,
     editable: () => true,
     defaultVisible: false,
+    visible: isDescriptionVisible,
+    ...descriptionColumnCellConfig,
   },
 ];
 
@@ -126,6 +129,7 @@ const RelationGridWidget = ({
   viewModel,
   onRemoveRelation,
   onUpsertItem,
+  isDescriptionVisible,
 }) => {
   const [gridRef, setGridRef] = useState(null);
   const scrollTo = useCallback(
@@ -177,7 +181,7 @@ const RelationGridWidget = ({
       onReady={setGridRef}
       id="relationsGrid"
       idProperty="id"
-      columns={columns}
+      columns={getColumns(isDescriptionVisible)}
       dataSource={getRows(model)}
       style={gridStyle}
       defaultFilterValue={filterValue}
@@ -199,6 +203,7 @@ RelationGridWidget.propTypes = {
   viewModel: PropTypes.objectOf(PropTypes.any).isRequired,
   onRemoveRelation: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
+  isDescriptionVisible: PropTypes.bool.isRequired,
 };
 
 export default RelationGridWidget;

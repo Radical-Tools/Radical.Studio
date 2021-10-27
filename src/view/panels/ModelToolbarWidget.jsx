@@ -66,6 +66,7 @@ const ModelToolbarWidget = (props) => {
             viewModel={viewModel}
             onUpsertItem={onUpsertItem}
             onRemoveRelation={onRemoveRelation}
+            isDescriptionVisible={isMaximized}
           />
         )}
       </Box>

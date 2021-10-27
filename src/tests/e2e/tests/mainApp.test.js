@@ -84,7 +84,7 @@ describe('Basic flow', () => {
       await CreateNewProject();
       const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
       expect(await header.evaluate((node) => node.textContent)).toBe(
-        'Test project :: Latest :: Default View'
+        'Test project :: Initial :: Default View'
       );
     },
     process.env.TIMEOUT

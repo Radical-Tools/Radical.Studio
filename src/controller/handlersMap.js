@@ -229,6 +229,8 @@ const handlersMap = {
   [actions.undo.toString()]: undo.undo,
   [actions.redo.toString()]: undo.redo,
   [actions.historyRollback.toString()]: history.rollback,
+  [actions.setLinkingMode.toString()]: (state, payload) =>
+    viewModel.updateCurrentView(viewModel.setLinkingMode(state, payload)),
 };
 
 export default handlersMap;

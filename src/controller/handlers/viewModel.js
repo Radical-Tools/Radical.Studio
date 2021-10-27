@@ -20,6 +20,7 @@ import { findValidRelations } from './common/model';
 export const initialState = {
   viewModel: {
     current: 'default',
+    linkingMode: true,
     views: {
       default: {
         name: 'Default View',
@@ -45,7 +46,7 @@ export const updatePossibleRelations = (state) => {
     ([, node]) => node.isSelected
   );
 
-  if (selectedNodes.length === 1) {
+  if (selectedNodes.length === 1 && state.viewModel.linkingMode) {
     const [nodeId] = selectedNodes[0];
     Object.entries(currentView.nodes).forEach(([id, node]) => {
       node.possibleRelations =
@@ -405,6 +406,9 @@ export const adaptView = (state, centerNodeId, offset) => {
   );
   return state;
 };
+
+export const setLinkingMode = (state, payload) =>
+  set(['viewModel', 'linkingMode'], payload.status, state);
 
 export const alignChildren = (state, payload, originDimension) => {
   const node = state.viewModel.views[state.viewModel.current].nodes[payload.id];

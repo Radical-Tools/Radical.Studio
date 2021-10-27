@@ -131,7 +131,8 @@ const prefilter = (path, key) =>
   key === 'current' ||
   key === 'alignment' ||
   key === 'isSelected' ||
-  key === 'possibleRelations';
+  key === 'possibleRelations' ||
+  key === 'linkingMode';
 
 export const historyAccumulator = new DiffAccumulator({
   flatten: () => false,

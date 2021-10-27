@@ -42,11 +42,19 @@ export const initialState = {
 /* eslint-disable no-param-reassign */
 export const updatePossibleRelations = (state) => {
   const currentView = state.viewModel.views[state.viewModel.current];
+
+  if (!state.viewModel.linkingMode) {
+    Object.values(currentView.nodes).forEach((node) => {
+      node.possibleRelations = undefined;
+    });
+    return state;
+  }
+
   const selectedNodes = Object.entries(currentView.nodes).filter(
     ([, node]) => node.isSelected
   );
 
-  if (selectedNodes.length === 1 && state.viewModel.linkingMode) {
+  if (selectedNodes.length === 1) {
     const [nodeId] = selectedNodes[0];
     Object.entries(currentView.nodes).forEach(([id, node]) => {
       node.possibleRelations =

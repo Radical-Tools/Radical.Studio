@@ -7,6 +7,7 @@ import zipObjectDeep from 'lodash/fp/zipObjectDeep';
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { MODEL_DROP_TYPE } from './DiagramWidget/diagram/consts';
 import { getObjectGridName } from '../../tests/getDataTestId';
+import descriptionColumnCellConfig from './shared';
 
 const getRows = (model) => {
   const data = [];
@@ -107,11 +108,7 @@ const getColumns = (isDescriptionVisible = false) => [
     defaultVisible: false,
     editable: () => true,
     visible: isDescriptionVisible,
-
-    cellProps: {
-      style: { overflow: 'auto', padding: 0 },
-    },
-    render: ({ value }) => <div style={{ whiteSpace: 'normal' }}>{value}</div>,
+    ...descriptionColumnCellConfig,
   },
 ];
 

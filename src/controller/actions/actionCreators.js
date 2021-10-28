@@ -303,3 +303,10 @@ export const historyRollback = createAction('history/rollback');
 
 export const undo = createAction('undo');
 export const redo = createAction('redo');
+
+export const setLinkingMode = createAction(
+  'viewmodel/linkingMode/set',
+  (status) => ({
+    payload: { status },
+  })
+);

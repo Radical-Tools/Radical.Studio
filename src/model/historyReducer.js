@@ -1,7 +1,7 @@
 import {
   addToHistory,
   historyAccumulator,
-  lock,
+  merge,
   updateHistory,
 } from '../controller/handlers/history';
 
@@ -32,11 +32,11 @@ export default function historyReducer(reducer) {
           const history2 = addToHistory(history, {
             changes,
             isLocked: false,
-            name: `v${history.prev.length + 1}`,
+            name: `Latest (${history.count + 1})`,
           });
           historyAccumulator.clear();
           if (history2.count === history2.limit)
-            return lock({ ...rState, history: history2 }, false);
+            return merge({ ...rState, history: history2 }, false);
 
           return { ...rState, history: history2 };
         }

@@ -25,7 +25,6 @@ export function addToHistory(history, addition) {
         prev: [addition, ...history.prev].slice(0, history.prev.length + 1),
         next: [],
         count: addition.isLocked ? history.count : history.count + 1,
-        id: 'latest',
       };
 }
 
@@ -91,6 +90,10 @@ export const jump = (state, payload) => {
 };
 
 export const jumpById = (state, payload) => {
+  if (payload.id === 'initial') {
+    return jump(state, { index: -state.history.prev.length });
+  }
+
   let index = -state.history.prev.findIndex((item) => item.id === payload.id);
   if (index > 0) {
     index =
@@ -128,13 +131,14 @@ const prefilter = (path, key) =>
   key === 'current' ||
   key === 'alignment' ||
   key === 'isSelected' ||
-  key === 'possibleRelations';
+  key === 'possibleRelations' ||
+  key === 'linkingMode';
 
 export const historyAccumulator = new DiffAccumulator({
   flatten: () => false,
   prefilter,
 });
-export const lock = (state, isLocked = true) => {
+export const merge = (state, isLocked = true) => {
   let changes;
   if (state.history.next.length === 0) {
     const firstLockedIndex =
@@ -160,7 +164,9 @@ export const lock = (state, isLocked = true) => {
       history = addToHistory(history, {
         changes,
         isLocked,
-        name: `v${history.prev.length + 1}`,
+        name: isLocked
+          ? `v${history.prev.length + 1}`
+          : `Latest (${history.count + 1})`,
         id: uuidv4(),
       });
       historyAccumulator.clear();
@@ -172,10 +178,11 @@ export const lock = (state, isLocked = true) => {
   return state;
 };
 
-export const rollback = (state) => set(['history', 'next'], [], state);
+export const rollback = (state) =>
+  flow(set(['history', 'next'], []), set(['history', 'count'], 0))(state);
 
 export const updateHistory = (beforeState, state, history) => {
-  const lastState = revertDiffs(clone(beforeState), history.prev[0].changes);
+  const lastState = revertChanges(clone(beforeState), history.prev[0].changes);
 
   historyAccumulator.clear();
   const changes = historyAccumulator.diff(lastState, state);

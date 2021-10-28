@@ -12,6 +12,11 @@ const saveTransformations = [
         })
       )(state),
   },
+  {
+    version: '0.3.0',
+    transformation: (state) =>
+      flow(set(['viewModel', 'linkingMode'], true))(state),
+  },
 ];
 const prepareVersionString = (version) =>
   version.split('.').map((x) => Number(x));

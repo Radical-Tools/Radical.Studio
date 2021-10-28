@@ -4,6 +4,7 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
 import RadioButtonUncheckedRoundedIcon from '@material-ui/icons/RadioButtonUncheckedRounded';
 import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
+import CircleIcon from '@material-ui/icons//Circle';
 import Box from '@material-ui/core/Box';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -63,6 +64,22 @@ const HistoryTimeline = ({
               />
             }
           >
+            <Step key="initial">
+              <StepButton
+                icon={
+                  <CircleIcon
+                    color={history.prev.length === 0 ? 'secondary' : 'inherit'}
+                  />
+                }
+                onClick={() => jumpCmd(-history.prev.length)}
+                onContextMenu={(event) => {
+                  event.preventDefault();
+                  if (history.prev.length === 0) {
+                    handleClick(event);
+                  }
+                }}
+              />
+            </Step>
             {history.prev
               .filter((item) => item.isLocked)
               .slice()
@@ -125,7 +142,6 @@ const HistoryTimeline = ({
                   }
                   onClick={() => jumpCmd(history.next.length)}
                   onDoubleClick={() => isLast(history) && lockCmd()}
-                  optional={<Typography color="white">Latest</Typography>}
                 />
               </Step>
             )}
@@ -168,14 +184,16 @@ const HistoryTimeline = ({
         }}
       >
         <Box p={1}>
-          <TextFieldDebounced
-            initialValue={history.prev[0] ? history.prev[0].name : ''}
-            label="Name"
-            onSubmit={(item) => {
-              handleClose();
-              changeNameCmd(item);
-            }}
-          />
+          {history.prev[0] && (
+            <TextFieldDebounced
+              initialValue={history.prev[0].name}
+              label="Name"
+              onSubmit={(item) => {
+                handleClose();
+                changeNameCmd(item);
+              }}
+            />
+          )}
           <Tooltip
             placement="bottom"
             title={

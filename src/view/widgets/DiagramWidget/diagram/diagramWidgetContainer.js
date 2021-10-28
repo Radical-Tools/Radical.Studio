@@ -16,6 +16,7 @@ import {
   viewModelNodeUpdate,
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
+  setLinkingMode,
 } from '../../../../controller/actions/actionCreators';
 import { LAYOUT_MODE } from '../../../../app/consts';
 import RadicalCanvasWidget from './DiagramWidget';
@@ -23,7 +24,7 @@ import { isLocked } from '../../../../controller/handlersMap';
 
 const generateTitle = (state) =>
   `${state.project?.name} :: ${
-    !state.history.prev[0]?.isLocked ? 'Latest' : state.history.prev[0].name
+    state.history.prev.length === 0 ? 'Initial' : state.history.prev[0].name
   } :: ${state.viewModel.views[state.viewModel.current]?.name}`;
 
 function isEditEnabled(state) {
@@ -45,6 +46,7 @@ const mapStateToProps = (state) => ({
     state.layout.mode === LAYOUT_MODE.PRESENTATION,
   exportEnabled: true,
   title: generateTitle(state),
+  linkingMode: state.viewModel.linkingMode,
 });
 const mapDispatchToProps = (dispatch) => ({
   onLinkConnected: (id, source, target, type) =>
@@ -79,6 +81,7 @@ const mapDispatchToProps = (dispatch) => ({
   onAddMetamodelObjectToView: (type, position, node) =>
     dispatch(viewModelMetamodelObjectAdd(undefined, type, position, node)),
   onNodeDetached: (id) => dispatch(modelObjectDetach(id)),
+  setLinkingMode: (state) => dispatch(setLinkingMode(state)),
 });
 
 export default connect(

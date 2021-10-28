@@ -71,6 +71,8 @@ const DiagramWidget = ({
   exportEnabled,
   title,
   selectionEnabled,
+  linkingMode,
+  setLinkingMode,
 }) => {
   const debouncedZoom = debounce(onDiagramAlignmentUpdated, zoomDebounceTime);
   const registerCallbacks = useCallback(
@@ -237,6 +239,9 @@ const DiagramWidget = ({
                 CANVAS_ZOOM_CHANGED
               );
             }}
+            linkingEnabled={alignEnabled}
+            linkingMode={linkingMode}
+            onSetLinkingMode={setLinkingMode}
             name={title}
             alignEnabled={alignEnabled}
             zoomToFitEnabled={zoomToFitEnabled}
@@ -275,6 +280,8 @@ DiagramWidget.propTypes = {
   exportEnabled: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   selectionEnabled: PropTypes.bool.isRequired,
+  linkingMode: PropTypes.bool.isRequired,
+  setLinkingMode: PropTypes.func.isRequired,
 };
 
 export default React.memo(DiagramWidget);

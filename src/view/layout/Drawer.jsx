@@ -15,7 +15,6 @@ import PlayCircleRoundedIcon from '@material-ui/icons/PlayCircleRounded';
 import IconButton from '@material-ui/core/IconButton';
 import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
 import RotateRightRoundedIcon from '@material-ui/icons/RotateRightRounded';
-import Button from '@material-ui/core/Button';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
 import FileReader from '../components/FileReader';
@@ -57,9 +56,7 @@ const Drawer = ({
       variant="temporary"
       BackdropProps={{ invisible: true }}
     >
-      <Box mt={2} p={1}>
-        <Typography variant="subtitle2">File</Typography>
-        <Divider />
+      <Box>
         <List>
           <ListItem key="Save">
             <Tooltip
@@ -78,6 +75,7 @@ const Drawer = ({
               </IconButton>
             </Tooltip>
           </ListItem>
+
           <ListItem key="Load">
             <Tooltip
               placement="right"
@@ -95,9 +93,7 @@ const Drawer = ({
         </List>
         <Divider />
       </Box>
-      <Box mt={5} p={1}>
-        <Typography variant="subtitle2">Perspectives</Typography>
-        <Divider />
+      <Box>
         <List>
           <ListItem key="Edit" selected={mode === LAYOUT_MODE.EDIT}>
             <Tooltip
@@ -161,9 +157,7 @@ const Drawer = ({
 
         <Divider />
       </Box>
-      <Box mt={5} p={1}>
-        <Typography variant="subtitle2">Undo & Redo</Typography>
-        <Divider />
+      <Box>
         <List>
           <ListItem key="undo">
             <Tooltip
@@ -171,13 +165,13 @@ const Drawer = ({
               title={<Typography variant="caption">Undo</Typography>}
             >
               <span>
-                <Button
+                <IconButton
                   disabled={isUndoFirst}
                   onClick={undoCmd}
                   color="inherit"
                 >
                   <RotateLeftRoundedIcon style={{ fontSize: 30 }} />
-                </Button>
+                </IconButton>
               </span>
             </Tooltip>
           </ListItem>
@@ -187,15 +181,18 @@ const Drawer = ({
               title={<Typography variant="caption">Redo</Typography>}
             >
               <span>
-                <Button disabled={isUndoLast} onClick={redoCmd} color="inherit">
+                <IconButton
+                  disabled={isUndoLast}
+                  onClick={redoCmd}
+                  color="inherit"
+                >
                   <RotateRightRoundedIcon style={{ fontSize: 30 }} />
-                </Button>
+                </IconButton>
               </span>
             </Tooltip>
           </ListItem>
         </List>
       </Box>
-
       <Box>
         {widgetsConfig && (
           <>

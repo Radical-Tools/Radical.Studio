@@ -20,6 +20,7 @@ import { findValidRelations } from './common/model';
 export const initialState = {
   viewModel: {
     current: 'default',
+    linkingMode: true,
     views: {
       default: {
         name: 'Default View',
@@ -41,6 +42,14 @@ export const initialState = {
 /* eslint-disable no-param-reassign */
 export const updatePossibleRelations = (state) => {
   const currentView = state.viewModel.views[state.viewModel.current];
+
+  if (!state.viewModel.linkingMode) {
+    Object.values(currentView.nodes).forEach((node) => {
+      node.possibleRelations = undefined;
+    });
+    return state;
+  }
+
   const selectedNodes = Object.entries(currentView.nodes).filter(
     ([, node]) => node.isSelected
   );
@@ -405,6 +414,9 @@ export const adaptView = (state, centerNodeId, offset) => {
   );
   return state;
 };
+
+export const setLinkingMode = (state, payload) =>
+  set(['viewModel', 'linkingMode'], payload.status, state);
 
 export const alignChildren = (state, payload, originDimension) => {
   const node = state.viewModel.views[state.viewModel.current].nodes[payload.id];

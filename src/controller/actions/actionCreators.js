@@ -34,6 +34,10 @@ export const layoutWidgetAdd = createAction(
 );
 export const layoutDrawerToggle = createAction('layout/drawer/toggle');
 
+export const layoutAdminDialogToggle = createAction(
+  'layout/admin-dialog/toggle'
+);
+
 export const layoutHomeDialogOpen = createAction('layout/home-dialog/open');
 
 export const layoutHomeDialogClose = createAction('layout/home-dialog/close');
@@ -310,3 +314,5 @@ export const setLinkingMode = createAction(
     payload: { status },
   })
 );
+
+export const projectEditName = createAction('project/name/edit');

@@ -15,6 +15,7 @@ import PlayCircleRoundedIcon from '@material-ui/icons/PlayCircleRounded';
 import IconButton from '@material-ui/core/IconButton';
 import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
 import RotateRightRoundedIcon from '@material-ui/icons/RotateRightRounded';
+import DesktopMacRounded from '@material-ui/icons/DesktopMacRounded';
 import { Tooltip } from '@material-ui/core';
 import MenuWidgetListItem from './MenuWidgetListItem';
 import FileReader from '../components/FileReader';
@@ -25,6 +26,7 @@ const Drawer = ({
   show,
   onAddWidget,
   onClose,
+  onToggleAdminDialog,
   onLoadFile,
   onSave,
   onSetMode,
@@ -162,7 +164,7 @@ const Drawer = ({
           <ListItem key="undo">
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Undo</Typography>}
+              title={<Typography variant="caption">Undo (CTRL+Z)</Typography>}
             >
               <span>
                 <IconButton
@@ -178,7 +180,7 @@ const Drawer = ({
           <ListItem key="redo">
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Redo</Typography>}
+              title={<Typography variant="caption">Redo (CTRL+Y)</Typography>}
             >
               <span>
                 <IconButton
@@ -192,6 +194,28 @@ const Drawer = ({
             </Tooltip>
           </ListItem>
         </List>
+        <Divider />
+      </Box>
+      <Box>
+        <List>
+          <ListItem key="admin">
+            <Tooltip
+              placement="right"
+              title={
+                <Typography variant="caption">
+                  Administration (CTRL+Q)
+                </Typography>
+              }
+            >
+              <span>
+                <IconButton onClick={onToggleAdminDialog} color="inherit">
+                  <DesktopMacRounded style={{ fontSize: 30 }} />
+                </IconButton>
+              </span>
+            </Tooltip>
+          </ListItem>
+        </List>
+        <Divider />
       </Box>
       <Box>
         {widgetsConfig && (
@@ -222,6 +246,7 @@ Drawer.propTypes = {
   onClose: PropTypes.func.isRequired,
   onAddWidget: PropTypes.func,
   onLoadFile: PropTypes.func.isRequired,
+  onToggleAdminDialog: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onSetMode: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,

@@ -124,8 +124,8 @@ const align = (
   viewModel,
   size,
   offset = { x: 0, y: 0 },
-  margin = { x: 0, y: 0 },
-  padding = 50
+  margin = { x: 100, y: 100 },
+  padding = 0
 ) => {
   const graph = {
     nodes: [],
@@ -146,53 +146,33 @@ const align = (
           y: node.position.y,
         });
       });
+
+    Object.entries(nodes)
+      .filter(([, node]) => node.childrenNodes.length > 0)
+      .forEach(([id, node]) => {
+        graph.nodes.push({
+          name: id,
+          width: 1,
+          height: 1,
+          x: node.position.x,
+          y: node.position.y,
+        });
+      });
   }
 
   function addLinks() {
     Object.entries(viewModel.links).forEach(([, link]) => {
-      const sourceNode = nodes[link.source];
-      const targetNode = nodes[link.target];
-
-      if (sourceNode && targetNode) {
-        sourceNode.childrenNodes.forEach((child) => {
-          const sourceIndex = graph.nodes.findIndex(
-            (node) => node.name === child
-          );
-          const targetIndex = graph.nodes.findIndex(
-            (node) => node.name === link.target
-          );
-          if (sourceIndex !== -1 && targetIndex !== -1) {
-            graph.links.push({
-              source: sourceIndex,
-              target: targetIndex,
-            });
-          }
+      const sourceIndex = graph.nodes.findIndex(
+        (node) => node.name === link.source
+      );
+      const targetIndex = graph.nodes.findIndex(
+        (node) => node.name === link.target
+      );
+      if (sourceIndex !== -1 && targetIndex !== -1) {
+        graph.links.push({
+          source: sourceIndex,
+          target: targetIndex,
         });
-
-        targetNode.childrenNodes.forEach((child) => {
-          const sourceIndex = graph.nodes.findIndex(
-            (node) => node.name === link.source
-          );
-          const targetIndex = graph.nodes.findIndex(
-            (node) => node.name === child
-          );
-          if (sourceIndex !== -1 && targetIndex !== -1) {
-            graph.links.push({
-              source: sourceIndex,
-              target: targetIndex,
-            });
-          }
-        });
-
-        if (
-          targetNode.childrenNodes.length === 0 &&
-          sourceNode.childrenNodes.length === 0
-        ) {
-          graph.links.push({
-            source: graph.nodes.findIndex((node) => node.name === link.source),
-            target: graph.nodes.findIndex((node) => node.name === link.target),
-          });
-        }
       }
     });
   }
@@ -212,6 +192,8 @@ const align = (
             group.leaves.push(childId);
           }
         });
+
+        group.leaves.push(graph.nodes.findIndex((item) => item.name === id));
         group.name = id;
         group.padding = padding;
         group.childrenNodes = { ...node.childrenNodes };
@@ -230,18 +212,16 @@ const align = (
 
   function execute() {
     const layout = new cola.Layout()
-      .flowLayout('x', 260)
-      .linkDistance(2)
-      .avoidOverlaps(true)
-      .handleDisconnected(false)
-      .size(size)
       .nodes(graph.nodes)
       .links(graph.links)
       .groups(graph.groups)
       .constraints(graph.constraints)
-      .jaccardLinkLengths(60, 0.7);
+      .linkDistance(250)
+      .avoidOverlaps(true)
+      .handleDisconnected(false)
+      .size(size);
 
-    layout.start(100, 20, 100, 0, false, false);
+    layout.start(1000, 1000, 1000, 0, false, false);
 
     return layout;
   }
@@ -269,14 +249,6 @@ const align = (
   addGroups();
   const layout = execute();
   update(layout);
-};
-
-export const autoAlign = (viewModel) => {
-  if (isEmpty(viewModel.nodes)) {
-    return;
-  }
-
-  align(viewModel.nodes, viewModel, [1024, 1024]);
 };
 
 const moveNode = (node, vector, nodes) => {
@@ -377,7 +349,7 @@ const alignAxes = (target, source, viewModel, toleration, scores) => {
   alignAx(target, source, 'y', viewModel, toleration, scores);
 };
 
-const adjust = (viewModel, toleration = 190) => {
+const adjust = (viewModel, toleration = 50) => {
   try {
     if (isEmpty(viewModel.nodes)) {
       return;
@@ -386,7 +358,7 @@ const adjust = (viewModel, toleration = 190) => {
     const scores = calculateScores(viewModel);
 
     Object.values(viewModel.links).forEach((link) => {
-      adjustDistance(link.source, link.target, 100, scores, viewModel);
+      adjustDistance(link.source, link.target, 0, scores, viewModel);
       alignAxes(link.target, link.source, viewModel, toleration, scores);
     });
 
@@ -399,14 +371,7 @@ const adjust = (viewModel, toleration = 190) => {
           !isChild(sourceNode, targetNodeId, viewModel.nodes) &&
           !isChild(targetNode, sourceNodeId, viewModel.nodes)
         ) {
-          adjustDistance(
-            sourceNodeId,
-            targetNodeId,
-            50,
-            scores,
-            viewModel,
-            toleration
-          );
+          adjustDistance(sourceNodeId, targetNodeId, 100, scores, viewModel);
         }
       });
     });
@@ -415,6 +380,17 @@ const adjust = (viewModel, toleration = 190) => {
   } catch (error) {
     Error(`Cannot align layout`);
   }
+};
+
+export const autoAlign = (viewModel) => {
+  if (isEmpty(viewModel.nodes)) {
+    return;
+  }
+
+  align(viewModel.nodes, viewModel, [1024, 1024]);
+  adjust(viewModel);
+
+  adjust(viewModel);
 };
 
 export const alignNested = (viewModel, nodeId) => {

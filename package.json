@@ -15,8 +15,10 @@
     "@reduxjs/toolkit": "1.6.1",
     "@rjsf/core": "3.1.0",
     "@rjsf/material-ui": "3.1.0",
+    "clone-deep": "4.0.1",
     "closest": "0.0.1",
-    "dagre": "0.8.5",
+    "cytoscape": "3.20.0",
+    "cytoscape-fcose": "2.1.0",
     "deep-diff": "1.0.2",
     "downloadjs": "1.4.7",
     "gsap": "3.7.1",
@@ -39,9 +41,7 @@
     "resize-observer-polyfill": "1.5.1",
     "save-file": "2.3.1",
     "uuid": "8.3.2",
-    "web-vitals": "2.1.0",
-    "webcola": "3.4.0",
-    "clone-deep": "4.0.1"
+    "web-vitals": "2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

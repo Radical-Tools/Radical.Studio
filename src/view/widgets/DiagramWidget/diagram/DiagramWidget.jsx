@@ -229,7 +229,7 @@ const DiagramWidget = ({
           <ToolbarMenu
             onLayoutAlign={onLayoutAlign}
             onZoomToFit={() => {
-              engine.zoomToFitNodes({ margin: 50 });
+              engine.zoomToFitNodes();
               engine.getModel().fireEvent(
                 {
                   offsetX: engine.getModel().getOptions().offsetX,

@@ -1,7 +1,10 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import inRange from 'lodash/fp/inRange';
-import * as cola from 'webcola';
 import pick from 'lodash/fp/pick';
+import cytoscape from 'cytoscape';
+import fcose from 'cytoscape-fcose';
+
+cytoscape.use(fcose);
 
 function getBoundingNodesRect(nodes, margin) {
   let x1 = 0;
@@ -119,136 +122,91 @@ const updateDimensions = (viewModel, nodeIds) => {
   });
 };
 
-const align = (
-  nodes,
-  viewModel,
-  size,
-  offset = { x: 0, y: 0 },
-  margin = { x: 100, y: 100 },
-  padding = 0
-) => {
+const align = (nodes, viewModel) => {
   const graph = {
     nodes: [],
-    links: [],
-    groups: [],
-    constraints: [],
+    edges: [],
+    fixedNodeConstraint: [],
   };
 
   function addNodes() {
-    Object.entries(nodes)
-      .filter(([, node]) => node.childrenNodes.length === 0)
-      .forEach(([id, node]) => {
-        graph.nodes.push({
-          name: id,
-          width: node.dimension.width + margin.x,
-          height: node.dimension.height + margin.y,
+    Object.entries(viewModel.nodes).forEach(([id, node]) => {
+      graph.nodes.push({
+        data: {
+          id,
+          parent: node.parentNode,
+        },
+        position: {
           x: node.position.x,
           y: node.position.y,
-        });
+        },
+        style: {
+          width: node.dimension.width,
+          height: node.dimension.height,
+          padding: node.childrenNodes.length > 0 ? 0 : 30,
+        },
       });
-
-    Object.entries(nodes)
-      .filter(([, node]) => node.childrenNodes.length > 0)
-      .forEach(([id, node]) => {
-        graph.nodes.push({
-          name: id,
-          width: 1,
-          height: 1,
-          x: node.position.x,
-          y: node.position.y,
-        });
-      });
-  }
-
-  function addLinks() {
-    Object.entries(viewModel.links).forEach(([, link]) => {
-      const sourceIndex = graph.nodes.findIndex(
-        (node) => node.name === link.source
-      );
-      const targetIndex = graph.nodes.findIndex(
-        (node) => node.name === link.target
-      );
-      if (sourceIndex !== -1 && targetIndex !== -1) {
-        graph.links.push({
-          source: sourceIndex,
-          target: targetIndex,
+      if (nodes[id] === undefined && node.childrenNodes.length === 0) {
+        graph.fixedNodeConstraint.push({
+          nodeId: id,
+          position: { x: node.position.x, y: node.position.y },
         });
       }
     });
   }
 
-  function addGroups() {
-    Object.entries(nodes)
-      .filter(([, node]) => node.childrenNodes.length > 0)
-      .forEach(([id, node]) => {
-        const group = {
-          leaves: [],
-          groups: [],
-        };
-
-        Object.values(node.childrenNodes).forEach((nodeId) => {
-          const childId = graph.nodes.findIndex((item) => item.name === nodeId);
-          if (childId !== -1) {
-            group.leaves.push(childId);
-          }
-        });
-
-        group.leaves.push(graph.nodes.findIndex((item) => item.name === id));
-        group.name = id;
-        group.padding = padding;
-        group.childrenNodes = { ...node.childrenNodes };
-        graph.groups.push(group);
-      });
-
-    graph.groups.forEach((group) => {
-      Object.values(group.childrenNodes).forEach((child) => {
-        const itemId = graph.groups.findIndex((item) => item.name === child);
-        if (itemId !== -1) {
-          group.groups.push(itemId);
-        }
+  function addLinks() {
+    Object.entries(viewModel.links).forEach(([id, link]) => {
+      graph.edges.push({
+        data: {
+          id,
+          source: link.source,
+          target: link.target,
+        },
       });
     });
   }
 
   function execute() {
-    const layout = new cola.Layout()
-      .nodes(graph.nodes)
-      .links(graph.links)
-      .groups(graph.groups)
-      .constraints(graph.constraints)
-      .linkDistance(250)
-      .avoidOverlaps(true)
-      .handleDisconnected(false)
-      .size(size);
-
-    layout.start(1000, 1000, 1000, 0, false, false);
-
-    return layout;
-  }
-  /* eslint-disable no-param-reassign */
-  function update(layout) {
-    layout.nodes().forEach((node) => {
-      viewModel.nodes[node.name].position.x = node.x + offset.x;
-      viewModel.nodes[node.name].position.y = node.y + offset.y;
-      viewModel.nodes[node.name].dimension.width = node.width - margin.x;
-      viewModel.nodes[node.name].dimension.height = node.height - margin.y;
+    const cy = cytoscape({
+      container: null,
+      elements: [...graph.nodes, ...graph.edges],
+      headless: true,
+      styleEnabled: true,
     });
 
-    layout.groups().forEach((group) => {
-      viewModel.nodes[group.name].position.x =
-        group.bounds.x + group.bounds.width() / 2 + offset.x;
-      viewModel.nodes[group.name].position.y =
-        group.bounds.y + group.bounds.height() / 2 + offset.y;
-      viewModel.nodes[group.name].dimension.width = group.bounds.width();
-      viewModel.nodes[group.name].dimension.height = group.bounds.height();
+    cy.layout({
+      name: 'fcose',
+      quality: 'proof',
+      randomize: true,
+      edgeElasticity: 0,
+      nodeRepulsion: 400,
+      nestingFactor: 0.1,
+      packComponents: true,
+      uniformNodeDimensions: true,
+      samplingType: true,
+      tile: true,
+      idealEdgeLength: 50,
+      gravity: 0.25,
+      fixedNodeConstraint: graph.fixedNodeConstraint,
+    }).run();
+
+    return cy;
+  }
+  /* eslint-disable no-param-reassign */
+  function update(cy) {
+    cy.nodes().forEach((node) => {
+      viewModel.nodes[node.id()].position.x = node.position().x;
+      viewModel.nodes[node.id()].position.y = node.position().y;
+      viewModel.nodes[node.id()].dimension.width = node.width();
+      viewModel.nodes[node.id()].dimension.height = node.height();
     });
   }
 
   addNodes();
   addLinks();
-  addGroups();
-  const layout = execute();
-  update(layout);
+  const cy = execute();
+  update(cy);
 };
 
 const moveNode = (node, vector, nodes) => {
@@ -349,7 +307,7 @@ const alignAxes = (target, source, viewModel, toleration, scores) => {
   alignAx(target, source, 'y', viewModel, toleration, scores);
 };
 
-const adjust = (viewModel, toleration = 50) => {
+const adjust = (viewModel, toleration = 100) => {
   try {
     if (isEmpty(viewModel.nodes)) {
       return;
@@ -371,7 +329,7 @@ const adjust = (viewModel, toleration = 50) => {
           !isChild(sourceNode, targetNodeId, viewModel.nodes) &&
           !isChild(targetNode, sourceNodeId, viewModel.nodes)
         ) {
-          adjustDistance(sourceNodeId, targetNodeId, 100, scores, viewModel);
+          adjustDistance(sourceNodeId, targetNodeId, 70, scores, viewModel);
         }
       });
     });
@@ -387,9 +345,7 @@ export const autoAlign = (viewModel) => {
     return;
   }
 
-  align(viewModel.nodes, viewModel, [1024, 1024]);
-  adjust(viewModel);
-
+  align(viewModel.nodes, viewModel);
   adjust(viewModel);
 };
 
@@ -401,7 +357,7 @@ export const alignNested = (viewModel, nodeId) => {
     viewModel.nodes
   );
 
-  align(selectedNodes, viewModel, [0, 0], viewModel.nodes[nodeId].position);
+  align(selectedNodes, viewModel);
 };
 
 export default adjust;

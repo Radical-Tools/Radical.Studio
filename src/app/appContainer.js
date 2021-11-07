@@ -5,6 +5,7 @@ import {
   notificationAdd,
   undo,
   redo,
+  layoutAdminDialogToggle,
 } from '../controller/actions/actionCreators';
 import App from './App';
 
@@ -16,6 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(notificationAdd(message, type, name)),
   undoCmd: () => dispatch(undo()),
   redoCmd: () => dispatch(redo()),
+  onToggleAdminDialog: () => dispatch(layoutAdminDialogToggle()),
 });
 
 const mapStateToProps = (state) => ({

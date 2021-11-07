@@ -1,8 +1,7 @@
 import throttle from 'lodash/throttle';
+import { getStorageCombinedKey } from '../localStorageController';
 import config from '../../app/appConfig';
 
-export const getStorageCombinedKey = (name) =>
-  `${config.operations.storageKey}:${name || ''}`;
 const save = (state) => {
   try {
     const serializedData = JSON.stringify({

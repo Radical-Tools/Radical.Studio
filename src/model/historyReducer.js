@@ -18,6 +18,7 @@ export const skipActions = [
   actions.historyChangeName.toString(),
   actions.undo.toString(),
   actions.redo.toString(),
+  actions.layoutAdminDialogToggle.toString(),
 ];
 
 export default function historyReducer(reducer) {

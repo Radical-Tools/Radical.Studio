@@ -19,6 +19,7 @@ export const initialState = {
       height: MIN_HEIGHT_NUMBER,
     },
     showDrawer: false,
+    showAdminDialog: false,
     showHomeDialog: true,
     config: {
       widgets: getWidgets(),
@@ -136,3 +137,5 @@ export const setMode = (state, payload) =>
         set(['layout', 'showDrawer'], false)
       )(state)
     : state;
+export const toggleAdminDialog = (state) =>
+  set(['layout', 'showAdminDialog'], !state.layout.showAdminDialog, state);

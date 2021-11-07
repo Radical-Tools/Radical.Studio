@@ -1,16 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
-import WidgetsIcon from '@material-ui/icons/Widgets';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
+import Avatar from '@material-ui/core/Avatar';
+import DeleteRoundedeIcon from '@material-ui/icons/DeleteRounded';
+import FolderRoundedIcon from '@material-ui/icons/FolderRounded';
+import IconButton from '@material-ui/core/IconButton';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CommonForm from '../components/CommonForm';
+import {
+  getDateOrderedProjectsListFromLocalStorage,
+  removeProjectFromLocalStorage,
+} from '../../controller/localStorageController';
+import DialogAppBar from '../components/DialogAppBar';
 
 const dialogStyle = {
   minWidth: (theme) => theme.app?.minWidth || 'initial',
@@ -19,13 +29,6 @@ const dialogStyle = {
     overflow: 'auto',
     display: 'block',
   },
-};
-const appBarStyle = {
-  position: 'relative',
-};
-const titleStyle = {
-  ml: 2,
-  flex: 1,
 };
 
 const Transition = React.forwardRef((props, ref) => (
@@ -51,11 +54,31 @@ const projectForm = {
   },
 };
 
-const AdminDialog = ({ show, onEditProjectName, projectName }) => {
+const AdminDialog = ({
+  show,
+  onEditProjectName,
+  projectName,
+  onToggleAdminDialog,
+}) => {
+  const [orderedProjects, setOrderedProjects] = useState([]);
+  useEffect(() => {
+    setOrderedProjects(getDateOrderedProjectsListFromLocalStorage());
+  }, []);
+  const refreshProjects = () => {
+    setOrderedProjects(getDateOrderedProjectsListFromLocalStorage());
+  };
   const editProjectName = useCallback(
-    (title, data) => onEditProjectName(data),
+    (title, data) => {
+      onEditProjectName(data);
+      refreshProjects();
+    },
     [onEditProjectName]
   );
+  const onRemoveProject = useCallback((p) => {
+    removeProjectFromLocalStorage(p);
+    refreshProjects();
+  }, []);
+
   return (
     <Dialog
       fullScreen
@@ -63,38 +86,20 @@ const AdminDialog = ({ show, onEditProjectName, projectName }) => {
       TransitionComponent={Transition}
       sx={dialogStyle}
     >
-      <AppBar sx={appBarStyle}>
-        <Toolbar>
-          <WidgetsIcon />
-          <Box display="flex" alignItems="flex-end">
-            <Box>
-              <Typography variant="h6" sx={titleStyle}>
-                Radical.Studio
-              </Typography>
-            </Box>
-            <Box ml={0.5}>
-              <Typography variant="caption">
-                v{process.env.REACT_APP_VERSION}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="h6" sx={titleStyle}>
-                Admin Panel
-              </Typography>
-            </Box>
-          </Box>
-        </Toolbar>
-      </AppBar>
-
+      <DialogAppBar
+        closeAction={onToggleAdminDialog}
+        secondaryText="Admin Panel"
+      />
       <Box
         justifyContent="center"
         alignItems="center"
         display="flex"
-        margin={30}
+        flexDirection="column"
+        margin={10}
       >
-        <Card elevation={3} sx={{ height: '100%' }}>
+        <Card elevation={3} sx={{ width: '100%' }}>
           <CardHeader
-            title={<Typography variant="h6">Project Settings</Typography>}
+            title={<Typography variant="h6">Projects Settings</Typography>}
           />
           <CardContent>
             <CommonForm
@@ -105,18 +110,40 @@ const AdminDialog = ({ show, onEditProjectName, projectName }) => {
             />
           </CardContent>
         </Card>
-        {/* <Card elevation={3} sx={{ height: '100%' }}>
+        <Card elevation={3} sx={{ width: '100%', marginTop: '50px' }}>
           <CardHeader
-            title={<Typography variant="h6">Admin Panel</Typography>}
+            title={
+              <Typography variant="h6">Projects in local storage</Typography>
+            }
           />
-          <CardContent>ddssd</CardContent>
+          <CardContent>
+            <List>
+              {orderedProjects.map((p) => (
+                <ListItem
+                  key={p}
+                  secondaryAction={
+                    p !== projectName && (
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => onRemoveProject(p)}
+                      >
+                        <DeleteRoundedeIcon />
+                      </IconButton>
+                    )
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderRoundedIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={p} />
+                </ListItem>
+              ))}
+            </List>
+          </CardContent>
         </Card>
-        <Card elevation={3} sx={{ height: '100%' }}>
-          <CardHeader
-            title={<Typography variant="h6">Admin Panel</Typography>}
-          />
-          <CardContent>ddssd</CardContent>
-        </Card> */}
       </Box>
     </Dialog>
   );
@@ -126,5 +153,6 @@ AdminDialog.propTypes = {
   show: PropTypes.bool.isRequired,
   projectName: PropTypes.string.isRequired,
   onEditProjectName: PropTypes.func.isRequired,
+  onToggleAdminDialog: PropTypes.func.isRequired,
 };
 export default AdminDialog;

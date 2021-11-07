@@ -79,6 +79,7 @@ const MainLayout = ({
       onEditProjectName={onEditProjectName}
       show={showAdminDialog}
       projectName={projectName}
+      onToggleAdminDialog={onToggleAdminDialog}
     />
   </>
 );
@@ -113,6 +114,6 @@ MainLayout.propTypes = {
   redoCmd: PropTypes.func.isRequired,
   isUndoFirst: PropTypes.bool.isRequired,
   isUndoLast: PropTypes.bool.isRequired,
-  onEditProjectName: PropTypes.bool.isRequired,
+  onEditProjectName: PropTypes.func.isRequired,
 };
 export default MainLayout;

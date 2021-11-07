@@ -3,8 +3,6 @@ import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
@@ -13,14 +11,13 @@ import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
 import RestoreRoundedIcon from '@material-ui/icons/RestoreRounded';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import KeyboardReturnRoundedIcon from '@material-ui/icons/KeyboardReturnRounded';
-import WidgetsIcon from '@material-ui/icons/Widgets';
 import Box from '@material-ui/core/Box';
 import { Tooltip } from '@material-ui/core';
-import orderBy from 'lodash/orderBy';
 import FileReader from '../components/FileReader';
 import CommonForm from '../components/CommonForm';
-import config from '../../app/appConfig';
 import { getWizardItemButton } from '../../tests/getDataTestId';
+import { getDateOrderedProjectsListFromLocalStorage } from '../../controller/localStorageController';
+import DialogAppBar from '../components/DialogAppBar';
 
 const dialogStyle = {
   minWidth: (theme) => theme.app?.minWidth || 'initial',
@@ -29,13 +26,6 @@ const dialogStyle = {
     overflow: 'auto',
     display: 'block',
   },
-};
-const appBarStyle = {
-  position: 'relative',
-};
-const titleStyle = {
-  ml: 2,
-  flex: 1,
 };
 
 const Transition = React.forwardRef((props, ref) => (
@@ -88,20 +78,6 @@ const localStorageForm = {
   },
 };
 
-const getDateOrderedProjectsListFromLocalStorage = () => {
-  const projects = Object.entries(localStorage)
-    .filter(([key]) => key.startsWith(config.operations.storageKey))
-    .map(([key, value]) => {
-      const parsedValue = JSON.parse(value);
-      return {
-        name: key.replace(`${config.operations.storageKey}:`, ''),
-        timestamp: parsedValue.timestamp ? parsedValue.timestamp : 0,
-      };
-    });
-  return orderBy(projects, 'timestamp', ['desc']).map(
-    (project) => project.name
-  );
-};
 const getEnchancedLocalStorageSchema = (projects) =>
   flow(
     set('properties.name.enum', projects),
@@ -139,23 +115,7 @@ const HomeDialog = ({
       TransitionComponent={Transition}
       sx={dialogStyle}
     >
-      <AppBar sx={appBarStyle}>
-        <Toolbar>
-          <WidgetsIcon />
-          <Box display="flex" alignItems="flex-end">
-            <Box>
-              <Typography variant="h6" sx={titleStyle}>
-                Radical.Studio
-              </Typography>
-            </Box>
-            <Box ml={0.5}>
-              <Typography variant="caption">
-                v{process.env.REACT_APP_VERSION}
-              </Typography>
-            </Box>
-          </Box>
-        </Toolbar>
-      </AppBar>
+      <DialogAppBar />
       {page === 'Initial' && (
         <Box
           justifyContent="center"
@@ -213,22 +173,24 @@ const HomeDialog = ({
               </Tooltip>
             </Box>
           )}
-          <Box padding={3}>
-            <Tooltip
-              title={
-                <Typography variant="h6">Open From Local Storage</Typography>
-              }
-            >
-              <IconButton
-                variant="contained"
-                color="primary"
-                data-testid={getWizardItemButton('RestoreAny')}
-                onClick={() => setPage('LoadFromLocalStorage')}
+          {!!orderedProjects.length && (
+            <Box padding={3}>
+              <Tooltip
+                title={
+                  <Typography variant="h6">Open From Local Storage</Typography>
+                }
               >
-                <StorageRoundedIcon sx={{ fontSize: 120 }} />
-              </IconButton>
-            </Tooltip>
-          </Box>
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  data-testid={getWizardItemButton('RestoreAny')}
+                  onClick={() => setPage('LoadFromLocalStorage')}
+                >
+                  <StorageRoundedIcon sx={{ fontSize: 120 }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
         </Box>
       )}
       {page === 'LoadFromLocalStorage' && (

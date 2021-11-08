@@ -27,8 +27,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_STUDIO_PRD_BUCKET_REGION }}
       - name: Deploy static site to S3 bucket
-        run:
-          aws s3 sync ./build/ s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio --delete --cache-control max-age=31536000,public
-          aws s3 cp s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio/index.html s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read
+        run: aws s3 sync ./build/ s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio --delete --cache-control max-age=31536000,public
+      - name: Set proper cache for index.html
+        run: aws s3 cp s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio/index.html s3://${{ secrets.AWS_STUDIO_PRD_BUCKET_NAME }}/studio/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read
       - name: Invalidate index
         run: aws cloudfront create-invalidation --distribution-id E2ABYWQFXDZ2DJ --paths '/studio/index.html'

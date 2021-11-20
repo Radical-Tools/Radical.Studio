@@ -1,23 +1,7 @@
 import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 
-const saveTransformations = [
-  {
-    version: '0.2.0',
-    transformation: (state) =>
-      flow(
-        set(['project'], {
-          name: 'Project generated on 0.1.0',
-          version: process.env.REACT_APP_VERSION,
-        })
-      )(state),
-  },
-  {
-    version: '0.3.0',
-    transformation: (state) =>
-      flow(set(['viewModel', 'linkingMode'], true))(state),
-  },
-];
+const saveTransformations = [];
 const prepareVersionString = (version) =>
   version.split('.').map((x) => Number(x));
 const isTransformationApplicable = (version) => (saveTransformation) => {
@@ -36,9 +20,7 @@ const loadState = (state, payload) =>
   payload
     ? flow([
         ...saveTransformations
-          .filter(
-            isTransformationApplicable(payload.project?.version || '0.1.0')
-          )
+          .filter(isTransformationApplicable(payload.project?.version))
           .map((st) => st.transformation),
         set(['layout'], state.layout),
         set(['layout', 'showDrawer'], false),

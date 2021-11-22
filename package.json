@@ -48,7 +48,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --testPathIgnorePatterns=e2e",
-    "eject": "react-scripts eject",
     "lint": "eslint --ext .jsx,.js src/ --max-warnings 0",
     "prettier": "prettier --check src",
     "postinstall": "husky install",

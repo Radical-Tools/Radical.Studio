@@ -21,7 +21,7 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 - [I Want To Contribute](#i-want-to-contribute)
   - [Reporting Bugs](#reporting-bugs)
   - [Suggesting Enhancements](#suggesting-enhancements)
-- [Join The Project Team](#join-the-project-team)
+  <!-- - [Join The Project Team](#join-the-project-team) -->
 
 ## I Have a Question
 

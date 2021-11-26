@@ -110,7 +110,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Radica
 
 - Package is represented by folder.
 
-Package can nest another package whilst module cannot.
+- Package can nest another package whilst module cannot.
 
 - The “kebab-case” notation is used for naming modules and packages.
 

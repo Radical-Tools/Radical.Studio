@@ -22,8 +22,9 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 
   - [Reporting Bugs](#reporting-bugs)
   - [Suggesting Enhancements](#suggesting-enhancements)
-  - [Styleguides](#Styleguide)
-      <!-- - [Your First Code Contribution](#your-first-code-contribution) -->
+
+- [Styleguide](#Styleguide)
+  <!-- - [Your First Code Contribution](#your-first-code-contribution) -->
     <!-- - [Improving The Documentation](#improving-the-documentation) -->
 
     <!-- - [Commit Messages](#commit-messages) -->
@@ -103,26 +104,23 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Radica
 
 ### Styleguide
 
-Each JavaScript file is a module (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+- Each JavaScript file is a module (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
-Set of modules forms a package.
+- Set of modules forms a package.
 
-Package is represented by folder.
+- Package is represented by folder.
 
 Package can nest another package whilst module cannot.
 
-The “kebab-case” notation is used for naming modules and packages.
+- The “kebab-case” notation is used for naming modules and packages.
 
-The “kebab-case” notation is used for naming any other files (CSS, JSON, YAML, XML, SVG, PNG, JPEG, etc).
+- The “kebab-case” notation is used for naming any other files (CSS, JSON, YAML, XML, SVG, PNG, JPEG, etc).
 
-The JavaScript file that contains JSX markup shall use \*.jsx extension.
+- The JavaScript file that contains JSX markup shall use \*.jsx extension.
 
-Exceptions:
-
-Module can be classified based on what is exported.
-
-For module with default export, the name of the file should follow the name of exported item.
-
-It might mean that for default export item with one word name (e.g. “format”), the file name might visually mimic one word “kebab-case” notation.
+- Exceptions:
+  Module can be classified based on what is exported.
+  For module with default export, the name of the file should follow the name of exported item.
+  It might mean that for default export item with one word name (e.g. “format”), the file name might visually mimic one word “kebab-case” notation.
 
 Exported item follows automated code style alignment.

@@ -208,23 +208,11 @@ const handlersMap = {
     viewModel.fixBrokenView(
       presentations.updateStepHistory(history.jump(state, payload))
     ),
-  [actions.historyLock.toString()]: (state, payload) => {
-    const extendedPayload = {
-      id: state.common.sandbox.data.properties.id.default,
-      type:
-        state.common.sandbox.data.title === 'Relation' ? 'relation' : 'object',
-      isSelected: false,
-    };
-    return history.merge(
-      viewModel.updateCurrentView(
-        common.editItem(
-          viewModel.itemSelectionChanged(state, extendedPayload),
-          extendedPayload
-        )
-      ),
+  [actions.historyLock.toString()]: (state, payload) =>
+    history.merge(
+      viewModel.updateCurrentView(viewModel.unselectAll(state)),
       payload
-    );
-  },
+    ),
   [actions.historyChangeName.toString()]: history.changeName,
   [actions.undo.toString()]: undo.undo,
   [actions.redo.toString()]: undo.redo,

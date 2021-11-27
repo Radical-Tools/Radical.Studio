@@ -64,7 +64,9 @@ const Drawer = ({
             <Tooltip
               placement="right"
               title={
-                <Typography variant="caption">Save To Local File</Typography>
+                <Typography variant="caption">
+                  Save Project To Local File
+                </Typography>
               }
             >
               <IconButton
@@ -81,7 +83,11 @@ const Drawer = ({
           <ListItem key="Load">
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Load Local File</Typography>}
+              title={
+                <Typography variant="caption">
+                  Load Project From Local File
+                </Typography>
+              }
             >
               <IconButton variant="contained" color="primary" component="label">
                 <FileReader
@@ -100,7 +106,7 @@ const Drawer = ({
           <ListItem key="Edit" selected={mode === LAYOUT_MODE.EDIT}>
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Designer</Typography>}
+              title={<Typography variant="caption">Open Designer</Typography>}
             >
               <IconButton
                 variant="contained"
@@ -119,7 +125,9 @@ const Drawer = ({
             <Tooltip
               placement="right"
               title={
-                <Typography variant="caption">Presentation Creator</Typography>
+                <Typography variant="caption">
+                  Open Presentation Creator
+                </Typography>
               }
             >
               <span>
@@ -140,7 +148,7 @@ const Drawer = ({
           <ListItem key="Show" selected={mode === LAYOUT_MODE.SHOW}>
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Presenter</Typography>}
+              title={<Typography variant="caption">Open Presenter</Typography>}
             >
               <span>
                 <IconButton
@@ -164,7 +172,11 @@ const Drawer = ({
           <ListItem key="undo">
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Undo (CTRL+Z)</Typography>}
+              title={
+                <Typography variant="caption">
+                  Undo Last Action (CTRL+Z)
+                </Typography>
+              }
             >
               <span>
                 <IconButton
@@ -180,7 +192,11 @@ const Drawer = ({
           <ListItem key="redo">
             <Tooltip
               placement="right"
-              title={<Typography variant="caption">Redo (CTRL+Y)</Typography>}
+              title={
+                <Typography variant="caption">
+                  Redo Last Action (CTRL+Y)
+                </Typography>
+              }
             >
               <span>
                 <IconButton
@@ -203,7 +219,7 @@ const Drawer = ({
               placement="right"
               title={
                 <Typography variant="caption">
-                  Administration (CTRL+Q)
+                  Open Administration Panel (CTRL+Q)
                 </Typography>
               }
             >

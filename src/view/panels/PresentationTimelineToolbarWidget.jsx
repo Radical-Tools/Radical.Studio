@@ -53,7 +53,7 @@ const PresentationTimelineToolbarWidget = (props) => {
         >
           {editEnabled && (
             <Button onClick={() => onAppendStepCallback()}>
-              <Tooltip title="Add step">
+              <Tooltip title="Add Presentation Step">
                 <AddCircleRoundedIcon style={{ fontSize: 25 }} />
               </Tooltip>
             </Button>
@@ -65,7 +65,7 @@ const PresentationTimelineToolbarWidget = (props) => {
               }
               disabled={presentation.steps.length < 2}
             >
-              <Tooltip title="Remove the selected step">
+              <Tooltip title="Remove the Selected Presentation Step">
                 <RemoveCircleRoundedIcon style={{ fontSize: 25 }} />
               </Tooltip>
             </Button>
@@ -126,7 +126,7 @@ const PresentationTimelineToolbarWidget = (props) => {
             }
             disabled={presentation.currentStepIndex === 0}
           >
-            <Tooltip title="Go to the previous step">
+            <Tooltip title="Go to the previous presentation step">
               <ArrowBackIosRoundedIcon style={{ fontSize: 30 }} />
             </Tooltip>
           </Button>
@@ -138,7 +138,7 @@ const PresentationTimelineToolbarWidget = (props) => {
               presentation.currentStepIndex === presentation.steps.length - 1
             }
           >
-            <Tooltip title="Go to the next step">
+            <Tooltip title="Go to the next presentation step">
               <ArrowForwardIosRoundedIcon style={{ fontSize: 30 }} />
             </Tooltip>
           </Button>

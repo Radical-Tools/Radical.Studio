@@ -9,6 +9,8 @@ import mergeWith from 'lodash/fp/mergeWith';
 import pick from 'lodash/fp/pick';
 import keys from 'lodash/fp/keys';
 import cloneDeep from 'lodash/fp/cloneDeep';
+import forOwn from 'lodash/fp/forOwn';
+
 import {
   getNestedChildren,
   updateLinks,
@@ -337,6 +339,16 @@ export const collapseNode = (state, payload) => {
         state
       )
     : state;
+};
+
+export const unselectAll = (state) => {
+  return set(
+    ['viewModel', 'views', state.viewModel.current, 'nodes'],
+    forOwn((object) => {
+      object.isSelected = false;
+    }, cloneDeep(state.viewModel.views[state.viewModel.current].nodes)),
+    state
+  );
 };
 
 export const itemSelectionChanged = (state, payload) => {

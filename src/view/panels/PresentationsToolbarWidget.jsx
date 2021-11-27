@@ -37,7 +37,7 @@ const PresentationsToolbarWidget = (props) => {
             <AddCircleRoundedIcon color="primary" />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Play selected presentation">
+        <Tooltip title="Play Selected Presentation">
           <span>
             <IconButton
               size="small"

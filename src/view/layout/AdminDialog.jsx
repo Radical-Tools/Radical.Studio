@@ -99,7 +99,7 @@ const AdminDialog = ({
       >
         <Card elevation={3} sx={{ width: '100%' }}>
           <CardHeader
-            title={<Typography variant="h6">Projects Settings</Typography>}
+            title={<Typography variant="h6">Project Settings</Typography>}
           />
           <CardContent>
             <CommonForm
@@ -112,9 +112,7 @@ const AdminDialog = ({
         </Card>
         <Card elevation={3} sx={{ width: '100%', marginTop: '50px' }}>
           <CardHeader
-            title={
-              <Typography variant="h6">Projects in local storage</Typography>
-            }
+            title={<Typography variant="h6">Browser Local Storage</Typography>}
           />
           <CardContent>
             <List>

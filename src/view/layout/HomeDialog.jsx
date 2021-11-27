@@ -125,7 +125,7 @@ const HomeDialog = ({
         >
           <Box padding={3}>
             <Tooltip
-              title={<Typography variant="h6">Create A New Project</Typography>}
+              title={<Typography variant="h6">Create New Project</Typography>}
             >
               <IconButton
                 variant="contained"
@@ -139,7 +139,9 @@ const HomeDialog = ({
           </Box>
           <Box padding={3}>
             <Tooltip
-              title={<Typography variant="h6">Open From File</Typography>}
+              title={
+                <Typography variant="h6">Open Project From File</Typography>
+              }
             >
               <IconButton
                 variant="contained"
@@ -159,7 +161,7 @@ const HomeDialog = ({
             <Box padding={3}>
               <Tooltip
                 title={
-                  <Typography variant="h6">Restore last project</Typography>
+                  <Typography variant="h6">Restore Last Project</Typography>
                 }
               >
                 <IconButton
@@ -177,7 +179,9 @@ const HomeDialog = ({
             <Box padding={3}>
               <Tooltip
                 title={
-                  <Typography variant="h6">Open From Local Storage</Typography>
+                  <Typography variant="h6">
+                    Open Project From Local Storage
+                  </Typography>
                 }
               >
                 <IconButton

@@ -61,7 +61,7 @@ const ViewExportMenu = ({ name }) => {
 
   return (
     <>
-      <Tooltip title="Export View">
+      <Tooltip title="Export the View">
         <IconButton
           size="small"
           onClick={handleClick}

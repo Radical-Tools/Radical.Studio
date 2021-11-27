@@ -33,7 +33,7 @@ function ToolbarMenu({
       </Box>
       <Box flexShrink={0} mt={0.5} mr={0.5}>
         {linkingEnabled && (
-          <Tooltip title="Linking Mode">
+          <Tooltip title="Enable or Disable Linking Mode">
             <Switch
               checked={linkingMode}
               onChange={(event) => onSetLinkingMode(event.target.checked)}

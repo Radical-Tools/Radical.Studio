@@ -30,6 +30,7 @@ const handlersMap = {
   [actions.layoutWidgetClose.toString()]: layout.performClose,
   [actions.layoutWidgetAdd.toString()]: layout.performAdd,
   [actions.layoutDrawerToggle.toString()]: layout.toggleDrawer,
+  [actions.layoutAdminDialogToggle.toString()]: layout.toggleAdminDialog,
   [actions.modelObjectAdd.toString()]: (state, payload) =>
     !isLocked(state)
       ? viewModel.updateCurrentView(model.addObject(state, payload))
@@ -73,6 +74,7 @@ const handlersMap = {
       model.selectMetamodel(layout.closeHomeDialog(state), payload.metamodel),
       payload
     ),
+  [actions.projectEditName.toString()]: project.editName,
   [actions.viewModelViewAdd.toString()]: (state, payload) =>
     !state.project.isLocked ? viewModel.addView(state, payload) : state,
   [actions.viewModelViewRemove.toString()]: (state, payload) =>

@@ -23,13 +23,14 @@ const App = ({
   onAddNotification,
   undoCmd,
   redoCmd,
+  onToggleAdminDialog,
 }) => {
   const isLoadingProject = useProjectUrlLoad(
     onLoadStateFromUrl,
     onAddNotification
   );
   useWindowResizeObserver(onWindowResize);
-  useGlobalKeyboardShortcuts(undoCmd, redoCmd);
+  useGlobalKeyboardShortcuts(undoCmd, redoCmd, onToggleAdminDialog);
 
   const theme = createTheme(themeType);
   return (
@@ -60,5 +61,6 @@ App.propTypes = {
   onAddNotification: PropTypes.func.isRequired,
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
+  onToggleAdminDialog: PropTypes.func.isRequired,
   themeType: PropTypes.string.isRequired,
 };

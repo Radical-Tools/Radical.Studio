@@ -2,8 +2,8 @@ import { DiagramEngine } from '@projectstorm/react-diagrams';
 import gsap from 'gsap';
 
 export default class RadicalDiagramEngine extends DiagramEngine {
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
     this.selectionEnabled = false;
     this.editEnabled = false;
   }

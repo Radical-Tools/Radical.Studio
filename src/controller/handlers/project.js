@@ -9,6 +9,6 @@ export const initialState = {
 };
 export const init = (state, payload) => set(['project'], payload, state);
 export const editName = (state, payload) =>
-  set(['project', 'name'], payload, state);
+  set(['project', 'name'], payload.name, state);
 
 export const lock = (state) => set(['project', 'isLocked'], true, state);

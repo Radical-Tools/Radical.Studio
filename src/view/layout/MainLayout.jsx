@@ -4,6 +4,7 @@ import Drawer from './Drawer';
 import HomeDialog from './HomeDialog';
 import metamodels from '../../data/metamodels/metamodels';
 import WidgetsPanel from './WidgetsPanel';
+import AdminDialog from './AdminDialog';
 
 const MainLayout = ({
   onChangeTheme,
@@ -17,8 +18,10 @@ const MainLayout = ({
   config,
   onAddWidget,
   onToggleDrawer,
+  onToggleAdminDialog,
   showDrawer,
   showHomeDialog,
+  showAdminDialog,
   onSubmitProjectForm,
   onLoadStorage,
   onLoadFile,
@@ -32,6 +35,8 @@ const MainLayout = ({
   redoCmd,
   isUndoFirst,
   isUndoLast,
+  onEditProjectName,
+  projectName,
 }) => (
   <>
     <WidgetsPanel
@@ -51,6 +56,7 @@ const MainLayout = ({
       onAddWidget={onAddWidget}
       show={showDrawer}
       onClose={onToggleDrawer}
+      onToggleAdminDialog={onToggleAdminDialog}
       onLoadFile={onLoadFile}
       onSave={onSave}
       onSetMode={onSetMode}
@@ -69,15 +75,23 @@ const MainLayout = ({
       onLoadStorage={onLoadStorage}
       onLoadFile={onLoadFile}
     />
+    <AdminDialog
+      onEditProjectName={onEditProjectName}
+      show={showAdminDialog}
+      projectName={projectName}
+      onToggleAdminDialog={onToggleAdminDialog}
+    />
   </>
 );
 
 MainLayout.propTypes = {
   currentTheme: PropTypes.string.isRequired,
+  projectName: PropTypes.string.isRequired,
   layout: PropTypes.objectOf(PropTypes.any).isRequired,
   config: PropTypes.objectOf(PropTypes.any).isRequired,
   showDrawer: PropTypes.bool.isRequired,
   showHomeDialog: PropTypes.bool.isRequired,
+  showAdminDialog: PropTypes.bool.isRequired,
   onChangeTheme: PropTypes.func.isRequired,
   onLayoutChange: PropTypes.func.isRequired,
   onMaximizeWidget: PropTypes.func.isRequired,
@@ -86,6 +100,7 @@ MainLayout.propTypes = {
   onMinimizeWidget: PropTypes.func.isRequired,
   onAddWidget: PropTypes.func.isRequired,
   onToggleDrawer: PropTypes.func.isRequired,
+  onToggleAdminDialog: PropTypes.func.isRequired,
   onSubmitProjectForm: PropTypes.func.isRequired,
   onLoadStorage: PropTypes.func.isRequired,
   onLoadFile: PropTypes.func.isRequired,
@@ -99,5 +114,6 @@ MainLayout.propTypes = {
   redoCmd: PropTypes.func.isRequired,
   isUndoFirst: PropTypes.bool.isRequired,
   isUndoLast: PropTypes.bool.isRequired,
+  onEditProjectName: PropTypes.func.isRequired,
 };
 export default MainLayout;

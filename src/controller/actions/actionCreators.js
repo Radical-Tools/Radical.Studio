@@ -1,7 +1,7 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { save } from 'save-file';
 import { v4 as uuidv4 } from 'uuid';
-import { getStorageCombinedKey } from '../handlers/localStorage';
+import { getStorageCombinedKey } from '../localStorageController';
 
 export const themeChanged = createAction('theme/change');
 
@@ -33,6 +33,10 @@ export const layoutWidgetAdd = createAction(
   })
 );
 export const layoutDrawerToggle = createAction('layout/drawer/toggle');
+
+export const layoutAdminDialogToggle = createAction(
+  'layout/admin-dialog/toggle'
+);
 
 export const layoutHomeDialogOpen = createAction('layout/home-dialog/open');
 
@@ -310,3 +314,5 @@ export const setLinkingMode = createAction(
     payload: { status },
   })
 );
+
+export const projectEditName = createAction('project/name/edit');

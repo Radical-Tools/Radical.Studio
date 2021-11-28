@@ -1,59 +1,73 @@
 import * as React from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
-const descriptionIconStyle = (isExpanded) => ({
+const descriptionIconStyle = (isExpanded, isParentAsymmetric) => ({
   color: isExpanded ? '#595959' : 'white',
   position: 'absolute',
-  top: 10,
+  top: 10 + (isParentAsymmetric ? 15 : 0),
   right: 10,
 });
 
-const NodeDescriptionIcon = ({ node }) => (
-  <Tooltip
-    title={
-      <div>
-        <Typography variant="subtitle1">Description:</Typography>
+const hasLinksWithDescription = (node) =>
+  !!node.getOutgoingLinks().length &&
+  node.getOutgoingLinks().some((link) => link.getDescription());
+const NodeDescriptionIcon = ({ node, isParentAsymmetric }) =>
+  node.getDescription() || hasLinksWithDescription(node) ? (
+    <Tooltip
+      title={
         <div>
-          <Typography variant="caption">
-            {node.options.attributes?.description || '-'}
-          </Typography>
-        </div>
-        <Typography variant="subtitle1">Outgoing Relations:</Typography>
-        <div>
-          {node
-            .getLinks()
-            .filter(
-              (element) =>
-                element.getSourcePort().getParent().getID() === node.getID()
-            )
-            .map((element) => (
-              <div key={element.getID()}>
-                <Typography variant="subtitle2" display="block">
-                  {`${element.getOptions().name} - ${
-                    element.getTargetPort().getParent().getOptions().name
-                  }:`}
-                </Typography>
-                <Typography variant="caption" display="block">
-                  {element.getOptions().attributes?.description}
+          {node.getDescription() && (
+            <>
+              <Typography variant="subtitle1">Description:</Typography>
+              <div>
+                <Typography variant="caption">
+                  {node.getDescription()}
                 </Typography>
               </div>
-            ))}
+            </>
+          )}
+          {hasLinksWithDescription(node) && (
+            <>
+              <Typography variant="subtitle1">
+                Outgoing Relations Description:
+              </Typography>
+              <div>
+                {node
+                  .getOutgoingLinks()
+                  .filter((link) => link.getDescription())
+                  .map((link) => (
+                    <div key={link.getID()}>
+                      <Typography variant="subtitle2" display="block">
+                        {`${link.getOptions().name} - ${
+                          link.getTargetPort().getParent().getOptions().name
+                        }:`}
+                      </Typography>
+                      <Typography variant="caption" display="block">
+                        {link.getDescription()}
+                      </Typography>
+                    </div>
+                  ))}
+              </div>
+            </>
+          )}
         </div>
-      </div>
-    }
-    aria-label="description"
-    placement="right-start"
-    arrow
-  >
-    <VisibilityIcon sx={descriptionIconStyle(node.options.isExpanded)} />
-  </Tooltip>
-);
+      }
+      aria-label="description"
+      placement="right-start"
+      arrow
+    >
+      <DescriptionRoundedIcon
+        sx={descriptionIconStyle(node.options.isExpanded, isParentAsymmetric)}
+      />
+    </Tooltip>
+  ) : null;
 
 NodeDescriptionIcon.propTypes = {
   node: PropTypes.objectOf(PropTypes.any).isRequired,
+  isParentAsymmetric: PropTypes.bool.isRequired,
 };
 
 export default NodeDescriptionIcon;

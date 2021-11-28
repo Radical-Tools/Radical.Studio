@@ -190,4 +190,14 @@ export default class RadicalComposedNodeModel extends NodeModel {
       y: this.getPosition().y + this.height / 2,
     };
   }
+
+  getDescription() {
+    return this.options.attributes?.description;
+  }
+
+  getOutgoingLinks() {
+    return this.getLinks().filter(
+      (element) => element.getSourcePort().getParent().getID() === this.getID()
+    );
+  }
 }

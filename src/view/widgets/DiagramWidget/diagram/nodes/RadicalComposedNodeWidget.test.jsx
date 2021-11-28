@@ -24,6 +24,8 @@ describe('RadicalComposedNodeWidget', () => {
           isLocked: () => false,
           getPorts: () => ({}),
           getLinks: () => [],
+          getOutgoingLinks: () => [],
+          getDescription: () => '',
           options: {},
         }}
         name="Gandalf"

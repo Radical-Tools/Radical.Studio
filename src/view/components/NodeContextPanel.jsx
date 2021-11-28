@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@material-ui/core/Box';
-import { Tooltip } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import ZoomInRoundedIcon from '@material-ui/icons/ZoomInRounded';

@@ -1,5 +1,7 @@
 import React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
+import Tooltip from '@material-ui/core/Tooltip';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import Typography from '@material-ui/core/Typography';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import Box from '@material-ui/core/Box';
@@ -22,6 +24,13 @@ const smartPortStyle = {
   width: '16px',
   height: '16px',
 };
+
+const descriptionIconStyle = (isExpanded) => ({
+  color: isExpanded ? '#595959' : 'white',
+  position: 'absolute',
+  top: 10,
+  right: 10,
+});
 const RadicalComposedNodeWidget = ({
   node,
   engine,
@@ -52,6 +61,17 @@ const RadicalComposedNodeWidget = ({
           top: isAsymmetric ? 20 : 0,
         }}
       >
+        {node.options.attributes?.description && (
+          <Tooltip
+            title={node.options.attributes?.description}
+            aria-label="description"
+            placement="right-start"
+          >
+            <VisibilityIcon
+              sx={descriptionIconStyle(node.options.isExpanded)}
+            />
+          </Tooltip>
+        )}
         <div
           style={{
             overflow: 'hidden',

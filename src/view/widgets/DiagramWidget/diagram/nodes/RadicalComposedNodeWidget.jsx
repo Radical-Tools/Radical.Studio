@@ -1,17 +1,15 @@
 import React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
-import Tooltip from '@material-ui/core/Tooltip';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import Typography from '@material-ui/core/Typography';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import values from 'lodash/fp/values';
-
 import { getPortStyle } from '../helpers';
 import EditableLabel from '../../../../components/EditableLabel';
 import NodeContextPanel from '../../../../components/NodeContextPanel';
 import { getCanvasNode } from '../../../../../tests/getDataTestId';
+import NodeDescriptionIcon from '../../../../components/NodeDescriptionIcon';
 
 const composedIconStyle = {
   position: 'absolute',
@@ -25,12 +23,6 @@ const smartPortStyle = {
   height: '16px',
 };
 
-const descriptionIconStyle = (isExpanded) => ({
-  color: isExpanded ? '#595959' : 'white',
-  position: 'absolute',
-  top: 10,
-  right: 10,
-});
 const RadicalComposedNodeWidget = ({
   node,
   engine,
@@ -61,50 +53,7 @@ const RadicalComposedNodeWidget = ({
           top: isAsymmetric ? 20 : 0,
         }}
       >
-        {node.options.attributes?.description && (
-          <Tooltip
-            title={
-              <div>
-                <Typography variant="subtitle1">Description:</Typography>
-                <div>
-                  <Typography variant="caption">
-                    {node.options.attributes?.description}
-                  </Typography>
-                </div>
-                <Typography variant="subtitle1">Outgoing Relations:</Typography>
-                <div>
-                  {node
-                    .getLinks()
-                    .filter(
-                      (element) =>
-                        element.getSourcePort().getParent().getID() ===
-                        node.getID()
-                    )
-                    .map((element) => (
-                      <div key={element.getID()}>
-                        <Typography variant="subtitle2" display="block">
-                          {`${element.getOptions().name} - ${
-                            element.getTargetPort().getParent().getOptions()
-                              .name
-                          }:`}
-                        </Typography>
-                        <Typography variant="caption" display="block">
-                          {element.getOptions().attributes?.description}
-                        </Typography>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            }
-            aria-label="description"
-            placement="right-start"
-            arrow
-          >
-            <VisibilityIcon
-              sx={descriptionIconStyle(node.options.isExpanded)}
-            />
-          </Tooltip>
-        )}
+        <NodeDescriptionIcon node={node} />
         <div
           style={{
             overflow: 'hidden',

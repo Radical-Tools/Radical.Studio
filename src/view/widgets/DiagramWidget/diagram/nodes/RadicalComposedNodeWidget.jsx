@@ -5,11 +5,11 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import values from 'lodash/fp/values';
-
 import { getPortStyle } from '../helpers';
 import EditableLabel from '../../../../components/EditableLabel';
 import NodeContextPanel from '../../../../components/NodeContextPanel';
 import { getCanvasNode } from '../../../../../tests/getDataTestId';
+import NodeDescriptionIcon from '../../../../components/NodeDescriptionIcon';
 
 const composedIconStyle = {
   position: 'absolute',
@@ -22,6 +22,7 @@ const smartPortStyle = {
   width: '16px',
   height: '16px',
 };
+
 const RadicalComposedNodeWidget = ({
   node,
   engine,
@@ -52,6 +53,7 @@ const RadicalComposedNodeWidget = ({
           top: isAsymmetric ? 20 : 0,
         }}
       >
+        <NodeDescriptionIcon node={node} />
         <div
           style={{
             overflow: 'hidden',

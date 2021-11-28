@@ -59,4 +59,8 @@ export default class RadicalLinkModel extends DefaultLinkModel {
   setName(name) {
     this.options.name = name;
   }
+
+  getDescription() {
+    return this.options.attributes?.description;
+  }
 }

@@ -53,7 +53,7 @@ const RadicalComposedNodeWidget = ({
           top: isAsymmetric ? 20 : 0,
         }}
       >
-        <NodeDescriptionIcon node={node} />
+        <NodeDescriptionIcon node={node} isParentAsymmetric={isAsymmetric} />
         <div
           style={{
             overflow: 'hidden',

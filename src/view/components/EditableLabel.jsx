@@ -65,10 +65,13 @@ const EditableLabel = ({
     />
   ) : (
     <Typography
-      noWrap
       sx={{
         width, // workaround for https://github.com/bubkoo/html-to-image/issues/132
         pointerEvents: 'all',
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: 2,
       }}
       onDoubleClick={startEditCallback}
       variant={variant}

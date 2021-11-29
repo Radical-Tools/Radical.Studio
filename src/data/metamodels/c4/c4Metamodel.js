@@ -58,12 +58,8 @@ const c4Metamodel = {
           targets: ['System', 'Container', 'Component', 'External System'],
         },
         {
-          sources: ['System', 'Container', 'Component'],
+          sources: ['System', 'Container', 'Component', 'External System'],
           targets: ['Database', 'Actor'],
-        },
-        {
-          sources: ['External System'],
-          targets: ['Actor'],
         },
       ],
       attributes: ['technology', 'description'],

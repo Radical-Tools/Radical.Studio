@@ -15,7 +15,7 @@ const composedIconStyle = {
   position: 'absolute',
   width: 20,
   height: 20,
-  right: 15,
+  left: 15,
   top: 10,
 };
 const smartPortStyle = {

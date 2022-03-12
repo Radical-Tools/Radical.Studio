@@ -5,14 +5,16 @@ import TopMenu from './TopMenu';
 describe.skip('Theme', () => {
   it('changes theme', async () => {
     const onChangeTheme = jest.fn();
-    const { getByTestId } = render(
+    render(
       <TopMenu
         onChangeTheme={onChangeTheme}
         windowDimensions={{ height: 768 }}
       />
     );
     fireEvent.click(
-      getByTestId('theme-switch').getElementsByClassName('MuiSwitch-input')[0]
+      screen
+        .getByTestId('theme-switch')
+        .getElementsByClassName('MuiSwitch-input')[0]
     );
     expect(onChangeTheme).toBeCalled();
   });

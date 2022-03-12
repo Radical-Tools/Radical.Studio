@@ -223,36 +223,35 @@ const DiagramWidget = ({
     },
   }));
   return (
-    <>
-      {engine && isModelSet && (
-        <Box sx={fillStyle}>
-          <ToolbarMenu
-            onLayoutAlign={onLayoutAlign}
-            onZoomToFit={() => {
-              engine.zoomToFitNodes();
-              engine.getModel().fireEvent(
-                {
-                  offsetX: engine.getModel().getOptions().offsetX,
-                  offsetY: engine.getModel().getOptions().offsetY,
-                  zoom: engine.getModel().getOptions().zoom,
-                },
-                CANVAS_ZOOM_CHANGED
-              );
-            }}
-            linkingEnabled={alignEnabled}
-            linkingMode={linkingMode}
-            onSetLinkingMode={setLinkingMode}
-            name={title}
-            alignEnabled={alignEnabled}
-            zoomToFitEnabled={zoomToFitEnabled}
-            exportEnabled={exportEnabled}
-          />
-          <Box data-testid={getCanvas()} ref={drop} sx={fillCanvasStyle}>
-            <CanvasWidget className="fill canvas-view" engine={engine} />
-          </Box>
+    engine &&
+    isModelSet && (
+      <Box sx={fillStyle}>
+        <ToolbarMenu
+          onLayoutAlign={onLayoutAlign}
+          onZoomToFit={() => {
+            engine.zoomToFitNodes();
+            engine.getModel().fireEvent(
+              {
+                offsetX: engine.getModel().getOptions().offsetX,
+                offsetY: engine.getModel().getOptions().offsetY,
+                zoom: engine.getModel().getOptions().zoom,
+              },
+              CANVAS_ZOOM_CHANGED
+            );
+          }}
+          linkingEnabled={alignEnabled}
+          linkingMode={linkingMode}
+          onSetLinkingMode={setLinkingMode}
+          name={title}
+          alignEnabled={alignEnabled}
+          zoomToFitEnabled={zoomToFitEnabled}
+          exportEnabled={exportEnabled}
+        />
+        <Box data-testid={getCanvas()} ref={drop} sx={fillCanvasStyle}>
+          <CanvasWidget className="fill canvas-view" engine={engine} />
         </Box>
-      )}
-    </>
+      </Box>
+    )
   );
 };
 DiagramWidget.propTypes = {

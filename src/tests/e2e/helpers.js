@@ -47,7 +47,9 @@ export default async function dragAndDrop(
     _origin.dispatchEvent(new MouseEvent('pointerdown', originPayload));
     _origin.dispatchEvent(new DragEvent('dragstart', originPayload));
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
     _destination.dispatchEvent(new MouseEvent('dragenter', destinationPayload));
     _destination.dispatchEvent(new MouseEvent('pointerup', destinationPayload));
     _destination.dispatchEvent(new MouseEvent('drop', destinationPayload));

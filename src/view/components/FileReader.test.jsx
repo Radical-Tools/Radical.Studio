@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import FileReader from './FileReader';
 import { getFileUploader } from '../../tests/getDataTestId';
 
@@ -14,11 +14,9 @@ describe('FileReader', () => {
   it('reads file', async () => {
     const onDataChunk = jest.fn();
     const onChange = jest.fn();
-    const { getByTestId } = render(
-      <FileReader onDataChunk={onDataChunk} onChange={onChange} />
-    );
+    render(<FileReader onDataChunk={onDataChunk} onChange={onChange} />);
 
-    const uploader = getByTestId(getFileUploader());
+    const uploader = screen.getByTestId(getFileUploader());
 
     fireEvent.change(uploader.firstChild, {
       target: { files: [file] },

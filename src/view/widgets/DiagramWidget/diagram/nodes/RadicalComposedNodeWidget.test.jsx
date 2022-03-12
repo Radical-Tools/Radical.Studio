@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import RadicalComposedNodeWidget from './RadicalComposedNodeWidget';
 
@@ -7,8 +7,7 @@ describe('RadicalComposedNodeWidget', () => {
   it('renders node title with given node width', async () => {
     // muiStyles.styled.mockImplementation(() => ({}));
     const nodeWidth = { width: 200 };
-
-    const { getByText } = render(
+    render(
       <RadicalComposedNodeWidget
         node={{
           width: nodeWidth.width,
@@ -31,8 +30,8 @@ describe('RadicalComposedNodeWidget', () => {
       </RadicalComposedNodeWidget>
     );
 
-    expect(getByText('Gandalf')).toBeDefined();
-    expect(getByText('Gandalf')).toHaveStyle(
+    expect(screen.getByText('Gandalf')).toBeDefined();
+    expect(screen.getByText('Gandalf')).toHaveStyle(
       `width: ${nodeWidth.width - 14}px;`
     );
     // expect(muiStyles.styled()).toHaveBeenCalledWith(nodeWidth);

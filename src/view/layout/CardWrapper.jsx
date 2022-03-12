@@ -49,7 +49,7 @@ const headlessCardContentStyle = (removeOverflow) => ({
   overflow: removeOverflow ? 'unset' : 'auto',
 });
 
-function CardWrapper({
+const CardWrapper = ({
   title,
   icon,
   onMinimize,
@@ -62,7 +62,7 @@ function CardWrapper({
   isMaximized,
   removeOverflow,
   headless,
-}) {
+}) => {
   const onMinimizeCallback = useCallback(
     () => onMinimize(id),
     [onMinimize, id]
@@ -154,7 +154,7 @@ function CardWrapper({
       </CardContent>
     </Card>
   );
-}
+};
 
 CardWrapper.defaultProps = {
   icon: undefined,

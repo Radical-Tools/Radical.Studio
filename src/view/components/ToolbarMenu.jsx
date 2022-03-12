@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import ViewExportMenu from './ViewExportMenu';
 import { getCanvasViewName } from '../../tests/getDataTestId';
 
-function ToolbarMenu({
+const ToolbarMenu = ({
   onLayoutAlign,
   onZoomToFit,
   name,
@@ -20,57 +20,55 @@ function ToolbarMenu({
   exportEnabled,
   linkingMode,
   onSetLinkingMode,
-}) {
-  return (
-    <Box display="flex" flexShrink={0} boxShadow={0} height="36px">
-      <Box width="100%" ml={1} mt={0.3}>
-        <Typography
-          data-testid={getCanvasViewName()}
-          variant="subtitle1"
-          color="primary"
-        >
-          {name}
-        </Typography>
-      </Box>
-      <Box flexShrink={0} mt={0.5} mr={0.5}>
-        {linkingEnabled && (
-          <Tooltip title="Enable or Disable Linking Mode">
-            <Switch
-              checked={linkingMode}
-              onChange={(event) => onSetLinkingMode(event.target.checked)}
-              inputProps={{ 'aria-label': 'controlled' }}
-            />
-          </Tooltip>
-        )}
-        {alignEnabled && (
-          <Tooltip title="Align Layout">
-            <IconButton
-              size="small"
-              onClick={onLayoutAlign}
-              edge="start"
-              color="primary"
-            >
-              <AccountTreeRoundedIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-        {zoomToFitEnabled && (
-          <Tooltip title="Zoom to Fit">
-            <IconButton
-              size="small"
-              onClick={onZoomToFit}
-              edge="start"
-              color="primary"
-            >
-              <ZoomOutMapRoundedIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-        {exportEnabled && <ViewExportMenu name={name} />}
-      </Box>
+}) => (
+  <Box display="flex" flexShrink={0} boxShadow={0} height="36px">
+    <Box width="100%" ml={1} mt={0.3}>
+      <Typography
+        data-testid={getCanvasViewName()}
+        variant="subtitle1"
+        color="primary"
+      >
+        {name}
+      </Typography>
     </Box>
-  );
-}
+    <Box flexShrink={0} mt={0.5} mr={0.5}>
+      {linkingEnabled && (
+        <Tooltip title="Enable or Disable Linking Mode">
+          <Switch
+            checked={linkingMode}
+            onChange={(event) => onSetLinkingMode(event.target.checked)}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        </Tooltip>
+      )}
+      {alignEnabled && (
+        <Tooltip title="Align Layout">
+          <IconButton
+            size="small"
+            onClick={onLayoutAlign}
+            edge="start"
+            color="primary"
+          >
+            <AccountTreeRoundedIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+      {zoomToFitEnabled && (
+        <Tooltip title="Zoom to Fit">
+          <IconButton
+            size="small"
+            onClick={onZoomToFit}
+            edge="start"
+            color="primary"
+          >
+            <ZoomOutMapRoundedIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+      {exportEnabled && <ViewExportMenu name={name} />}
+    </Box>
+  </Box>
+);
 
 ToolbarMenu.defaultProps = {
   onLayoutAlign: undefined,

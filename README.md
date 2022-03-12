@@ -5,7 +5,7 @@ This will be always a free tool!
 
 ## Development
 
-Use latest Node LTS version (16) and npm >= 8
+Use latest Node LTS version (16) and npm >= 8\
 Just clone this repository run npm install and npm start and you can start using our site on your own computer.
 
 ## Available Scripts

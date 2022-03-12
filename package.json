@@ -6,6 +6,7 @@
     "@emotion/react": "11.8.2",
     "@emotion/styled": "11.8.1",
     "@inovua/reactdatagrid-community": "4.4.2",
+    "@material-ui/icons": "4.11.2",
     "@mui/icons-material": "5.5.0",
     "@mui/material": "5.5.0",
     "@projectstorm/geometry": "6.6.1",

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
-import styled from '@mui/material/styles/styled';
+import { styled } from '@mui/material/styles';
 import { DIAGRAM_ITEM_NAME_CHANGED } from '../widgets/DiagramWidget/diagram/consts';
 
 const NameInput = styled('input')({

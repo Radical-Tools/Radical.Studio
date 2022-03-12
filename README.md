@@ -1,8 +1,12 @@
 # Getting Started with Radical.Studio
 
 You can go straight to our site [Radical.Studio] (https://www.radical.tools/studio) and you can begin to create your architecture.\
-For the development:\
-Just clone this repository run npm install and npm start and you can start using our site on your own computer. This will be always a free tool!
+This will be always a free tool!
+
+## Development
+
+Use latest Node LTS version (16) and npm >= 8
+Just clone this repository run npm install and npm start and you can start using our site on your own computer.
 
 ## Available Scripts
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Chip from '@material-ui/core/Chip';
-import Box from '@material-ui/core/Box';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 import { useDrag } from 'react-dnd';
 import { METAMODEL_DROP_TYPE } from '../widgets/DiagramWidget/diagram/consts';
 import { getMetamodelItem } from '../../tests/getDataTestId';

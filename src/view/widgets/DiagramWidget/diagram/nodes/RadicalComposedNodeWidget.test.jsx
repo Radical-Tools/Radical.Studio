@@ -3,13 +3,6 @@ import { render } from '@testing-library/react';
 
 import RadicalComposedNodeWidget from './RadicalComposedNodeWidget';
 
-// jest.mock('@material-ui/core/styles', () => {
-//   const mock = jest.fn();
-//   return {
-//     makeStyles: () => mock,
-//   };
-// });
-
 describe('RadicalComposedNodeWidget', () => {
   it('renders node title with given node width', async () => {
     // muiStyles.styled.mockImplementation(() => ({}));

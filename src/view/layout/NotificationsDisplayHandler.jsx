@@ -1,6 +1,6 @@
 import React from 'react';
 import difference from 'lodash/fp/difference';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { useSnackbar } from 'notistack';
 
 let displayed = [];

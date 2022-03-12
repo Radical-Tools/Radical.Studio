@@ -1,20 +1,20 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
-import Slide from '@material-ui/core/Slide';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import Avatar from '@material-ui/core/Avatar';
-import DeleteRoundedeIcon from '@material-ui/icons/DeleteRounded';
-import FolderRoundedIcon from '@material-ui/icons/FolderRounded';
-import IconButton from '@material-ui/core/IconButton';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
+import Dialog from '@mui/material/Dialog';
+import Typography from '@mui/material/Typography';
+import Slide from '@mui/material/Slide';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Avatar from '@mui/material/Avatar';
+import DeleteRoundedeIcon from '@mui/icons-material/DeleteRounded';
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
+import IconButton from '@mui/material/IconButton';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
 import CommonForm from '../components/CommonForm';
 import {
   getDateOrderedProjectsListFromLocalStorage,

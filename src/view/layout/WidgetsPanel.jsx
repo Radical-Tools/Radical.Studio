@@ -1,6 +1,6 @@
 import React from 'react';
 import toPairs from 'lodash/fp/toPairs';
-import { Box, Card } from '@material-ui/core';
+import { Box, Card } from '@mui/material';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import PropTypes from 'prop-types';
 import TopMenu from './TopMenuContainer';

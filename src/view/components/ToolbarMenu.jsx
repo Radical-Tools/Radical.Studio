@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Box from '@material-ui/core/Box';
-import { Switch, Tooltip } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import ZoomOutMapRoundedIcon from '@material-ui/icons/ZoomOutMapRounded';
-import AccountTreeRoundedIcon from '@material-ui/icons/AccountTreeRounded';
-import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import { Switch, Tooltip } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import ZoomOutMapRoundedIcon from '@mui/icons-material/ZoomOutMapRounded';
+import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
+import Typography from '@mui/material/Typography';
 import ViewExportMenu from './ViewExportMenu';
 import { getCanvasViewName } from '../../tests/getDataTestId';
 

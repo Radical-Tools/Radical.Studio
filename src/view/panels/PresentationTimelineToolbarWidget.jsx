@@ -1,17 +1,17 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Step, StepButton, Stepper } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
-import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
-import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
-import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
-import BackspaceRoundedIcon from '@material-ui/icons/BackspaceRounded';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Tooltip from '@material-ui/core/Tooltip';
-import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
+import { Step, StepButton, Stepper } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Tooltip from '@mui/material/Tooltip';
+import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
 import { LAYOUT_MODE } from '../../app/consts';
 
 const PresentationTimelineToolbarWidget = (props) => {

@@ -12,7 +12,7 @@ import RestoreRoundedIcon from '@mui/icons-material/RestoreRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
 import Box from '@mui/material/Box';
-import { Tooltip } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 import FileReader from '../components/FileReader';
 import CommonForm from '../components/CommonForm';
 import { getWizardItemButton } from '../../tests/getDataTestId';

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { MuiForm5 as Form } from '@rjsf/material-ui';
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import { getFormSubmitButton } from '../../tests/getDataTestId';
 
 const getId = (testId, suffix = '') => `common-form-${testId}${suffix}`;

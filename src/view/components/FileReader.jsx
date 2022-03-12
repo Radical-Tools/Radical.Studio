@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import readery from 'readery';
-import { InputBase } from '@mui/material';
+import InputBase from '@mui/material/InputBase';
 import PropTypes from 'prop-types';
 import { getFileUploader } from '../../tests/getDataTestId';
 

@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import createTheme from '@mui/material/styles/createTheme';
 import { LAYOUT_COLOR, MIN_HEIGHT, MIN_WIDTH } from './consts';
 
 const createAppTheme = (type) =>

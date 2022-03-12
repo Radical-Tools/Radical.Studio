@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@mui/material/IconButton';
-import { Box, Card, CardContent, CardHeader } from '@mui/material';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
 import MinimizeRoundedIcon from '@mui/icons-material/MinimizeRounded';
 import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';

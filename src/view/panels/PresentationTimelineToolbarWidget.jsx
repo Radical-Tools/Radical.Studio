@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Step, StepButton, Stepper } from '@mui/material';
+import Step from '@mui/material/Step';
+import StepButton from '@mui/material/StepButton';
+import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';

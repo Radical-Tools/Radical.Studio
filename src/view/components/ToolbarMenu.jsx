@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Box from '@mui/material/Box';
-import { Switch, Tooltip } from '@mui/material';
+import Switch from '@mui/material/Switch';
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import ZoomOutMapRoundedIcon from '@mui/icons-material/ZoomOutMapRounded';
 import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';

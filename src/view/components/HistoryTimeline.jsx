@@ -8,15 +8,13 @@ import CircleIcon from '@mui/icons-material//Circle';
 import Box from '@mui/material/Box';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Badge,
-  Popover,
-  Step,
-  StepButton,
-  StepConnector,
-  Stepper,
-  Tooltip,
-} from '@mui/material';
+import Badge from '@mui/material/Badge';
+import Popover from '@mui/material/Popover';
+import Step from '@mui/material/Step';
+import StepConnector from '@mui/material/StepConnector';
+import Stepper from '@mui/material/Stepper';
+import Tooltip from '@mui/material/Tooltip';
+import StepButton from '@mui/material/StepButton';
 import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextFieldDebounced from './TextFieldDebounced';

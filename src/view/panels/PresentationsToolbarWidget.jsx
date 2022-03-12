@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import { Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import PlayCircleFilledWhiteRoundedIcon from '@mui/icons-material/PlayCircleFilledWhiteRounded';
 import PresentationGridWidget from '../widgets/PresentationGridWidget';

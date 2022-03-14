@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
 import { useDrop } from 'react-dnd';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import createRadicalEngine, {
@@ -223,36 +223,35 @@ const DiagramWidget = ({
     },
   }));
   return (
-    <>
-      {engine && isModelSet && (
-        <Box sx={fillStyle}>
-          <ToolbarMenu
-            onLayoutAlign={onLayoutAlign}
-            onZoomToFit={() => {
-              engine.zoomToFitNodes();
-              engine.getModel().fireEvent(
-                {
-                  offsetX: engine.getModel().getOptions().offsetX,
-                  offsetY: engine.getModel().getOptions().offsetY,
-                  zoom: engine.getModel().getOptions().zoom,
-                },
-                CANVAS_ZOOM_CHANGED
-              );
-            }}
-            linkingEnabled={alignEnabled}
-            linkingMode={linkingMode}
-            onSetLinkingMode={setLinkingMode}
-            name={title}
-            alignEnabled={alignEnabled}
-            zoomToFitEnabled={zoomToFitEnabled}
-            exportEnabled={exportEnabled}
-          />
-          <Box data-testid={getCanvas()} ref={drop} sx={fillCanvasStyle}>
-            <CanvasWidget className="fill canvas-view" engine={engine} />
-          </Box>
+    engine &&
+    isModelSet && (
+      <Box sx={fillStyle}>
+        <ToolbarMenu
+          onLayoutAlign={onLayoutAlign}
+          onZoomToFit={() => {
+            engine.zoomToFitNodes();
+            engine.getModel().fireEvent(
+              {
+                offsetX: engine.getModel().getOptions().offsetX,
+                offsetY: engine.getModel().getOptions().offsetY,
+                zoom: engine.getModel().getOptions().zoom,
+              },
+              CANVAS_ZOOM_CHANGED
+            );
+          }}
+          linkingEnabled={alignEnabled}
+          linkingMode={linkingMode}
+          onSetLinkingMode={setLinkingMode}
+          name={title}
+          alignEnabled={alignEnabled}
+          zoomToFitEnabled={zoomToFitEnabled}
+          exportEnabled={exportEnabled}
+        />
+        <Box data-testid={getCanvas()} ref={drop} sx={fillCanvasStyle}>
+          <CanvasWidget className="fill canvas-view" engine={engine} />
         </Box>
-      )}
-    </>
+      </Box>
+    )
   );
 };
 DiagramWidget.propTypes = {

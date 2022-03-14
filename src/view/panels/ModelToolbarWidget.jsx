@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tab, Tabs } from '@material-ui/core';
-import ViewModuleRoundedIcon from '@material-ui/icons/ViewModuleRounded';
-import InsertLinkRoundedIcon from '@material-ui/icons/InsertLinkRounded';
-import Box from '@material-ui/core/Box';
+import ViewModuleRoundedIcon from '@mui/icons-material/ViewModuleRounded';
+import InsertLinkRoundedIcon from '@mui/icons-material/InsertLinkRounded';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import ObjectGridWidget from '../widgets/ObjectGridWidget';
 import RelationGridWidget from '../widgets/RelationGridWidget';
 import { getModelGridToolbarItem } from '../../tests/getDataTestId';

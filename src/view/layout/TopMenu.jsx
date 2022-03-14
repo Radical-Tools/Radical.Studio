@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import WidgetsIcon from '@material-ui/icons/Widgets';
-import Box from '@material-ui/core/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import Box from '@mui/material/Box';
 import {
   LAYOUT_HEIGHT_OFFSET_FOR_MARGIN,
   LAYOUT_MAX_ROWS,

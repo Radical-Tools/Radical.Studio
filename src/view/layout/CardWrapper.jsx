@@ -1,12 +1,15 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '@material-ui/core/IconButton';
-import { Box, Card, CardContent, CardHeader } from '@material-ui/core';
-import MinimizeRoundedIcon from '@material-ui/icons/MinimizeRounded';
-import FullscreenRoundedIcon from '@material-ui/icons/FullscreenRounded';
-import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-import FullscreenExitRoundedIcon from '@material-ui/icons/FullscreenExitRounded';
-import Typography from '@material-ui/core/Typography';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import MinimizeRoundedIcon from '@mui/icons-material/MinimizeRounded';
+import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded';
+import Typography from '@mui/material/Typography';
 
 const headerHeight = 33;
 const cardStyles = {
@@ -46,7 +49,7 @@ const headlessCardContentStyle = (removeOverflow) => ({
   overflow: removeOverflow ? 'unset' : 'auto',
 });
 
-function CardWrapper({
+const CardWrapper = ({
   title,
   icon,
   onMinimize,
@@ -59,7 +62,7 @@ function CardWrapper({
   isMaximized,
   removeOverflow,
   headless,
-}) {
+}) => {
   const onMinimizeCallback = useCallback(
     () => onMinimize(id),
     [onMinimize, id]
@@ -151,7 +154,7 @@ function CardWrapper({
       </CardContent>
     </Card>
   );
-}
+};
 
 CardWrapper.defaultProps = {
   icon: undefined,

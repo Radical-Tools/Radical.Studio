@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import HomeDialog from './HomeDialog';
 
 const metamodels = [
@@ -15,8 +15,6 @@ const metamodels = [
 describe('HomeDialog', () => {
   it('renders radical studio wizard initial screen', async () => {
     render(<HomeDialog metamodels={metamodels} show />);
-    await waitFor(() =>
-      expect(screen.getByText('Radical.Studio')).toBeInTheDocument()
-    );
+    await screen.findByText('Radical.Studio');
   });
 });

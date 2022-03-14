@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import IconButton from '@material-ui/core/IconButton';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import IconButton from '@mui/material/IconButton';
 import { getWidgetListItem } from '../../tests/getDataTestId';
 
 const MenuWidgetListItem = ({ id, isDisabled, title, onAddWidget }) => {

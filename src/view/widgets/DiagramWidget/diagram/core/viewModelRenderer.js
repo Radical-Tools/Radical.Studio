@@ -13,14 +13,12 @@ const addNode = (diagramModel, viewModelNode, editMode) => {
     possibleRelations: viewModelNode.possibleRelations,
     isExpanded: viewModelNode.childrenNodes.length > 0,
   });
-
-  node.setPosition({
-    x: viewModelNode.position.x - viewModelNode.dimension.width / 2,
-    y: viewModelNode.position.y - viewModelNode.dimension.height / 2,
-  });
+  node.setPosition(
+    viewModelNode.position.x - viewModelNode.dimension.width / 2,
+    viewModelNode.position.y - viewModelNode.dimension.height / 2
+  );
 
   node.setSize(viewModelNode.dimension.width, viewModelNode.dimension.height);
-
   node.setSelected(viewModelNode.isSelected);
   node.setLocked(!editMode);
 

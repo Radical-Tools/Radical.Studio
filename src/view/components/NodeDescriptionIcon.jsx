@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
-import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
-import Typography from '@material-ui/core/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
 const descriptionIconStyle = (isExpanded, isParentAsymmetric) => ({

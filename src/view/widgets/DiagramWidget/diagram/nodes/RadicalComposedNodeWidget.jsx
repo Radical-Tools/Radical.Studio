@@ -1,8 +1,8 @@
 import React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
-import Typography from '@material-ui/core/Typography';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import Box from '@material-ui/core/Box';
+import Typography from '@mui/material/Typography';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import values from 'lodash/fp/values';
 import { getPortStyle } from '../helpers';

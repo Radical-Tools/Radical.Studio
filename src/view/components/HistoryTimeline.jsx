@@ -1,24 +1,22 @@
-import Button from '@material-ui/core/Button';
-import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
-import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
-import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
-import RadioButtonUncheckedRoundedIcon from '@material-ui/icons/RadioButtonUncheckedRounded';
-import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
-import CircleIcon from '@material-ui/icons//Circle';
-import Box from '@material-ui/core/Box';
+import Button from '@mui/material/Button';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
+import CircleIcon from '@mui/icons-material//Circle';
+import Box from '@mui/material/Box';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Badge,
-  Popover,
-  Step,
-  StepButton,
-  StepConnector,
-  Stepper,
-  Tooltip,
-} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Badge from '@mui/material/Badge';
+import Popover from '@mui/material/Popover';
+import Step from '@mui/material/Step';
+import StepConnector from '@mui/material/StepConnector';
+import Stepper from '@mui/material/Stepper';
+import Tooltip from '@mui/material/Tooltip';
+import StepButton from '@mui/material/StepButton';
+import Typography from '@mui/material/Typography';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import TextFieldDebounced from './TextFieldDebounced';
 import {
   getUnlockedCount,

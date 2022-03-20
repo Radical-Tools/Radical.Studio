@@ -15,116 +15,119 @@ import initialState from './initialState';
 
 const createInitialState = () => ({
   ...initialState,
-  model: {
-    objects: {
-      'Actor-1': {
-        name: 'Architect',
-        type: 'Actor',
-        attributes: {
-          description: 'main user of the system',
+  project: {
+    ...initialState.project,
+    model: {
+      objects: {
+        'Actor-1': {
+          name: 'Architect',
+          type: 'Actor',
+          attributes: {
+            description: 'main user of the system',
+          },
+          linked: {
+            'Container-1': 'Interacts-1',
+          },
         },
-        linked: {
-          'Container-1': 'Interacts-1',
+        'Actor-2': {
+          name: 'Business Analyst',
+          type: 'Actor',
+          attributes: {
+            description: 'user of the system',
+          },
         },
-      },
-      'Actor-2': {
-        name: 'Business Analyst',
-        type: 'Actor',
-        attributes: {
-          description: 'user of the system',
+        'System-1': {
+          name: 'Radical Tools',
+          type: 'System',
+          attributes: {
+            description: '',
+          },
+          children: ['Container-1', 'Container-2', 'Database-1'],
         },
-      },
-      'System-1': {
-        name: 'Radical Tools',
-        type: 'System',
-        attributes: {
-          description: '',
+        'Container-1': {
+          name: 'Radical Studio',
+          type: 'Container',
+          attributes: {
+            description: '',
+            technology: 'js,React',
+          },
+          parent: 'System-1',
+          children: ['Component-1'],
         },
-        children: ['Container-1', 'Container-2', 'Database-1'],
-      },
-      'Container-1': {
-        name: 'Radical Studio',
-        type: 'Container',
-        attributes: {
-          description: '',
-          technology: 'js,React',
+        'Container-2': {
+          name: 'Radical Hub',
+          type: 'Container',
+          parent: 'System-1',
+          attributes: {
+            description: '',
+            technology: 'js,React',
+          },
+          linked: {
+            'Database-1': 'Interacts-2',
+          },
         },
-        parent: 'System-1',
-        children: ['Component-1'],
-      },
-      'Container-2': {
-        name: 'Radical Hub',
-        type: 'Container',
-        parent: 'System-1',
-        attributes: {
-          description: '',
-          technology: 'js,React',
+        'Component-1': {
+          name: 'Canvas',
+          type: 'Component',
+          parent: 'Container-1',
+          attributes: {
+            description: '',
+            technology: 'ReactDiagrams',
+          },
         },
-        linked: {
-          'Database-1': 'Interacts-2',
-        },
-      },
-      'Component-1': {
-        name: 'Canvas',
-        type: 'Component',
-        parent: 'Container-1',
-        attributes: {
-          description: '',
-          technology: 'ReactDiagrams',
-        },
-      },
-      'Database-1': {
-        name: 'Database',
-        type: 'Component',
-        parent: 'System-1',
-        attributes: {
-          description: '',
-          technology: 'Neo4J',
-        },
-      },
-    },
-    relations: {
-      'Interacts-1': {
-        name: 'interact',
-        type: 'Interacts',
-        source: 'Actor-1',
-        target: 'Container-1',
-        attributes: {
-          technology: 'https,RestApi',
+        'Database-1': {
+          name: 'Database',
+          type: 'Component',
+          parent: 'System-1',
+          attributes: {
+            description: '',
+            technology: 'Neo4J',
+          },
         },
       },
-      'Interacts-2': {
-        name: 'interact',
-        type: 'Interacts',
-        source: 'Container-2',
-        target: 'Database-1',
-        attributes: {
-          technology: 'https,RestApi',
+      relations: {
+        'Interacts-1': {
+          name: 'interact',
+          type: 'Interacts',
+          source: 'Actor-1',
+          target: 'Container-1',
+          attributes: {
+            technology: 'https,RestApi',
+          },
         },
-      },
-      'Includes-1': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Container-1',
-      },
-      'Includes-2': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Container-2',
-      },
-      'Includes-3': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'Container-1',
-        target: 'Component-1',
-      },
-      'Includes-4': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Database-1',
+        'Interacts-2': {
+          name: 'interact',
+          type: 'Interacts',
+          source: 'Container-2',
+          target: 'Database-1',
+          attributes: {
+            technology: 'https,RestApi',
+          },
+        },
+        'Includes-1': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'System-1',
+          target: 'Container-1',
+        },
+        'Includes-2': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'System-1',
+          target: 'Container-2',
+        },
+        'Includes-3': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'Container-1',
+          target: 'Component-1',
+        },
+        'Includes-4': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'System-1',
+          target: 'Database-1',
+        },
       },
     },
   },
@@ -144,7 +147,7 @@ describe('add relation', () => {
           'Actor-1',
           'Component-1'
         )
-      ).model.relations['Interacts-3']
+      ).project.model.relations['Interacts-3']
     ).toEqual({
       name: 'Interacts',
       type: 'Interacts',
@@ -168,7 +171,7 @@ describe('add relation', () => {
           'Actor-1',
           'Component-1'
         )
-      ).model.relations['Interacts-3']
+      ).project.model.relations['Interacts-3']
     ).toBeUndefined();
   });
 
@@ -200,7 +203,7 @@ describe('add relation', () => {
           'IncorrectSourceId',
           'Component-1'
         )
-      ).model.relations['Interacts-3']
+      ).project.model.relations['Interacts-3']
     ).toBeUndefined();
   });
 
@@ -232,7 +235,7 @@ describe('add relation', () => {
           'Actor-1',
           'IncorrectTargetId'
         )
-      ).model.relations['Interacts-3']
+      ).project.model.relations['Interacts-3']
     ).toBeUndefined();
   });
 
@@ -264,7 +267,7 @@ describe('add relation', () => {
           'Actor-1',
           'Component-1'
         )
-      ).model.relations['Interacts-3']
+      ).project.model.relations['Interacts-3']
     ).toBeUndefined();
   });
 
@@ -296,7 +299,7 @@ describe('add relation', () => {
           'Actor-1',
           'Actor-2'
         )
-      ).model.relations['Interacts-3']
+      ).project.model.relations['Interacts-3']
     ).toBeUndefined();
   });
 
@@ -328,7 +331,7 @@ describe('add relation', () => {
           'System-1',
           'Container-2'
         )
-      ).model.relations['Interacts-5']
+      ).project.model.relations['Interacts-5']
     ).toBeUndefined();
   });
 
@@ -353,7 +356,7 @@ describe('remove relation', () => {
   it('should remove the relation from the state', () => {
     expect(
       rootReducer(createInitialState(), modelRelationRemove('Interacts-1'))
-        .model.relations['Interacts-1']
+        .project.model.relations['Interacts-1']
     ).toBeUndefined();
   });
 
@@ -373,7 +376,7 @@ describe('update relation', () => {
       rootReducer(
         createInitialState(),
         modelRelationUpdate('Interacts-1', 'New Name')
-      ).model.relations['Interacts-1'].name
+      ).project.model.relations['Interacts-1'].name
     ).toEqual('New Name');
   });
 
@@ -384,7 +387,7 @@ describe('update relation', () => {
         modelRelationUpdate('Interacts-1', undefined, {
           technology: 'new technology',
         })
-      ).model.relations['Interacts-1'].attributes.technology
+      ).project.model.relations['Interacts-1'].attributes.technology
     ).toEqual('new technology');
   });
 
@@ -406,7 +409,7 @@ describe('add object', () => {
       rootReducer(
         createInitialState(),
         modelObjectAdd('Actor-3', 'Actor', 'Another User')
-      ).model.objects['Actor-3']
+      ).project.model.objects['Actor-3']
     ).toEqual({
       name: 'Another User',
       type: 'Actor',
@@ -420,7 +423,7 @@ describe('add object', () => {
       rootReducer(
         createInitialState(),
         modelObjectAdd('Actor-3', 'IncorrectObjectType', 'Another User')
-      ).model.objects['Actor-3']
+      ).project.model.objects['Actor-3']
     ).toBeUndefined();
   });
 
@@ -438,7 +441,7 @@ describe('add object', () => {
       rootReducer(
         createInitialState(),
         modelObjectAdd('Actor-2', 'Actor', 'Another User')
-      ).model.objects['Actor-2'].name
+      ).project.model.objects['Actor-2'].name
     ).toEqual('Business Analyst');
   });
 
@@ -458,7 +461,7 @@ describe('add object', () => {
         modelObjectAdd('Actor-3', 'Actor', 'Another User', {
           incorrectAttribute: 'incorrectValue',
         })
-      ).model.objects['Actor-3']
+      ).project.model.objects['Actor-3']
     ).toBeUndefined();
   });
 
@@ -477,8 +480,8 @@ describe('add object', () => {
 describe('remove object', () => {
   it('should remove the object from the state', () => {
     expect(
-      rootReducer(createInitialState(), modelObjectRemove('Actor-1')).model
-        .objects['Actor-1']
+      rootReducer(createInitialState(), modelObjectRemove('Actor-1')).project
+        .model.objects['Actor-1']
     ).toBeUndefined();
   });
 
@@ -495,7 +498,7 @@ describe('update object', () => {
       rootReducer(
         createInitialState(),
         modelObjectUpdate('Actor-2', 'New Name')
-      ).model.objects['Actor-2'].name
+      ).project.model.objects['Actor-2'].name
     ).toEqual('New Name');
   });
 
@@ -506,7 +509,7 @@ describe('update object', () => {
         modelObjectUpdate('Actor-2', undefined, {
           description: 'new description',
         })
-      ).model.objects['Actor-2'].attributes.description
+      ).project.model.objects['Actor-2'].attributes.description
     ).toEqual('new description');
   });
 
@@ -528,7 +531,7 @@ describe('update item name', () => {
       rootReducer(
         createInitialState(),
         modelItemUpdateName('Actor-2', 'object', 'New Name')
-      ).model.objects['Actor-2'].name
+      ).project.model.objects['Actor-2'].name
     ).toEqual('New Name');
   });
   it('should update the state for relation', () => {
@@ -536,7 +539,7 @@ describe('update item name', () => {
       rootReducer(
         createInitialState(),
         modelItemUpdateName('Interacts-2', 'relation', 'New Name')
-      ).model.relations['Interacts-2'].name
+      ).project.model.relations['Interacts-2'].name
     ).toEqual('New Name');
   });
 });

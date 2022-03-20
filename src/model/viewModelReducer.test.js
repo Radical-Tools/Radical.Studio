@@ -16,111 +16,114 @@ import initialState from './initialState';
 
 const createInitialState = () => ({
   ...initialState,
-  model: {
-    objects: {
-      'Actor-1': {
-        name: 'Architect',
-        type: 'Actor',
-        attributes: {
-          description: 'main user of the system',
+  project: {
+    ...initialState.project,
+    model: {
+      objects: {
+        'Actor-1': {
+          name: 'Architect',
+          type: 'Actor',
+          attributes: {
+            description: 'main user of the system',
+          },
+          children: [],
         },
-        children: [],
-      },
-      'Actor-2': {
-        name: 'Business Analyst',
-        type: 'Actor',
-        attributes: {
-          description: 'user of the system',
+        'Actor-2': {
+          name: 'Business Analyst',
+          type: 'Actor',
+          attributes: {
+            description: 'user of the system',
+          },
+          children: [],
         },
-        children: [],
-      },
-      'System-1': {
-        name: 'Radical Tools',
-        type: 'System',
-        attributes: {
-          description: '',
+        'System-1': {
+          name: 'Radical Tools',
+          type: 'System',
+          attributes: {
+            description: '',
+          },
+          children: [],
         },
-        children: [],
-      },
-      'Container-1': {
-        name: 'Radical Studio',
-        type: 'Container',
-        attributes: {
-          description: '',
-          technology: 'js,React',
+        'Container-1': {
+          name: 'Radical Studio',
+          type: 'Container',
+          attributes: {
+            description: '',
+            technology: 'js,React',
+          },
+          children: [],
         },
-        children: [],
-      },
-      'Container-2': {
-        name: 'Radical Hub',
-        type: 'Container',
-        attributes: {
-          description: '',
-          technology: 'js,React',
+        'Container-2': {
+          name: 'Radical Hub',
+          type: 'Container',
+          attributes: {
+            description: '',
+            technology: 'js,React',
+          },
+          children: [],
         },
-        children: [],
-      },
-      'Component-1': {
-        name: 'Canvas',
-        type: 'Component',
-        attributes: {
-          description: '',
-          technology: 'ReactDiagrams',
+        'Component-1': {
+          name: 'Canvas',
+          type: 'Component',
+          attributes: {
+            description: '',
+            technology: 'ReactDiagrams',
+          },
+          children: [],
         },
-        children: [],
-      },
-      'Database-1': {
-        name: 'Database',
-        type: 'Component',
-        attributes: {
-          description: '',
-          technology: 'Neo4J',
-        },
-        children: [],
-      },
-    },
-    relations: {
-      'Interacts-1': {
-        name: 'interact',
-        type: 'Interacts',
-        source: 'Actor-1',
-        target: 'Container-1',
-        attributes: {
-          technology: 'https,RestApi',
+        'Database-1': {
+          name: 'Database',
+          type: 'Component',
+          attributes: {
+            description: '',
+            technology: 'Neo4J',
+          },
+          children: [],
         },
       },
-      'Interacts-2': {
-        name: 'interact',
-        type: 'Interacts',
-        source: 'Container-2',
-        target: 'Database-1',
-        attributes: {
-          technology: 'https,RestApi',
+      relations: {
+        'Interacts-1': {
+          name: 'interact',
+          type: 'Interacts',
+          source: 'Actor-1',
+          target: 'Container-1',
+          attributes: {
+            technology: 'https,RestApi',
+          },
         },
-      },
-      'Includes-1': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Container-1',
-      },
-      'Includes-2': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Container-2',
-      },
-      'Includes-3': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'Container-1',
-        target: 'Component-1',
-      },
-      'Includes-4': {
-        name: 'includes',
-        type: 'Includes',
-        source: 'System-1',
-        target: 'Database-1',
+        'Interacts-2': {
+          name: 'interact',
+          type: 'Interacts',
+          source: 'Container-2',
+          target: 'Database-1',
+          attributes: {
+            technology: 'https,RestApi',
+          },
+        },
+        'Includes-1': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'System-1',
+          target: 'Container-1',
+        },
+        'Includes-2': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'System-1',
+          target: 'Container-2',
+        },
+        'Includes-3': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'Container-1',
+          target: 'Component-1',
+        },
+        'Includes-4': {
+          name: 'includes',
+          type: 'Includes',
+          source: 'System-1',
+          target: 'Database-1',
+        },
       },
     },
   },
@@ -131,14 +134,14 @@ describe('views management', () => {
   it('should add view', () => {
     expect(
       rootReducer(createInitialState(), viewModelViewAdd('new name', 'View-5'))
-        .viewModel.views['View-5'].name
+        .project.viewModel.views['View-5'].name
     ).toEqual('new name');
   });
 
   it('should remove view', () => {
     expect(
-      rootReducer(createInitialState(), viewModelViewRemove('View-1')).viewModel
-        .views['View-1']
+      rootReducer(createInitialState(), viewModelViewRemove('View-1')).project
+        .viewModel.views['View-1']
     ).toEqual(undefined);
   });
 
@@ -147,7 +150,7 @@ describe('views management', () => {
       rootReducer(
         createInitialState(),
         viewModelViewUpdate('default', 'updated name')
-      ).viewModel.views.default.name
+      ).project.viewModel.views.default.name
     ).toEqual('updated name');
   });
 });

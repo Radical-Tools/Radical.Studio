@@ -174,7 +174,7 @@ const handlersMap = {
     payload.mode === LAYOUT_MODE.SHOW
       ? presentations.goToStep(layout.setMode(state, payload), {
           stepIndex: 0,
-          presentationId: state.presentationModel.current,
+          presentationId: state.project.presentationModel.current,
         })
       : layout.setMode(state, payload),
   [actions.presentationSelect.toString()]: presentations.select,
@@ -183,7 +183,7 @@ const handlersMap = {
   [actions.presentationRemove.toString()]: presentations.remove,
   [actions.presentationSetGoTo.toString()]: (state, payload) => {
     const presentation =
-      state.presentationModel.presentations[payload.presentationId];
+      state.project.presentationModel.presentations[payload.presentationId];
     const step = presentation.steps[payload.stepIndex];
     return history.jumpById(
       viewModel.updateCurrentView(

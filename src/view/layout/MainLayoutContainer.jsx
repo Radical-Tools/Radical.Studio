@@ -33,7 +33,7 @@ const mapStateToProps = (state) => ({
   isPresentationModeEnabled:
     state.project.history.prev.length > 0 ||
     state.project.history.next.length > 0,
-  isShowModeEnabled: state.presentationModel.current !== undefined,
+  isShowModeEnabled: state.project.presentationModel.current !== undefined,
   isUndoFirst: state.undo.prev.length === 0,
   isUndoLast: state.undo.next.length === 0,
 });

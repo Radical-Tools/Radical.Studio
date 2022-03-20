@@ -17,15 +17,21 @@ export const initialState = {
 };
 
 export const select = (state, payload) =>
-  has(payload.presentationId, state.presentationModel.presentations)
-    ? set(['presentationModel', 'current'], payload.presentationId, state)
+  has(payload.presentationId, state.project.presentationModel.presentations)
+    ? set(
+        ['project', 'presentationModel', 'current'],
+        payload.presentationId,
+        state
+      )
     : state;
 
 export const goToStep = (state, payload) =>
   payload.stepIndex <
-  state.presentationModel.presentations[payload.presentationId].steps.length
+  state.project.presentationModel.presentations[payload.presentationId].steps
+    .length
     ? set(
         [
+          'project',
           'presentationModel',
           'presentations',
           payload.presentationId,
@@ -37,12 +43,12 @@ export const goToStep = (state, payload) =>
     : state;
 
 export const deselect = (state) =>
-  unset(['presentationModel', 'current'], state);
+  unset(['project', 'presentationModel', 'current'], state);
 
 export const create = (state, payload) =>
-  !has(payload.id, state.presentationModel.presentations)
+  !has(payload.id, state.project.presentationModel.presentations)
     ? flow(
-        set(['presentationModel', 'presentations', payload.id], {
+        set(['project', 'presentationModel', 'presentations', payload.id], {
           name: payload.name,
           currentStepIndex: 0,
           steps: [
@@ -66,14 +72,14 @@ export const create = (state, payload) =>
             },
           ],
         }),
-        set(['presentationModel', 'current'], payload.id)
+        set(['project', 'presentationModel', 'current'], payload.id)
       )(state)
     : state;
 
 export const updateName = (state, payload) =>
-  has(payload.id, state.presentationModel.presentations)
+  has(payload.id, state.project.presentationModel.presentations)
     ? set(
-        ['presentationModel', 'presentations', payload.id, 'name'],
+        ['project', 'presentationModel', 'presentations', payload.id, 'name'],
         payload.name,
         state
       )
@@ -81,16 +87,16 @@ export const updateName = (state, payload) =>
 
 export const remove = (state, payload) =>
   flow(
-    unset(['presentationModel', 'presentations', payload.id]),
-    state.presentationModel.current === payload.id &&
-      Object.keys(state.presentationModel.presentations).length === 1
-      ? unset(['presentationModel', 'current'])
+    unset(['project', 'presentationModel', 'presentations', payload.id]),
+    state.project.presentationModel.current === payload.id &&
+      Object.keys(state.project.presentationModel.presentations).length === 1
+      ? unset(['project', 'presentationModel', 'current'])
       : identity,
-    state.presentationModel.current === payload.id &&
-      Object.keys(state.presentationModel.presentations).length > 1
+    state.project.presentationModel.current === payload.id &&
+      Object.keys(state.project.presentationModel.presentations).length > 1
       ? set(
-          ['presentationModel', 'current'],
-          Object.keys(state.presentationModel.presentations).filter(
+          ['project', 'presentationModel', 'current'],
+          Object.keys(state.project.presentationModel.presentations).filter(
             (id) => id !== payload.id
           )[0]
         )
@@ -100,7 +106,7 @@ export const remove = (state, payload) =>
 export const appendStep = (state, payload) =>
   flow(
     update(
-      ['presentationModel', 'presentations', payload.presentationId],
+      ['project', 'presentationModel', 'presentations', payload.presentationId],
       (presentation) => ({
         ...presentation,
         steps: concat(
@@ -136,6 +142,7 @@ export const appendStep = (state, payload) =>
     ),
     update(
       [
+        'project',
         'presentationModel',
         'presentations',
         payload.presentationId,
@@ -147,15 +154,15 @@ export const appendStep = (state, payload) =>
 
 export const removeStep = (state, payload) => {
   if (
-    state.presentationModel.presentations[payload.presentationId] &&
-    state.presentationModel.presentations[payload.presentationId].steps.length >
-      1
+    state.project.presentationModel.presentations[payload.presentationId] &&
+    state.project.presentationModel.presentations[payload.presentationId].steps
+      .length > 1
   ) {
     const newState = cloneDeep(state);
-    newState.presentationModel.presentations[
+    newState.project.presentationModel.presentations[
       payload.presentationId
     ].steps.splice(payload.stepIndex, 1);
-    newState.presentationModel.presentations[
+    newState.project.presentationModel.presentations[
       payload.presentationId
     ].currentStepIndex =
       payload.stepIndex > 0 ? payload.stepIndex - 1 : payload.stepIndex;
@@ -166,15 +173,17 @@ export const removeStep = (state, payload) => {
 
 export const updateStepAlignment = (state, payload) =>
   state.layout.mode === LAYOUT_MODE.PRESENTATION &&
-  state.presentationModel.current
+  state.project.presentationModel.current
     ? set(
         [
+          'project',
           'presentationModel',
           'presentations',
-          state.presentationModel.current,
+          state.project.presentationModel.current,
           'steps',
-          state.presentationModel.presentations[state.presentationModel.current]
-            .currentStepIndex,
+          state.project.presentationModel.presentations[
+            state.project.presentationModel.current
+          ].currentStepIndex,
           'properties',
           'alignment',
         ],
@@ -189,15 +198,17 @@ export const updateStepAlignment = (state, payload) =>
 
 export const updateStepView = (state, payload) =>
   state.layout.mode === LAYOUT_MODE.PRESENTATION &&
-  state.presentationModel.current
+  state.project.presentationModel.current
     ? set(
         [
+          'project',
           'presentationModel',
           'presentations',
-          state.presentationModel.current,
+          state.project.presentationModel.current,
           'steps',
-          state.presentationModel.presentations[state.presentationModel.current]
-            .currentStepIndex,
+          state.project.presentationModel.presentations[
+            state.project.presentationModel.current
+          ].currentStepIndex,
           'properties',
           'view',
         ],
@@ -208,15 +219,17 @@ export const updateStepView = (state, payload) =>
 
 export const updateStepHistory = (state) =>
   state.layout.mode === LAYOUT_MODE.PRESENTATION &&
-  state.presentationModel.current
+  state.project.presentationModel.current
     ? set(
         [
+          'project',
           'presentationModel',
           'presentations',
-          state.presentationModel.current,
+          state.project.presentationModel.current,
           'steps',
-          state.presentationModel.presentations[state.presentationModel.current]
-            .currentStepIndex,
+          state.project.presentationModel.presentations[
+            state.project.presentationModel.current
+          ].currentStepIndex,
           'properties',
           'historyStepId',
         ],

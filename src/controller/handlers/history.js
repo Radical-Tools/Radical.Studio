@@ -117,7 +117,9 @@ export const jumpById = (state, payload) => {
 
 export const jumpByPresentation = (state) => {
   const presentation =
-    state.presentationModel.presentations[state.presentationModel.current];
+    state.project.presentationModel.presentations[
+      state.project.presentationModel.current
+    ];
   const stepId =
     presentation.steps[presentation.currentStepIndex].properties.historyStepId;
   return jumpById(state, { stepId });

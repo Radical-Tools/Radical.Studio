@@ -228,7 +228,10 @@ export const notificationRemove = createAction('notification/remove', (id) => ({
 export const loadStateStorage = createAction('state/load/storage', (name) => {
   const serializedData = localStorage.getItem(getStorageCombinedKey(name));
   return {
-    payload: serializedData ? JSON.parse(serializedData).state : undefined,
+    payload: {
+      project: serializedData ? JSON.parse(serializedData).state : undefined,
+      metamodels,
+    },
   };
 });
 

@@ -15,7 +15,6 @@ import {
   validateRelation,
   validateRelationAttributes,
 } from './common/model';
-import metamodels from '../../data/metamodels/metamodels';
 import { createError } from './notifications';
 
 export const initialState = {
@@ -241,11 +240,7 @@ export const removeRelation = (state, payload) => {
   )(state);
 };
 export const selectMetamodel = (state, payload) =>
-  set(
-    ['metamodel', payload],
-    metamodels.find((metamodel) => metamodel.id === payload),
-    state
-  );
+  set(['metamodel', payload.id], payload, state);
 
 export const objectDetach = (state, payload) => {
   const { parent } = state.project.model.objects[payload.id];

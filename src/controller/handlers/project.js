@@ -16,7 +16,20 @@ export const initialState = {
   },
 };
 export const init = (state, payload) =>
-  set(['project'], { ...state.project, ...payload }, state);
+  set(
+    ['project'],
+    {
+      ...state.project,
+      ...payload,
+      metamodel: {
+        [payload.metamodel.id]: {
+          id: payload.metamodel.id,
+          version: payload.metamodel.version,
+        },
+      },
+    },
+    state
+  );
 export const editName = (state, payload) =>
   set(['project', 'name'], payload.name, state);
 

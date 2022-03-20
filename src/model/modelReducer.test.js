@@ -131,7 +131,9 @@ const createInitialState = () => ({
       },
     },
   },
-  metamodel: c4Metamodel,
+  metamodel: {
+    C4: c4Metamodel,
+  },
 });
 
 describe('add relation', () => {

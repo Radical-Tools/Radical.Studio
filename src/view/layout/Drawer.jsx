@@ -91,7 +91,7 @@ const Drawer = ({
             >
               <IconButton variant="contained" color="primary" component="label">
                 <FileReader
-                  onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
+                  onDataChunk={(dataChunk) => onLoadFile(dataChunk)}
                   chunkSize={400000}
                 />
                 <FileCopyRoundedIcon />

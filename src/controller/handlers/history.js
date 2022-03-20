@@ -76,7 +76,7 @@ export const jump = (state, payload) => {
       : jumpToNextHistory(state.history, payload.index);
 
   return flow(
-    set(['model'], model),
+    set(['project', 'model'], model),
     set(['viewModel'], viewModel),
     viewModel.views[viewModel.current]
       ? set(

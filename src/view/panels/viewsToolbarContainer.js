@@ -11,7 +11,7 @@ import { LAYOUT_MODE } from '../../app/consts';
 import { isLocked } from '../../controller/handlersMap';
 
 const mapStateToProps = (state) => ({
-  model: state.model,
+  model: state.project.model,
   viewModel: state.viewModel,
   current: state.viewModel.current,
   editMode: state.layout.mode === LAYOUT_MODE.EDIT && !isLocked(state),

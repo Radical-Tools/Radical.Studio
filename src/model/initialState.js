@@ -1,5 +1,4 @@
 import * as layout from '../controller/handlers/layout';
-import * as model from '../controller/handlers/model';
 import * as theme from '../controller/handlers/theme';
 import * as viewModel from '../controller/handlers/viewModel';
 import * as common from '../controller/handlers/common';
@@ -11,7 +10,6 @@ import * as undo from '../controller/handlers/undo';
 
 const initialState = {
   ...layout.initialState,
-  ...model.initialState,
   ...theme.initialState,
   ...viewModel.initialState,
   ...common.initialState,

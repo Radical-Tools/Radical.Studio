@@ -34,7 +34,7 @@ function isEditEnabled(state) {
 const mapStateToProps = (state) => ({
   viewmodel: renderView(
     state.viewModel.views[state.viewModel.current],
-    state.model
+    state.project.model
   ),
   alignment: state.viewModel.views[state.viewModel.current].alignment,
   editEnabled: isEditEnabled(state),

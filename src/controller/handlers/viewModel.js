@@ -65,7 +65,7 @@ export const updatePossibleRelations = (state) => {
               source: nodeId,
               types: findValidRelations(
                 state.metamodel,
-                state.model,
+                state.project.model,
                 nodeId,
                 id
               ),
@@ -89,8 +89,8 @@ export const updatePossibleRelations = (state) => {
               types: findValidRelations(
                 state.metamodel,
                 id !== link.target
-                  ? unset(['relations', linkId], state.model)
-                  : state.model,
+                  ? unset(['relations', linkId], state.project.model)
+                  : state.project.model,
                 link.source,
                 id
               ).filter((type) => type === link.type),
@@ -117,20 +117,20 @@ export const updateCurrentView = (state) => {
     (view) => ({
       ...view,
       nodes: omitBy(
-        (node, id) => !has(id, state.model.objects),
+        (node, id) => !has(id, state.project.model.objects),
         mergeWith(
           (source, target) => ({ ...source, ...target }),
           view.nodes,
-          pick(keys(view.nodes), state.model.objects)
+          pick(keys(view.nodes), state.project.model.objects)
         )
       ),
-      links: updateLinks(state.model, view),
+      links: updateLinks(state.project.model, view),
     }),
     state
   );
 
   updateParentalStructure(
-    newState.model,
+    newState.project.model,
     newState.viewModel.views[newState.viewModel.current]
   );
 
@@ -190,7 +190,7 @@ export const activateView = (state, payload) => {
 };
 
 export const addNode = (state, payload) =>
-  has(payload.id, state.model.objects) &&
+  has(payload.id, state.project.model.objects) &&
   !has(payload.id, [
     'viewModel',
     'views',
@@ -386,7 +386,7 @@ export const itemSelectionChanged = (state, payload) => {
 
 export const expandNode = (state, payload) => {
   const viewId = payload.viewId ? payload.viewId : state.viewModel.current;
-  const object = state.model.objects[payload.id];
+  const object = state.project.model.objects[payload.id];
   const newNodes = {};
   object.children.forEach((objectId) => {
     newNodes[objectId] = {

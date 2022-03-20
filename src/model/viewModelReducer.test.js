@@ -173,21 +173,21 @@ describe('viewmodel management', () => {
     );
     state = rootReducer(state, viewModelNodeAdd(undefined, 'Container-1'));
     expect(
-      renderView(state.viewModel.views.default, state.model).links[
+      renderView(state.viewModel.views.default, state.project.model).links[
         'Interacts-1'
       ]
     ).toBeDefined();
 
     state = rootReducer(state, viewModelLinkRemove('Interacts-1'));
     expect(
-      renderView(state.viewModel.views.default, state.model).links[
+      renderView(state.viewModel.views.default, state.project.model).links[
         'Interacts-1'
       ]
     ).toBeUndefined();
 
     state = rootReducer(state, viewModelLinkAdd('Interacts-1'));
     expect(
-      renderView(state.viewModel.views.default, state.model).links[
+      renderView(state.viewModel.views.default, state.project.model).links[
         'Interacts-1'
       ]
     ).toBeDefined();

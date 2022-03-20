@@ -12,6 +12,7 @@ const initialState = {
   ...notifications.initialState,
   ...project.initialState,
   ...undo.initialState,
+  metamodel: {},
 };
 
 export default initialState;

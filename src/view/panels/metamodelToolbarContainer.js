@@ -3,8 +3,8 @@ import groupBy from 'lodash/fp/groupBy';
 import MetamodelToolbarWidget from './MetamodelToolbarWidget';
 
 const mapStateToProps = (state) => ({
-  objectClasses: state.metamodel
-    ? groupBy('category', state.metamodel.classes)
+  objectClasses: state.metamodel.C4
+    ? groupBy('category', state.metamodel.C4.classes)
     : undefined,
   smallHeight: state.layout.windowDimensions?.height < 1000,
 });

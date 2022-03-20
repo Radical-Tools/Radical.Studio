@@ -65,7 +65,7 @@ export const updatePossibleRelations = (state) => {
           ? {
               source: nodeId,
               types: findValidRelations(
-                state.metamodel,
+                state.metamodel.C4,
                 state.project.model,
                 nodeId,
                 id
@@ -88,7 +88,7 @@ export const updatePossibleRelations = (state) => {
           ? {
               source: link.source,
               types: findValidRelations(
-                state.metamodel,
+                state.metamodel.C4,
                 id !== link.target
                   ? unset(['relations', linkId], state.project.model)
                   : state.project.model,

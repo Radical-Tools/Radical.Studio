@@ -550,7 +550,7 @@ describe('select metamodel', () => {
       createInitialState(),
       initProject({ name: 'Test', metamodel: 'C4' })
     );
-    expect(state.metamodel.id).toEqual('C4');
+    expect(state.metamodel.C4.id).toEqual('C4');
     expect(state.project.name).toEqual('Test');
     expect(state.layout.showHomeDialog).toEqual(false);
   });

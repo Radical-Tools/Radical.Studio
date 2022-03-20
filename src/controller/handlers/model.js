@@ -51,7 +51,7 @@ export const updateObject = (state, payload) => {
           ...object.attributes,
           ...(payload.attributes &&
           validateObjectAttributes(
-            state.metamodel,
+            state.metamodel.C4,
             object.type,
             payload.attributes
           )
@@ -123,7 +123,7 @@ export const addRelation = (state, payload) => {
     const type = payload.type
       ? payload.type
       : findValidRelationClass(
-          state.metamodel,
+          state.metamodel.C4,
           state.project.model.objects[payload.source].type,
           state.project.model.objects[payload.target].type
         )[0].id;
@@ -142,7 +142,7 @@ export const addRelation = (state, payload) => {
         };
 
     validateRelation(
-      state.metamodel,
+      state.metamodel.C4,
       has(payload.id, state.project.model.relations)
         ? unset(['relations', payload.id], state.project.model)
         : state.project.model,
@@ -180,7 +180,7 @@ export const addObject = (state, payload) => {
   }
 
   try {
-    validateObject(state.metamodel, state.project.model, object);
+    validateObject(state.metamodel.C4, state.project.model, object);
     let newState = set(
       ['project', 'model', 'objects', payload.id],
       object,
@@ -210,7 +210,7 @@ export const updateRelation = (state, payload) => {
           ...relation.attributes,
           ...(payload.attributes &&
           validateRelationAttributes(
-            state.metamodel,
+            state.metamodel.C4,
             relation.type,
             payload.attributes
           )
@@ -242,7 +242,7 @@ export const removeRelation = (state, payload) => {
 };
 export const selectMetamodel = (state, payload) =>
   set(
-    ['metamodel'],
+    ['metamodel', payload],
     metamodels.find((metamodel) => metamodel.id === payload),
     state
   );

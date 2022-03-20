@@ -15,8 +15,8 @@ export const createItem = (state, payload) =>
   set(
     ['common', 'sandbox'],
     {
-      data: state.metamodel.schemas[payload.type].data,
-      ui: state.metamodel.schemas[payload.type].create.ui,
+      data: state.metamodel.C4.schemas[payload.type].data,
+      ui: state.metamodel.C4.schemas[payload.type].create.ui,
     },
     state
   );
@@ -90,10 +90,10 @@ export const editItem = (state, payload) => {
   return set(
     ['common', 'sandbox'],
     {
-      data: merge(state.metamodel.schemas[payload.type].data, {
+      data: merge(state.metamodel.C4.schemas[payload.type].data, {
         properties: convertToDefaults,
       }),
-      ui: state.metamodel.schemas[payload.type].update.ui,
+      ui: state.metamodel.C4.schemas[payload.type].update.ui,
     },
     state
   );

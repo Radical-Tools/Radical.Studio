@@ -77,15 +77,22 @@ export const jump = (state, payload) => {
 
   return flow(
     set(['project', 'model'], model),
-    set(['viewModel'], viewModel),
+    set(['project', 'viewModel'], viewModel),
     viewModel.views[viewModel.current]
       ? set(
-          ['viewModel', 'views', state.viewModel.current, 'alignment'],
-          state.viewModel.views[state.viewModel.current].alignment
+          [
+            'project',
+            'viewModel',
+            'views',
+            state.project.viewModel.current,
+            'alignment',
+          ],
+          state.project.viewModel.views[state.project.viewModel.current]
+            .alignment
         )
       : identity,
     set(['history'], history),
-    set(['viewModel', 'current'], state.viewModel.current)
+    set(['project', 'viewModel', 'current'], state.project.viewModel.current)
   )(state);
 };
 

@@ -136,8 +136,9 @@ const handlersMap = {
       ? viewModel.alignChildren(
           viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
           payload,
-          state.viewModel.views[state.viewModel.current].nodes[payload.id]
-            .dimension
+          state.project.viewModel.views[state.project.viewModel.current].nodes[
+            payload.id
+          ].dimension
         )
       : isLockedInfo(state),
   [actions.viewModelNodeExpand.toString()]: (state, payload) =>
@@ -145,8 +146,9 @@ const handlersMap = {
       ? viewModel.alignChildren(
           viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
           payload,
-          state.viewModel.views[state.viewModel.current].nodes[payload.id]
-            .dimension
+          state.project.viewModel.views[state.project.viewModel.current].nodes[
+            payload.id
+          ].dimension
         )
       : isLockedInfo(state),
   [actions.viewModelItemSelectionChanged.toString()]: (state, payload) =>

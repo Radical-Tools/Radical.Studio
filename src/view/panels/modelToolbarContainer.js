@@ -10,7 +10,7 @@ import ModelToolbarWidget from './ModelToolbarWidget';
 
 const mapStateToProps = (state) => ({
   model: state.project.model,
-  viewModel: state.viewModel,
+  viewModel: state.project.viewModel,
 });
 
 const mapDispatchToProps = (dispatch) => ({

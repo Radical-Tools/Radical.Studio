@@ -43,9 +43,10 @@ export const initialState = {
 
 /* eslint-disable no-param-reassign */
 export const updatePossibleRelations = (state) => {
-  const currentView = state.viewModel.views[state.viewModel.current];
+  const currentView =
+    state.project.viewModel.views[state.project.viewModel.current];
 
-  if (!state.viewModel.linkingMode) {
+  if (!state.project.viewModel.linkingMode) {
     Object.values(currentView.nodes).forEach((node) => {
       node.possibleRelations = undefined;
     });
@@ -113,7 +114,7 @@ export const updatePossibleRelations = (state) => {
 /* eslint-disable arrow-body-style */
 export const updateCurrentView = (state) => {
   const newState = update(
-    ['viewModel', 'views', state.viewModel.current],
+    ['project', 'viewModel', 'views', state.project.viewModel.current],
     (view) => ({
       ...view,
       nodes: omitBy(
@@ -131,18 +132,18 @@ export const updateCurrentView = (state) => {
 
   updateParentalStructure(
     newState.project.model,
-    newState.viewModel.views[newState.viewModel.current]
+    newState.project.viewModel.views[newState.project.viewModel.current]
   );
 
   updatePossibleRelations(newState);
-  adjust(newState.viewModel.views[newState.viewModel.current]);
-  adjust(newState.viewModel.views[newState.viewModel.current]);
+  adjust(newState.project.viewModel.views[newState.project.viewModel.current]);
+  adjust(newState.project.viewModel.views[newState.project.viewModel.current]);
 
   return newState;
 };
 export const addView = (state, payload) => {
   return set(
-    ['viewModel', 'views', payload.id],
+    ['project', 'viewModel', 'views', payload.id],
     {
       name: payload.name,
       version: '1.0',
@@ -161,12 +162,12 @@ export const addView = (state, payload) => {
 };
 
 export const removeView = (state, payload) =>
-  Object.keys(state.viewModel.views).length > 1
+  Object.keys(state.project.viewModel.views).length > 1
     ? flow(
-        unset(['viewModel', 'views', payload.id]),
+        unset(['project', 'viewModel', 'views', payload.id]),
         set(
-          ['viewModel', 'current'],
-          Object.keys(state.viewModel.views).filter(
+          ['project', 'viewModel', 'current'],
+          Object.keys(state.project.viewModel.views).filter(
             (item) => item !== payload.id
           )[0]
         )
@@ -175,7 +176,7 @@ export const removeView = (state, payload) =>
 
 export const updateView = (state, payload) =>
   update(
-    ['viewModel', 'views', payload.id],
+    ['project', 'viewModel', 'views', payload.id],
     (view) => ({
       ...view,
       name: payload.name ? payload.name : view.name,
@@ -185,23 +186,25 @@ export const updateView = (state, payload) =>
   );
 
 export const activateView = (state, payload) => {
-  const newState = set(['viewModel', 'current'], payload.id, state);
+  const newState = set(['project', 'viewModel', 'current'], payload.id, state);
   return updateCurrentView(newState);
 };
 
 export const addNode = (state, payload) =>
   has(payload.id, state.project.model.objects) &&
   !has(payload.id, [
+    'project',
     'viewModel',
     'views',
-    payload.viewId ? payload.viewId : state.viewModel.current,
+    payload.viewId ? payload.viewId : state.project.viewModel.current,
     'nodes',
   ])
     ? set(
         [
+          'project',
           'viewModel',
           'views',
-          payload.viewId ? payload.viewId : state.viewModel.current,
+          payload.viewId ? payload.viewId : state.project.viewModel.current,
           'nodes',
           payload.id,
         ],
@@ -217,9 +220,10 @@ export const addNode = (state, payload) =>
 export const removeNode = (state, payload) =>
   unset(
     [
+      'project',
       'viewModel',
       'views',
-      payload.viewId ? payload.viewId : state.viewModel.current,
+      payload.viewId ? payload.viewId : state.project.viewModel.current,
       'nodes',
       payload.id,
     ],
@@ -228,9 +232,9 @@ export const removeNode = (state, payload) =>
 
 function updatePosition(state, viewId, node, displacement) {
   node.childrenNodes.forEach((child) => {
-    const childNode = state.viewModel.views[viewId].nodes[child];
+    const childNode = state.project.viewModel.views[viewId].nodes[child];
     state = update(
-      ['viewModel', 'views', viewId, 'nodes', child],
+      ['project', 'viewModel', 'views', viewId, 'nodes', child],
       (item) => ({
         ...item,
         position: {
@@ -246,10 +250,14 @@ function updatePosition(state, viewId, node, displacement) {
 }
 
 export const updateNode = (state, payload) => {
-  const viewId = payload.viewId ? payload.viewId : state.viewModel.current;
+  const viewId = payload.viewId
+    ? payload.viewId
+    : state.project.viewModel.current;
 
-  if (has(['viewModel', 'views', viewId, 'nodes', payload.id], state)) {
-    const node = state.viewModel.views[viewId].nodes[payload.id];
+  if (
+    has(['project', 'viewModel', 'views', viewId, 'nodes', payload.id], state)
+  ) {
+    const node = state.project.viewModel.views[viewId].nodes[payload.id];
 
     const displacement = {
       x: payload.position.x - node.position.x + node.dimension.width / 2,
@@ -257,7 +265,7 @@ export const updateNode = (state, payload) => {
     };
 
     let newState = update(
-      ['viewModel', 'views', viewId, 'nodes', payload.id],
+      ['project', 'viewModel', 'views', viewId, 'nodes', payload.id],
       (item) => ({
         ...item,
         position: {
@@ -271,7 +279,7 @@ export const updateNode = (state, payload) => {
     newState = updatePosition(
       newState,
       viewId,
-      state.viewModel.views[viewId].nodes[payload.id],
+      state.project.viewModel.views[viewId].nodes[payload.id],
       displacement
     );
 
@@ -284,9 +292,10 @@ export const updateNode = (state, payload) => {
 export const removeLink = (state, payload) =>
   set(
     [
+      'project',
       'viewModel',
       'views',
-      payload.viewId ? payload.viewId : state.viewModel.current,
+      payload.viewId ? payload.viewId : state.project.viewModel.current,
       'removedLinks',
       payload.id,
     ],
@@ -297,9 +306,10 @@ export const removeLink = (state, payload) =>
 export const addLink = (state, payload) =>
   unset(
     [
+      'project',
       'viewModel',
       'views',
-      payload.viewId ? payload.viewId : state.viewModel.current,
+      payload.viewId ? payload.viewId : state.project.viewModel.current,
       'removedLinks',
       payload.id,
     ],
@@ -309,9 +319,10 @@ export const addLink = (state, payload) =>
 export const viewAlignmentUpdate = (state, payload) => {
   return set(
     [
+      'project',
       'viewModel',
       'views',
-      payload.viewId ? payload.viewId : state.viewModel.current,
+      payload.viewId ? payload.viewId : state.project.viewModel.current,
       'alignment',
     ],
     {
@@ -325,16 +336,25 @@ export const viewAlignmentUpdate = (state, payload) => {
 
 export const alignLayout = (state) => {
   const newState = cloneDeep(state);
-  autoAlign(newState.viewModel.views[newState.viewModel.current]);
+  autoAlign(
+    newState.project.viewModel.views[newState.project.viewModel.current]
+  );
   return newState;
 };
 
 export const collapseNode = (state, payload) => {
-  const { nodes } = state.viewModel.views[state.viewModel.current];
+  const { nodes } =
+    state.project.viewModel.views[state.project.viewModel.current];
   const { children } = nodes[payload.id];
   return children.length > 0
     ? set(
-        ['viewModel', 'views', state.viewModel.current, 'nodes'],
+        [
+          'project',
+          'viewModel',
+          'views',
+          state.project.viewModel.current,
+          'nodes',
+        ],
         omit(getNestedChildren([payload.id], nodes), nodes),
         state
       )
@@ -343,10 +363,10 @@ export const collapseNode = (state, payload) => {
 
 export const unselectAll = (state) => {
   return set(
-    ['viewModel', 'views', state.viewModel.current, 'nodes'],
+    ['project', 'viewModel', 'views', state.project.viewModel.current, 'nodes'],
     forOwn((object) => {
       object.isSelected = false;
-    }, cloneDeep(state.viewModel.views[state.viewModel.current].nodes)),
+    }, cloneDeep(state.project.viewModel.views[state.project.viewModel.current].nodes)),
     state
   );
 };
@@ -355,9 +375,10 @@ export const itemSelectionChanged = (state, payload) => {
   if (payload.type === 'object') {
     return set(
       [
+        'project',
         'viewModel',
         'views',
-        state.viewModel.current,
+        state.project.viewModel.current,
         'nodes',
         payload.id,
         'isSelected',
@@ -369,9 +390,10 @@ export const itemSelectionChanged = (state, payload) => {
   if (payload.type === 'relation') {
     return set(
       [
+        'project',
         'viewModel',
         'views',
-        state.viewModel.current,
+        state.project.viewModel.current,
         'links',
         payload.id,
         'isSelected',
@@ -385,7 +407,9 @@ export const itemSelectionChanged = (state, payload) => {
 };
 
 export const expandNode = (state, payload) => {
-  const viewId = payload.viewId ? payload.viewId : state.viewModel.current;
+  const viewId = payload.viewId
+    ? payload.viewId
+    : state.project.viewModel.current;
   const object = state.project.model.objects[payload.id];
   const newNodes = {};
   object.children.forEach((objectId) => {
@@ -397,7 +421,7 @@ export const expandNode = (state, payload) => {
   });
 
   return update(
-    ['viewModel', 'views', viewId, 'nodes'],
+    ['project', 'viewModel', 'views', viewId, 'nodes'],
     (nodes) => ({
       ...nodes,
       ...newNodes,
@@ -408,47 +432,55 @@ export const expandNode = (state, payload) => {
 
 export const adaptView = (state, centerNodeId, offset) => {
   const node =
-    state.viewModel.views[state.viewModel.current].nodes[centerNodeId];
-  Object.entries(state.viewModel.views[state.viewModel.current].nodes).forEach(
-    ([nodeId, item]) => {
-      if (nodeId !== centerNodeId && !node.children.includes(nodeId)) {
-        const angle = Math.atan2(
-          node.position.y - item.position.y,
-          node.position.x - item.position.x
-        );
+    state.project.viewModel.views[state.project.viewModel.current].nodes[
+      centerNodeId
+    ];
+  Object.entries(
+    state.project.viewModel.views[state.project.viewModel.current].nodes
+  ).forEach(([nodeId, item]) => {
+    if (nodeId !== centerNodeId && !node.children.includes(nodeId)) {
+      const angle = Math.atan2(
+        node.position.y - item.position.y,
+        node.position.x - item.position.x
+      );
 
-        item.position = {
-          x: item.position.x - (Math.cos(angle) * offset.x) / 2,
-          y: item.position.y - (Math.sin(angle) * offset.y) / 2,
-        };
-      }
+      item.position = {
+        x: item.position.x - (Math.cos(angle) * offset.x) / 2,
+        y: item.position.y - (Math.sin(angle) * offset.y) / 2,
+      };
     }
-  );
+  });
   return state;
 };
 
 export const setLinkingMode = (state, payload) =>
-  set(['viewModel', 'linkingMode'], payload.status, state);
+  set(['project', 'viewModel', 'linkingMode'], payload.status, state);
 
 export const alignChildren = (state, payload, originDimension) => {
-  const node = state.viewModel.views[state.viewModel.current].nodes[payload.id];
-  alignNested(state.viewModel.views[state.viewModel.current], payload.id);
-  adjust(state.viewModel.views[state.viewModel.current]);
+  const node =
+    state.project.viewModel.views[state.project.viewModel.current].nodes[
+      payload.id
+    ];
+  alignNested(
+    state.project.viewModel.views[state.project.viewModel.current],
+    payload.id
+  );
+  adjust(state.project.viewModel.views[state.project.viewModel.current]);
   const targetDimension = node.dimension;
   const offset = {
     x: targetDimension.width - originDimension.width,
     y: targetDimension.height - originDimension.height,
   };
   adaptView(state, payload.id, offset);
-  adjust(state.viewModel.views[state.viewModel.current]);
+  adjust(state.project.viewModel.views[state.project.viewModel.current]);
   return state;
 };
 
 export const fixBrokenView = (state) =>
-  state.viewModel.views[state.viewModel.current] === undefined
+  state.project.viewModel.views[state.project.viewModel.current] === undefined
     ? set(
-        ['viewModel', 'current'],
-        Object.keys(state.viewModel.views)[0],
+        ['project', 'viewModel', 'current'],
+        Object.keys(state.project.viewModel.views)[0],
         state
       )
     : state;

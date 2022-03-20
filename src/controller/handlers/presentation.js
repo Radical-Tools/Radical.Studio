@@ -50,11 +50,13 @@ export const create = (state, payload) =>
               id: payload.id,
               name: `Start`,
               properties: {
-                view: state.viewModel.current
-                  ? state.viewModel.current
+                view: state.project.viewModel.current
+                  ? state.project.viewModel.current
                   : undefined,
-                alignment: state.viewModel.current
-                  ? state.viewModel.views[state.viewModel.current].alignment
+                alignment: state.project.viewModel.current
+                  ? state.project.viewModel.views[
+                      state.project.viewModel.current
+                    ].alignment
                   : undefined,
                 historyStepId:
                   state.history.prev.length > 0
@@ -113,7 +115,10 @@ export const appendStep = (state, payload) =>
                 alignment:
                   presentation.steps[presentation.currentStepIndex].properties
                     .alignment,
-                viewModel: state.viewModel.views[state.viewModel.current],
+                viewModel:
+                  state.project.viewModel.views[
+                    state.project.viewModel.current
+                  ],
                 historyStepId:
                   state.history.prev.length > 0
                     ? state.history.prev[0].id

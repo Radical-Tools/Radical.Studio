@@ -34,7 +34,7 @@ export const upsertItem = (state, payload) => {
         : addRelation(state, payload.item);
       break;
     case 'View':
-      newState = has(payload.item.id, state.viewModel.views)
+      newState = has(payload.item.id, state.project.viewModel.views)
         ? updateView(state, payload.item)
         : addView(state, payload.item);
       break;
@@ -69,7 +69,7 @@ const getItem = (state, type, id) => {
     case 'view':
       return {
         id,
-        name: state.viewModel.views[id].name,
+        name: state.project.viewModel.views[id].name,
       };
     default:
   }

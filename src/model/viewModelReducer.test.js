@@ -163,7 +163,9 @@ describe('viewmodel management', () => {
         { width: 150, height: 150 }
       )
     );
-    expect(state.viewModel.views.default.nodes['Actor-1']).toBeDefined();
+    expect(
+      state.project.viewModel.views.default.nodes['Actor-1']
+    ).toBeDefined();
   });
 
   it('should render link', () => {
@@ -173,23 +175,20 @@ describe('viewmodel management', () => {
     );
     state = rootReducer(state, viewModelNodeAdd(undefined, 'Container-1'));
     expect(
-      renderView(state.viewModel.views.default, state.project.model).links[
-        'Interacts-1'
-      ]
+      renderView(state.project.viewModel.views.default, state.project.model)
+        .links['Interacts-1']
     ).toBeDefined();
 
     state = rootReducer(state, viewModelLinkRemove('Interacts-1'));
     expect(
-      renderView(state.viewModel.views.default, state.project.model).links[
-        'Interacts-1'
-      ]
+      renderView(state.project.viewModel.views.default, state.project.model)
+        .links['Interacts-1']
     ).toBeUndefined();
 
     state = rootReducer(state, viewModelLinkAdd('Interacts-1'));
     expect(
-      renderView(state.viewModel.views.default, state.project.model).links[
-        'Interacts-1'
-      ]
+      renderView(state.project.viewModel.views.default, state.project.model)
+        .links['Interacts-1']
     ).toBeDefined();
   });
 });
@@ -207,10 +206,14 @@ describe('expand & collapse node', () => {
 
     state = rootReducer(state, viewModelNodeCollapse('System-1'));
 
-    expect(state.viewModel.views.default.nodes['Container-1']).toBeDefined();
+    expect(
+      state.project.viewModel.views.default.nodes['Container-1']
+    ).toBeDefined();
 
     state = rootReducer(state, viewModelNodeExpand('System-1'));
 
-    expect(state.viewModel.views.default.nodes['Container-1']).toBeDefined();
+    expect(
+      state.project.viewModel.views.default.nodes['Container-1']
+    ).toBeDefined();
   });
 });

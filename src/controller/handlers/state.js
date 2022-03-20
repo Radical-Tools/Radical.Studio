@@ -1,11 +1,19 @@
 import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
+import cloneDeep from 'lodash/fp/cloneDeep';
 
 const saveTransformations = [
   {
     version: '0.1.4',
-    transformation: (payload) =>
-      flow([
+    transformation: (payload) => {
+      const newHistory = cloneDeep(payload.project.history);
+      newHistory.prev.forEach((historyItem) =>
+        historyItem.changes.forEach((change) => {
+          // eslint-disable-next-line no-param-reassign
+          change.path = ['project', ...change.path];
+        })
+      );
+      return flow([
         set(['project'], payload.project.project),
         set(['project', 'metamodel'], {
           C4: {
@@ -19,8 +27,9 @@ const saveTransformations = [
           ['project', 'presentationModel'],
           payload.project.presentationModel
         ),
-        set(['project', 'history'], payload.project.history),
-      ])(payload),
+        set(['project', 'history'], newHistory),
+      ])(payload);
+    },
   },
 ];
 const prepareVersionString = (version) =>

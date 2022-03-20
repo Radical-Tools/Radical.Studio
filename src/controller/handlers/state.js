@@ -6,6 +6,7 @@ const saveTransformations = [
     version: '0.1.4',
     transformation: (payload) =>
       flow([
+        set(['project'], payload.project.project),
         set(['project', 'metamodel'], {
           C4: {
             id: 'C4',

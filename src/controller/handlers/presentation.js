@@ -59,8 +59,8 @@ export const create = (state, payload) =>
                     ].alignment
                   : undefined,
                 historyStepId:
-                  state.history.prev.length > 0
-                    ? state.history.prev[0].id
+                  state.project.history.prev.length > 0
+                    ? state.project.history.prev[0].id
                     : 'initial',
               },
             },
@@ -120,8 +120,8 @@ export const appendStep = (state, payload) =>
                     state.project.viewModel.current
                   ],
                 historyStepId:
-                  state.history.prev.length > 0
-                    ? state.history.prev[0].id
+                  state.project.history.prev.length > 0
+                    ? state.project.history.prev[0].id
                     : 'initial',
               },
             },
@@ -220,7 +220,9 @@ export const updateStepHistory = (state) =>
           'properties',
           'historyStepId',
         ],
-        state.history.prev.length > 0 ? state.history.prev[0].id : 'initial',
+        state.project.history.prev.length > 0
+          ? state.project.history.prev[0].id
+          : 'initial',
         state
       )
     : state;

@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  history: state.history,
+  history: state.project.history,
   windowDimensions: state.layout.windowDimensions,
   historyEnabled:
     state.layout.mode === LAYOUT_MODE.EDIT ||

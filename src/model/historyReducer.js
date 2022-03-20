@@ -23,7 +23,7 @@ export const skipActions = [
 
 export default function historyReducer(reducer) {
   return (state, action) => {
-    const { history } = state || [];
+    const { history } = state?.project || [];
     const rState = reducer(state, action);
 
     if (!skipActions.includes(action.type) && state && history) {
@@ -37,13 +37,25 @@ export default function historyReducer(reducer) {
           });
           historyAccumulator.clear();
           if (history2.count === history2.limit)
-            return merge({ ...rState, history: history2 }, false);
+            return merge(
+              { ...rState, project: { ...rState.project, history: history2 } },
+              false
+            );
 
-          return { ...rState, history: history2 };
+          return {
+            ...rState,
+            project: { ...rState.project, history: history2 },
+          };
         }
 
         if (history.prev.length > 0) {
-          return { ...rState, history: updateHistory(state, rState, history) };
+          return {
+            ...rState,
+            project: {
+              ...rState.project,
+              history: updateHistory(state, rState, history),
+            },
+          };
         }
       }
     }

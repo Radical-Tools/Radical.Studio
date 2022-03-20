@@ -24,7 +24,9 @@ import { isLocked } from '../../../../controller/handlersMap';
 
 const generateTitle = (state) =>
   `${state.project?.name} :: ${
-    state.history.prev.length === 0 ? 'Initial' : state.history.prev[0].name
+    state.project.history.prev.length === 0
+      ? 'Initial'
+      : state.project.history.prev[0].name
   } :: ${state.project.viewModel.views[state.project.viewModel.current]?.name}`;
 
 function isEditEnabled(state) {

@@ -16,7 +16,7 @@ const getProjectLocationFromQueryParams = () => {
   return urlSearchParams.get(QUERY_STRING_PROJECT_LOCATION);
 };
 const loadProjectData = (rawData, onLoadStateFromUrl) => {
-  onLoadStateFromUrl(JSON.parse(rawData));
+  onLoadStateFromUrl(rawData);
   clearUrl();
 };
 

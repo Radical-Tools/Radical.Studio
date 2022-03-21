@@ -1,7 +1,9 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { save } from 'save-file';
+import jsonFormat from 'json-format';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorageCombinedKey } from '../localStorageController';
+import metamodels from '../../data/metamodels/metamodels';
 
 export const themeChanged = createAction('theme/change');
 
@@ -103,6 +105,7 @@ export const modelItemUpsert = createAction(
 export const initProject = createAction('project/init', (data) => ({
   payload: {
     ...data,
+    metamodel: metamodels.find((metamodel) => metamodel.id === data.metamodel),
     version: process.env.REACT_APP_VERSION,
   },
 }));
@@ -225,18 +228,27 @@ export const notificationRemove = createAction('notification/remove', (id) => ({
 export const loadStateStorage = createAction('state/load/storage', (name) => {
   const serializedData = localStorage.getItem(getStorageCombinedKey(name));
   return {
-    payload: serializedData ? JSON.parse(serializedData).state : undefined,
+    payload: {
+      project: serializedData ? JSON.parse(serializedData).state : undefined,
+      metamodels,
+    },
   };
 });
 
-export const stateLoad = createAction('state/load', (state) => ({
-  payload: { ...state },
-}));
+export const stateLoad = createAction('state/load', (stateString) => {
+  const project = JSON.parse(stateString);
+  return {
+    payload: {
+      project,
+      metamodels,
+    },
+  };
+});
 
 export const stateSave = createAsyncThunk('state/save', async (_, thunkAPI) => {
   const state = thunkAPI.getState();
   await save(
-    JSON.stringify(state),
+    jsonFormat(state.project, { type: 'space' }),
     `${state.project.name}-${state.project.version}.radical`
   );
 });

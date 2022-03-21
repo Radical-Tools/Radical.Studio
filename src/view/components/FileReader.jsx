@@ -25,7 +25,7 @@ const FileReader = ({
         () => {
           onFinished();
         },
-        readeryConfig,
+        { ...readeryConfig, splitBy: '____________________' },
         chunkSize
       );
     },

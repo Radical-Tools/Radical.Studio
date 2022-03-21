@@ -6,7 +6,7 @@ const save = (state) => {
   try {
     const serializedData = JSON.stringify({
       timestamp: new Date().getTime(),
-      state,
+      state: state.project,
     });
     localStorage.setItem(
       getStorageCombinedKey(state.project?.name),

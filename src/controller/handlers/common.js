@@ -15,8 +15,8 @@ export const createItem = (state, payload) =>
   set(
     ['common', 'sandbox'],
     {
-      data: state.metamodel.schemas[payload.type].data,
-      ui: state.metamodel.schemas[payload.type].create.ui,
+      data: state.metamodel.C4.schemas[payload.type].data,
+      ui: state.metamodel.C4.schemas[payload.type].create.ui,
     },
     state
   );
@@ -24,17 +24,17 @@ export const upsertItem = (state, payload) => {
   let newState = {};
   switch (payload.type) {
     case 'Object':
-      newState = has(payload.item.id, state.model.objects)
+      newState = has(payload.item.id, state.project.model.objects)
         ? updateObject(state, payload.item)
         : addObject(state, payload.item);
       break;
     case 'Relation':
-      newState = has(payload.item.id, state.model.relations)
+      newState = has(payload.item.id, state.project.model.relations)
         ? updateRelation(state, payload.item)
         : addRelation(state, payload.item);
       break;
     case 'View':
-      newState = has(payload.item.id, state.viewModel.views)
+      newState = has(payload.item.id, state.project.viewModel.views)
         ? updateView(state, payload.item)
         : addView(state, payload.item);
       break;
@@ -53,23 +53,23 @@ const getItem = (state, type, id) => {
     case 'object':
       return {
         id,
-        name: state.model.objects[id].name,
-        type: state.model.objects[id].type,
-        attributes: state.model.objects[id].attributes,
+        name: state.project.model.objects[id].name,
+        type: state.project.model.objects[id].type,
+        attributes: state.project.model.objects[id].attributes,
       };
     case 'relation':
       return {
         id,
-        name: state.model.relations[id].name,
-        type: state.model.relations[id].type,
-        source: state.model.relations[id].source,
-        target: state.model.relations[id].target,
-        attributes: state.model.relations[id].attributes,
+        name: state.project.model.relations[id].name,
+        type: state.project.model.relations[id].type,
+        source: state.project.model.relations[id].source,
+        target: state.project.model.relations[id].target,
+        attributes: state.project.model.relations[id].attributes,
       };
     case 'view':
       return {
         id,
-        name: state.viewModel.views[id].name,
+        name: state.project.viewModel.views[id].name,
       };
     default:
   }
@@ -90,10 +90,10 @@ export const editItem = (state, payload) => {
   return set(
     ['common', 'sandbox'],
     {
-      data: merge(state.metamodel.schemas[payload.type].data, {
+      data: merge(state.metamodel.C4.schemas[payload.type].data, {
         properties: convertToDefaults,
       }),
-      ui: state.metamodel.schemas[payload.type].update.ui,
+      ui: state.metamodel.C4.schemas[payload.type].update.ui,
     },
     state
   );

@@ -55,49 +55,61 @@ const jumpToNextHistory = (history, offset = 1) => {
 };
 
 export const jump = (state, payload) => {
-  const { model, viewModel } =
+  const newState =
     payload.index < 0
       ? revertDiffs(
           clone(state),
-          state.history.prev
+          state.project.history.prev
             .slice(0, Math.abs(payload.index))
             .map((item) => item.changes)
         )
       : applyDiffs(
           clone(state),
-          state.history.next
+          state.project.history.next
             .slice(0, Math.abs(payload.index))
             .map((item) => item.changes)
         );
-
+  const { model, viewModel } = newState.project;
   const history =
     payload.index < 0
-      ? jumpToPrevHistory(state.history, Math.abs(payload.index))
-      : jumpToNextHistory(state.history, payload.index);
+      ? jumpToPrevHistory(state.project.history, Math.abs(payload.index))
+      : jumpToNextHistory(state.project.history, payload.index);
 
   return flow(
-    set(['model'], model),
-    set(['viewModel'], viewModel),
+    set(['project', 'model'], model),
+    set(['project', 'viewModel'], viewModel),
     viewModel.views[viewModel.current]
       ? set(
-          ['viewModel', 'views', state.viewModel.current, 'alignment'],
-          state.viewModel.views[state.viewModel.current].alignment
+          [
+            'project',
+            'viewModel',
+            'views',
+            state.project.viewModel.current,
+            'alignment',
+          ],
+          state.project.viewModel.views[state.project.viewModel.current]
+            .alignment
         )
       : identity,
-    set(['history'], history),
-    set(['viewModel', 'current'], state.viewModel.current)
+    set(['project', 'history'], history),
+    set(['project', 'viewModel', 'current'], state.project.viewModel.current)
   )(state);
 };
 
 export const jumpById = (state, payload) => {
   if (payload.id === 'initial') {
-    return jump(state, { index: -state.history.prev.length });
+    return jump(state, { index: -state.project.history.prev.length });
   }
 
-  let index = -state.history.prev.findIndex((item) => item.id === payload.id);
+  let index = -state.project.history.prev.findIndex(
+    (item) => item.id === payload.id
+  );
   if (index > 0) {
     index =
-      findLastIndex((item) => item.id === payload.id, state.history.next) + 1;
+      findLastIndex(
+        (item) => item.id === payload.id,
+        state.project.history.next
+      ) + 1;
   }
 
   return index !== 0 ? jump(state, { index }) : state;
@@ -105,29 +117,51 @@ export const jumpById = (state, payload) => {
 
 export const jumpByPresentation = (state) => {
   const presentation =
-    state.presentationModel.presentations[state.presentationModel.current];
+    state.project.presentationModel.presentations[
+      state.project.presentationModel.current
+    ];
   const stepId =
     presentation.steps[presentation.currentStepIndex].properties.historyStepId;
   return jumpById(state, { stepId });
 };
 
-export const undo = (state) => ({
-  ...revertChanges(clone(state), state.history.prev[0].changes),
-  history: jumpToPrevHistory(state.history),
-});
+export const undo = (state) => {
+  const revertedState = revertChanges(
+    clone(state),
+    state.project.history.prev[0].changes
+  );
+  return {
+    ...revertedState,
+    project: {
+      ...revertedState.project,
+      history: jumpToPrevHistory(state.project.history),
+    },
+  };
+};
 
-export const redo = (state) => ({
-  ...applyChanges(clone(state), state.history.next[0].changes),
-  history: jumpToNextHistory(state.history),
-});
+export const redo = (state) => {
+  const appliedState = applyChanges(
+    clone(state),
+    state.project.history.next[0].changes
+  );
+  return {
+    ...appliedState,
+    project: {
+      ...appliedState.project,
+      history: jumpToNextHistory(state.project.history),
+    },
+  };
+};
 
 export const changeName = (state, payload) =>
-  set(['history', 'prev', 0, 'name'], payload.name, state);
+  set(['project', 'history', 'prev', 0, 'name'], payload.name, state);
 
-export const clear = (state) => set(['history'], { ...initialState }, state);
+export const clear = (state) =>
+  set(['project', 'history'], { ...initialState }, state);
 
 const prefilter = (path, key) =>
-  (path.length === 0 && ['model', 'viewModel'].indexOf(key) === -1) ||
+  (path.length === 0 && ['project'].indexOf(key) === -1) ||
+  (path.length === 1 && ['model', 'viewModel'].indexOf(key) === -1) ||
   key === 'current' ||
   key === 'alignment' ||
   key === 'isSelected' ||
@@ -140,22 +174,24 @@ export const historyAccumulator = new DiffAccumulator({
 });
 export const merge = (state, isLocked = true) => {
   let changes;
-  if (state.history.next.length === 0) {
+  if (state.project.history.next.length === 0) {
     const firstLockedIndex =
-      state.history.prev.findIndex((item) => item.isLocked) === -1
-        ? state.history.prev.length
-        : state.history.prev.findIndex((item) => item.isLocked);
+      state.project.history.prev.findIndex((item) => item.isLocked) === -1
+        ? state.project.history.prev.length
+        : state.project.history.prev.findIndex((item) => item.isLocked);
 
     const lastLockedState = revertDiffs(
       clone(state),
-      state.history.prev.slice(0, firstLockedIndex).map((item) => item.changes)
+      state.project.history.prev
+        .slice(0, firstLockedIndex)
+        .map((item) => item.changes)
     );
 
     changes = historyAccumulator.diff(lastLockedState, state);
 
     let history = {
-      ...state.history,
-      prev: state.history.prev.slice(firstLockedIndex),
+      ...state.project.history,
+      prev: state.project.history.prev.slice(firstLockedIndex),
       next: [],
       count: 0,
     };
@@ -172,14 +208,17 @@ export const merge = (state, isLocked = true) => {
       historyAccumulator.clear();
     }
 
-    return set(['history'], history, state);
+    return set(['project', 'history'], history, state);
   }
 
   return state;
 };
 
 export const rollback = (state) =>
-  flow(set(['history', 'next'], []), set(['history', 'count'], 0))(state);
+  flow(
+    set(['project', 'history', 'next'], []),
+    set(['project', 'history', 'count'], 0)
+  )(state);
 
 export const updateHistory = (beforeState, state, history) => {
   const lastState = revertChanges(clone(beforeState), history.prev[0].changes);

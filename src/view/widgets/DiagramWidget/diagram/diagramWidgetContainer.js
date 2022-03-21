@@ -24,8 +24,10 @@ import { isLocked } from '../../../../controller/handlersMap';
 
 const generateTitle = (state) =>
   `${state.project?.name} :: ${
-    state.history.prev.length === 0 ? 'Initial' : state.history.prev[0].name
-  } :: ${state.viewModel.views[state.viewModel.current]?.name}`;
+    state.project.history.prev.length === 0
+      ? 'Initial'
+      : state.project.history.prev[0].name
+  } :: ${state.project.viewModel.views[state.project.viewModel.current]?.name}`;
 
 function isEditEnabled(state) {
   return state.layout.mode === LAYOUT_MODE.EDIT && !isLocked(state);
@@ -33,10 +35,11 @@ function isEditEnabled(state) {
 
 const mapStateToProps = (state) => ({
   viewmodel: renderView(
-    state.viewModel.views[state.viewModel.current],
-    state.model
+    state.project.viewModel.views[state.project.viewModel.current],
+    state.project.model
   ),
-  alignment: state.viewModel.views[state.viewModel.current].alignment,
+  alignment:
+    state.project.viewModel.views[state.project.viewModel.current].alignment,
   editEnabled: isEditEnabled(state),
   selectionEnabled: isEditEnabled(state),
   smoothTransitionMode: state.layout.mode !== LAYOUT_MODE.EDIT,
@@ -46,7 +49,7 @@ const mapStateToProps = (state) => ({
     state.layout.mode === LAYOUT_MODE.PRESENTATION,
   exportEnabled: true,
   title: generateTitle(state),
-  linkingMode: state.viewModel.linkingMode,
+  linkingMode: state.project.viewModel.linkingMode,
 });
 const mapDispatchToProps = (dispatch) => ({
   onLinkConnected: (id, source, target, type) =>

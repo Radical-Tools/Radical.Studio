@@ -13,7 +13,7 @@ import loadState from './handlers/state';
 import { LAYOUT_MODE } from '../app/consts';
 
 export const isLocked = (state) =>
-  state.history.next.filter((item) => item.isLocked).length > 0;
+  state.project.history.next.filter((item) => item.isLocked).length > 0;
 
 const isLockedInfo = (state) =>
   notifications.addNotification(state, {
@@ -136,8 +136,9 @@ const handlersMap = {
       ? viewModel.alignChildren(
           viewModel.updateCurrentView(viewModel.collapseNode(state, payload)),
           payload,
-          state.viewModel.views[state.viewModel.current].nodes[payload.id]
-            .dimension
+          state.project.viewModel.views[state.project.viewModel.current].nodes[
+            payload.id
+          ].dimension
         )
       : isLockedInfo(state),
   [actions.viewModelNodeExpand.toString()]: (state, payload) =>
@@ -145,8 +146,9 @@ const handlersMap = {
       ? viewModel.alignChildren(
           viewModel.updateCurrentView(viewModel.expandNode(state, payload)),
           payload,
-          state.viewModel.views[state.viewModel.current].nodes[payload.id]
-            .dimension
+          state.project.viewModel.views[state.project.viewModel.current].nodes[
+            payload.id
+          ].dimension
         )
       : isLockedInfo(state),
   [actions.viewModelItemSelectionChanged.toString()]: (state, payload) =>
@@ -172,7 +174,7 @@ const handlersMap = {
     payload.mode === LAYOUT_MODE.SHOW
       ? presentations.goToStep(layout.setMode(state, payload), {
           stepIndex: 0,
-          presentationId: state.presentationModel.current,
+          presentationId: state.project.presentationModel.current,
         })
       : layout.setMode(state, payload),
   [actions.presentationSelect.toString()]: presentations.select,
@@ -181,7 +183,7 @@ const handlersMap = {
   [actions.presentationRemove.toString()]: presentations.remove,
   [actions.presentationSetGoTo.toString()]: (state, payload) => {
     const presentation =
-      state.presentationModel.presentations[payload.presentationId];
+      state.project.presentationModel.presentations[payload.presentationId];
     const step = presentation.steps[payload.stepIndex];
     return history.jumpById(
       viewModel.updateCurrentView(

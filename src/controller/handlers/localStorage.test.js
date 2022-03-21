@@ -30,10 +30,12 @@ describe('saveState', () => {
   let store;
 
   beforeEach(() => {
-    function todos(state = [], action) {
+    function todos(state = { project: [] }, action) {
       switch (action.type) {
         case 'ADD_TODO':
-          return state.concat([action.text]);
+          return {
+            project: state.project.concat([action.text]),
+          };
         default:
           return state;
       }
@@ -41,7 +43,9 @@ describe('saveState', () => {
 
     store = configureStore({
       reducer: todos,
-      preloadedState: ['Use Redux'],
+      preloadedState: {
+        project: ['Use Redux'],
+      },
     });
   });
 

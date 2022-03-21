@@ -9,11 +9,13 @@ import {
 import { LAYOUT_MODE } from '../../app/consts';
 
 const mapStateToProps = (state) => ({
-  presentation: state.presentationModel.current
-    ? state.presentationModel.presentations[state.presentationModel.current]
+  presentation: state.project.presentationModel.current
+    ? state.project.presentationModel.presentations[
+        state.project.presentationModel.current
+      ]
     : undefined,
-  presentationId: state.presentationModel.current
-    ? state.presentationModel.current
+  presentationId: state.project.presentationModel.current
+    ? state.project.presentationModel.current
     : undefined,
   editEnabled: state.layout.mode === LAYOUT_MODE.PRESENTATION,
   playEnabled: state.layout.mode === LAYOUT_MODE.PRESENTATION,

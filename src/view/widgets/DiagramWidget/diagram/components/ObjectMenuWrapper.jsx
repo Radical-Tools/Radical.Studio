@@ -19,13 +19,15 @@ const ObjectMenuWrapper = ({
   useEffect(() => {
     // eslint-disable-next-line no-param-reassign
     contextMenuCallbackRef.current = (e) => {
-      e.preventDefault();
       const node = engine.getNodeAtPosition(e.clientX, e.clientY);
-      if (node instanceof RadicalComposedNodeModel) setAnchorEl(e.target);
-      setContextItemData({
-        id: node.getID(),
-        name: node.getOptions().name,
-      });
+      if (node instanceof RadicalComposedNodeModel) {
+        e.preventDefault();
+        setAnchorEl(e.target);
+        setContextItemData({
+          id: node.getID(),
+          name: node.getOptions().name,
+        });
+      }
     };
   }, [engine, contextMenuCallbackRef, setContextItemData]);
   return (

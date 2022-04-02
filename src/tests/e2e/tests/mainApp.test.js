@@ -534,7 +534,7 @@ describe('Basic flow', () => {
     async () => {
       const filePath = path.relative(
         process.cwd(),
-        path.join(__dirname, '../resources/test.radical')
+        path.join(__dirname, '../resources/Test Project-0.1.0.radical')
       );
       await page.goto(process.env.APP_URL);
       const loader = await page.waitForSelector(

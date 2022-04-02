@@ -1,14 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 
 import { useDrop } from 'react-dnd';
 import Box from '@mui/material/Box';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
-import RadicalComposedNodeModel from './nodes/RadicalComposedNodeModel';
 import createRadicalEngine, {
   updateRadicalEngine,
 } from './core/createRadicalEngine';
@@ -32,6 +29,7 @@ import { addLinks, addNodes } from './core/viewModelRenderer';
 import RadicalDiagramModel from './core/RadicalDiagramModel';
 import ToolbarMenu from '../../../components/ToolbarMenu';
 import { getCanvas } from '../../../../tests/getDataTestId';
+import ObjectMenuWrapper from './components/ObjectMenuWrapper';
 
 const zoomDebounceTime = 500;
 const mapViewmodel = (viewmodel, editMode) => {
@@ -79,13 +77,7 @@ const DiagramWidget = ({
   linkingMode,
   setLinkingMode,
 }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [contextItemData, setContextItemData] = React.useState({});
-  const open = Boolean(anchorEl);
-  const restoreOutgoingLinks = () => {
-    onNodeRestoreOutgoingLinks(contextItemData.id);
-    setAnchorEl(null);
-  };
+  const contextMenuCallbackRef = useRef(null);
   const debouncedZoom = debounce(onDiagramAlignmentUpdated, zoomDebounceTime);
   const registerCallbacks = useCallback(
     () => ({
@@ -264,35 +256,16 @@ const DiagramWidget = ({
             data-testid={getCanvas()}
             ref={drop}
             sx={fillCanvasStyle}
-            onContextMenu={(e) => {
-              e.preventDefault();
-              const node = engine.getNodeAtPosition(e.clientX, e.clientY);
-              // console.log(e.target);
-              if (node instanceof RadicalComposedNodeModel)
-                setAnchorEl(e.target);
-              setContextItemData({
-                id: node.getID(),
-                name: node.getOptions().name,
-              });
-            }}
+            onContextMenu={contextMenuCallbackRef.current}
           >
             <CanvasWidget className="fill canvas-view" engine={engine} />
           </Box>
         </Box>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={restoreOutgoingLinks}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem disabled>{contextItemData.name}</MenuItem>
-          <MenuItem onClick={restoreOutgoingLinks}>
-            Restore outgoint links
-          </MenuItem>
-        </Menu>
+        <ObjectMenuWrapper
+          engine={engine}
+          onNodeRestoreOutgoingLinks={onNodeRestoreOutgoingLinks}
+          contextMenuCallbackRef={contextMenuCallbackRef}
+        />
       </>
     )
   );

@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { NodeModel } from '@projectstorm/react-diagrams';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
 import { useDrop } from 'react-dnd';
 import Box from '@mui/material/Box';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
+import RadicalComposedNodeModel from './nodes/RadicalComposedNodeModel';
 import createRadicalEngine, {
   updateRadicalEngine,
 } from './core/createRadicalEngine';
@@ -55,6 +59,7 @@ const DiagramWidget = ({
   onLinkConnected,
   onDiagramAlignmentUpdated,
   onNodeRemove,
+  onNodeRestoreOutgoingLinks,
   onLinkRemove,
   onLayoutAlign,
   onAddObjectToView,
@@ -74,6 +79,13 @@ const DiagramWidget = ({
   linkingMode,
   setLinkingMode,
 }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [contextItemData, setContextItemData] = React.useState({});
+  const open = Boolean(anchorEl);
+  const restoreOutgoingLinks = () => {
+    onNodeRestoreOutgoingLinks(contextItemData.id);
+    setAnchorEl(null);
+  };
   const debouncedZoom = debounce(onDiagramAlignmentUpdated, zoomDebounceTime);
   const registerCallbacks = useCallback(
     () => ({
@@ -225,32 +237,63 @@ const DiagramWidget = ({
   return (
     engine &&
     isModelSet && (
-      <Box sx={fillStyle}>
-        <ToolbarMenu
-          onLayoutAlign={onLayoutAlign}
-          onZoomToFit={() => {
-            engine.zoomToFitNodes();
-            engine.getModel().fireEvent(
-              {
-                offsetX: engine.getModel().getOptions().offsetX,
-                offsetY: engine.getModel().getOptions().offsetY,
-                zoom: engine.getModel().getOptions().zoom,
-              },
-              CANVAS_ZOOM_CHANGED
-            );
-          }}
-          linkingEnabled={alignEnabled}
-          linkingMode={linkingMode}
-          onSetLinkingMode={setLinkingMode}
-          name={title}
-          alignEnabled={alignEnabled}
-          zoomToFitEnabled={zoomToFitEnabled}
-          exportEnabled={exportEnabled}
-        />
-        <Box data-testid={getCanvas()} ref={drop} sx={fillCanvasStyle}>
-          <CanvasWidget className="fill canvas-view" engine={engine} />
+      <>
+        <Box sx={fillStyle}>
+          <ToolbarMenu
+            onLayoutAlign={onLayoutAlign}
+            onZoomToFit={() => {
+              engine.zoomToFitNodes();
+              engine.getModel().fireEvent(
+                {
+                  offsetX: engine.getModel().getOptions().offsetX,
+                  offsetY: engine.getModel().getOptions().offsetY,
+                  zoom: engine.getModel().getOptions().zoom,
+                },
+                CANVAS_ZOOM_CHANGED
+              );
+            }}
+            linkingEnabled={alignEnabled}
+            linkingMode={linkingMode}
+            onSetLinkingMode={setLinkingMode}
+            name={title}
+            alignEnabled={alignEnabled}
+            zoomToFitEnabled={zoomToFitEnabled}
+            exportEnabled={exportEnabled}
+          />
+          <Box
+            data-testid={getCanvas()}
+            ref={drop}
+            sx={fillCanvasStyle}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              const node = engine.getNodeAtPosition(e.clientX, e.clientY);
+              // console.log(e.target);
+              if (node instanceof RadicalComposedNodeModel)
+                setAnchorEl(e.target);
+              setContextItemData({
+                id: node.getID(),
+                name: node.getOptions().name,
+              });
+            }}
+          >
+            <CanvasWidget className="fill canvas-view" engine={engine} />
+          </Box>
         </Box>
-      </Box>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={restoreOutgoingLinks}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          <MenuItem disabled>{contextItemData.name}</MenuItem>
+          <MenuItem onClick={restoreOutgoingLinks}>
+            Restore outgoint links
+          </MenuItem>
+        </Menu>
+      </>
     )
   );
 };
@@ -263,6 +306,7 @@ DiagramWidget.propTypes = {
   onLinkConnected: PropTypes.func.isRequired,
   onDiagramAlignmentUpdated: PropTypes.func.isRequired,
   onNodeRemove: PropTypes.func.isRequired,
+  onNodeRestoreOutgoingLinks: PropTypes.func.isRequired,
   onLinkRemove: PropTypes.func.isRequired,
   onObjectRemove: PropTypes.func.isRequired,
   onRelationRemove: PropTypes.func.isRequired,

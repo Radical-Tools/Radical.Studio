@@ -230,6 +230,29 @@ export const removeNode = (state, payload) =>
     state
   );
 
+export const restoreOutgoingLinksForNode = (state, payload) => {
+  const children = Object.entries(state.project.model.relations).filter(
+    ([, relation]) =>
+      relation.source === payload.id && relation.type !== 'Includes'
+  );
+  const childrenIds = children.map((c) => c[0]);
+  const unsetFunctions = childrenIds.map(
+    (cId) => (localState) =>
+      unset(
+        [
+          'project',
+          'viewModel',
+          'views',
+          payload.viewId ? payload.viewId : state.project.viewModel.current,
+          'removedLinks',
+          cId,
+        ],
+        localState
+      )
+  );
+  return flow(unsetFunctions)(state);
+};
+
 function updatePosition(state, viewId, node, displacement) {
   node.childrenNodes.forEach((child) => {
     const childNode = state.project.viewModel.views[viewId].nodes[child];

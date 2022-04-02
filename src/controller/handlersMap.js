@@ -122,6 +122,12 @@ const handlersMap = {
     !isLocked(state)
       ? viewModel.updateCurrentView(viewModel.removeNode(state, payload))
       : isLockedInfo(state),
+  [actions.viewModelNodeRestoreOutgoingLinks.toString()]: (state, payload) =>
+    !isLocked(state)
+      ? viewModel.updateCurrentView(
+          viewModel.restoreOutgoingLinksForNode(state, payload)
+        )
+      : isLockedInfo(state),
   [actions.viewModelViewAlignmentUpdate.toString()]: (state, payload) =>
     presentations.updateStepAlignment(
       !isLocked(state) ? viewModel.viewAlignmentUpdate(state, payload) : state,

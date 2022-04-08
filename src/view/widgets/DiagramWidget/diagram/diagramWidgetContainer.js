@@ -17,6 +17,7 @@ import {
   viewModelViewAlignmentUpdate,
   modelObjectDetach,
   setLinkingMode,
+  viewModelNodeRestoreOutgoingLinks,
 } from '../../../../controller/actions/actionCreators';
 import { LAYOUT_MODE } from '../../../../app/consts';
 import RadicalCanvasWidget from './DiagramWidget';
@@ -67,6 +68,8 @@ const mapDispatchToProps = (dispatch) => ({
     });
   },
   onNodeRemove: (id) => dispatch(viewModelNodeRemove(id)),
+  onNodeRestoreOutgoingLinks: (id) =>
+    dispatch(viewModelNodeRestoreOutgoingLinks(id)),
   onLinkRemove: (id) => dispatch(viewModelLinkRemove(id)),
   onObjectRemove: (id) => dispatch(modelObjectRemove(id)),
   onRelationRemove: (id) => dispatch(modelRelationRemove(id)),

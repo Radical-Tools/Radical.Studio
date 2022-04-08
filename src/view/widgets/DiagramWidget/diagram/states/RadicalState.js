@@ -22,6 +22,10 @@ export default class RadicalState extends State {
       new Action({
         type: InputType.MOUSE_DOWN,
         fire: (event) => {
+          // disable dragging by right click which breaks context menu
+          if (event.event.button === 2) {
+            return;
+          }
           const element = this.engine
             .getActionEventBus()
             .getModelForEvent(event);

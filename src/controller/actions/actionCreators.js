@@ -151,6 +151,13 @@ export const viewModelNodeRemove = createAction(
   })
 );
 
+export const viewModelNodeRestoreOutgoingLinks = createAction(
+  'viewmodel/node/restoreOutgoingLinks',
+  (id) => ({
+    payload: { id },
+  })
+);
+
 export const viewModelNodeUpdate = createAction(
   'viewmodel/node/update',
   (viewId, id, position, dimension) => ({

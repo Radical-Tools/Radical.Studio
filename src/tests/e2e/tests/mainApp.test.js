@@ -530,11 +530,32 @@ describe('Basic flow', () => {
   );
 
   it(
-    'Can open file and see view',
+    'Can open 0.1.0 file and see view',
     async () => {
       const filePath = path.relative(
         process.cwd(),
-        path.join(__dirname, '../resources/test.radical')
+        path.join(__dirname, '../resources/Test Project-0.1.0.radical')
+      );
+      await page.goto(process.env.APP_URL);
+      const loader = await page.waitForSelector(
+        getDataTestIdSelector(getFileUploader())
+      );
+      const elementHandle = await loader.$('input[type=file]');
+      await elementHandle.uploadFile(filePath);
+      await page.waitForSelector(getDataTestIdSelector(getCanvasViewName()));
+      const header = await page.$(getDataTestIdSelector(getCanvasViewName()));
+      expect(await header.evaluate((node) => node.textContent)).toBe(
+        'Radical Tools :: 3.0 :: Default View'
+      );
+    },
+    process.env.TIMEOUT
+  );
+  it(
+    'Can open 0.1.4 file and see view',
+    async () => {
+      const filePath = path.relative(
+        process.cwd(),
+        path.join(__dirname, '../resources/Radical Tools-0.1.4.radical')
       );
       await page.goto(process.env.APP_URL);
       const loader = await page.waitForSelector(

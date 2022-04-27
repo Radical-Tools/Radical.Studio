@@ -31,8 +31,9 @@ const mapStateToProps = (state) => ({
   windowDimensions: state.layout.windowDimensions,
   mode: state.layout.mode,
   isPresentationModeEnabled:
-    state.history.prev.length > 0 || state.history.next.length > 0,
-  isShowModeEnabled: state.presentationModel.current !== undefined,
+    state.project.history.prev.length > 0 ||
+    state.project.history.next.length > 0,
+  isShowModeEnabled: state.project.presentationModel.current !== undefined,
   isUndoFirst: state.undo.prev.length === 0,
   isUndoLast: state.undo.next.length === 0,
 });

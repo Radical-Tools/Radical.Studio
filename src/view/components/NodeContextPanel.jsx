@@ -1,13 +1,13 @@
 import * as React from 'react';
-import Box from '@material-ui/core/Box';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
-import ZoomInRoundedIcon from '@material-ui/icons/ZoomInRounded';
-import ZoomOutRoundedIcon from '@material-ui/icons/ZoomOutRounded';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import LinkOffIcon from '@material-ui/icons/LinkOff';
-import Chip from '@material-ui/core/Chip';
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import ZoomInRoundedIcon from '@mui/icons-material/ZoomInRounded';
+import ZoomOutRoundedIcon from '@mui/icons-material/ZoomOutRounded';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
+import Chip from '@mui/material/Chip';
 import PropTypes from 'prop-types';
 import {
   DIAGRAM_ENTITY_DELETED,

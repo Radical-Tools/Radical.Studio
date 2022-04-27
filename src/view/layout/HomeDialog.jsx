@@ -2,17 +2,17 @@ import React, { useCallback, useState, useEffect } from 'react';
 import set from 'lodash/fp/set';
 import flow from 'lodash/fp/flow';
 import PropTypes from 'prop-types';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
-import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
-import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
-import RestoreRoundedIcon from '@material-ui/icons/RestoreRounded';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
-import KeyboardReturnRoundedIcon from '@material-ui/icons/KeyboardReturnRounded';
-import Box from '@material-ui/core/Box';
-import { Tooltip } from '@material-ui/core';
+import Dialog from '@mui/material/Dialog';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Slide from '@mui/material/Slide';
+import FileCopyRoundedIcon from '@mui/icons-material/FileCopyRounded';
+import StorageRoundedIcon from '@mui/icons-material/StorageRounded';
+import RestoreRoundedIcon from '@mui/icons-material/RestoreRounded';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
 import FileReader from '../components/FileReader';
 import CommonForm from '../components/CommonForm';
 import { getWizardItemButton } from '../../tests/getDataTestId';
@@ -151,7 +151,7 @@ const HomeDialog = ({
               >
                 <FileCopyRoundedIcon sx={{ fontSize: 120 }} />
                 <FileReader
-                  onDataChunk={(dataChunk) => onLoadFile(JSON.parse(dataChunk))}
+                  onDataChunk={(dataChunk) => onLoadFile(dataChunk)}
                   chunkSize={400000}
                 />
               </IconButton>

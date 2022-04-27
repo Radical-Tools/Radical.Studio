@@ -1,9 +1,11 @@
 import React from 'react';
 import * as htmlToImage from 'html-to-image';
 import download from 'downloadjs';
-import IconButton from '@material-ui/core/IconButton';
-import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
-import { Menu, MenuItem, Tooltip } from '@material-ui/core';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
+import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 import PropTypes from 'prop-types';
 
 const ViewExportMenu = ({ name }) => {

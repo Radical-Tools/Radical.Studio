@@ -15,7 +15,6 @@ import {
   validateRelation,
   validateRelationAttributes,
 } from './common/model';
-import metamodels from '../../data/metamodels/metamodels';
 import { createError } from './notifications';
 
 export const initialState = {
@@ -28,7 +27,12 @@ export const initialState = {
 
 export const updateItemName = (state, payload) =>
   update(
-    ['model', payload.type === 'object' ? 'objects' : 'relations', payload.id],
+    [
+      'project',
+      'model',
+      payload.type === 'object' ? 'objects' : 'relations',
+      payload.id,
+    ],
     (object) => ({
       ...object,
       name: payload.name ? payload.name : object.name,
@@ -38,7 +42,7 @@ export const updateItemName = (state, payload) =>
 export const updateObject = (state, payload) => {
   try {
     return update(
-      ['model', 'objects', payload.id],
+      ['project', 'model', 'objects', payload.id],
       (object) => ({
         ...object,
         name: payload.name ? payload.name : object.name,
@@ -46,7 +50,7 @@ export const updateObject = (state, payload) => {
           ...object.attributes,
           ...(payload.attributes &&
           validateObjectAttributes(
-            state.metamodel,
+            state.metamodel.C4,
             object.type,
             payload.attributes
           )
@@ -64,7 +68,7 @@ export const updateObject = (state, payload) => {
 export const updateObjectAttribute = (state, payload) => {
   try {
     return set(
-      ['model', 'objects', payload.id, payload.name],
+      ['project', 'model', 'objects', payload.id, payload.name],
       payload.value,
       state
     );
@@ -75,36 +79,36 @@ export const updateObjectAttribute = (state, payload) => {
 
 /* eslint-disable no-param-reassign */
 export const removeObject = (state, payload) => {
-  if (!has(payload.id, state.model.objects)) {
+  if (!has(payload.id, state.project.model.objects)) {
     return state;
   }
 
-  const { parent, children } = state.model.objects[payload.id];
+  const { parent, children } = state.project.model.objects[payload.id];
 
   const newState = flow(
-    unset(['model', 'objects', payload.id]),
+    unset(['project', 'model', 'objects', payload.id]),
     parent
       ? set(
-          ['model', 'objects', parent, 'children'],
+          ['project', 'model', 'objects', parent, 'children'],
           filter(
             (child) => child !== payload.id,
-            state.model.objects[parent].children
+            state.project.model.objects[parent].children
           )
         )
       : identity,
     set(
-      ['model', 'relations'],
+      ['project', 'model', 'relations'],
       omitBy(
         (value) => value.source === payload.id || value.target === payload.id,
-        state.model.relations
+        state.project.model.relations
       )
     )
   )(state);
 
   if (children !== undefined) {
     children.forEach((child) => {
-      newState.model.objects[child] = {
-        ...newState.model.objects[child],
+      newState.project.model.objects[child] = {
+        ...newState.project.model.objects[child],
         parent: undefined,
       };
     });
@@ -118,14 +122,14 @@ export const addRelation = (state, payload) => {
     const type = payload.type
       ? payload.type
       : findValidRelationClass(
-          state.metamodel,
-          state.model.objects[payload.source].type,
-          state.model.objects[payload.target].type
+          state.metamodel.C4,
+          state.project.model.objects[payload.source].type,
+          state.project.model.objects[payload.target].type
         )[0].id;
 
-    const relation = has(payload.id, state.model.relations)
+    const relation = has(payload.id, state.project.model.relations)
       ? {
-          ...state.model.relations[payload.id],
+          ...state.project.model.relations[payload.id],
           target: payload.target,
         }
       : {
@@ -137,21 +141,21 @@ export const addRelation = (state, payload) => {
         };
 
     validateRelation(
-      state.metamodel,
-      has(payload.id, state.model.relations)
-        ? unset(['relations', payload.id], state.model)
-        : state.model,
+      state.metamodel.C4,
+      has(payload.id, state.project.model.relations)
+        ? unset(['relations', payload.id], state.project.model)
+        : state.project.model,
       relation
     );
     return flow(
-      set(['model', 'relations', payload.id], relation),
+      set(['project', 'model', 'relations', payload.id], relation),
       relation.type === 'Includes'
         ? flow(
-            update(['model', 'objects', relation.source], (object) =>
+            update(['project', 'model', 'objects', relation.source], (object) =>
               set('children', [...object.children, relation.target], object)
             ),
             set(
-              ['model', 'objects', relation.target, 'parent'],
+              ['project', 'model', 'objects', relation.target, 'parent'],
               relation.source
             )
           )
@@ -170,13 +174,17 @@ export const addObject = (state, payload) => {
     children: [],
   };
 
-  if (has(payload.id, state.model.objects)) {
+  if (has(payload.id, state.project.model.objects)) {
     throw createError('object already exist', 'Add Object Error');
   }
 
   try {
-    validateObject(state.metamodel, state.model, object);
-    let newState = set(['model', 'objects', payload.id], object, state);
+    validateObject(state.metamodel.C4, state.project.model, object);
+    let newState = set(
+      ['project', 'model', 'objects', payload.id],
+      object,
+      state
+    );
     if (payload.nodeInPlace)
       newState = addRelation(newState, {
         id: payload.id,
@@ -193,7 +201,7 @@ export const addObject = (state, payload) => {
 export const updateRelation = (state, payload) => {
   try {
     return update(
-      ['model', 'relations', payload.id],
+      ['project', 'model', 'relations', payload.id],
       (relation) => ({
         ...relation,
         name: payload.name ? payload.name : relation.name,
@@ -201,7 +209,7 @@ export const updateRelation = (state, payload) => {
           ...relation.attributes,
           ...(payload.attributes &&
           validateRelationAttributes(
-            state.metamodel,
+            state.metamodel.C4,
             relation.type,
             payload.attributes
           )
@@ -217,14 +225,14 @@ export const updateRelation = (state, payload) => {
 };
 
 export const removeRelation = (state, payload) => {
-  const relation = state.model.relations[payload.id];
+  const relation = state.project.model.relations[payload.id];
   return flow(
-    unset(['model', 'relations', payload.id]),
+    unset(['project', 'model', 'relations', payload.id]),
     relation && relation.type === 'Includes'
       ? flow(
-          unset(['model', 'objects', relation.target, 'parent']),
+          unset(['project', 'model', 'objects', relation.target, 'parent']),
           update(
-            ['model', 'objects', relation.source, 'children'],
+            ['project', 'model', 'objects', relation.source, 'children'],
             (children) => children.filter((item) => item !== relation.target)
           )
         )
@@ -232,16 +240,12 @@ export const removeRelation = (state, payload) => {
   )(state);
 };
 export const selectMetamodel = (state, payload) =>
-  set(
-    ['metamodel'],
-    metamodels.find((metamodel) => metamodel.id === payload),
-    state
-  );
+  set(['metamodel', payload.id], payload, state);
 
 export const objectDetach = (state, payload) => {
-  const { parent } = state.model.objects[payload.id];
+  const { parent } = state.project.model.objects[payload.id];
   const relations = findRelations(
-    state.model,
+    state.project.model,
     [parent],
     ['Includes'],
     [payload.id]

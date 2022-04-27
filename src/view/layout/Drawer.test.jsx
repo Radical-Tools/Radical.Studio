@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Drawer from './Drawer';
 
 const widgets = {
@@ -19,13 +19,9 @@ const widgets = {
 describe('Drawer', () => {
   it('renders widgets toolbox', async () => {
     render(<Drawer widgetsConfig={widgets} show />);
-    await waitFor(() =>
-      expect(screen.getByText('Toolbox')).toBeInTheDocument()
-    );
-    await waitFor(() => expect(screen.getByText('Model')).toBeInTheDocument());
-    await waitFor(() => expect(screen.getByText('Canvas')).toBeInTheDocument());
-    await waitFor(() =>
-      expect(screen.getByText('Metamodel')).toBeInTheDocument()
-    );
+    await screen.findByText('Toolbox');
+    await screen.findByText('Model');
+    await screen.findByText('Canvas');
+    await screen.findByText('Metamodel');
   });
 });

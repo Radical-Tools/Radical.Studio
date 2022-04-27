@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import { Tooltip } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
-import PlayCircleFilledWhiteRoundedIcon from '@material-ui/icons/PlayCircleFilledWhiteRounded';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import PlayCircleFilledWhiteRoundedIcon from '@mui/icons-material/PlayCircleFilledWhiteRounded';
 import PresentationGridWidget from '../widgets/PresentationGridWidget';
 import { LAYOUT_MODE } from '../../app/consts';
 

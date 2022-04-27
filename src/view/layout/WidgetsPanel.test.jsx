@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import WidgetsPanel from './WidgetsPanel';
 
 const config = {
@@ -60,10 +60,8 @@ const layout = {
 describe('WidgetsPanel', () => {
   xit('renders widgets', async () => {
     render(<WidgetsPanel config={config} layout={layout} />);
-    await waitFor(() => expect(screen.getByText('Model')).toBeInTheDocument());
-    await waitFor(() => expect(screen.getByText('Canvas')).toBeInTheDocument());
-    await waitFor(() =>
-      expect(screen.getByText('Metamodel')).toBeInTheDocument()
-    );
+    await screen.findByText('Model');
+    await screen.findByText('Canvas');
+    await screen.findByText('Metamodel');
   });
 });

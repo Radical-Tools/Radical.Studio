@@ -1,11 +1,15 @@
 import React from 'react';
 import difference from 'lodash/fp/difference';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { useSnackbar } from 'notistack';
 
 let displayed = [];
 const formatMessage = (message, name) =>
   name ? `${name}: ${message}` : message;
+
+const dissmissButtonAction = (key, removeSnackbar) => (
+  <Button onClick={() => removeSnackbar(key)}>Dismiss</Button>
+);
 const NotificationsDisplayHandler = ({ notifications, removeSnackbar }) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -32,9 +36,7 @@ const NotificationsDisplayHandler = ({ notifications, removeSnackbar }) => {
           removeSnackbar(key);
           removeDisplayed(key);
         },
-        action: (key) => (
-          <Button onClick={() => removeSnackbar(key)}>Dismiss</Button>
-        ),
+        action: (key) => dissmissButtonAction(key, removeSnackbar),
       });
       storeDisplayed(id);
     });

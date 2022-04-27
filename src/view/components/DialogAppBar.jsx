@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Tooltip from '@material-ui/core/Tooltip';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import WidgetsIcon from '@material-ui/icons/Widgets';
-import Box from '@material-ui/core/Box';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
-import IconButton from '@material-ui/core/IconButton';
+import AppBar from '@mui/material/AppBar';
+import Tooltip from '@mui/material/Tooltip';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import Box from '@mui/material/Box';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import IconButton from '@mui/material/IconButton';
 
 const appBarStyle = {
   position: 'relative',

@@ -114,7 +114,6 @@ export default class RadicalComposedNodeModel extends NodeModel {
 
   setPosition(x, y) {
     const offset = { x: x - this.getPosition().x, y: y - this.getPosition().y };
-
     if (this.nodes?.size > 0) {
       this.nodes.forEach((node) => {
         node.setPosition(

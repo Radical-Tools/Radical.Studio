@@ -9,7 +9,7 @@ import {
 import PresentationsToolbarWidget from './PresentationsToolbarWidget';
 
 const mapStateToProps = (state) => ({
-  presentationModel: state.presentationModel,
+  presentationModel: state.project.presentationModel,
 });
 
 const mapDispatchToProps = (dispatch) => ({

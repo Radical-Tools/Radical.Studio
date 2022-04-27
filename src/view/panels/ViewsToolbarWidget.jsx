@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import { Tooltip } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import ViewGridWidget from '../widgets/ViewGridWidget';
 
 const ViewsToolbarWidget = (props) => {

@@ -16,6 +16,7 @@ import PlayCircleRoundedIcon from '@mui/icons-material/PlayCircleRounded';
 import IconButton from '@mui/material/IconButton';
 import RotateLeftRoundedIcon from '@mui/icons-material/RotateLeftRounded';
 import RotateRightRoundedIcon from '@mui/icons-material/RotateRightRounded';
+import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import DesktopMacRounded from '@mui/icons-material/DesktopMacRounded';
 import MenuWidgetListItem from './MenuWidgetListItem';
 import FileReader from '../components/FileReader';
@@ -30,6 +31,8 @@ const Drawer = ({
   onLoadFile,
   onSave,
   onSetMode,
+  onCooperate,
+  setConnectionId,
   mode,
   isShowModeEnabled,
   isPresentationModeEnabled,
@@ -141,6 +144,34 @@ const Drawer = ({
                   onClick={() => onSetModeCallback(LAYOUT_MODE.PRESENTATION)}
                 >
                   <MovieCreationRoundedIcon style={{ fontSize: 25 }} />
+                </IconButton>
+              </span>
+            </Tooltip>
+          </ListItem>
+          <ListItem key="Cooperate2">
+            <Tooltip title="Cooperate2" placement="right">
+              <span>
+                <IconButton
+                  variant="contained"
+                  onClick={setConnectionId}
+                  component="label"
+                  color="primary"
+                >
+                  <GroupAddRoundedIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
+          </ListItem>
+          <ListItem key="Cooperate">
+            <Tooltip title="Cooperate" placement="right">
+              <span>
+                <IconButton
+                  variant="contained"
+                  onClick={onCooperate}
+                  component="label"
+                  color="primary"
+                >
+                  <GroupAddRoundedIcon />
                 </IconButton>
               </span>
             </Tooltip>
@@ -265,6 +296,8 @@ Drawer.propTypes = {
   onToggleAdminDialog: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onSetMode: PropTypes.func.isRequired,
+  onCooperate: PropTypes.func.isRequired,
+  setConnectionId: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
   isShowModeEnabled: PropTypes.bool.isRequired,
   isPresentationModeEnabled: PropTypes.bool.isRequired,

@@ -9,6 +9,7 @@ import * as presentations from './handlers/presentation';
 import * as notifications from './handlers/notifications';
 import * as history from './handlers/history';
 import * as undo from './handlers/undo';
+import * as cooperate from './handlers/cooperate';
 import loadState from './handlers/state';
 import { LAYOUT_MODE } from '../app/consts';
 
@@ -224,6 +225,8 @@ const handlersMap = {
       payload
     ),
   [actions.historyChangeName.toString()]: history.changeName,
+  [actions.cooperate.toString()]: (state, payload) => cooperate.cooperate(state, payload),
+  [actions.setConnectionId.toString()]: cooperate.setConnectionId,
   [actions.undo.toString()]: undo.undo,
   [actions.redo.toString()]: undo.redo,
   [actions.historyRollback.toString()]: history.rollback,

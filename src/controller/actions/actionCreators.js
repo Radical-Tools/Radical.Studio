@@ -324,6 +324,9 @@ export const historyChangeName = createAction(
 
 export const historyRollback = createAction('history/rollback');
 
+export const cooperate = createAction('cooperate');
+export const setConnectionId = createAction('setConnectionId');
+
 export const undo = createAction('undo');
 export const redo = createAction('redo');
 

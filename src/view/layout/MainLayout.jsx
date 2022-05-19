@@ -27,6 +27,8 @@ const MainLayout = ({
   onLoadFile,
   onSave,
   onSetMode,
+  onCooperate,
+  setConnectionId,
   windowDimensions,
   mode,
   isShowModeEnabled,
@@ -60,6 +62,8 @@ const MainLayout = ({
       onLoadFile={onLoadFile}
       onSave={onSave}
       onSetMode={onSetMode}
+      onCooperate={onCooperate}
+      setConnectionId={setConnectionId}
       mode={mode}
       isShowModeEnabled={isShowModeEnabled}
       isPresentationModeEnabled={isPresentationModeEnabled}
@@ -106,6 +110,8 @@ MainLayout.propTypes = {
   onLoadFile: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onSetMode: PropTypes.func.isRequired,
+  onCooperate: PropTypes.func.isRequired,
+  setConnectionId: PropTypes.func.isRequired,
   windowDimensions: PropTypes.objectOf(PropTypes.any).isRequired,
   mode: PropTypes.string.isRequired,
   isShowModeEnabled: PropTypes.bool.isRequired,

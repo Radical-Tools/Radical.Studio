@@ -3,6 +3,7 @@ import * as presentations from './presentation';
 import * as history from './history';
 import * as model from './model';
 import * as viewModel from './viewModel';
+import * as cooperate from './cooperate';
 
 export const initialState = {
   project: {
@@ -13,6 +14,7 @@ export const initialState = {
     ...viewModel.initialState,
     ...presentations.initialState,
     ...history.initialState,
+    ...cooperate.initialState
   },
 };
 export const init = (state, payload) =>

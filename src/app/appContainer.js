@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
   undoCmd: () => dispatch(undo()),
   redoCmd: () => dispatch(redo()),
   onToggleAdminDialog: () => dispatch(layoutAdminDialogToggle()),
+  onLoadState: (state) => dispatch(stateLoad(state))
 });
 
 const mapStateToProps = (state) => ({

@@ -17,6 +17,8 @@ import {
   redo,
   projectEditName,
   layoutAdminDialogToggle,
+  cooperate,
+  setConnectionId,
 } from '../../controller/actions/actionCreators';
 import MainLayout from './MainLayout';
 
@@ -55,6 +57,8 @@ const mapDispatchToProps = (dispatch) => ({
   onEditProjectName: (data) => dispatch(projectEditName(data)),
   onSave: () => dispatch(stateSave()),
   onSetMode: (mode) => dispatch(layoutModeChange(mode)),
+  onCooperate: () => dispatch(cooperate()),
+  setConnectionId: () => dispatch(setConnectionId()),
   undoCmd: () => dispatch(undo()),
   redoCmd: () => dispatch(redo()),
 });

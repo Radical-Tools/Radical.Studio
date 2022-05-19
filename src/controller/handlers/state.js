@@ -57,13 +57,15 @@ const loadState = (state, payload) => {
       )
       .map((st) => st.transformation),
   ])(payload);
+  const projectMetamodel = Object.keys(preparedPayload.project.metamodel)[0];
   const metamodelToLoad = preparedPayload.metamodels.find(
-    (metamodel) => metamodel.id === preparedPayload.project.metamodel.C4.id
+    (metamodel) =>
+      metamodel.id === preparedPayload.project.metamodel[projectMetamodel].id
   );
   return flow([
     set('project', preparedPayload.project),
     set(['project', 'version'], process.env.REACT_APP_VERSION),
-    set(['metamodel', 'C4'], metamodelToLoad),
+    set(['metamodel', projectMetamodel], metamodelToLoad),
     set(['layout', 'showHomeDialog'], false),
   ])(state);
 };

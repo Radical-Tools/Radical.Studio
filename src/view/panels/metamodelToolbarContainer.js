@@ -1,11 +1,17 @@
 import { connect } from 'react-redux';
 import groupBy from 'lodash/fp/groupBy';
 import MetamodelToolbarWidget from './MetamodelToolbarWidget';
+import {
+  currentMetamodelIdSelector,
+  currentMetamodelSelector,
+} from '../../controller/selectors';
 
 const mapStateToProps = (state) => ({
-  objectClasses: state.metamodel.C4
-    ? groupBy('category', state.metamodel.C4.classes)
+  objectClasses: currentMetamodelSelector(state)
+    ? groupBy('category', currentMetamodelSelector(state).classes)
     : undefined,
+  metamodel: currentMetamodelIdSelector(state),
   smallHeight: state.layout.windowDimensions?.height < 1000,
 });
+
 export default connect(mapStateToProps)(MetamodelToolbarWidget);

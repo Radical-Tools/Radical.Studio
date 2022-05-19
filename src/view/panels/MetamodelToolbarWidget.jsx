@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useDrag } from 'react-dnd';
 import { METAMODEL_DROP_TYPE } from '../widgets/DiagramWidget/diagram/consts';
 import { getMetamodelItem } from '../../tests/getDataTestId';
-import C4Icons from '../../data/metamodels/c4/C4Icons';
+import { metamodelIconsMapping } from '../../data/metamodels/metamodels';
 
 const smallHeightViewBox = '340';
 const normalHeightViewBox = '200';
@@ -21,7 +21,7 @@ const iconContainerStyle = (smallHeight) => ({
 const categoryChipStyle = {
   marginRight: '25px',
 };
-const ToolbarItem = ({ id, smallHeight }) => {
+const ToolbarItem = ({ id, smallHeight, metamodel }) => {
   const [, drag] = useDrag({
     item: { metamodelType: id, type: METAMODEL_DROP_TYPE },
     type: METAMODEL_DROP_TYPE,
@@ -40,7 +40,7 @@ const ToolbarItem = ({ id, smallHeight }) => {
       sx={iconContainerStyle(smallHeight)}
     >
       <svg viewBox={iconViewBox}>
-        {React.createElement(C4Icons[id], {
+        {React.createElement(metamodelIconsMapping[metamodel][id], {
           height: 150,
           width: 150,
           showComponentTypeText: true,
@@ -50,7 +50,7 @@ const ToolbarItem = ({ id, smallHeight }) => {
   );
 };
 
-const MetamodelToolbarWidget = ({ objectClasses, smallHeight }) => (
+const MetamodelToolbarWidget = ({ objectClasses, smallHeight, metamodel }) => (
   <Box display="flex" alignItems="center" height="100%">
     {objectClasses &&
       Object.entries(objectClasses).map(([categoryId, items]) => (
@@ -63,7 +63,12 @@ const MetamodelToolbarWidget = ({ objectClasses, smallHeight }) => (
         >
           <Chip label={categoryId} color="primary" sx={categoryChipStyle} />
           {items.map((item) => (
-            <ToolbarItem key={item.id} id={item.id} smallHeight={smallHeight} />
+            <ToolbarItem
+              key={item.id}
+              id={item.id}
+              smallHeight={smallHeight}
+              metamodel={metamodel}
+            />
           ))}
         </Box>
       ))}
@@ -77,9 +82,11 @@ MetamodelToolbarWidget.defaultProps = {
 MetamodelToolbarWidget.propTypes = {
   objectClasses: PropTypes.objectOf(PropTypes.any),
   smallHeight: PropTypes.bool.isRequired,
+  metamodel: PropTypes.string.isRequired,
 };
 ToolbarItem.propTypes = {
   id: PropTypes.string.isRequired,
+  metamodel: PropTypes.string.isRequired,
   smallHeight: PropTypes.bool.isRequired,
 };
 

@@ -20,6 +20,17 @@ const fillCanvasStyle = {
   height: '94%',
   '& .fill': fillStyle,
 };
+
+const preventDefaultScroll = (ev) => {
+  ev.preventDefault();
+};
+
+const bindToCanvasRef = (ref) => {
+  if (ref?.ref?.current) {
+    ref.ref.current.removeEventListener('wheel', preventDefaultScroll);
+    ref.ref.current.addEventListener('wheel', preventDefaultScroll);
+  }
+};
 const DiagramWidget = ({
   viewmodel,
   alignment,
@@ -110,7 +121,11 @@ const DiagramWidget = ({
             sx={fillCanvasStyle}
             onContextMenu={contextMenuCallbackRef.current}
           >
-            <CanvasWidget className="fill canvas-view" engine={engine} />
+            <CanvasWidget
+              ref={bindToCanvasRef}
+              className="fill canvas-view"
+              engine={engine}
+            />
           </Box>
         </Box>
         <ObjectMenuWrapper

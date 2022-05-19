@@ -16,6 +16,7 @@ import {
   validateRelationAttributes,
 } from './common/model';
 import { createError } from './notifications';
+import { currentMetamodelSelector } from '../selectors';
 
 export const initialState = {
   model: {
@@ -50,7 +51,7 @@ export const updateObject = (state, payload) => {
           ...object.attributes,
           ...(payload.attributes &&
           validateObjectAttributes(
-            state.metamodel.C4,
+            currentMetamodelSelector(state),
             object.type,
             payload.attributes
           )
@@ -122,7 +123,7 @@ export const addRelation = (state, payload) => {
     const type = payload.type
       ? payload.type
       : findValidRelationClass(
-          state.metamodel.C4,
+          currentMetamodelSelector(state),
           state.project.model.objects[payload.source].type,
           state.project.model.objects[payload.target].type
         )[0].id;
@@ -141,7 +142,7 @@ export const addRelation = (state, payload) => {
         };
 
     validateRelation(
-      state.metamodel.C4,
+      currentMetamodelSelector(state),
       has(payload.id, state.project.model.relations)
         ? unset(['relations', payload.id], state.project.model)
         : state.project.model,
@@ -179,7 +180,11 @@ export const addObject = (state, payload) => {
   }
 
   try {
-    validateObject(state.metamodel.C4, state.project.model, object);
+    validateObject(
+      currentMetamodelSelector(state),
+      state.project.model,
+      object
+    );
     let newState = set(
       ['project', 'model', 'objects', payload.id],
       object,
@@ -209,7 +214,7 @@ export const updateRelation = (state, payload) => {
           ...relation.attributes,
           ...(payload.attributes &&
           validateRelationAttributes(
-            state.metamodel.C4,
+            currentMetamodelSelector(state),
             relation.type,
             payload.attributes
           )

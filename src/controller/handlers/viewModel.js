@@ -18,6 +18,7 @@ import {
 } from './common/viewmodel';
 import adjust, { alignNested, autoAlign } from './common/layout';
 import { findValidRelations } from './common/model';
+import { currentMetamodelSelector } from '../selectors';
 
 export const initialState = {
   viewModel: {
@@ -65,7 +66,7 @@ export const updatePossibleRelations = (state) => {
           ? {
               source: nodeId,
               types: findValidRelations(
-                state.metamodel.C4,
+                currentMetamodelSelector(state),
                 state.project.model,
                 nodeId,
                 id
@@ -88,7 +89,7 @@ export const updatePossibleRelations = (state) => {
           ? {
               source: link.source,
               types: findValidRelations(
-                state.metamodel.C4,
+                currentMetamodelSelector(state),
                 id !== link.target
                   ? unset(['relations', linkId], state.project.model)
                   : state.project.model,

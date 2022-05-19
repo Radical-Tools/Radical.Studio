@@ -6,6 +6,7 @@ import {
   undo,
   redo,
   layoutAdminDialogToggle,
+  initProject,
 } from '../controller/actions/actionCreators';
 import App from './App';
 
@@ -18,6 +19,8 @@ const mapDispatchToProps = (dispatch) => ({
   undoCmd: () => dispatch(undo()),
   redoCmd: () => dispatch(redo()),
   onToggleAdminDialog: () => dispatch(layoutAdminDialogToggle()),
+  onLoadState: (state) => dispatch(stateLoad(state)),
+  onInitProject: (payload) => dispatch(initProject(payload)),
 });
 
 const mapStateToProps = (state) => ({

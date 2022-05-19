@@ -244,6 +244,7 @@ export const loadStateStorage = createAction('state/load/storage', (name) => {
 
 export const stateLoad = createAction('state/load', (stateString) => {
   const project = JSON.parse(stateString);
+
   return {
     payload: {
       project,

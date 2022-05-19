@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { DndProvider } from 'react-dnd';
@@ -20,10 +20,12 @@ const App = ({
   themeType,
   onWindowResize,
   onLoadStateFromUrl,
+  onLoadState,
   onAddNotification,
   undoCmd,
   redoCmd,
   onToggleAdminDialog,
+  onInitProject,
 }) => {
   const isLoadingProject = useProjectUrlLoad(
     onLoadStateFromUrl,
@@ -33,6 +35,20 @@ const App = ({
   useGlobalKeyboardShortcuts(undoCmd, redoCmd, onToggleAdminDialog);
 
   const theme = createTheme(themeType);
+
+  useEffect(() => {
+    window.addEventListener('message', (event) => {
+      if (event.data.type === 'update-data') {
+        if (!event.data.json) {
+          onInitProject({ metamodel: 'C4', name: 'TestFromVSCode' });
+        } else {
+          onLoadState(event.data.json);
+        }
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <ThemeProvider theme={theme}>
@@ -58,9 +74,11 @@ export default App;
 App.propTypes = {
   onWindowResize: PropTypes.func.isRequired,
   onLoadStateFromUrl: PropTypes.func.isRequired,
+  onLoadState: PropTypes.func.isRequired,
   onAddNotification: PropTypes.func.isRequired,
   undoCmd: PropTypes.func.isRequired,
   redoCmd: PropTypes.func.isRequired,
   onToggleAdminDialog: PropTypes.func.isRequired,
+  onInitProject: PropTypes.func.isRequired,
   themeType: PropTypes.string.isRequired,
 };

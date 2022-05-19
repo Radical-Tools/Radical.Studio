@@ -7,7 +7,7 @@ import * as viewModel from './viewModel';
 export const initialState = {
   project: {
     name: '',
-    version: '',
+    version: process.env.REACT_APP_VERSION,
     isLocked: false,
     ...model.initialState,
     ...viewModel.initialState,
@@ -15,6 +15,7 @@ export const initialState = {
     ...history.initialState,
   },
 };
+
 export const init = (state, payload) =>
   set(
     ['project'],

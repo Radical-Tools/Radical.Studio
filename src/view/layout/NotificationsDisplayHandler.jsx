@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import difference from 'lodash/fp/difference';
 import Button from '@mui/material/Button';

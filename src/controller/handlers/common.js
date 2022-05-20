@@ -4,6 +4,7 @@ import has from 'lodash/fp/has';
 import transform from 'lodash/fp/transform';
 import { addObject, addRelation, updateObject, updateRelation } from './model';
 import { addView, updateView } from './viewModel';
+import { currentMetamodelSelector } from '../selectors';
 
 export const initialState = {
   common: {
@@ -15,8 +16,8 @@ export const createItem = (state, payload) =>
   set(
     ['common', 'sandbox'],
     {
-      data: state.metamodel.C4.schemas[payload.type].data,
-      ui: state.metamodel.C4.schemas[payload.type].create.ui,
+      data: currentMetamodelSelector(state).schemas[payload.type].data,
+      ui: currentMetamodelSelector(state).schemas[payload.type].create.ui,
     },
     state
   );
@@ -90,10 +91,10 @@ export const editItem = (state, payload) => {
   return set(
     ['common', 'sandbox'],
     {
-      data: merge(state.metamodel.C4.schemas[payload.type].data, {
+      data: merge(currentMetamodelSelector(state).schemas[payload.type].data, {
         properties: convertToDefaults,
       }),
-      ui: state.metamodel.C4.schemas[payload.type].update.ui,
+      ui: currentMetamodelSelector(state).schemas[payload.type].update.ui,
     },
     state
   );

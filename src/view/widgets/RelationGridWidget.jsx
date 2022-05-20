@@ -37,71 +37,78 @@ const getSelected = (currentView) => {
 };
 
 /* eslint-disable react/prop-types */
-const getColumns = (isDescriptionVisible) => [
-  {
-    name: 'id',
-    header: 'Id',
-    minWidth: 50,
-    defaultFlex: 2,
-    editable: () => false,
-    defaultVisible: false,
-  },
-  {
-    name: 'name',
-    header: 'Name',
-    minWidth: 50,
-    defaultFlex: 2,
-    editable: () => true,
-    render: ({ value }) => (
-      <div data-testid={getRelationGridItem(value)}>{value}</div>
-    ),
-  },
-  {
-    name: 'type',
-    header: 'Type',
-    minWidth: 30,
-    defaultFlex: 2,
-    editable: () => false,
-    filterEditor: SelectFilter,
-    filterEditorProps: {
-      multiple: true,
-      wrapMultiple: false,
-      dataSource: ['Interacts', 'Includes'].map((c) => ({ id: c, label: c })),
+const getColumns = (relationAttributes, isDescriptionVisible = false) => {
+  const array = [
+    {
+      name: 'id',
+      header: 'Id',
+      minWidth: 50,
+      defaultFlex: 2,
+      editable: () => false,
+      defaultVisible: false,
     },
-  },
-  {
-    name: 'source',
-    header: 'Source',
-    minWidth: 50,
-    defaultFlex: 2,
-    editable: () => false,
-  },
-  {
-    name: 'target',
-    header: 'Target',
-    minWidth: 50,
-    defaultFlex: 2,
-    editable: () => false,
-  },
-  {
-    name: 'attributes.technology',
-    header: 'Technology',
-    minWidth: 0,
-    defaultFlex: 2,
-    editable: () => true,
-    visible: true,
-  },
-  {
-    name: 'attributes.description',
-    header: 'Description',
-    minWidth: 0,
-    defaultFlex: 2,
-    editable: () => true,
-    defaultVisible: false,
-    visible: isDescriptionVisible,
-    ...descriptionColumnCellConfig,
-  },
-];
+    {
+      name: 'name',
+      header: 'Name',
+      minWidth: 50,
+      defaultFlex: 2,
+      editable: () => true,
+      render: ({ value }) => (
+        <div data-testid={getRelationGridItem(value)}>{value}</div>
+      ),
+    },
+    {
+      name: 'type',
+      header: 'Type',
+      minWidth: 30,
+      defaultFlex: 2,
+      editable: () => false,
+      filterEditor: SelectFilter,
+      filterEditorProps: {
+        multiple: true,
+        wrapMultiple: false,
+        dataSource: ['Interacts', 'Includes'].map((c) => ({ id: c, label: c })),
+      },
+    },
+    {
+      name: 'source',
+      header: 'Source',
+      minWidth: 50,
+      defaultFlex: 2,
+      editable: () => false,
+    },
+    {
+      name: 'target',
+      header: 'Target',
+      minWidth: 50,
+      defaultFlex: 2,
+      editable: () => false,
+    },
+    relationAttributes.includes('technology')
+      ? {
+          name: 'attributes.technology',
+          header: 'Technology',
+          minWidth: 0,
+          defaultFlex: 2,
+          editable: () => true,
+          visible: true,
+        }
+      : undefined,
+    relationAttributes.includes('description')
+      ? {
+          name: 'attributes.description',
+          header: 'Description',
+          minWidth: 0,
+          defaultFlex: 2,
+          editable: () => true,
+          defaultVisible: false,
+          visible: isDescriptionVisible,
+          ...descriptionColumnCellConfig,
+        }
+      : undefined,
+  ];
+  return array.filter((col) => col);
+};
 
 const filterValue = [
   { name: 'name', operator: 'contains', type: 'string', value: '' },
@@ -130,6 +137,7 @@ const RelationGridWidget = ({
   onRemoveRelation,
   onUpsertItem,
   isDescriptionVisible,
+  relationAttributes,
 }) => {
   const [gridRef, setGridRef] = useState(null);
   const scrollTo = useCallback(
@@ -181,7 +189,7 @@ const RelationGridWidget = ({
       onReady={setGridRef}
       id="relationsGrid"
       idProperty="id"
-      columns={getColumns(isDescriptionVisible)}
+      columns={getColumns(relationAttributes, isDescriptionVisible)}
       dataSource={getRows(model)}
       style={gridStyle}
       defaultFilterValue={filterValue}
@@ -204,6 +212,7 @@ RelationGridWidget.propTypes = {
   onRemoveRelation: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
   isDescriptionVisible: PropTypes.bool.isRequired,
+  relationAttributes: PropTypes.array.isRequired,
 };
 
 export default RelationGridWidget;

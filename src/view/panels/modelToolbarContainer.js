@@ -6,9 +6,15 @@ import {
   viewModelItemSelectionChanged,
   viewModelNodeAdd,
 } from '../../controller/actions/actionCreators';
+import {
+  currentMetamodelObjectAttributesSelector,
+  currentMetamodelRelationAttributesSelector,
+} from '../../controller/selectors';
 import ModelToolbarWidget from './ModelToolbarWidget';
 
 const mapStateToProps = (state) => ({
+  relationAttributes: currentMetamodelRelationAttributesSelector(state),
+  objectAttributes: currentMetamodelObjectAttributesSelector(state),
   model: state.project.model,
   viewModel: state.project.viewModel,
 });

@@ -17,6 +17,8 @@ const ModelToolbarWidget = (props) => {
     onRemoveRelation,
     onUpsertItem,
     isMaximized,
+    objectAttributes,
+    relationAttributes,
   } = props;
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -58,6 +60,7 @@ const ModelToolbarWidget = (props) => {
             onUpsertItem={onUpsertItem}
             onRemoveObject={onRemoveObject}
             isDescriptionVisible={isMaximized}
+            objectAttributes={objectAttributes}
           />
         )}
 
@@ -68,6 +71,7 @@ const ModelToolbarWidget = (props) => {
             onUpsertItem={onUpsertItem}
             onRemoveRelation={onRemoveRelation}
             isDescriptionVisible={isMaximized}
+            relationAttributes={relationAttributes}
           />
         )}
       </Box>
@@ -82,6 +86,8 @@ ModelToolbarWidget.propTypes = {
   onRemoveRelation: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
   isMaximized: PropTypes.bool.isRequired,
+  objectAttributes: PropTypes.array.isRequired,
+  relationAttributes: PropTypes.array.isRequired,
 };
 
 export default React.memo(ModelToolbarWidget);

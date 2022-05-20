@@ -55,62 +55,70 @@ DraggableCell.propTypes = {
 };
 
 /* eslint-disable react/prop-types */
-const getColumns = (isDescriptionVisible = false) => [
-  {
-    name: 'id',
-    header: 'Id',
-    minWidth: 50,
-    defaultFlex: 2,
-    defaultVisible: false,
-    editable: () => false,
-  },
-  {
-    name: 'name',
-    header: 'Name',
-    minWidth: 50,
-    defaultFlex: 2,
-    editable: () => true,
-    render: ({ value, data }) => <DraggableCell value={value} data={data} />,
-  },
-  {
-    name: 'type',
-    header: 'Type',
-    minWidth: 50,
-    defaultFlex: 1,
-    editable: () => false,
-    filterEditor: SelectFilter,
-    filterEditorProps: {
-      multiple: true,
-      wrapMultiple: false,
-      dataSource: [
-        'System',
-        'Actor',
-        'Container',
-        'Component',
-        'Database',
-        'External Database',
-      ].map((c) => ({ id: c, label: c })),
+const getColumns = (objectAttributes, isDescriptionVisible = false) => {
+  const array = [
+    {
+      name: 'id',
+      header: 'Id',
+      minWidth: 50,
+      defaultFlex: 2,
+      defaultVisible: false,
+      editable: () => false,
     },
-  },
-  {
-    name: 'attributes.technology',
-    header: 'Technology',
-    minWidth: 50,
-    defaultFlex: 1,
-    editable: () => true,
-    defaultVisible: true,
-  },
-  {
-    name: 'attributes.description',
-    header: 'Description',
-    minWidth: 0,
-    defaultFlex: 2,
-    defaultVisible: false,
-    editable: () => true,
-    visible: isDescriptionVisible,
-    ...descriptionColumnCellConfig,
-  },
-];
+    {
+      name: 'name',
+      header: 'Name',
+      minWidth: 50,
+      defaultFlex: 2,
+      editable: () => true,
+      render: ({ value, data }) => <DraggableCell value={value} data={data} />,
+    },
+    {
+      name: 'type',
+      header: 'Type',
+      minWidth: 50,
+      defaultFlex: 1,
+      editable: () => false,
+      filterEditor: SelectFilter,
+      filterEditorProps: {
+        multiple: true,
+        wrapMultiple: false,
+        dataSource: [
+          'System',
+          'Actor',
+          'Container',
+          'Component',
+          'Database',
+          'External Database',
+        ].map((c) => ({ id: c, label: c })),
+      },
+    },
+    objectAttributes.includes('technology')
+      ? {
+          name: 'attributes.technology',
+          header: 'Technology',
+          minWidth: 50,
+          defaultFlex: 1,
+          editable: () => true,
+          defaultVisible: true,
+        }
+      : undefined,
+    objectAttributes.includes('description')
+      ? {
+          name: 'attributes.description',
+          header: 'Description',
+          minWidth: 0,
+          defaultFlex: 2,
+          defaultVisible: false,
+          editable: () => true,
+          visible: isDescriptionVisible,
+          ...descriptionColumnCellConfig,
+        }
+      : undefined,
+  ];
+
+  return array.filter((col) => col);
+};
 
 const filterValue = [
   { name: 'name', operator: 'contains', type: 'string', value: '' },
@@ -137,6 +145,7 @@ const ObjectGridWidget = ({
   onRemoveObject,
   onUpsertItem,
   isDescriptionVisible,
+  objectAttributes,
 }) => {
   const [gridRef, setGridRef] = useState(null);
   const scrollTo = useCallback(
@@ -188,7 +197,7 @@ const ObjectGridWidget = ({
       onReady={setGridRef}
       id="objectsGrid"
       idProperty="id"
-      columns={getColumns(isDescriptionVisible)}
+      columns={getColumns(objectAttributes, isDescriptionVisible)}
       dataSource={getRows(model)}
       style={gridStyle}
       defaultFilterValue={filterValue}
@@ -211,6 +220,7 @@ ObjectGridWidget.propTypes = {
   onRemoveObject: PropTypes.func.isRequired,
   onUpsertItem: PropTypes.func.isRequired,
   isDescriptionVisible: PropTypes.bool.isRequired,
+  objectAttributes: PropTypes.array.isRequired,
 };
 
 export default ObjectGridWidget;

@@ -69,7 +69,7 @@ const MainLayout = ({
       isUndoLast={isUndoLast}
     />
     <HomeDialog
-      show={showHomeDialog}
+      show={!window.vscode && showHomeDialog}
       metamodels={metamodels}
       onSubmitProjectForm={onSubmitProjectForm}
       onLoadStorage={onLoadStorage}

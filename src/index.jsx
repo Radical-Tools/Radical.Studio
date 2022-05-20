@@ -7,6 +7,9 @@ import reportWebVitals from './reportWebVitals';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
+// eslint-disable-next-line no-undef
+window.vscode = window.isExtension ? acquireVsCodeApi() : undefined;
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

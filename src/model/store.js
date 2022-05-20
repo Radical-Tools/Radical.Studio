@@ -5,9 +5,6 @@ import subscribeToStoreChanges from '../controller/handlers/localStorage';
 import undoReducer from './undoReducer';
 import * as actions from '../controller/actions/actionCreators';
 
-// eslint-disable-next-line no-undef
-const vscode = window.isExtension ? acquireVsCodeApi() : undefined;
-
 const skipActions = [
   actions.loadStateStorage.toString(),
   actions.stateLoad.toString(),
@@ -33,8 +30,8 @@ const store = configureStore({
       const result = next(action);
 
       if (skipActions.includes(action.type) === false) {
-        if (vscode) {
-          vscode.postMessage({
+        if (window.vscode) {
+          window.vscode.postMessage({
             type: 'change',
             json: storeValue.getState().project,
           });

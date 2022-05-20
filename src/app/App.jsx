@@ -37,15 +37,23 @@ const App = ({
   const theme = createTheme(themeType);
 
   useEffect(() => {
-    window.addEventListener('message', (event) => {
-      if (event.data.type === 'update-data') {
-        if (!event.data.json) {
-          onInitProject({ metamodel: 'C4', name: 'TestFromVSCode' });
-        } else {
-          onLoadState(event.data.json);
+    if (window.vscode) {
+      window.vscode.postMessage({
+        type: 'application-init',
+      });
+
+      window.addEventListener('message', (event) => {
+        if (event.data.type === 'update-data') {
+          if (!event.data.json) {
+            const name = event.data.title || 'Unnamed';
+            onInitProject({ metamodel: 'C4', name });
+          } else {
+            onLoadState(event.data.json);
+          }
         }
-      }
-    });
+      });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

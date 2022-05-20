@@ -5,9 +5,9 @@ namespace Radical.Studio.Server.SignalR.Infrastructure.Services;
 
 public class InMemoryWorkspaceService : IWorkspaceService
 {
-    private readonly Dictionary<Guid, Workspace> _workspaces = new();
+    private readonly Dictionary<string, Workspace> _workspaces = new();
 
-    public async Task<Workspace?> GetWorkspaceById(Guid workspaceId)
+    public async Task<Workspace?> GetWorkspaceById(string workspaceId)
     {
         var isFound = _workspaces.TryGetValue(workspaceId, out var workspace);
 
@@ -19,18 +19,33 @@ public class InMemoryWorkspaceService : IWorkspaceService
         return await Task.FromResult(workspace);
     }
 
-    public async Task<Workspace> CreateWorkspaceAsync(string connectionId)
+    public async Task<Workspace> CreateWorkspaceAsync(string connectionId, string workspaceId, string workspaceState)
     {
-        var guid = Guid.NewGuid();
+        var workspace = new Workspace(workspaceId, workspaceState, connectionId);
 
-        var workspace = new Workspace(guid, connectionId);
+        var isAdded = _workspaces.TryAdd(workspaceId, workspace);
 
-        _workspaces.Add(workspace.Id, workspace);
+        if (!isAdded)
+        {
+            throw new Exception($"Failed to add workspace with id {workspaceId}");
+        }
 
         return await Task.FromResult(workspace);
     }
 
-    public async Task RemoveWorkspaceAsync(Guid workspaceId)
+    public async Task UpdateWorkspaceAsync(Workspace workspace)
+    {
+        var isFound = _workspaces.TryGetValue(workspace.Id, out _);
+
+        if (isFound)
+        {
+            _workspaces[workspace.Id] = workspace;
+        }
+
+        await Task.CompletedTask;
+    }
+
+    public async Task RemoveWorkspaceAsync(string workspaceId)
     {
         _workspaces.Remove(workspaceId);
 

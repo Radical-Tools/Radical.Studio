@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "Hash": "z6hW3NSyt/Po24q5ecpS1iDpGCXRrZd698Q0sGp/fVk=",
+  "Source": "SignalRHub",
+  "BasePath": "_content/SignalRHub",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "SignalRHub\\wwwroot",
+      "Source": "SignalRHub",
+      "ContentRoot": "C:\\Users\\Zachi\\source\\repos\\SignalRHub\\SignalRHub\\wwwroot\\",
+      "BasePath": "_content/SignalRHub",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Zachi\\source\\repos\\SignalRHub\\SignalRHub\\wwwroot\\js\\signalr\\dist\\browser\\signalr.js",
+      "SourceId": "SignalRHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Zachi\\source\\repos\\SignalRHub\\SignalRHub\\wwwroot\\",
+      "BasePath": "_content/SignalRHub",
+      "RelativePath": "js/signalr/dist/browser/signalr.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\signalr\\dist\\browser\\signalr.js"
+    },
+    {
+      "Identity": "C:\\Users\\Zachi\\source\\repos\\SignalRHub\\SignalRHub\\wwwroot\\js\\signalr\\dist\\browser\\signalr.min.js",
+      "SourceId": "SignalRHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Zachi\\source\\repos\\SignalRHub\\SignalRHub\\wwwroot\\",
+      "BasePath": "_content/SignalRHub",
+      "RelativePath": "js/signalr/dist/browser/signalr.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\signalr\\dist\\browser\\signalr.min.js"
+    }
+  ]
+}

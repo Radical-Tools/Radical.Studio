@@ -26,9 +26,9 @@ export const LAYOUT_COLOR = {
   SECONDARY: '#e06c2e',
 };
 
-export const HISTORY_LIMIT = 10;
+export const HISTORY_LIMIT = window.isExtension ? 0 : 10;
 
-export const UNDO_LIMIT = 10;
+export const UNDO_LIMIT = window.isExtension ? 0 : 10;
 
 export const NOTIFICATION_TYPE = {
   ERROR: 'error',

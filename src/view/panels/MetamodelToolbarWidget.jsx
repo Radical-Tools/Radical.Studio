@@ -60,6 +60,21 @@ const MetamodelToolbarWidget = ({ objectClasses, smallHeight }) => (
       height: '100%',
       overflowX: 'overlay',
       overflowY: 'clip',
+      scrollbarWidth: 'thin',
+      '&::-webkit-scrollbar': {
+        width: '6px',
+        height: '6px',
+      },
+      '&::-webkit-scrollbar-track': {
+        background: 'transparent',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: '#888',
+        borderRadius: 8,
+      },
+      '&::-webkit-scrollbar-thumb:hover': {
+        background: '#555',
+      },
     }}
   >
     {objectClasses &&

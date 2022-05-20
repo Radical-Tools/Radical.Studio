@@ -15,6 +15,7 @@ import HistoryTimeline from '../components/HistoryTimeline';
 const growStyle = {
   flexGrow: 1,
 };
+
 const toolbarStyle = (height) => ({
   minHeight: `${
     (height - LAYOUT_HEIGHT_OFFSET_FOR_MARGIN) / LAYOUT_MAX_ROWS

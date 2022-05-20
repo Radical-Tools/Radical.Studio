@@ -23,8 +23,9 @@ const mapStateToProps = (state) => ({
   history: state.project.history,
   windowDimensions: state.layout.windowDimensions,
   historyEnabled:
-    state.layout.mode === LAYOUT_MODE.EDIT ||
-    state.layout.mode === LAYOUT_MODE.PRESENTATION,
+    !window.isExtension &&
+    (state.layout.mode === LAYOUT_MODE.EDIT ||
+      state.layout.mode === LAYOUT_MODE.PRESENTATION),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);

@@ -46,7 +46,9 @@ const App = ({
         if (event.data.type === 'update-data') {
           if (!event.data.json) {
             const name = event.data.title || 'Unnamed';
-            onInitProject({ metamodel: 'C4', name });
+            const metamodel = event.data.metamodel || 'C4';
+
+            onInitProject({ metamodel, name });
           } else {
             onLoadState(event.data.json);
           }

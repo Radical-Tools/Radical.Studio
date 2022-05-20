@@ -121,7 +121,8 @@ const HomeDialog = ({
           justifyContent="center"
           alignItems="center"
           display="flex"
-          margin={30}
+          flexWrap="wrap"
+          marginTop="15vh"
         >
           <Box padding={3}>
             <Tooltip
@@ -133,10 +134,11 @@ const HomeDialog = ({
                 data-testid={getWizardItemButton('CreateProject')}
                 onClick={() => setPage('CreateNew')}
               >
-                <AddCircleRoundedIcon sx={{ fontSize: 120 }} />
+                <AddCircleRoundedIcon sx={{ fontSize: 100 }} />
               </IconButton>
             </Tooltip>
           </Box>
+
           <Box padding={3}>
             <Tooltip
               title={
@@ -149,7 +151,7 @@ const HomeDialog = ({
                 component="label"
                 data-testid={getWizardItemButton('LoadFile')}
               >
-                <FileCopyRoundedIcon sx={{ fontSize: 120 }} />
+                <FileCopyRoundedIcon sx={{ fontSize: 100 }} />
                 <FileReader
                   onDataChunk={(dataChunk) => onLoadFile(dataChunk)}
                   chunkSize={400000}
@@ -157,6 +159,7 @@ const HomeDialog = ({
               </IconButton>
             </Tooltip>
           </Box>
+
           {!!orderedProjects.length && (
             <Box padding={3}>
               <Tooltip
@@ -170,11 +173,12 @@ const HomeDialog = ({
                   data-testid={getWizardItemButton('RestoreLast')}
                   onClick={onLoadLastProject}
                 >
-                  <RestoreRoundedIcon sx={{ fontSize: 120 }} />
+                  <RestoreRoundedIcon sx={{ fontSize: 100 }} />
                 </IconButton>
               </Tooltip>
             </Box>
           )}
+
           {!!orderedProjects.length && (
             <Box padding={3}>
               <Tooltip
@@ -190,13 +194,14 @@ const HomeDialog = ({
                   data-testid={getWizardItemButton('RestoreAny')}
                   onClick={() => setPage('LoadFromLocalStorage')}
                 >
-                  <StorageRoundedIcon sx={{ fontSize: 120 }} />
+                  <StorageRoundedIcon sx={{ fontSize: 100 }} />
                 </IconButton>
               </Tooltip>
             </Box>
           )}
         </Box>
       )}
+
       {page === 'LoadFromLocalStorage' && (
         <Box margin={30} justifyContent="center" display="flex">
           <Box width="500px">
@@ -222,6 +227,7 @@ const HomeDialog = ({
           </Box>
         </Box>
       )}
+
       {page === 'CreateNew' && (
         <Box margin={30} justifyContent="center" display="flex">
           <Box width="500px">

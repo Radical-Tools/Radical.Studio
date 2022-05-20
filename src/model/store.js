@@ -6,7 +6,7 @@ import undoReducer from './undoReducer';
 import * as actions from '../controller/actions/actionCreators';
 
 // eslint-disable-next-line no-undef
-const vscode = acquireVsCodeApi();
+const vscode = window.isExtension ? acquireVsCodeApi() : undefined;
 
 const skipActions = [
   actions.loadStateStorage.toString(),

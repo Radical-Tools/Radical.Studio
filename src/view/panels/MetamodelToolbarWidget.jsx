@@ -51,7 +51,7 @@ const ToolbarItem = ({ id, smallHeight }) => {
 };
 
 const MetamodelToolbarWidget = ({ objectClasses, smallHeight }) => (
-  <Box display="flex" alignItems="center" height="100%">
+  <Box display="flex" alignItems="center" height="100%" overflowX="overlay">
     {objectClasses &&
       Object.entries(objectClasses).map(([categoryId, items]) => (
         <Box

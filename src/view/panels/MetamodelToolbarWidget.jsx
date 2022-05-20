@@ -9,8 +9,10 @@ import C4Icons from '../../data/metamodels/c4/C4Icons';
 
 const smallHeightViewBox = '340';
 const normalHeightViewBox = '200';
+
 const getViewBox = (smallHeight) =>
   smallHeight ? smallHeightViewBox : normalHeightViewBox;
+
 const iconContainerStyle = (smallHeight) => ({
   marginTop: `-${smallHeight ? 0 : 30}px`,
   width: '100px',
@@ -51,7 +53,15 @@ const ToolbarItem = ({ id, smallHeight }) => {
 };
 
 const MetamodelToolbarWidget = ({ objectClasses, smallHeight }) => (
-  <Box display="flex" alignItems="center" height="100%" overflowX="overlay">
+  <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+      overflowX: 'overlay',
+      overflowY: 'clip',
+    }}
+  >
     {objectClasses &&
       Object.entries(objectClasses).map(([categoryId, items]) => (
         <Box
